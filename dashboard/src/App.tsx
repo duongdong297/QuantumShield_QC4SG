@@ -15,6 +15,19 @@ interface ForecastResponse {
   staffTeams: number;
 }
 
+interface Hotspot {
+  lat: number;
+  lng: number;
+  region: string;
+  riskScore: number;
+}
+
+interface DashboardData {
+  alert: AlertResponse;
+  forecast: ForecastResponse;
+  hotspots: Hotspot[];
+}
+
 // --- MOCK DATA ---
 const recommendations = [
   { id: 1, text: "Coordinate mosquito eradication teams at outbreak hotspots." },
@@ -25,41 +38,69 @@ const recommendations = [
 const App: React.FC = () => {
   const [alertData, setAlertData] = useState<any>(null);
   const [forecastData, setForecastData] = useState<any[]>([]);
+  const [hotspotsData, setHotspotsData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [alertRes, forecastRes] = await Promise.all([
-          fetch('http://localhost:8080/api/alert'),
-          fetch('http://localhost:8080/api/forecast')
-        ]);
-        if (!alertRes.ok || !forecastRes.ok) throw new Error("API response not ok");
+    const ws = new WebSocket('ws://localhost:8080/ws');
 
-        const alertJson: AlertResponse = await alertRes.json();
-        const forecastJson: ForecastResponse = await forecastRes.json();
+    ws.onopen = () => {
+      console.log('Connected to WebSocket server');
+      setError(null);
+    };
+
+    ws.onmessage = (event) => {
+      try {
+        const data: DashboardData = JSON.parse(event.data);
         
         setAlertData({
           title: "High Risk Alert",
-          message: alertJson?.message || "Unknown error",
+          message: data.alert?.message || "Unknown error",
           level: "Critical"
         });
 
         setForecastData([
-          { id: 1, label: "Hospital beds", value: `+${forecastJson?.beds || 0}`, status: "Critical", color: "#ef4444", progress: 85 },
-          { id: 2, label: "Testing kits", value: `+${forecastJson?.kits || 0}`, status: "Warning", color: "#eab308", progress: 65 },
-          { id: 3, label: "Medical workforce", value: `${forecastJson?.staffTeams || 0} Teams`, status: "Active", color: "#3b82f6", progress: 40 },
+          { id: 1, label: "Hospital beds", value: `+${data.forecast?.beds || 0}`, status: "Critical", color: "#ef4444", progress: 85 },
+          { id: 2, label: "Testing kits", value: `+${data.forecast?.kits || 0}`, status: "Warning", color: "#eab308", progress: 65 },
+          { id: 3, label: "Medical workforce", value: `${data.forecast?.staffTeams || 0} Teams`, status: "Active", color: "#3b82f6", progress: 40 },
         ]);
-        setError(null);
-      } catch (err) {
-        console.error("Error fetching intelligence data:", err);
-        setError("Connection to backend failed. Displaying cached/offline data.");
-      } finally {
+
+        const mappedHotspots = (data.hotspots || []).map((item, index) => {
+          let color = "#eab308"; // Vàng
+          if (item?.riskScore > 80) color = "#ef4444"; // Đỏ
+          else if (item?.riskScore > 60) color = "#f97316"; // Cam
+
+          return {
+            id: index + 1,
+            name: item?.region || "Unknown Region",
+            risk: item?.riskScore || 0,
+            color: color,
+            coords: [item?.lat || 0, item?.lng || 0] as [number, number]
+          };
+        });
+        
+        setHotspotsData(mappedHotspots);
         setIsLoading(false);
+      } catch (err) {
+        console.error("Error parsing websocket data:", err);
       }
     };
-    fetchData();
+
+    ws.onerror = (err) => {
+      console.error("WebSocket error:", err);
+      setError("Connection to WebSocket server failed. Displaying cached/offline data.");
+      setIsLoading(false);
+    };
+
+    ws.onclose = () => {
+      console.log('Disconnected from WebSocket server');
+    };
+
+    // Dọn dẹp kết nối khi unmount
+    return () => {
+      ws.close();
+    };
   }, []);
 
   if (isLoading) {
@@ -218,7 +259,7 @@ const App: React.FC = () => {
             <h2 style={{ fontSize: '1.25rem', marginTop: 0, marginBottom: '1.25rem', color: '#1e293b', fontWeight: 700 }}>
               Geospatial Risk Intelligence
             </h2>
-            <RiskMap />
+            <RiskMap data={hotspotsData} />
           </motion.div>
 
           {/* Right Column: Forecasting & Recommendations */}

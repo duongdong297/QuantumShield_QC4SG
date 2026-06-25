@@ -1,47 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { MapContainer, TileLayer, CircleMarker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
-interface Hotspot {
-  lat: number;
-  lng: number;
-  region: string;
-  riskScore: number;
+interface HotspotProps {
+  id: number;
+  name: string;
+  risk: number;
+  color: string;
+  coords: [number, number];
 }
 
-const RiskMap: React.FC = () => {
-  const [hotspots, setHotspots] = useState<any[]>([]);
+interface RiskMapProps {
+  data: HotspotProps[];
+}
 
-  useEffect(() => {
-    const fetchHotspots = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/hotspots');
-        if (!response.ok) throw new Error("Failed to fetch hotspots");
-        
-        const data: Hotspot[] = await response.json();
-        
-        const mappedData = (data || []).map((item, index) => {
-          let color = "#eab308"; // Vàng cho trường hợp còn lại
-          if (item?.riskScore > 80) color = "#ef4444"; // Đỏ
-          else if (item?.riskScore > 60) color = "#f97316"; // Cam
-
-          return {
-            id: index + 1,
-            name: item?.region || "Unknown Region",
-            risk: item?.riskScore || 0,
-            color: color,
-            coords: [item?.lat || 0, item?.lng || 0] as [number, number]
-          };
-        });
-        
-        setHotspots(mappedData);
-      } catch (error) {
-        console.error("Error fetching hotspots:", error);
-      }
-    };
-    fetchHotspots();
-  }, []);
-
+const RiskMap: React.FC<RiskMapProps> = ({ data }) => {
   return (
     <div style={{
       height: '400px',
@@ -61,7 +34,7 @@ const RiskMap: React.FC = () => {
           attribution='&copy; <a href="https://carto.com/">Carto</a>'
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         />
-        {hotspots.map(spot => (
+        {(data || []).map(spot => (
           <CircleMarker
             key={spot.id}
             center={spot.coords}
