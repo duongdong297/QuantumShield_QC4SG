@@ -1,10 +1,12 @@
 package main
 
 import (
-	"encoding/json"
 	"log"
+	"math/rand"
 	"net/http"
 	"time"
+
+	"github.com/gorilla/websocket"
 )
 
 // --- Structs ---
@@ -29,83 +31,75 @@ type Hotspot struct {
 	RiskScore int     `json:"riskScore"`
 }
 
-// --- Middleware ---
+type DashboardData struct {
+	Alert    Alert     `json:"alert"`
+	Forecast Forecast  `json:"forecast"`
+	Hotspots []Hotspot `json:"hotspots"`
+}
 
-func enableCORS(next http.HandlerFunc) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		// Thêm header Access-Control-Allow-Origin để cho phép mọi domain (Front-end) truy cập
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Content-Type", "application/json")
+// --- WebSocket Upgrader ---
 
-		// Handle preflight request
-		if r.Method == "OPTIONS" {
-			w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
-			w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-			w.WriteHeader(http.StatusOK)
-			return
-		}
-
-		next.ServeHTTP(w, r)
-	}
+var upgrader = websocket.Upgrader{
+	CheckOrigin: func(r *http.Request) bool {
+		return true // Bypass CORS để Frontend gọi sang thoải mái
+	},
 }
 
 // --- Handlers ---
 
-func handleAlert(w http.ResponseWriter, r *http.Request) {
-	time.Sleep(1 * time.Second)
-	if r.Method != http.MethodGet {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+func handleWebSocket(w http.ResponseWriter, r *http.Request) {
+	conn, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		log.Printf("Error upgrading connection: %v", err)
 		return
 	}
+	defer conn.Close()
 
-	data := Alert{
-		Active:      true,
-		Region:      "District 3 - Urban",
-		Probability: 88,
-		Message:     "Dengue outbreak probability exceeded threshold...",
-	}
+	log.Println("Client connected via WebSocket")
 
-	// Trả JSON và bắt lỗi
-	if err := json.NewEncoder(w).Encode(data); err != nil {
-		log.Printf("Error encoding alert data: %v", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-	}
-}
+	// Tạo một instance random cục bộ
+	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
 
-func handleForecast(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
+	for {
+		// Sinh dữ liệu động (+- biên độ nhỏ)
+		beds := 100 + rng.Intn(31)       // 100-130
+		kits := 450 + rng.Intn(101)      // 450-550
+		staffTeams := 2 + rng.Intn(4)    // 2-5
+		
+		prob := 80 + rng.Intn(15)        // 80-94
 
-	data := Forecast{
-		Beds:       120,
-		Kits:       500,
-		StaffTeams: 3,
-	}
+		hotspot1Risk := 83 + rng.Intn(11) // 83-93 (dao động quanh 88)
+		hotspot2Risk := 60 + rng.Intn(11) // 60-70 (dao động quanh 65)
+		hotspot3Risk := 37 + rng.Intn(11) // 37-47 (dao động quanh 42)
 
-	if err := json.NewEncoder(w).Encode(data); err != nil {
-		log.Printf("Error encoding forecast data: %v", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-	}
-}
+		data := DashboardData{
+			Alert: Alert{
+				Active:      true,
+				Region:      "District 3 - Urban",
+				Probability: prob,
+				Message:     "Dengue outbreak probability exceeded threshold...",
+			},
+			Forecast: Forecast{
+				Beds:       beds,
+				Kits:       kits,
+				StaffTeams: staffTeams,
+			},
+			Hotspots: []Hotspot{
+				{Lat: 21.0000, Lng: 105.8200, Region: "District 3 - Urban", RiskScore: hotspot1Risk},
+				{Lat: 21.0285, Lng: 105.8542, Region: "District 1 - Central", RiskScore: hotspot2Risk},
+				{Lat: 21.0500, Lng: 105.8800, Region: "District 5 - Suburb", RiskScore: hotspot3Risk},
+			},
+		}
 
-func handleHotspots(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
+		if err := conn.WriteJSON(data); err != nil {
+			log.Printf("Error writing JSON to websocket: %v", err)
+			break
+		}
 
-	data := []Hotspot{
-		{Lat: 21.0000, Lng: 105.8200, Region: "District 3 - Urban", RiskScore: 88},
-		{Lat: 21.0285, Lng: 105.8542, Region: "District 1 - Central", RiskScore: 65},
-		{Lat: 21.0500, Lng: 105.8800, Region: "District 5 - Suburb", RiskScore: 42},
+		time.Sleep(3 * time.Second)
 	}
-
-	if err := json.NewEncoder(w).Encode(data); err != nil {
-		log.Printf("Error encoding hotspots data: %v", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-	}
+	
+	log.Println("Client disconnected")
 }
 
 // --- Main ---
@@ -113,15 +107,11 @@ func handleHotspots(w http.ResponseWriter, r *http.Request) {
 func main() {
 	mux := http.NewServeMux()
 
-	// Gắn các Route với Middleware CORS
-	mux.HandleFunc("/api/alert", enableCORS(handleAlert))
-	mux.HandleFunc("/api/forecast", enableCORS(handleForecast))
-	mux.HandleFunc("/api/hotspots", enableCORS(handleHotspots))
+	mux.HandleFunc("/ws", handleWebSocket)
 
 	port := ":8080"
-	log.Printf("Server is starting and successfully listening on port %s...", port)
-
-	// Khởi chạy HTTP server
+	log.Printf("WebSocket Server is starting and listening on port %s...", port)
+	
 	if err := http.ListenAndServe(port, mux); err != nil {
 		log.Fatalf("Server failed to start: %v", err)
 	}
