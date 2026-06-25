@@ -107,6 +107,7 @@ for h in [1, 2, 3]:
     if h == 1:
         xgb_h1_model = xgb_model
         xgb_h1_features = X_train.columns
+        xgb_h1_X_test = X_test.copy()
         
     # Serialize champion (we serialize XGBoost as the MVP core)
     joblib.dump(xgb_model, f'models/model_h{h}.pkl')
@@ -151,7 +152,7 @@ plt.close()
 
 # 6. Test the Outbreak Classification Layer on h1 test predictions
 test_eval = test[['province', 'year_month', 'target_h1']].copy()
-test_eval['predicted_cases'] = xgb_h1_model.predict(X_test)
+test_eval['predicted_cases'] = xgb_h1_model.predict(xgb_h1_X_test)
 test_eval['predicted_risk_zone'] = test_eval.apply(lambda row: get_risk_zone(row['predicted_cases'], row['province'], province_percentiles), axis=1)
 
 print("\n--- Risk Zone Classification Preview (Top 5) ---")
