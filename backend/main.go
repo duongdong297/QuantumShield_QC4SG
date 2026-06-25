@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"time"
 )
 
 // --- Structs ---
@@ -35,7 +36,7 @@ func enableCORS(next http.HandlerFunc) http.HandlerFunc {
 		// Thêm header Access-Control-Allow-Origin để cho phép mọi domain (Front-end) truy cập
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
-		
+
 		// Handle preflight request
 		if r.Method == "OPTIONS" {
 			w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
@@ -43,7 +44,7 @@ func enableCORS(next http.HandlerFunc) http.HandlerFunc {
 			w.WriteHeader(http.StatusOK)
 			return
 		}
-		
+
 		next.ServeHTTP(w, r)
 	}
 }
@@ -51,6 +52,7 @@ func enableCORS(next http.HandlerFunc) http.HandlerFunc {
 // --- Handlers ---
 
 func handleAlert(w http.ResponseWriter, r *http.Request) {
+	time.Sleep(1 * time.Second)
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -118,7 +120,7 @@ func main() {
 
 	port := ":8080"
 	log.Printf("Server is starting and successfully listening on port %s...", port)
-	
+
 	// Khởi chạy HTTP server
 	if err := http.ListenAndServe(port, mux); err != nil {
 		log.Fatalf("Server failed to start: %v", err)
