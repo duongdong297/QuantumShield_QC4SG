@@ -1,0 +1,29 @@
+# Node.js / Frontend
+dashboard/node_modules/
+dashboard/dist/
+.env
+.env.local
+npm-debug.log*
+
+# Python / AI & Scripts
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.venv/
+*.log
+
+# Go / Backend
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# OS & IDE
+.DS_Store
+.vscode/
+.idea/
