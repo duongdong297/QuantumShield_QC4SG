@@ -3,21 +3,12 @@
 from pathlib import Path
 import pandas as pd
 
-# =====================================================
-# CONFIG
-# =====================================================
 
 WEATHER_INPUT = "thailand_weather_2015_2025.csv"
 DENGUE_REF = "data/processed/dengue_clean.csv"
 OUTPUT_FILE = "data/processed/weather_clean.csv"
 REPORT_FILE = "reports/weather_validation_report.md"
 
-# =====================================================
-# PROVINCE NAME MAPPING
-# Weather (Title Case) -> Dengue (UPPER CASE)
-# Only provinces whose .upper() does NOT match the
-# dengue name need an explicit entry here.
-# =====================================================
 
 PROVINCE_NAME_MAP = {
     "Bangkok Metropolis": "BANGKOK",
@@ -41,10 +32,6 @@ PROVINCE_NAME_MAP = {
     "Trat": "TRAD",
 }
 
-# =====================================================
-# REPORT COLLECTOR
-# =====================================================
-
 report_lines = []
 
 
@@ -53,10 +40,6 @@ def report(text=""):
     print(text)
     report_lines.append(text)
 
-
-# =====================================================
-# LOAD DATA
-# =====================================================
 
 report("=" * 60)
 report("LOADING DATA")
@@ -71,9 +54,6 @@ report(f"Dengue reference rows: {len(dengue):,}")
 report(f"Dengue provinces: {dengue['province'].nunique()}")
 report(f"Dengue year_month range: {dengue['year_month'].min()} to {dengue['year_month'].max()}")
 
-# =====================================================
-# STEP 1: DROP MONTH-13 ROWS (annual averages)
-# =====================================================
 
 report("")
 report("=" * 60)
@@ -87,9 +67,6 @@ report(f"Month-13 rows found: {month13_count}")
 weather = weather[~month13_mask].copy()
 report(f"Rows after dropping month-13: {len(weather):,}")
 
-# =====================================================
-# STEP 2: CONVERT DATE FORMAT (YYYYMM int -> YYYY-MM str)
-# =====================================================
 
 report("")
 report("=" * 60)
@@ -111,9 +88,7 @@ report(f"Unique year_month values: {weather['year_month'].nunique()}")
 # Drop the original 'month' column and helper columns
 weather = weather.drop(columns=["month", "year", "month_num"])
 
-# =====================================================
-# STEP 3: STANDARDIZE PROVINCE NAMES
-# =====================================================
+
 
 report("")
 report("=" * 60)
@@ -132,9 +107,6 @@ mapped_count = weather[
 report(f"Provinces remapped (beyond simple .upper()): {len(PROVINCE_NAME_MAP)} rules")
 report(f"Rows affected by custom mapping: {mapped_count}")
 
-# =====================================================
-# STEP 4: VALIDATE PROVINCE COVERAGE
-# =====================================================
 
 report("")
 report("=" * 60)
@@ -158,9 +130,6 @@ else:
     if in_dengue_not_weather:
         report(f"FAIL: In dengue but NOT in weather: {in_dengue_not_weather}")
 
-# =====================================================
-# STEP 5: FILTER TO DENGUE TEMPORAL RANGE
-# =====================================================
 
 report("")
 report("=" * 60)
@@ -179,9 +148,6 @@ report(f"Rows before temporal filter: {before_filter:,}")
 report(f"Rows after temporal filter: {after_filter:,}")
 report(f"Rows removed: {before_filter - after_filter:,}")
 
-# =====================================================
-# STEP 6: CHECK FOR DUPLICATES
-# =====================================================
 
 report("")
 report("=" * 60)
@@ -200,9 +166,7 @@ else:
     dup_rows = weather[dup_mask].sort_values(["province", "year_month"])
     report(dup_rows.head(20).to_string(index=False))
 
-# =====================================================
-# STEP 7: CHECK PROVINCE-MONTH COMPLETENESS
-# =====================================================
+
 
 report("")
 report("=" * 60)
@@ -234,10 +198,6 @@ else:
     )
     report(missing_df.to_string(index=False))
 
-# =====================================================
-# STEP 8: CHECK MISSING VALUES
-# =====================================================
-
 report("")
 report("=" * 60)
 report("STEP 8: CHECK MISSING VALUES")
@@ -249,9 +209,6 @@ for col, count in missing_vals.items():
     status = "PASS" if count == 0 else "FAIL"
     report(f"  {col}: {count} ({status})")
 
-# =====================================================
-# STEP 9: DATA QUALITY - ABNORMAL VALUES
-# =====================================================
 
 report("")
 report("=" * 60)
@@ -287,9 +244,6 @@ report(
     .to_string()
 )
 
-# =====================================================
-# STEP 10: MONTHS PER PROVINCE CHECK
-# =====================================================
 
 report("")
 report("=" * 60)
@@ -307,9 +261,6 @@ else:
     report(f"FAIL: {len(bad_provinces)} provinces do not have 96 months.")
     report(bad_provinces.to_string())
 
-# =====================================================
-# FINALIZE AND SAVE
-# =====================================================
 
 report("")
 report("=" * 60)
@@ -326,9 +277,6 @@ clean.to_csv(OUTPUT_FILE, index=False)
 report(f"Saved: {OUTPUT_FILE}")
 report(f"Shape: {clean.shape[0]:,} rows x {clean.shape[1]} columns")
 
-# =====================================================
-# GENERATE REPORT
-# =====================================================
 
 Path("reports").mkdir(parents=True, exist_ok=True)
 
