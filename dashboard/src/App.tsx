@@ -1,6 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import RiskMap from './components/RiskMap';
 
+interface AlertResponse {
+  active: boolean;
+  region: string;
+  probability: number;
+  message: string;
+}
+
+interface ForecastResponse {
+  beds: number;
+  kits: number;
+  staffTeams: number;
+}
+
 // --- MOCK DATA ---
 const recommendations = [
   { id: 1, text: "Coordinate mosquito eradication teams at outbreak hotspots." },
@@ -11,7 +24,7 @@ const recommendations = [
 const App: React.FC = () => {
   const [alertData, setAlertData] = useState<any>(null);
   const [forecastData, setForecastData] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,8 +33,8 @@ const App: React.FC = () => {
           fetch('http://localhost:8080/api/alert'),
           fetch('http://localhost:8080/api/forecast')
         ]);
-        const alertJson = await alertRes.json();
-        const forecastJson = await forecastRes.json();
+        const alertJson: AlertResponse = await alertRes.json();
+        const forecastJson: ForecastResponse = await forecastRes.json();
         
         setAlertData({
           title: "High Risk Alert",
@@ -37,16 +50,16 @@ const App: React.FC = () => {
       } catch (error) {
         console.error("Error fetching intelligence data:", error);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
     fetchData();
   }, []);
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f8fafc', color: '#1e293b', fontSize: '1.25rem', fontWeight: 600 }}>
-        Loading intelligence data...
+        Loading QuantumShield Intelligence...
       </div>
     );
   }

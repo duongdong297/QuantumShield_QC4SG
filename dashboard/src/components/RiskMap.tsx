@@ -19,10 +19,9 @@ const RiskMap: React.FC = () => {
         const data: Hotspot[] = await response.json();
         
         const mappedData = data.map((item, index) => {
-          let color = "#3b82f6"; // active
-          if (item.riskScore >= 80) color = "#ef4444"; // critical
-          else if (item.riskScore >= 60) color = "#f97316"; // high warning
-          else if (item.riskScore >= 40) color = "#eab308"; // warning
+          let color = "#eab308"; // Vàng cho trường hợp còn lại
+          if (item.riskScore > 80) color = "#ef4444"; // Đỏ
+          else if (item.riskScore > 60) color = "#f97316"; // Cam
 
           return {
             id: index + 1,
