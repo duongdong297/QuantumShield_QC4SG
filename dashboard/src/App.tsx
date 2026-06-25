@@ -1,19 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import RiskMap from './components/RiskMap';
 
+interface AlertResponse {
+  active: boolean;
+  region: string;
+  probability: number;
+  message: string;
+}
+
+interface ForecastResponse {
+  beds: number;
+  kits: number;
+  staffTeams: number;
+}
+
 // --- MOCK DATA ---
-const alertData = {
-  title: "High Risk Alert",
-  message: "Outbreak probability in semi-urban areas exceeded 85%",
-  level: "Critical"
-};
-
-const forecastData = [
-  { id: 1, label: "Hospital beds", value: "+120", status: "Critical", color: "#ef4444", progress: 85 },
-  { id: 2, label: "Testing kits", value: "+500", status: "Warning", color: "#eab308", progress: 65 },
-  { id: 3, label: "Medical workforce", value: "3 Teams", status: "Active", color: "#3b82f6", progress: 40 },
-];
-
 const recommendations = [
   { id: 1, text: "Coordinate mosquito eradication teams at outbreak hotspots." },
   { id: 2, text: "Reallocate testing kits across districts to optimize costs." }
@@ -21,6 +22,50 @@ const recommendations = [
 
 // --- MAIN DASHBOARD COMPONENT ---
 const App: React.FC = () => {
+  const [alertData, setAlertData] = useState<any>(null);
+  const [forecastData, setForecastData] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [alertRes, forecastRes] = await Promise.all([
+          fetch('http://localhost:8080/api/alert'),
+          fetch('http://localhost:8080/api/forecast')
+        ]);
+        const alertJson: AlertResponse = await alertRes.json();
+        const forecastJson: ForecastResponse = await forecastRes.json();
+        
+        setAlertData({
+          title: "High Risk Alert",
+          message: alertJson.message,
+          level: "Critical"
+        });
+
+        setForecastData([
+          { id: 1, label: "Hospital beds", value: `+${forecastJson.beds}`, status: "Critical", color: "#ef4444", progress: 85 },
+          { id: 2, label: "Testing kits", value: `+${forecastJson.kits}`, status: "Warning", color: "#eab308", progress: 65 },
+          { id: 3, label: "Medical workforce", value: `${forecastJson.staffTeams} Teams`, status: "Active", color: "#3b82f6", progress: 40 },
+        ]);
+      } catch (error) {
+        console.error("Error fetching intelligence data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f8fafc', color: '#1e293b', fontSize: '1.25rem', fontWeight: 600 }}>
+        Loading QuantumShield Intelligence...
+      </div>
+    );
+  }
+
+  if (!alertData) return null;
+
   return (
     <div style={{
       fontFamily: "'Inter', 'Segoe UI', Roboto, sans-serif",

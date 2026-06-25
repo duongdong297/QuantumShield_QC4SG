@@ -1,14 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, CircleMarker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
-const hotspots = [
-  { id: 1, name: "District 3 - Urban", risk: 88, color: "#ef4444", coords: [21.0000, 105.8200] as [number, number] },
-  { id: 2, name: "District 1 - Central", risk: 65, color: "#f97316", coords: [21.0285, 105.8542] as [number, number] },
-  { id: 3, name: "District 5 - Suburb", risk: 42, color: "#eab308", coords: [21.0500, 105.8800] as [number, number] }
-];
+interface Hotspot {
+  lat: number;
+  lng: number;
+  region: string;
+  riskScore: number;
+}
 
 const RiskMap: React.FC = () => {
+  const [hotspots, setHotspots] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchHotspots = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/hotspots');
+        const data: Hotspot[] = await response.json();
+        
+        const mappedData = data.map((item, index) => {
+          let color = "#eab308"; // Vàng cho trường hợp còn lại
+          if (item.riskScore > 80) color = "#ef4444"; // Đỏ
+          else if (item.riskScore > 60) color = "#f97316"; // Cam
+
+          return {
+            id: index + 1,
+            name: item.region,
+            risk: item.riskScore,
+            color: color,
+            coords: [item.lat, item.lng] as [number, number]
+          };
+        });
+        
+        setHotspots(mappedData);
+      } catch (error) {
+        console.error("Error fetching hotspots:", error);
+      }
+    };
+    fetchHotspots();
+  }, []);
+
   return (
     <div style={{
       height: '400px',
