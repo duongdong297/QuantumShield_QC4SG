@@ -1,6 +1,7 @@
 import React from 'react';
+import RiskMap from './components/RiskMap';
 
-// --- MOCK DATA & COMPONENTS ---
+// --- MOCK DATA ---
 const alertData = {
   title: "High Risk Alert",
   message: "Outbreak probability in semi-urban areas exceeded 85%",
@@ -14,26 +15,9 @@ const forecastData = [
 ];
 
 const recommendations = [
-  { id: 1, text: "Điều phối đội diệt muỗi tại các điểm nóng phát sinh ổ dịch." },
-  { id: 2, text: "Phân bổ lại test kit giữa các quận để tối ưu chi phí." }
+  { id: 1, text: "Coordinate mosquito eradication teams at outbreak hotspots." },
+  { id: 2, text: "Reallocate testing kits across districts to optimize costs." }
 ];
-
-const RiskMap = () => (
-  <div style={{
-    height: '400px',
-    borderRadius: '12px',
-    background: 'linear-gradient(145deg, #f1f5f9, #e2e8f0)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    border: '1px solid rgba(255, 255, 255, 0.6)',
-    boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)'
-  }}>
-    <span style={{ color: '#64748b', fontSize: '1.25rem', fontWeight: 600, letterSpacing: '0.05em' }}>
-      [ Geospatial Outbreak Heatmap ]
-    </span>
-  </div>
-);
 
 // --- MAIN DASHBOARD COMPONENT ---
 const App: React.FC = () => {
@@ -64,7 +48,9 @@ const App: React.FC = () => {
               background: 'linear-gradient(90deg, #1e293b 0%, #3b82f6 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-              letterSpacing: '-0.02em'
+              letterSpacing: '-0.02em',
+              lineHeight: 1.4,
+              paddingBottom: '0.2em'
             }}>
               QuantumShield: Public Health Risk Intelligence
             </h1>
