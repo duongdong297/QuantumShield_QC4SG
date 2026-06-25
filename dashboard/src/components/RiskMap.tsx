@@ -16,19 +16,21 @@ const RiskMap: React.FC = () => {
     const fetchHotspots = async () => {
       try {
         const response = await fetch('http://localhost:8080/api/hotspots');
+        if (!response.ok) throw new Error("Failed to fetch hotspots");
+        
         const data: Hotspot[] = await response.json();
         
-        const mappedData = data.map((item, index) => {
+        const mappedData = (data || []).map((item, index) => {
           let color = "#eab308"; // Vàng cho trường hợp còn lại
-          if (item.riskScore > 80) color = "#ef4444"; // Đỏ
-          else if (item.riskScore > 60) color = "#f97316"; // Cam
+          if (item?.riskScore > 80) color = "#ef4444"; // Đỏ
+          else if (item?.riskScore > 60) color = "#f97316"; // Cam
 
           return {
             id: index + 1,
-            name: item.region,
-            risk: item.riskScore,
+            name: item?.region || "Unknown Region",
+            risk: item?.riskScore || 0,
             color: color,
-            coords: [item.lat, item.lng] as [number, number]
+            coords: [item?.lat || 0, item?.lng || 0] as [number, number]
           };
         });
         

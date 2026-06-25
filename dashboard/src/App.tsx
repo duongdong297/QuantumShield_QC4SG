@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import RiskMap from './components/RiskMap';
+import { motion } from 'framer-motion';
 
 interface AlertResponse {
   active: boolean;
@@ -25,6 +26,7 @@ const App: React.FC = () => {
   const [alertData, setAlertData] = useState<any>(null);
   const [forecastData, setForecastData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,22 +35,26 @@ const App: React.FC = () => {
           fetch('http://localhost:8080/api/alert'),
           fetch('http://localhost:8080/api/forecast')
         ]);
+        if (!alertRes.ok || !forecastRes.ok) throw new Error("API response not ok");
+
         const alertJson: AlertResponse = await alertRes.json();
         const forecastJson: ForecastResponse = await forecastRes.json();
         
         setAlertData({
           title: "High Risk Alert",
-          message: alertJson.message,
+          message: alertJson?.message || "Unknown error",
           level: "Critical"
         });
 
         setForecastData([
-          { id: 1, label: "Hospital beds", value: `+${forecastJson.beds}`, status: "Critical", color: "#ef4444", progress: 85 },
-          { id: 2, label: "Testing kits", value: `+${forecastJson.kits}`, status: "Warning", color: "#eab308", progress: 65 },
-          { id: 3, label: "Medical workforce", value: `${forecastJson.staffTeams} Teams`, status: "Active", color: "#3b82f6", progress: 40 },
+          { id: 1, label: "Hospital beds", value: `+${forecastJson?.beds || 0}`, status: "Critical", color: "#ef4444", progress: 85 },
+          { id: 2, label: "Testing kits", value: `+${forecastJson?.kits || 0}`, status: "Warning", color: "#eab308", progress: 65 },
+          { id: 3, label: "Medical workforce", value: `${forecastJson?.staffTeams || 0} Teams`, status: "Active", color: "#3b82f6", progress: 40 },
         ]);
-      } catch (error) {
-        console.error("Error fetching intelligence data:", error);
+        setError(null);
+      } catch (err) {
+        console.error("Error fetching intelligence data:", err);
+        setError("Connection to backend failed. Displaying cached/offline data.");
       } finally {
         setIsLoading(false);
       }
@@ -58,13 +64,27 @@ const App: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f8fafc', color: '#1e293b', fontSize: '1.25rem', fontWeight: 600 }}>
+      <motion.div 
+        animate={{ opacity: [0.5, 1, 0.5] }}
+        transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f8fafc', color: '#1e293b', fontSize: '1.25rem', fontWeight: 600 }}
+      >
         Loading QuantumShield Intelligence...
-      </div>
+      </motion.div>
     );
   }
 
-  if (!alertData) return null;
+  const displayAlert = alertData || {
+    title: "System Offline",
+    message: "Cannot retrieve alert data from backend.",
+    level: "Unknown"
+  };
+
+  const displayForecast = forecastData.length > 0 ? forecastData : [
+    { id: 1, label: "Hospital beds", value: "+0", status: "Offline", color: "#94a3b8", progress: 0 },
+    { id: 2, label: "Testing kits", value: "+0", status: "Offline", color: "#94a3b8", progress: 0 },
+    { id: 3, label: "Medical workforce", value: "0 Teams", status: "Offline", color: "#94a3b8", progress: 0 },
+  ];
 
   return (
     <div style={{
@@ -76,6 +96,26 @@ const App: React.FC = () => {
     }}>
       <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
         
+        {/* Error Banner */}
+        {error && (
+          <div style={{
+            backgroundColor: '#fee2e2',
+            color: '#991b1b',
+            padding: '0.75rem 1rem',
+            borderRadius: '8px',
+            marginBottom: '1.5rem',
+            border: '1px solid #f87171',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            fontSize: '0.95rem',
+            fontWeight: 500
+          }}>
+            <span>⚠️</span>
+            {error}
+          </div>
+        )}
+
         {/* Header */}
         <header style={{ 
           marginBottom: '2.5rem', 
@@ -130,64 +170,79 @@ const App: React.FC = () => {
         </header>
 
         {/* Early Warning Alerts */}
-        <div style={{
-          background: 'linear-gradient(135deg, #ef4444 0%, #f97316 100%)',
-          padding: '1.5rem 2rem',
-          borderRadius: '16px',
-          boxShadow: '0 10px 25px -5px rgba(239, 68, 68, 0.4), 0 8px 10px -6px rgba(239, 68, 68, 0.1)',
-          marginBottom: '2rem',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '1.25rem',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-          color: '#ffffff'
-        }}>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0 }}
+          style={{
+            background: 'linear-gradient(135deg, #ef4444 0%, #f97316 100%)',
+            padding: '1.5rem 2rem',
+            borderRadius: '16px',
+            boxShadow: '0 10px 25px -5px rgba(239, 68, 68, 0.4), 0 8px 10px -6px rgba(239, 68, 68, 0.1)',
+            marginBottom: '2rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1.25rem',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            color: '#ffffff'
+          }}
+        >
           <span style={{ fontSize: '2.5rem', filter: 'drop-shadow(0 0 8px rgba(255,255,255,0.4))' }}>🚨</span>
           <div>
             <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 700, letterSpacing: '0.025em' }}>
-              {alertData.title}
+              {displayAlert.title}
             </h3>
             <p style={{ margin: '0.25rem 0 0 0', fontWeight: 500, fontSize: '1.05rem', opacity: 0.9 }}>
-              {alertData.message}
+              {displayAlert.message}
             </p>
           </div>
-        </div>
+        </motion.div>
 
         {/* Main Grid Layout */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '1.5rem' }}>
           
           {/* Risk Heatmaps */}
-          <div style={{
-            backgroundColor: '#ffffff',
-            borderRadius: '16px',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02)',
-            border: '1px solid rgba(255, 255, 255, 0.8)',
-            padding: '1.5rem',
-            backdropFilter: 'blur(10px)',
-          }} className="card-heatmaps">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            style={{
+              backgroundColor: '#ffffff',
+              borderRadius: '16px',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02)',
+              border: '1px solid rgba(255, 255, 255, 0.8)',
+              padding: '1.5rem',
+              backdropFilter: 'blur(10px)',
+            }} className="card-heatmaps"
+          >
             <h2 style={{ fontSize: '1.25rem', marginTop: 0, marginBottom: '1.25rem', color: '#1e293b', fontWeight: 700 }}>
               Geospatial Risk Intelligence
             </h2>
             <RiskMap />
-          </div>
+          </motion.div>
 
           {/* Right Column: Forecasting & Recommendations */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }} className="card-right-col">
             
             {/* Healthcare Demand Forecasting */}
-            <div style={{
-              backgroundColor: '#ffffff',
-              borderRadius: '16px',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02)',
-              border: '1px solid rgba(255, 255, 255, 0.8)',
-              padding: '1.5rem'
-            }}>
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              style={{
+                backgroundColor: '#ffffff',
+                borderRadius: '16px',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02)',
+                border: '1px solid rgba(255, 255, 255, 0.8)',
+                padding: '1.5rem'
+              }}
+            >
               <h2 style={{ fontSize: '1.25rem', marginTop: 0, marginBottom: '1.5rem', color: '#1e293b', fontWeight: 700 }}>
                 Demand Forecasting <span style={{fontSize: '0.875rem', color: '#94a3b8', fontWeight: 500, marginLeft: '4px'}}>(14 Days)</span>
               </h2>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                {forecastData.map(item => (
+                {displayForecast.map(item => (
                   <div key={item.id} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <span style={{ fontWeight: 600, color: '#334155', fontSize: '0.95rem' }}>{item.label}</span>
@@ -219,17 +274,22 @@ const App: React.FC = () => {
                   </div>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
             {/* Quantum-Optimized Recommendations */}
-            <div style={{
-              background: 'linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)',
-              borderRadius: '16px',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02)',
-              border: '1px solid rgba(255, 255, 255, 0.8)',
-              padding: '1.5rem',
-              flex: 1
-            }}>
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+              style={{
+                background: 'linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)',
+                borderRadius: '16px',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02)',
+                border: '1px solid rgba(255, 255, 255, 0.8)',
+                padding: '1.5rem',
+                flex: 1
+              }}
+            >
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1.25rem' }}>
                 <span style={{ fontSize: '1.25rem' }}>✨</span>
                 <h2 style={{ fontSize: '1.25rem', margin: 0, color: '#1e293b', fontWeight: 700 }}>
@@ -304,7 +364,7 @@ const App: React.FC = () => {
                   </div>
                 ))}
               </div>
-            </div>
+            </motion.div>
             
           </div>
         </div>
