@@ -12,8 +12,8 @@ def get_risk_zone(cases, prov, thresholds):
     elif cases < p['p95']: return 'High Risk'
     else: return 'Critical Risk'
 
-def run_pipeline(history_df, horizon=1):
-    # ponytail: straightforward pipeline returning enriched context
+def run_pipeline(history_df, base_date, lat, lng, horizon=1):
+    # ponytail: straightforward pipeline returning enriched context, zero business logic
     features = build_features(history_df, horizon)
     pred_cases = predict(features, horizon)
     
@@ -21,8 +21,6 @@ def run_pipeline(history_df, horizon=1):
         thresholds = json.load(f)
         
     prov = history_df['province'].iloc[-1]
-    lat = history_df['lat'].iloc[-1]
-    lng = history_df['lon'].iloc[-1]
     
     risk = get_risk_zone(pred_cases, prov, thresholds)
     
@@ -30,6 +28,7 @@ def run_pipeline(history_df, horizon=1):
         'location': prov,
         'lat': float(lat),
         'lng': float(lng),
+        'base_date': base_date,
         'horizon': horizon,
         'predicted_cases': float(pred_cases),
         'risk_zone': risk
