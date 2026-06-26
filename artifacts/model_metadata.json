@@ -1,0 +1,61 @@
+{
+  "feature_names": [
+    "lat",
+    "lon",
+    "month",
+    "year",
+    "quarter",
+    "month_sin",
+    "month_cos",
+    "quarter_sin",
+    "quarter_cos",
+    "dengue_lag1",
+    "dengue_lag2",
+    "dengue_lag3",
+    "dengue_lag6",
+    "dengue_lag12",
+    "temperature_lag1",
+    "temperature_lag2",
+    "temperature_lag3",
+    "humidity_lag1",
+    "humidity_lag2",
+    "humidity_lag3",
+    "rainfall_lag1",
+    "rainfall_lag2",
+    "rainfall_lag3",
+    "dengue_cases_roll3",
+    "dengue_cases_roll6",
+    "temperature_roll3",
+    "temperature_roll6",
+    "humidity_roll3",
+    "humidity_roll6",
+    "rainfall_roll3",
+    "rainfall_roll6",
+    "temperature_rollstd3",
+    "temperature_rollstd6",
+    "humidity_rollstd3",
+    "humidity_rollstd6",
+    "rainfall_rollstd3",
+    "rainfall_rollstd6",
+    "dengue_growth_rate",
+    "outbreak_momentum",
+    "dengue_acceleration",
+    "rainfall_lag2_x_dengue_lag1",
+    "humidity_lag1_x_dengue_lag1",
+    "province_target_encoded"
+  ],
+  "train_period": [
+    "2016-01",
+    "2020-12"
+  ],
+  "val_period": [
+    "2021-01",
+    "2021-12"
+  ],
+  "test_period": [
+    "2022-01",
+    "2022-09"
+  ],
+  "best_iteration": 95,
+  "trained_at": "2026-06-26T10:21:47.945391"
+}
