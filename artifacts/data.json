@@ -1,20 +1,21 @@
 {
+  "prediction_month": "2023-06",
   "alert": {
     "active": true,
-    "region": "Da Nang",
+    "region": "Ho Chi Minh",
     "probability": 95,
     "message": "Dengue risk is Critical Risk based on forecasting models."
   },
   "forecast": {
-    "beds": 22,
-    "kits": 331,
-    "staffTeams": 2
+    "beds": 53,
+    "kits": 808,
+    "staffTeams": 5
   },
   "hotspots": [
     {
-      "lat": 16.0544,
-      "lng": 108.2022,
-      "region": "Da Nang",
+      "lat": 10.7626,
+      "lng": 106.6601,
+      "region": "Ho Chi Minh",
       "riskScore": 95
     }
   ]
