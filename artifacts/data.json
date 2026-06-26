@@ -1,0 +1,21 @@
+{
+  "alert": {
+    "active": true,
+    "region": "Da Nang",
+    "probability": 95,
+    "message": "Dengue risk is Critical Risk based on forecasting models."
+  },
+  "forecast": {
+    "beds": 22,
+    "kits": 331,
+    "staffTeams": 2
+  },
+  "hotspots": [
+    {
+      "lat": 16.0544,
+      "lng": 108.2022,
+      "region": "Da Nang",
+      "riskScore": 95
+    }
+  ]
+}
