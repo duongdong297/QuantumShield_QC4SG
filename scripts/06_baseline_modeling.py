@@ -128,7 +128,12 @@ for h in [1, 2, 3]:
     X_test['province_target_encoded'] = smoothed_target_encode(
         train['province'], train[target_col], X_test['province'], global_mean)
 
+    # Calculate smoothed target encoding for the entire training set
+    stats = train[target_col].groupby(train['province']).agg(['mean', 'count'])
+    province_encoding_map = ((stats['count'] * stats['mean'] + 10 * global_mean) / (stats['count'] + 10)).to_dict()
+    province_encoding_map['__global_mean__'] = global_mean 
     # ── Split features / targets 
+
     y_train = X_train[target_col]
     y_val   = X_val[target_col]
     y_test  = X_test[target_col]
@@ -192,6 +197,7 @@ for h in [1, 2, 3]:
     model_bundle = {
         'model':          xgb_model,
         'feature_names':  list(X_train.columns),
+        'target_encoding': province_encoding_map,
         'train_period':   ('2016-01', '2020-12'),
         'val_period':     ('2021-01', '2021-12'),
         'test_period':    ('2022-01', '2022-09'),
@@ -224,7 +230,7 @@ for h in [1, 2, 3]:
         .sort_values()
     )
     province_r2.to_csv(f'reports/province_r2_h{h}.csv', header=['R2'])
-    print(f"\n  Top 5 tỉnh predict tệ nhất (h{h}):")
+    print(f"\n  Top 5 provinces with lowest R2 (h{h}):")
     print(province_r2.head(5).to_string())
 
 
@@ -246,9 +252,9 @@ expected_features = ['dengue_lag1', 'rainfall_lag2', 'month_cos']
 top20_set = set(feat_imp['Feature'].tolist())
 missing = [f for f in expected_features if f in xgb_h1_features and f not in top20_set]
 if missing:
-    print(f"\n[WARN] Expected features not in Top 20: {missing}")
+    print(f"\nExpected features not in Top 20: {missing}")
 else:
-    print(f"\n[OK] All expected features are in the Top 20.")
+    print(f"\nAll expected features are in the Top 20.")
 
 plt.figure(figsize=(10, 8))
 sns.barplot(x='Importance', y='Feature', data=feat_imp, palette='Blues_r')
