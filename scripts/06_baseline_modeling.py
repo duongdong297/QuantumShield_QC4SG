@@ -19,9 +19,7 @@ Path("reports/figures").mkdir(parents=True, exist_ok=True)
 # Load data
 df = pd.read_csv("data/final/model_dataset.csv")
 
-# ─────────────────────────────────────────────
 # 1. Dataset Sanity Report
-# ─────────────────────────────────────────────
 print("--- Dataset Sanity Report ---")
 print("Dataset Shape:", df.shape)
 target_cols = ['target_h1', 'target_h2', 'target_h3']
@@ -38,7 +36,7 @@ test  = df[test_mask].copy()
 
 print(f"\nTrain: {train.shape[0]} rows | Val: {val.shape[0]} rows | Test: {test.shape[0]} rows")
 
-# 3. Province Percentiles — chỉ từ Train
+# 3. Province Percentiles
 
 province_percentiles = {}
 for prov in train['province'].unique():
@@ -63,10 +61,6 @@ def get_risk_zone(cases, prov, percentiles_dict):
 
 
 def smoothed_target_encode(series_train, target_train, series_apply, global_mean, alpha=10):
-    """
-    Bayesian smoothing: blend province mean với global mean.
-    alpha=10 → cần ≥10 mẫu mới tin hoàn toàn vào mean tỉnh.
-    """
     stats = target_train.groupby(series_train).agg(['mean', 'count'])
     smooth = (stats['count'] * stats['mean'] + alpha * global_mean) / (stats['count'] + alpha)
     return series_apply.map(smooth).fillna(global_mean)
@@ -88,9 +82,7 @@ def compute_metrics(y_true, y_pred, model_name, horizon):
     }
 
 
-# ─────────────────────────────────────────────
 # 6. Modeling Loop
-# ─────────────────────────────────────────────
 tscv = TimeSeriesSplit(n_splits=5)
 
 metrics_records = []
@@ -116,8 +108,8 @@ for h in [1, 2, 3]:
     X_val   = val.copy()
     X_test  = test.copy()
 
-    # ── Target Encoding với TimeSeriesSplit OOF ──────────
-    X_train['province_target_ưencoded'] = np.nan
+    # Target Encoding with TimeSeriesSplit OOF 
+    X_train['province_target_encoded'] = np.nan
 
     for tr_idx, oof_idx in tscv.split(train):
         fold_train = train.iloc[tr_idx]
@@ -136,7 +128,7 @@ for h in [1, 2, 3]:
     X_test['province_target_encoded'] = smoothed_target_encode(
         train['province'], train[target_col], X_test['province'], global_mean)
 
-    # ── Tách features / targets ──────────────────────────
+    # ── Split features / targets 
     y_train = X_train[target_col]
     y_val   = X_val[target_col]
     y_test  = X_test[target_col]
@@ -145,7 +137,7 @@ for h in [1, 2, 3]:
     X_val   = X_val.drop(columns=drop_cols)
     X_test  = X_test.drop(columns=drop_cols)
 
-    # ── Baseline 0: Naive (carry-forward đúng horizon) ───
+    # ── Baseline 0: Naive
     lag_col = f'dengue_lag{h}'
     if lag_col in test.columns:
         naive_preds = test[lag_col].values
@@ -153,12 +145,12 @@ for h in [1, 2, 3]:
         naive_preds = test['dengue_cases'].shift(h).fillna(test['dengue_cases'].iloc[0]).values
     print(f"  Naive source: '{lag_col if lag_col in test.columns else 'dengue_cases shift'}'")
 
-    # ── Baseline 1: Linear Regression ────────────────────
+    # ── Baseline 1: Linear Regression
     lr = LinearRegression()
     lr.fit(X_train, y_train)
     lr_preds = lr.predict(X_test)
 
-    # ── Baseline 2: Random Forest ─────────────────────────
+    # ── Baseline 2: Random Forest 
     rf = RandomForestRegressor(
         n_estimators=300,
         max_depth=10,
@@ -170,7 +162,7 @@ for h in [1, 2, 3]:
     rf.fit(X_train, y_train)
     rf_preds = rf.predict(X_test)
 
-    # XGBoost với Early Stopping
+    # XGBoost
     
     xgb_model = xgb.XGBRegressor(
         n_estimators=1000,        
@@ -197,7 +189,6 @@ for h in [1, 2, 3]:
         xgb_h1_features = X_train.columns
         xgb_h1_X_test   = X_test.copy()
 
-    # ── FIX: đóng gói model bundle đầy đủ metadata ───────
     model_bundle = {
         'model':          xgb_model,
         'feature_names':  list(X_train.columns),
@@ -209,7 +200,6 @@ for h in [1, 2, 3]:
     }
     joblib.dump(model_bundle, f'models/model_h{h}.pkl')
 
-    # ── Tính metrics cho tất cả models ───────────────────
     models_dict = {
         'Naive':             naive_preds,
         'Linear Regression': lr_preds,
@@ -222,7 +212,6 @@ for h in [1, 2, 3]:
         metrics_records.append(record)
         print(f"  {model_name:20s} MAE={record['MAE']:.2f}  RMSE={record['RMSE']:.2f}  R2={record['R2']:.3f}  MAPE={record['MAPE(%)']:.1f}%")
 
-    # ── FIX: Province-level R² để detect tỉnh predict tệ ─
     test_prov_eval = test[['province']].copy()
     test_prov_eval['y_true'] = y_test.values
     test_prov_eval['y_pred'] = xgb_preds
@@ -238,17 +227,14 @@ for h in [1, 2, 3]:
     print(f"\n  Top 5 tỉnh predict tệ nhất (h{h}):")
     print(province_r2.head(5).to_string())
 
-# ─────────────────────────────────────────────
+
 # 7. Save & Print Metrics
-# ─────────────────────────────────────────────
 metrics_df = pd.DataFrame(metrics_records)
 print("\n\n--- Model Comparison Matrix ---")
 print(metrics_df.to_string(index=False))
 metrics_df.to_csv('reports/baseline_model_comparison.csv', index=False)
 
-# ─────────────────────────────────────────────
 # 8. XGBoost h1 Feature Importance
-# ─────────────────────────────────────────────
 importance = xgb_h1_model.feature_importances_
 feat_imp = (
     pd.DataFrame({'Feature': xgb_h1_features, 'Importance': importance})
@@ -260,9 +246,9 @@ expected_features = ['dengue_lag1', 'rainfall_lag2', 'month_cos']
 top20_set = set(feat_imp['Feature'].tolist())
 missing = [f for f in expected_features if f in xgb_h1_features and f not in top20_set]
 if missing:
-    print(f"\n[WARN] Feature kỳ vọng không nằm trong Top 20: {missing}")
+    print(f"\n[WARN] Expected features not in Top 20: {missing}")
 else:
-    print(f"\n[OK] Tất cả feature kỳ vọng đều xuất hiện trong Top 20.")
+    print(f"\n[OK] All expected features are in the Top 20.")
 
 plt.figure(figsize=(10, 8))
 sns.barplot(x='Importance', y='Feature', data=feat_imp, palette='Blues_r')
@@ -271,16 +257,13 @@ plt.tight_layout()
 plt.savefig('reports/figures/xgb_h1_feature_importance.png', dpi=150)
 plt.close()
 
-# ─────────────────────────────────────────────
-# 9. Outbreak Classification trên h1 test predictions
-# ─────────────────────────────────────────────
+# 9. Outbreak Classification h1 test predictions
 test_eval = test[['province', 'year_month', 'target_h1']].copy()
 test_eval['predicted_cases']    = xgb_h1_model.predict(xgb_h1_X_test)
 test_eval['predicted_risk_zone'] = test_eval.apply(
     lambda row: get_risk_zone(row['predicted_cases'], row['province'], province_percentiles), axis=1
 )
 
-# Thêm: actual risk zone để so sánh
 test_eval['actual_risk_zone'] = test_eval.apply(
     lambda row: get_risk_zone(row['target_h1'], row['province'], province_percentiles), axis=1
 )
