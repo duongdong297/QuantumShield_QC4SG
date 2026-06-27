@@ -1,9 +1,11 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
-	"math/rand"
 	"net/http"
+	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/gorilla/websocket"
@@ -63,62 +65,29 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 
 	log.Println("Client connected via WebSocket")
 
-	// Tạo một instance random cục bộ
-	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
-
-	// Khởi tạo mảng TrendData cơ bản cho 7 ngày
-	days := []string{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}
-	trendData := make([]TrendPoint, len(days))
-	for i, day := range days {
-		trendData[i] = TrendPoint{
-			Day:        day,
-			Infections: 50 + rng.Intn(101), // Cơ bản khoảng 50 - 150
-		}
-	}
+	// Vì Go server chạy trong thư mục "backend", ta lùi ra 1 cấp ".." và truy cập vào "artifacts/data.json"
+	dataPath := filepath.Join("..", "artifacts", "data.json")
 
 	for {
-		// Sinh dữ liệu động (+- biên độ nhỏ) cho các thẻ cơ bản
-		beds := 100 + rng.Intn(31)        // 100-130
-		kits := 450 + rng.Intn(101)       // 450-550
-		staffTeams := 2 + rng.Intn(4)     // 2-5
-		prob := 80 + rng.Intn(15)         // 80-94
-
-		hotspot1Risk := 83 + rng.Intn(11) // 83-93 (dao động quanh 88)
-		hotspot2Risk := 60 + rng.Intn(11) // 60-70 (dao động quanh 65)
-		hotspot3Risk := 37 + rng.Intn(11) // 37-47 (dao động quanh 42)
-
-		// Cập nhật ngẫu nhiên số liệu TrendData để tạo hiệu ứng đồ thị uốn lượn
-		for i := range trendData {
-			// Random dao động từ -15 đến +15
-			change := -15 + rng.Intn(31)
-			trendData[i].Infections += change
-			
-			// Đảm bảo không bị âm
-			if trendData[i].Infections < 0 {
-				trendData[i].Infections = 0
-			}
+		// Đọc nội dung file
+		fileBytes, err := os.ReadFile(dataPath)
+		if err != nil {
+			// Lỗi đọc file (có thể do team AI chưa sinh xong hoặc đang ghi đè lock file)
+			log.Printf("Error reading data file: %v (Retrying in 3s...)", err)
+			time.Sleep(3 * time.Second)
+			continue
 		}
 
-		data := DashboardData{
-			Alert: Alert{
-				Active:      true,
-				Region:      "District 3 - Urban",
-				Probability: prob,
-				Message:     "Dengue outbreak probability exceeded threshold...",
-			},
-			Forecast: Forecast{
-				Beds:       beds,
-				Kits:       kits,
-				StaffTeams: staffTeams,
-			},
-			Hotspots: []Hotspot{
-				{Lat: 21.0000, Lng: 105.8200, Region: "District 3 - Urban", RiskScore: hotspot1Risk},
-				{Lat: 21.0285, Lng: 105.8542, Region: "District 1 - Central", RiskScore: hotspot2Risk},
-				{Lat: 21.0500, Lng: 105.8800, Region: "District 5 - Suburb", RiskScore: hotspot3Risk},
-			},
-			TrendData: trendData,
+		// Map dữ liệu vào Struct
+		var data DashboardData
+		if err := json.Unmarshal(fileBytes, &data); err != nil {
+			// Lỗi Parse (có thể do file JSON đang được ghi dở nên bị lỗi cú pháp)
+			log.Printf("Error parsing JSON: %v (File might be incomplete/locked. Retrying in 3s...)", err)
+			time.Sleep(3 * time.Second)
+			continue
 		}
 
+		// Bắn dữ liệu về Frontend
 		if err := conn.WriteJSON(data); err != nil {
 			log.Printf("Error writing JSON to websocket: %v", err)
 			break
