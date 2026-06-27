@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, CircleMarker, Popup, Tooltip, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
 interface HotspotProps {
@@ -57,6 +57,11 @@ const RiskMap: React.FC<RiskMapProps> = ({ data }) => {
             pathOptions={{ fillColor: spot.color, color: spot.color, fillOpacity: 0.6 }}
             radius={spot.risk / 3}
           >
+            <Tooltip sticky>
+              <strong style={{ fontSize: '1rem', color: '#1e293b' }}>{spot.name}</strong><br/>
+              <span style={{ color: '#475569', fontWeight: 500 }}>Risk Score: </span> 
+              <span style={{ color: spot.color, fontWeight: 700 }}>{spot.risk}</span>
+            </Tooltip>
             <Popup>
               <strong>{spot.name}</strong><br/>
               Risk Level: {spot.risk}
