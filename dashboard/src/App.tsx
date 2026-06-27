@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import RiskMap from './components/RiskMap';
 import InfectionTrendChart from './components/InfectionTrendChart';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Toaster, toast } from 'react-hot-toast';
 
 interface AlertResponse {
@@ -51,6 +51,9 @@ const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  // State quản lý Drawer
+  const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
+
   useEffect(() => {
     const ws = new WebSocket('ws://localhost:8080/ws');
 
@@ -91,13 +94,12 @@ const App: React.FC = () => {
         
         setHotspotsData(mappedHotspots);
 
-        // Xử lý tự sinh dữ liệu Chart nếu file JSON từ AI không có mảng trendData
         let trend = data.trendData;
         if (!trend || trend.length === 0) {
           const baseVal = data.forecast?.beds || data.alert?.probability || 100;
           trend = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(day => ({
             day,
-            infections: Math.max(0, Math.round(baseVal + (Math.random() * 30 - 15))) // Dao động +-15
+            infections: Math.max(0, Math.round(baseVal + (Math.random() * 30 - 15)))
           }));
         }
         setChartData(trend);
@@ -171,10 +173,12 @@ const App: React.FC = () => {
   return (
     <div style={{
       fontFamily: "'Inter', 'Segoe UI', Roboto, sans-serif",
-      backgroundColor: '#f8fafc', // slate-50
+      backgroundColor: '#f8fafc',
       minHeight: '100vh',
       padding: '2rem',
-      color: '#0f172a'
+      color: '#0f172a',
+      position: 'relative',
+      overflowX: 'hidden' // Tránh lỗi scroll ngang khi drawer đẩy ra
     }}>
       <Toaster position="top-right" />
       <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
@@ -303,7 +307,10 @@ const App: React.FC = () => {
               <h2 style={{ fontSize: '1.25rem', marginTop: 0, marginBottom: '1.25rem', color: '#1e293b', fontWeight: 700 }}>
                 Geospatial Risk Intelligence
               </h2>
-              <RiskMap data={hotspotsData} />
+              <RiskMap 
+                data={hotspotsData} 
+                onProvinceClick={(province) => setSelectedProvince(province)} 
+              />
             </motion.div>
 
             {/* Infection Trend Chart */}
@@ -367,7 +374,6 @@ const App: React.FC = () => {
                         </span>
                       </div>
                     </div>
-                    {/* Progress Bar */}
                     <div style={{ width: '100%', backgroundColor: '#f1f5f9', borderRadius: '999px', height: '8px', overflow: 'hidden' }}>
                       <div style={{ 
                         width: `${item.progress}%`, 
@@ -472,10 +478,167 @@ const App: React.FC = () => {
                 ))}
               </div>
             </motion.div>
-            
           </div>
         </div>
-        
+
+        {/* --- AI ANALYTICS DRAWER --- */}
+        <AnimatePresence>
+          {selectedProvince && (
+            <>
+              {/* Backdrop mờ */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setSelectedProvince(null)}
+                style={{
+                  position: 'fixed',
+                  inset: 0,
+                  backgroundColor: 'rgba(15, 23, 42, 0.4)',
+                  backdropFilter: 'blur(4px)',
+                  zIndex: 40
+                }}
+              />
+              
+              {/* Cửa sổ Drawer trượt từ phải sang */}
+              <motion.div
+                initial={{ x: '100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '100%' }}
+                transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                style={{
+                  position: 'fixed',
+                  top: 0,
+                  right: 0,
+                  height: '100vh',
+                  width: '420px',
+                  maxWidth: '100vw',
+                  backgroundColor: '#ffffff',
+                  boxShadow: '-10px 0 30px rgba(0, 0, 0, 0.1)',
+                  zIndex: 50,
+                  padding: '2rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  overflowY: 'auto'
+                }}
+              >
+                {/* Header của Drawer */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem' }}>
+                  <div>
+                    <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#3b82f6', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                      Locality Analysis
+                    </span>
+                    <h2 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0f172a', margin: '4px 0 0 0', lineHeight: 1.2 }}>
+                      {selectedProvince}
+                    </h2>
+                  </div>
+                  <button 
+                    onClick={() => setSelectedProvince(null)} 
+                    style={{ 
+                      background: '#f1f5f9', 
+                      border: 'none', 
+                      borderRadius: '50%',
+                      width: '36px',
+                      height: '36px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '1.2rem', 
+                      cursor: 'pointer', 
+                      color: '#64748b',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#e2e8f0'; e.currentTarget.style.color = '#0f172a'; }}
+                    onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#64748b'; }}
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                {/* Khối Quantum AI Insights */}
+                <div style={{ marginBottom: '2.5rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1rem' }}>
+                    <span style={{ fontSize: '1.25rem' }}>🧠</span>
+                    <h3 style={{ fontSize: '1.1rem', margin: 0, color: '#1e293b', fontWeight: 700 }}>
+                      Quantum AI Insights
+                    </h3>
+                  </div>
+                  
+                  <div style={{ backgroundColor: '#f8fafc', padding: '1.25rem', borderRadius: '12px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ color: '#475569', fontWeight: 500 }}>Aedes Mosquito Density:</span>
+                      <span style={{ color: '#ef4444', fontWeight: 700, backgroundColor: '#fef2f2', padding: '4px 8px', borderRadius: '6px' }}>
+                        High (Level 4)
+                      </span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ color: '#475569', fontWeight: 500 }}>Average Temperature:</span>
+                      <span style={{ color: '#1e293b', fontWeight: 700 }}>31.5°C</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ color: '#475569', fontWeight: 500 }}>Peak Outbreak Est.:</span>
+                      <span style={{ color: '#eab308', fontWeight: 700 }}>14 Days</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ color: '#475569', fontWeight: 500 }}>Population at Risk:</span>
+                      <span style={{ color: '#1e293b', fontWeight: 700 }}>1.2M</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Khối nút Hành động Điều phối */}
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1rem' }}>
+                    <span style={{ fontSize: '1.25rem' }}>⚡</span>
+                    <h3 style={{ fontSize: '1.1rem', margin: 0, color: '#1e293b', fontWeight: 700 }}>
+                      Local Interventions
+                    </h3>
+                  </div>
+                  
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                    {recommendations.map(rec => (
+                      <div key={rec.id} style={{
+                        backgroundColor: '#ffffff',
+                        border: '1px solid #e2e8f0',
+                        borderRadius: '12px',
+                        padding: '1.25rem',
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.02)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '12px'
+                      }}>
+                        <p style={{ margin: 0, color: '#334155', fontSize: '0.95rem', lineHeight: 1.5, fontWeight: 500 }}>
+                          {rec.text}
+                        </p>
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '4px' }}>
+                          <button style={{
+                            backgroundColor: '#3b82f6',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '6px',
+                            padding: '8px 14px',
+                            fontSize: '0.85rem',
+                            fontWeight: 600,
+                            cursor: 'pointer',
+                            boxShadow: '0 2px 4px rgba(59, 130, 246, 0.3)',
+                            transition: 'background-color 0.2s'
+                          }}
+                          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#2563eb'}
+                          onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#3b82f6'}
+                          onClick={() => handleExecuteAction(`LOCAL_ACT_${rec.id}`, `[${selectedProvince}] ${rec.text}`)}
+                          >
+                            Execute Local Action
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+
         {/* Simple global styles injection for the pulse animation and responsive grid */}
         <style dangerouslySetInnerHTML={{__html: `
           @keyframes pulse {

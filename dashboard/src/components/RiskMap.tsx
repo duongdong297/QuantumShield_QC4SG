@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, GeoJSON, CircleMarker, Tooltip } from 'react-leaflet';
-import toast from 'react-hot-toast';
 import 'leaflet/dist/leaflet.css';
 
 interface HotspotProps {
@@ -13,9 +12,10 @@ interface HotspotProps {
 
 interface RiskMapProps {
   data: HotspotProps[];
+  onProvinceClick: (provinceName: string) => void;
 }
 
-const RiskMap: React.FC<RiskMapProps> = ({ data }) => {
+const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick }) => {
   const [geoData, setGeoData] = useState<any>(null);
 
   // Tải dữ liệu ranh giới địa lý (GeoJSON) của Việt Nam
@@ -63,16 +63,9 @@ const RiskMap: React.FC<RiskMapProps> = ({ data }) => {
       </div>
     `, { sticky: true });
 
-    // Bắt sự kiện Click để tạo tương tác với người dùng
+    // Bắt sự kiện Click để mở AI Analytics Drawer
     layer.on('click', () => {
-      toast(`Fetching prediction data for ${provName}...`, {
-        icon: '📡',
-        style: {
-          borderRadius: '10px',
-          background: '#1e293b',
-          color: '#fff',
-        },
-      });
+      onProvinceClick(provName);
     });
   };
 
@@ -96,8 +89,7 @@ const RiskMap: React.FC<RiskMapProps> = ({ data }) => {
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         />
         
-        {/* Render Lớp GeoJSON khi dữ liệu đã tải xong. 
-            Dùng JSON.stringify(data) làm key để ép react-leaflet re-render. */}
+        {/* Render Lớp GeoJSON khi dữ liệu đã tải xong */}
         {geoData && (
           <GeoJSON 
             key={JSON.stringify(data)} 
