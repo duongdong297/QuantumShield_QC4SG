@@ -1,5 +1,5 @@
-import React from 'react';
-import { MapContainer, TileLayer, CircleMarker, Popup } from 'react-leaflet';
+import React, { useEffect } from 'react';
+import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
 interface HotspotProps {
@@ -14,6 +14,21 @@ interface RiskMapProps {
   data: HotspotProps[];
 }
 
+// MapUpdater component để tự động lia bản đồ đến tọa độ điểm nóng đầu tiên
+const MapUpdater: React.FC<{ hotspots: HotspotProps[] }> = ({ hotspots }) => {
+  const map = useMap();
+  useEffect(() => {
+    if (hotspots && hotspots.length > 0) {
+      const firstSpot = hotspots[0];
+      if (firstSpot.coords && firstSpot.coords.length === 2 && firstSpot.coords[0] !== 0) {
+        // Tự động pan về tọa độ mới với hiệu ứng mượt mà
+        map.setView(firstSpot.coords, 12, { animate: true });
+      }
+    }
+  }, [hotspots, map]);
+  return null;
+};
+
 const RiskMap: React.FC<RiskMapProps> = ({ data }) => {
   return (
     <div style={{
@@ -26,10 +41,11 @@ const RiskMap: React.FC<RiskMapProps> = ({ data }) => {
       boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)'
     }}>
       <MapContainer 
-        center={[21.0285, 105.8542]} 
+        center={[21.0285, 105.8542]} // Tọa độ tĩnh mặc định
         zoom={12} 
         style={{ height: '100%', width: '100%', zIndex: 0 }}
       >
+        <MapUpdater hotspots={data} />
         <TileLayer
           attribution='&copy; <a href="https://carto.com/">Carto</a>'
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
