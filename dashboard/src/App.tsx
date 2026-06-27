@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import RiskMap from './components/RiskMap';
 import InfectionTrendChart from './components/InfectionTrendChart';
 import { motion } from 'framer-motion';
+import { Toaster, toast } from 'react-hot-toast';
 
 interface AlertResponse {
   active: boolean;
@@ -122,6 +123,27 @@ const App: React.FC = () => {
     };
   }, []);
 
+  const handleExecuteAction = async (actionId: string, description: string) => {
+    const toastId = toast.loading("Transmitting command to Edge Node...");
+    try {
+      const response = await fetch('http://localhost:8080/api/action', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ actionId, description })
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to execute action");
+      }
+
+      toast.success("Action executed successfully!", { id: toastId });
+    } catch (err) {
+      toast.error("Failed to connect to Edge Node.", { id: toastId });
+    }
+  };
+
   if (isLoading) {
     return (
       <motion.div 
@@ -154,6 +176,7 @@ const App: React.FC = () => {
       padding: '2rem',
       color: '#0f172a'
     }}>
+      <Toaster position="top-right" />
       <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
         
         {/* Error Banner */}
@@ -440,6 +463,7 @@ const App: React.FC = () => {
                       }}
                       onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#334155'}
                       onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#1e293b'}
+                      onClick={() => handleExecuteAction(`ACT_${rec.id}`, rec.text)}
                       >
                         Execute Action
                       </button>
