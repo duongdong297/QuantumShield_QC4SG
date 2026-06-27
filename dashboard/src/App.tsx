@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import RiskMap from './components/RiskMap';
+import InfectionTrendChart from './components/InfectionTrendChart';
 import { motion } from 'framer-motion';
 
 interface AlertResponse {
@@ -22,10 +23,16 @@ interface Hotspot {
   riskScore: number;
 }
 
+interface TrendPoint {
+  day: string;
+  infections: number;
+}
+
 interface DashboardData {
   alert: AlertResponse;
   forecast: ForecastResponse;
   hotspots: Hotspot[];
+  trendData: TrendPoint[];
 }
 
 // --- MOCK DATA ---
@@ -39,6 +46,7 @@ const App: React.FC = () => {
   const [alertData, setAlertData] = useState<any>(null);
   const [forecastData, setForecastData] = useState<any[]>([]);
   const [hotspotsData, setHotspotsData] = useState<any[]>([]);
+  const [chartData, setChartData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -81,6 +89,7 @@ const App: React.FC = () => {
         });
         
         setHotspotsData(mappedHotspots);
+        setChartData(data.trendData || []);
         setIsLoading(false);
       } catch (err) {
         console.error("Error parsing websocket data:", err);
@@ -97,7 +106,6 @@ const App: React.FC = () => {
       console.log('Disconnected from WebSocket server');
     };
 
-    // Dọn dẹp kết nối khi unmount
     return () => {
       ws.close();
     };
@@ -242,25 +250,48 @@ const App: React.FC = () => {
         {/* Main Grid Layout */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '1.5rem' }}>
           
-          {/* Risk Heatmaps */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            style={{
-              backgroundColor: '#ffffff',
-              borderRadius: '16px',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02)',
-              border: '1px solid rgba(255, 255, 255, 0.8)',
-              padding: '1.5rem',
-              backdropFilter: 'blur(10px)',
-            }} className="card-heatmaps"
-          >
-            <h2 style={{ fontSize: '1.25rem', marginTop: 0, marginBottom: '1.25rem', color: '#1e293b', fontWeight: 700 }}>
-              Geospatial Risk Intelligence
-            </h2>
-            <RiskMap data={hotspotsData} />
-          </motion.div>
+          {/* Left Column: Maps & Charts */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }} className="card-heatmaps">
+            {/* Risk Heatmaps */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              style={{
+                backgroundColor: '#ffffff',
+                borderRadius: '16px',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02)',
+                border: '1px solid rgba(255, 255, 255, 0.8)',
+                padding: '1.5rem',
+                backdropFilter: 'blur(10px)',
+              }}
+            >
+              <h2 style={{ fontSize: '1.25rem', marginTop: 0, marginBottom: '1.25rem', color: '#1e293b', fontWeight: 700 }}>
+                Geospatial Risk Intelligence
+              </h2>
+              <RiskMap data={hotspotsData} />
+            </motion.div>
+
+            {/* Infection Trend Chart */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              style={{
+                backgroundColor: '#ffffff',
+                borderRadius: '16px',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02)',
+                border: '1px solid rgba(255, 255, 255, 0.8)',
+                padding: '1.5rem',
+                backdropFilter: 'blur(10px)',
+              }}
+            >
+              <h2 style={{ fontSize: '1.25rem', marginTop: 0, marginBottom: '1.25rem', color: '#1e293b', fontWeight: 700 }}>
+                7-Day Outbreak Trend
+              </h2>
+              <InfectionTrendChart data={chartData} />
+            </motion.div>
+          </div>
 
           {/* Right Column: Forecasting & Recommendations */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }} className="card-right-col">
