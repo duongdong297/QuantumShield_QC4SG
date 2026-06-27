@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
-import { MapContainer, TileLayer, CircleMarker, Popup, Tooltip, useMap } from 'react-leaflet';
+import React, { useEffect, useState } from 'react';
+import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
+import toast from 'react-hot-toast';
 import 'leaflet/dist/leaflet.css';
 
 interface HotspotProps {
@@ -14,22 +15,67 @@ interface RiskMapProps {
   data: HotspotProps[];
 }
 
-// MapUpdater component để tự động lia bản đồ đến tọa độ điểm nóng đầu tiên
-const MapUpdater: React.FC<{ hotspots: HotspotProps[] }> = ({ hotspots }) => {
-  const map = useMap();
-  useEffect(() => {
-    if (hotspots && hotspots.length > 0) {
-      const firstSpot = hotspots[0];
-      if (firstSpot.coords && firstSpot.coords.length === 2 && firstSpot.coords[0] !== 0) {
-        // Tự động pan về tọa độ mới với hiệu ứng mượt mà
-        map.setView(firstSpot.coords, 12, { animate: true });
-      }
-    }
-  }, [hotspots, map]);
-  return null;
-};
-
 const RiskMap: React.FC<RiskMapProps> = ({ data }) => {
+  const [geoData, setGeoData] = useState<any>(null);
+
+  // Tải dữ liệu ranh giới địa lý (GeoJSON) của Việt Nam
+  useEffect(() => {
+    fetch('/vietnam.json')
+      .then(res => {
+        if (!res.ok) throw new Error('Cannot fetch vietnam.json');
+        return res.json();
+      })
+      .then(json => {
+        console.log("GeoJSON Data Loaded Successfully:", json);
+        setGeoData(json);
+      })
+      .catch(err => console.error('Error loading GeoJSON:', err));
+  }, []);
+
+  // Hàm tô màu tùy chỉnh cho từng tỉnh
+  const styleProvince = (feature: any) => {
+    const provName = feature.properties?.Name || feature.properties?.name || '';
+    
+    // Kiểm tra xem tỉnh này có đang nằm trong danh sách điểm nóng (hotspots) không.
+    const isHotspot = (data || []).some(spot => 
+      spot.name.toLowerCase().includes(provName.toLowerCase()) || 
+      provName.toLowerCase().includes(spot.name.toLowerCase())
+    );
+
+    return {
+      fillColor: isHotspot ? '#ef4444' : '#cbd5e1',
+      weight: 1.5,
+      opacity: 1,
+      color: '#ffffff', // Viền trắng phân cách các tỉnh
+      fillOpacity: isHotspot ? 0.7 : 0.4
+    };
+  };
+
+  // Hàm gắn sự kiện và Tooltip cho từng tỉnh
+  const onEachProvince = (feature: any, layer: any) => {
+    const provName = feature.properties?.Name || feature.properties?.name || 'Unknown Province';
+
+    // Thêm Tooltip dính theo con trỏ chuột
+    layer.bindTooltip(`
+      <div style="font-family: Inter, sans-serif; text-align: center;">
+        <strong style="font-size: 1.05rem; color: #1e293b;">${provName}</strong><br/>
+        <span style="font-size: 0.85rem; color: #64748b;">Click to analyze</span>
+      </div>
+    `, { sticky: true });
+
+    // Bắt sự kiện Click để tạo tương tác với người dùng
+    layer.on('click', () => {
+      toast(`Fetching prediction data for ${provName}...`, {
+        icon: '📡',
+        style: {
+          borderRadius: '10px',
+          background: '#1e293b',
+          color: '#fff',
+        },
+      });
+    });
+  };
+
   return (
     <div style={{
       height: '400px',
@@ -41,33 +87,26 @@ const RiskMap: React.FC<RiskMapProps> = ({ data }) => {
       boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)'
     }}>
       <MapContainer 
-        center={[21.0285, 105.8542]} // Tọa độ tĩnh mặc định
-        zoom={12} 
+        center={[16.0, 106.0]} // Tâm giữa Việt Nam
+        zoom={5.5} // Zoom Level nhìn được toàn quốc
         style={{ height: '100%', width: '100%', zIndex: 0 }}
       >
-        <MapUpdater hotspots={data} />
         <TileLayer
           attribution='&copy; <a href="https://carto.com/">Carto</a>'
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         />
-        {(data || []).map(spot => (
-          <CircleMarker
-            key={spot.id}
-            center={spot.coords}
-            pathOptions={{ fillColor: spot.color, color: spot.color, fillOpacity: 0.6 }}
-            radius={spot.risk / 3}
-          >
-            <Tooltip sticky>
-              <strong style={{ fontSize: '1rem', color: '#1e293b' }}>{spot.name}</strong><br/>
-              <span style={{ color: '#475569', fontWeight: 500 }}>Risk Score: </span> 
-              <span style={{ color: spot.color, fontWeight: 700 }}>{spot.risk}</span>
-            </Tooltip>
-            <Popup>
-              <strong>{spot.name}</strong><br/>
-              Risk Level: {spot.risk}
-            </Popup>
-          </CircleMarker>
-        ))}
+        
+        {/* Render Lớp GeoJSON khi dữ liệu đã tải xong. 
+            Cực kỳ quan trọng: Dùng JSON.stringify(data) làm key để ép react-leaflet 
+            phải re-render và tô lại màu mỗi khi danh sách điểm dịch (data) thay đổi. */}
+        {geoData && (
+          <GeoJSON 
+            key={JSON.stringify(data)} 
+            data={geoData} 
+            style={styleProvince} 
+            onEachFeature={onEachProvince} 
+          />
+        )}
       </MapContainer>
     </div>
   );
