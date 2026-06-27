@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
+import { MapContainer, TileLayer, GeoJSON, CircleMarker, Tooltip } from 'react-leaflet';
 import toast from 'react-hot-toast';
 import 'leaflet/dist/leaflet.css';
 
@@ -97,8 +97,7 @@ const RiskMap: React.FC<RiskMapProps> = ({ data }) => {
         />
         
         {/* Render Lớp GeoJSON khi dữ liệu đã tải xong. 
-            Cực kỳ quan trọng: Dùng JSON.stringify(data) làm key để ép react-leaflet 
-            phải re-render và tô lại màu mỗi khi danh sách điểm dịch (data) thay đổi. */}
+            Dùng JSON.stringify(data) làm key để ép react-leaflet re-render. */}
         {geoData && (
           <GeoJSON 
             key={JSON.stringify(data)} 
@@ -107,6 +106,30 @@ const RiskMap: React.FC<RiskMapProps> = ({ data }) => {
             onEachFeature={onEachProvince} 
           />
         )}
+
+        {/* Render Lớp CircleMarker hiển thị chính xác tâm dịch đè lên GeoJSON */}
+        {(data || []).map(spot => {
+          // Bỏ qua nếu tọa độ không hợp lệ
+          if (!spot.coords || spot.coords.length < 2 || spot.coords[0] === 0) return null;
+          
+          return (
+            <CircleMarker
+              key={`marker-${spot.id}`}
+              center={spot.coords}
+              pathOptions={{ color: 'red', fillColor: '#ef4444', fillOpacity: 0.8, weight: 2 }}
+              radius={12}
+            >
+              <Tooltip direction="top" offset={[0, -10]} opacity={1} permanent>
+                <div style={{ fontFamily: 'Inter, sans-serif', textAlign: 'center', minWidth: '100px' }}>
+                  <div style={{ fontWeight: 800, color: '#1e293b', fontSize: '0.95rem' }}>🚨 {spot.name}</div>
+                  <div style={{ color: '#ef4444', fontWeight: 700, fontSize: '0.85rem', marginTop: '2px' }}>
+                    Risk Score: {spot.risk}
+                  </div>
+                </div>
+              </Tooltip>
+            </CircleMarker>
+          );
+        })}
       </MapContainer>
     </div>
   );
