@@ -22,23 +22,23 @@ Decision makers must determine: *Which district receives additional resources? H
 
 ## 3. Our Solution & Current Implementation
 
-QuantumShield Health consists of three integrated intelligence layers. **Hiện tại, phiên bản prototype của dự án (repository này) đã triển khai hoàn thiện Layer 1 và Layer 2, được đóng gói chuyên nghiệp bằng Docker.**
+QuantumShield Health consists of three integrated intelligence layers. **Currently, the prototype version of the project (this repository) has fully implemented Layer 1 and Layer 2, and is professionally containerized using Docker.**
 
 ### 🧠 Layer 1: AI Dengue Forecasting Engine
 The forecasting engine predicts outbreak risks using multiple data sources (Epidemiological, Environmental, Geographic, and Mobility Indicators).
-- **Code Implementation:** Xây dựng bằng Python (Pandas, Scikit-Learn) trong các script AI. Các mô hình sẽ xử lý dữ liệu và xuất kết quả dự báo ra tập tin tập trung tại `artifacts/data.json`.
-- **Output:** Dự báo 7-14 ngày về rủi ro dịch bệnh cho các khu vực giám sát.
+- **Code Implementation:** Built with Python (Pandas, Scikit-Learn) within AI scripts. The models process the data and output predictive results to a centralized file at `artifacts/data.json`.
+- **Output:** 7-to-14-day outbreak risk forecasts for monitored regions.
 
 ### 📊 Layer 2: Public Health Risk Intelligence Dashboard
-Predictions are transformed into actionable insights thông qua giao diện Web thời gian thực.
+Predictions are transformed into actionable insights through a real-time Web dashboard.
 - **Code Implementation:**
-  - **Backend (Edge Node):** Viết bằng Golang, cung cấp kết nối WebSocket siêu nhẹ đẩy dữ liệu thời gian thực và REST API nhận lệnh điều phối.
-  - **Frontend:** Xây dựng bằng React.js (Vite), Framer Motion, Recharts và React-Leaflet (GeoJSON).
+  - **Backend (Edge Node):** Written in Golang, providing a lightweight WebSocket connection to push real-time data and a REST API to receive allocation commands.
+  - **Frontend:** Built with React.js (Vite), Framer Motion, Recharts, and React-Leaflet (GeoJSON).
 - **Features in Prototype:**
-  - **Risk Heatmaps:** Bản đồ tương tác 63 tỉnh thành Việt Nam. Các khu vực rủi ro được tự động nhuộm màu cảnh báo (đỏ/cam).
-  - **Healthcare Demand Forecasting:** Dự đoán số lượng Giường bệnh, Kit xét nghiệm và Nhân lực y tế cần thiết theo thời gian thực.
-  - **AI Analytics Drawer:** Ngăn kéo thông minh (trượt từ phải sang khi click vào bản đồ) hiển thị Insights chuyên sâu: Mật độ muỗi vằn, nhiệt độ, thời gian đạt đỉnh dịch.
-  - **Local Interventions (Command Execution):** Cho phép người điều hành phát lệnh phân bổ nguồn lực trực tiếp tại giao diện. Lệnh sẽ được gửi về Backend và lưu trữ bảo mật tại file `backend/system_audit.log`.
+  - **Risk Heatmaps:** Interactive map of all 63 provinces in Vietnam. Risk areas are automatically color-coded (red/orange) based on alert levels.
+  - **Healthcare Demand Forecasting:** Real-time predictions of the required Hospital Beds, Testing Kits, and Medical Staff.
+  - **AI Analytics Drawer:** A smart sliding drawer (opens from the right upon clicking the map) displaying deep insights: Aedes mosquito density, average temperature, and estimated peak outbreak time.
+  - **Local Interventions (Command Execution):** Allows operators to issue resource allocation commands directly from the UI. The commands are sent to the Backend and securely logged in `backend/system_audit.log`.
 
 ### ⚛️ Layer 3: Quantum Resource Allocation Engine (Future Phase)
 This layer determines how limited healthcare resources should be deployed based on optimization objectives (Minimize infections, Maximize coverage, Minimize costs). Formulated as a Quadratic Unconstrained Binary Optimization (QUBO) problem, we plan to apply QAOA (Quantum Approximate Optimization Algorithm) and D-Wave Hybrid Solvers to explore high-quality resource allocation strategies beyond classical OR-Tools/MILP limits.
@@ -54,31 +54,31 @@ QuantumShield Health aims to become Southeast Asia's intelligent public health o
 
 ---
 
-## 💻 Hướng Dẫn Khởi Chạy & Trải Nghiệm Hệ Thống
+## 💻 Deployment & Experience Guide
 
-Dự án đã được thiết lập kiến trúc Microservices và đóng gói Docker tự động 100%.
+The project is fully configured with a Microservices architecture and is 100% automated using Docker.
 
-### Bước 1: Khởi động hệ thống
-Đảm bảo máy tính của bạn đã bật **Docker Desktop**. Mở Terminal (Git Bash/PowerShell) tại thư mục gốc của dự án (`d:\Project\QuantumShield`) và chạy lệnh:
+### Step 1: Start the System
+Ensure **Docker Desktop** is installed and running on your machine. Open a Terminal (Git Bash/PowerShell) at the root directory of the project (`d:\Project\QuantumShield`) and run the following command:
 ```bash
 docker-compose up -d --build
 ```
-*(Hệ thống sẽ tự tải các file môi trường, biên dịch Go, build gói React tĩnh, và chạy tất cả dịch vụ lên nền tảng Docker ngầm).*
+*(The system will automatically download the required environments, compile Go, build the static React package, and spin up all services seamlessly in the background).*
 
-### Bước 2: Truy cập Dashboard
-Mở trình duyệt web của bạn và truy cập vào địa chỉ:
+### Step 2: Access the Dashboard
+Open your web browser and navigate to:
 👉 **[http://localhost:3000](http://localhost:3000)**
 
-### Bước 3: Kịch bản Trải nghiệm (Test Scenarios)
-Để cảm nhận trọn vẹn kiến trúc mà dự án đã code:
-1. **Dữ liệu Thời gian thực (Real-time Streaming):** Quan sát biểu đồ `7-Day Outbreak Trend` và bảng `Demand Forecasting`. Bạn sẽ thấy biểu đồ uốn lượn và các con số tự động biến động mỗi 3 giây nhờ luồng dữ liệu WebSocket truyền liên tục từ Golang Backend.
-2. **Khám phá Bản đồ GIS:** Rê chuột vào các tỉnh/chấm đỏ trên bản đồ để xem nhãn Tooltip tĩnh. Bản đồ GeoJSON sẽ tự động thay đổi màu sắc phụ thuộc vào danh sách điểm nóng.
-3. **Phân tích Chuyên sâu (AI Analytics Drawer):** **Click** trực tiếp vào một điểm dịch hoặc Tỉnh bất kỳ trên bản đồ. Một ngăn kéo phân tích (Locality Analysis) sẽ trượt mượt mà ra từ cạnh phải, chứa dữ liệu dự đoán AI (Mật độ muỗi vằn mức 4, Thời gian đạt đỉnh...).
-4. **Phát lệnh Điều phối:** Ngay trong ngăn kéo vừa mở, cuộn xuống mục *Local Interventions* và nhấn nút `Execute Local Action`. Một thông báo thành công (Toast xanh lá) sẽ xuất hiện.
-5. **Kiểm tra Edge Node Audit Log:** Mở file `backend/system_audit.log` trong thư mục code. Bạn sẽ thấy Backend Golang đã tiếp nhận chính xác mệnh lệnh điều phối nguồn lực của bạn và ghi lại kèm Mốc thời gian thực chuẩn xác!
+### Step 3: Test Scenarios
+To fully experience the architecture we have built:
+1. **Real-time Streaming Data:** Observe the `7-Day Outbreak Trend` chart and the `Demand Forecasting` table. You will see the chart lines fluctuate and the numbers update smoothly every 3 seconds due to the WebSocket data stream continuously pushed from the Golang Backend.
+2. **Explore the GIS Map:** Hover over the provinces or red dots on the map to view the static Tooltip labels. The GeoJSON map automatically changes colors depending on the hotspot list.
+3. **In-depth Analysis (AI Analytics Drawer):** **Click** directly on a disease hotspot or any Province on the map. An analysis drawer (`Locality Analysis`) will slide out smoothly from the right edge, containing AI predictions (e.g., Mosquito Density Level 4, Peak Time).
+4. **Issue an Allocation Command:** Right inside the newly opened drawer, scroll down to *Local Interventions* and click the `Execute Local Action` button. A success notification (green Toast) will appear.
+5. **Verify Edge Node Audit Log:** Open the `backend/system_audit.log` file in your Code Editor. You will see that the Golang Backend has accurately received your resource allocation command and logged it with an exact real-time timestamp!
 
-### 🛑 Dừng Hệ Thống
-Khi không sử dụng nữa, bạn có thể tắt các container đi bằng lệnh:
+### 🛑 Stop the System
+When you are done, you can stop the containers and free up memory by running:
 ```bash
 docker-compose down
 ```
