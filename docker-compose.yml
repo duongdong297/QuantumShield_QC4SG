@@ -1,0 +1,30 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: quantumshield-backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./artifacts:/app/artifacts
+    restart: unless-stopped
+    networks:
+      - quantum_network
+
+  dashboard:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile
+    container_name: quantumshield-dashboard
+    ports:
+      - "3000:80" # Web sẽ chạy ở cổng 3000, trỏ vào cổng 80 của Nginx
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - quantum_network
+
+networks:
+  quantum_network:
+    driver: bridge
