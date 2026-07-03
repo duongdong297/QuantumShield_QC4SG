@@ -1,22 +1,22 @@
 {
-  "prediction_month": "2023-06",
+  "prediction_month": "202503",
   "alert": {
-    "active": true,
-    "region": "Ho Chi Minh",
-    "probability": 95,
-    "message": "Dengue risk is Critical Risk based on forecasting models."
+    "active": false,
+    "region": "Bến Tre",
+    "probability": 26,
+    "message": "Dengue risk is Low in Bến Tre. Conditions are favorable."
   },
   "forecast": {
-    "beds": 53,
-    "kits": 808,
-    "staffTeams": 5
+    "beds": 12,
+    "kits": 217,
+    "staffTeams": 3
   },
   "hotspots": [
     {
-      "lat": 10.7626,
-      "lng": 106.6601,
-      "region": "Ho Chi Minh",
-      "riskScore": 95
+      "lat": 10.2464,
+      "lng": 106.3756,
+      "region": "Bến Tre",
+      "riskScore": 26
     }
   ]
 }
