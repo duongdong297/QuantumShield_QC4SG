@@ -1,4 +1,4 @@
-province,year_month,temperature,humidity,rainfall
+province,month,temperature,humidity,rainfall
 An Giang,201501,26.7,65.24,0.15
 An Giang,201502,28.37,57.01,0.19
 An Giang,201503,30.79,54.82,0.1

@@ -4,7 +4,7 @@ import requests
 import pandas as pd
 
 coords_file = "raw_data/centroid.csv"
-output_file = "thailand_weather_2015_2025.csv"
+output_file = "vietnam_weather_2015_2025.csv"
 
 
 coords = pd.read_csv(coords_file)

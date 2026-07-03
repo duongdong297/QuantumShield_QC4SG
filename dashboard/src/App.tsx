@@ -53,7 +53,12 @@ const App: React.FC = () => {
 
   // State quản lý Drawer
   const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
-
+  const [weatherData, setWeatherData] = useState<any>(null);
+  const [locationData, setLocationData] = useState<any>(null);
+  const [weatherLoading, setWeatherLoading] = useState<boolean>(false);
+  const [weatherError, setWeatherError] = useState<string | null>(null);
+  const [locationLoading, setLocationLoading] = useState<boolean>(false);
+  const [locationError, setLocationError] = useState<string | null>(null);
   useEffect(() => {
     const ws = new WebSocket('ws://localhost:8080/ws');
 
@@ -124,6 +129,65 @@ const App: React.FC = () => {
       ws.close();
     };
   }, []);
+  // Gọi API tự động khi click vào tỉnh - lấy thời tiết & tọa độ
+  useEffect(() => {
+    if (!selectedProvince) {
+      setWeatherData(null);
+      setLocationData(null);
+      setWeatherError(null);
+      setLocationError(null);
+      return;
+    }
+
+    // Reset loading states
+    setWeatherLoading(true);
+    setLocationLoading(true);
+    setWeatherError(null);
+    setLocationError(null);
+
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    // Gọi API thời tiết
+    fetch(`http://localhost:8080/api/weather?province=${encodeURIComponent(selectedProvince)}`, { signal })
+      .then(res => {
+        if (!res.ok) throw new Error(res.status === 404 ? 'No weather data' : 'Server error');
+        return res.json();
+      })
+      .then(data => {
+        setWeatherData(data);
+        setWeatherLoading(false);
+      })
+      .catch(err => {
+        if (err.name !== 'AbortError') {
+          console.error("Weather API error:", err);
+          setWeatherError(err.message);
+          setWeatherLoading(false);
+        }
+      });
+
+    // Gọi API tọa độ
+    fetch(`http://localhost:8080/api/location?province=${encodeURIComponent(selectedProvince)}`, { signal })
+      .then(res => {
+        if (!res.ok) throw new Error(res.status === 404 ? 'No location data' : 'Server error');
+        return res.json();
+      })
+      .then(data => {
+        setLocationData(data);
+        setLocationLoading(false);
+      })
+      .catch(err => {
+        if (err.name !== 'AbortError') {
+          console.error("Location API error:", err);
+          setLocationError(err.message);
+          setLocationLoading(false);
+        }
+      });
+
+    return () => {
+      controller.abort(); // Hủy request cũ khi chọn tỉnh mới
+    };
+  }, [selectedProvince]);
 
   const handleExecuteAction = async (actionId: string, description: string) => {
     const toastId = toast.loading("Transmitting command to Edge Node...");
@@ -555,7 +619,7 @@ const App: React.FC = () => {
                   </button>
                 </div>
 
-                {/* Khối Quantum AI Insights */}
+                {/* Khối Quantum AI Insights - Weather & Location Data */}
                 <div style={{ marginBottom: '2.5rem' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1rem' }}>
                     <span style={{ fontSize: '1.25rem' }}>🧠</span>
@@ -565,23 +629,68 @@ const App: React.FC = () => {
                   </div>
                   
                   <div style={{ backgroundColor: '#f8fafc', padding: '1.25rem', borderRadius: '12px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    {/* Tọa độ */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ color: '#475569', fontWeight: 500 }}>Aedes Mosquito Density:</span>
-                      <span style={{ color: '#ef4444', fontWeight: 700, backgroundColor: '#fef2f2', padding: '4px 8px', borderRadius: '6px' }}>
-                        High (Level 4)
+                      <span style={{ color: '#475569', fontWeight: 500 }}>📍 Tọa độ:</span>
+                      <span style={{ color: '#1e293b', fontWeight: 700 }}>
+                        {locationLoading ? (
+                          <span style={{ color: '#94a3b8', fontWeight: 400 }}>Đang tải...</span>
+                        ) : locationError ? (
+                          <span style={{ color: '#ef4444', fontWeight: 500, fontSize: '0.85rem' }}>Không có dữ liệu</span>
+                        ) : locationData ? (
+                          `${locationData.lat.toFixed(4)}, ${locationData.lon.toFixed(4)}`
+                        ) : (
+                          <span style={{ color: '#94a3b8', fontWeight: 400 }}>Chưa có dữ liệu</span>
+                        )}
                       </span>
                     </div>
+                    
+                    {/* Nhiệt độ */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ color: '#475569', fontWeight: 500 }}>Average Temperature:</span>
-                      <span style={{ color: '#1e293b', fontWeight: 700 }}>31.5°C</span>
+                      <span style={{ color: '#475569', fontWeight: 500 }}>🌡️ Nhiệt độ:</span>
+                      <span style={{ color: '#1e293b', fontWeight: 700 }}>
+                        {weatherLoading ? (
+                          <span style={{ color: '#94a3b8', fontWeight: 400 }}>Đang tải...</span>
+                        ) : weatherError ? (
+                          <span style={{ color: '#ef4444', fontWeight: 500, fontSize: '0.85rem' }}>Không có dữ liệu</span>
+                        ) : weatherData ? (
+                          `${weatherData.temperature.toFixed(1)}°C`
+                        ) : (
+                          <span style={{ color: '#94a3b8', fontWeight: 400 }}>Chưa có dữ liệu</span>
+                        )}
+                      </span>
                     </div>
+                    
+                    {/* Độ ẩm */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ color: '#475569', fontWeight: 500 }}>Peak Outbreak Est.:</span>
-                      <span style={{ color: '#eab308', fontWeight: 700 }}>14 Days</span>
+                      <span style={{ color: '#475569', fontWeight: 500 }}>💧 Độ ẩm:</span>
+                      <span style={{ color: '#3b82f6', fontWeight: 700 }}>
+                        {weatherLoading ? (
+                          <span style={{ color: '#94a3b8', fontWeight: 400 }}>Đang tải...</span>
+                        ) : weatherError ? (
+                          <span style={{ color: '#ef4444', fontWeight: 500, fontSize: '0.85rem' }}>Không có dữ liệu</span>
+                        ) : weatherData ? (
+                          `${weatherData.humidity.toFixed(1)}%`
+                        ) : (
+                          <span style={{ color: '#94a3b8', fontWeight: 400 }}>Chưa có dữ liệu</span>
+                        )}
+                      </span>
                     </div>
+                    
+                    {/* Lượng mưa */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ color: '#475569', fontWeight: 500 }}>Population at Risk:</span>
-                      <span style={{ color: '#1e293b', fontWeight: 700 }}>1.2M</span>
+                      <span style={{ color: '#475569', fontWeight: 500 }}>🌧️ Lượng mưa:</span>
+                      <span style={{ color: '#eab308', fontWeight: 700 }}>
+                        {weatherLoading ? (
+                          <span style={{ color: '#94a3b8', fontWeight: 400 }}>Đang tải...</span>
+                        ) : weatherError ? (
+                          <span style={{ color: '#ef4444', fontWeight: 500, fontSize: '0.85rem' }}>Không có dữ liệu</span>
+                        ) : weatherData ? (
+                          `${weatherData.rainfall.toFixed(1)} mm`
+                        ) : (
+                          <span style={{ color: '#94a3b8', fontWeight: 400 }}>Chưa có dữ liệu</span>
+                        )}
+                      </span>
                     </div>
                   </div>
                 </div>

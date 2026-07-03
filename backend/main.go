@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gorilla/websocket"
@@ -50,7 +52,18 @@ type ActionRequest struct {
 	ActionID    string `json:"actionId"`
 	Description string `json:"description"`
 }
+type WeatherData struct {
+	Province    string  `json:"province"`
+	Temperature float64 `json:"temperature"`
+	Humidity    float64 `json:"humidity"`
+	Rainfall    float64 `json:"rainfall"`
+}
 
+type LocationData struct {
+	Province string  `json:"province"`
+	Lat      float64 `json:"lat"`
+	Lon      float64 `json:"lon"`
+}
 // --- WebSocket Upgrader ---
 
 var upgrader = websocket.Upgrader{
@@ -156,7 +169,116 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 	
 	log.Println("Client disconnected")
 }
+func handleWeather(w http.ResponseWriter, r *http.Request) {
+	province := r.URL.Query().Get("province")
+	if province == "" {
+		http.Error(w, "Missing province parameter", http.StatusBadRequest)
+		return
+	}
 
+	// Đọc file weather_clean.csv
+	// Đường dẫn: ../data/processed/weather_clean.csv (vì backend chạy trong thư mục backend/)
+	filePath := filepath.Join("..", "data", "processed", "weather_clean.csv")
+	fileBytes, err := os.ReadFile(filePath)
+	if err != nil {
+		http.Error(w, "Cannot read weather data", http.StatusInternalServerError)
+		return
+	}
+
+	// Parse CSV thủ công
+	lines := strings.Split(string(fileBytes), "\n")
+	var latest WeatherData
+	var latestYearMonth string
+	found := false
+
+	for i := 1; i < len(lines); i++ { // i=1 để bỏ qua header
+		line := strings.TrimSpace(lines[i])
+		if line == "" {
+			continue
+		}
+		parts := strings.Split(line, ",")
+		if len(parts) < 5 {
+			continue
+		}
+		// parts[0] = province, parts[1] = year_month, parts[2] = temperature, parts[3] = humidity, parts[4] = rainfall
+		if strings.EqualFold(strings.TrimSpace(parts[0]), province) {
+			yearMonth := strings.TrimSpace(parts[1])
+			// Chỉ lấy bản ghi có year_month lớn nhất (mới nhất)
+			if yearMonth > latestYearMonth {
+				temp, _ := strconv.ParseFloat(strings.TrimSpace(parts[2]), 64)
+				hum, _ := strconv.ParseFloat(strings.TrimSpace(parts[3]), 64)
+				rain, _ := strconv.ParseFloat(strings.TrimSpace(parts[4]), 64)
+				latest = WeatherData{
+					Province:    province,
+					Temperature: temp,
+					Humidity:    hum,
+					Rainfall:    rain,
+				}
+				latestYearMonth = yearMonth
+				found = true
+			}
+		}
+	}
+
+	if !found {
+		http.Error(w, "Province not found", http.StatusNotFound)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(latest)
+}
+
+func handleLocation(w http.ResponseWriter, r *http.Request) {
+	province := r.URL.Query().Get("province")
+	if province == "" {
+		http.Error(w, "Missing province parameter", http.StatusBadRequest)
+		return
+	}
+
+	// Đọc file centroid.csv
+	filePath := filepath.Join("..", "raw_data", "centroid.csv")
+	fileBytes, err := os.ReadFile(filePath)
+	if err != nil {
+		http.Error(w, "Cannot read location data", http.StatusInternalServerError)
+		return
+	}
+
+	lines := strings.Split(string(fileBytes), "\n")
+	var loc LocationData
+	found := false
+
+	for i := 1; i < len(lines); i++ {
+		line := strings.TrimSpace(lines[i])
+		if line == "" {
+			continue
+		}
+		parts := strings.Split(line, ",")
+		if len(parts) < 3 {
+			continue
+		}
+		// parts[0] = province, parts[1] = lat, parts[2] = lon
+		if strings.EqualFold(strings.TrimSpace(parts[0]), province) {
+			lat, _ := strconv.ParseFloat(strings.TrimSpace(parts[1]), 64)
+			lon, _ := strconv.ParseFloat(strings.TrimSpace(parts[2]), 64)
+			loc = LocationData{
+				Province: province,
+				Lat:      lat,
+				Lon:      lon,
+			}
+			found = true
+			break
+		}
+	}
+
+	if !found {
+		http.Error(w, "Province not found", http.StatusNotFound)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(loc)
+}
 // --- Main ---
 
 func main() {
@@ -168,6 +290,8 @@ func main() {
 	// Đăng ký WebSocket
 	mux.HandleFunc("/ws", handleWebSocket)
 
+	mux.HandleFunc("/api/weather", enableCORS(handleWeather))
+	mux.HandleFunc("/api/location", enableCORS(handleLocation))
 	port := ":8080"
 	log.Printf("Server is starting and listening on port %s...", port)
 	
