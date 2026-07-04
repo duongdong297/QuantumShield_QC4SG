@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
 interface ProvinceData {
   province_name: string;
@@ -14,6 +14,12 @@ interface ApiResponse {
   top_provinces: ProvinceData[];
   all_provinces: ProvinceData[];
 }
+
+const COLORS = {
+  Critical: '#ef4444',
+  Warning: '#eab308',
+  Safe: '#10b981'
+};
 
 const ResourceTablesView: React.FC = () => {
   const [data, setData] = useState<ApiResponse | null>(null);
@@ -40,7 +46,7 @@ const ResourceTablesView: React.FC = () => {
       <div className="flex justify-center items-center h-[60vh] bg-slate-950 text-slate-200">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 rounded-full border-4 border-slate-800 border-t-emerald-500 animate-spin" />
-          <p className="text-slate-400 font-semibold tracking-wider">LẤY DỮ LIỆU TÀI NGUYÊN HỆ THỐNG...</p>
+          <p className="text-slate-400 font-semibold tracking-wider">LOADING RESOURCE INTELLIGENCE...</p>
         </div>
       </div>
     );
@@ -49,18 +55,28 @@ const ResourceTablesView: React.FC = () => {
   if (!data) {
     return (
       <div className="p-8 text-center text-red-400 bg-slate-950 min-h-[80vh]">
-        ⚠️ Không thể tải dữ liệu phân bổ tài nguyên từ Edge API. Vui lòng kiểm tra kết nối Server.
+        ⚠️ Failed to load resource allocation data from Edge API. Please check server connection.
       </div>
     );
   }
 
-  // Calculate dynamic stats (no mocks)
+  // Calculate dynamic stats
   const totalProvinces = data.all_provinces.length;
   const criticalCount = data.all_provinces.filter(p => p.status === 'Critical').length;
+  const warningCount = data.all_provinces.filter(p => p.status === 'Warning').length;
+  const safeCount = data.all_provinces.filter(p => p.status === 'Safe').length;
+  
   const avgRisk = totalProvinces > 0 
     ? Math.round(data.all_provinces.reduce((acc, p) => acc + p.risk_score, 0) / totalProvinces) 
     : 0;
   const totalBeds = data.all_provinces.reduce((acc, p) => acc + p.beds_available, 0);
+
+  // Pie chart data
+  const statusDistribution = [
+    { name: 'Critical', value: criticalCount },
+    { name: 'Warning', value: warningCount },
+    { name: 'Safe', value: safeCount }
+  ];
 
   // Filter provinces by search term
   const filteredProvinces = data.all_provinces.filter(prov =>
@@ -111,44 +127,84 @@ const ResourceTablesView: React.FC = () => {
       {/* Real-time KPI Stats Dashboard row */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="bg-slate-900/60 backdrop-blur-md border border-slate-700/50 rounded-xl p-4 shadow-xl flex flex-col justify-between">
-          <span className="text-slate-400 text-xs font-bold uppercase tracking-wider">Tổng Tỉnh Thành</span>
+          <span className="text-slate-400 text-xs font-bold uppercase tracking-wider">Total Provinces</span>
           <span className="text-2xl font-black text-white mt-2">{totalProvinces}</span>
         </div>
         <div className="bg-slate-900/60 backdrop-blur-md border border-slate-700/50 rounded-xl p-4 shadow-xl flex flex-col justify-between">
-          <span className="text-slate-400 text-xs font-bold uppercase tracking-wider">Khu Vực Nguy Cấp</span>
+          <span className="text-slate-400 text-xs font-bold uppercase tracking-wider">Critical Regions</span>
           <span className="text-2xl font-black text-red-400 mt-2">{criticalCount}</span>
         </div>
         <div className="bg-slate-900/60 backdrop-blur-md border border-slate-700/50 rounded-xl p-4 shadow-xl flex flex-col justify-between">
-          <span className="text-slate-400 text-xs font-bold uppercase tracking-wider">Chỉ Số Rủi Ro Trung Bình</span>
+          <span className="text-slate-400 text-xs font-bold uppercase tracking-wider">Avg Risk Score</span>
           <span className="text-2xl font-black text-yellow-400 mt-2">{avgRisk}%</span>
         </div>
         <div className="bg-slate-900/60 backdrop-blur-md border border-slate-700/50 rounded-xl p-4 shadow-xl flex flex-col justify-between">
-          <span className="text-slate-400 text-xs font-bold uppercase tracking-wider">Tổng Giường Bệnh Sẵn Có</span>
+          <span className="text-slate-400 text-xs font-bold uppercase tracking-wider">Total Beds Available</span>
           <span className="text-2xl font-black text-emerald-400 mt-2 font-mono">{totalBeds}</span>
         </div>
       </div>
 
-      {/* Top 5 High-Risk Provinces Card */}
-      <div className="bg-slate-900/60 backdrop-blur-md border border-slate-700/50 rounded-xl p-6 shadow-2xl">
-        <h3 className="text-lg font-bold text-slate-100 flex items-center gap-2 border-b border-slate-800 pb-3">
-          <span>📊</span> Top 5 High-Risk Provinces
-        </h3>
-        <div className="w-full h-80 mt-4">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              layout="vertical"
-              data={data.top_provinces}
-              margin={{ top: 10, right: 30, left: 30, bottom: 10 }}
-            >
-              <XAxis type="number" stroke="#94a3b8" fontSize={11} />
-              <YAxis dataKey="province_name" type="category" stroke="#94a3b8" fontSize={11} width={80} />
-              <Tooltip 
-                contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '8px', color: '#cbd5e1' }}
-                labelStyle={{ fontWeight: 'bold', color: '#fff' }}
-              />
-              <Bar dataKey="risk_score" fill="#ef4444" radius={[0, 4, 4, 0]} barSize={20} />
-            </BarChart>
-          </ResponsiveContainer>
+      {/* Charts Row */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Top 5 High-Risk Provinces Card */}
+        <div className="bg-slate-900/60 backdrop-blur-md border border-slate-700/50 rounded-xl p-6 shadow-2xl">
+          <h3 className="text-lg font-bold text-slate-100 flex items-center gap-2 border-b border-slate-800 pb-3">
+            <span>📊</span> Top 5 High-Risk Provinces
+          </h3>
+          <div className="w-full h-64 mt-4">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                layout="vertical"
+                data={data.top_provinces}
+                margin={{ top: 10, right: 30, left: 30, bottom: 10 }}
+              >
+                <XAxis type="number" stroke="#94a3b8" fontSize={11} />
+                <YAxis dataKey="province_name" type="category" stroke="#94a3b8" fontSize={11} width={80} />
+                <Tooltip 
+                  contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '8px', color: '#cbd5e1' }}
+                  labelStyle={{ fontWeight: 'bold', color: '#fff' }}
+                  cursor={{ fill: 'rgba(255,255,255,0.05)' }}
+                />
+                <Bar dataKey="risk_score" fill="#ef4444" radius={[0, 4, 4, 0]} barSize={20} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Status Distribution Pie Chart */}
+        <div className="bg-slate-900/60 backdrop-blur-md border border-slate-700/50 rounded-xl p-6 shadow-2xl">
+          <h3 className="text-lg font-bold text-slate-100 flex items-center gap-2 border-b border-slate-800 pb-3">
+            <span>🎯</span> Status Distribution
+          </h3>
+          <div className="w-full h-64 mt-4 flex items-center justify-center relative">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={statusDistribution}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={90}
+                  paddingAngle={5}
+                  dataKey="value"
+                  stroke="none"
+                >
+                  {statusDistribution.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[entry.name as keyof typeof COLORS]} />
+                  ))}
+                </Pie>
+                <Tooltip 
+                  contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '8px' }}
+                  itemStyle={{ fontWeight: 'bold' }}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+            {/* Center Label */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+              <span className="text-3xl font-black text-white">{totalProvinces}</span>
+              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Regions</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -162,10 +218,10 @@ const ResourceTablesView: React.FC = () => {
           <div className="relative">
             <input
               type="text"
-              placeholder="Tìm kiếm tỉnh thành, trạng thái..."
+              placeholder="Search regions or status..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="bg-slate-950 border border-slate-800 text-slate-200 placeholder-slate-500 rounded-lg px-4 py-2 text-sm w-full md:w-64 focus:outline-none focus:border-slate-600 transition-colors"
+              className="bg-slate-950 border border-slate-700/80 text-slate-200 placeholder-slate-500 rounded-lg px-4 py-2 text-sm w-full md:w-64 focus:outline-none focus:border-slate-500 transition-colors"
             />
             {searchTerm && (
               <button 
@@ -219,7 +275,7 @@ const ResourceTablesView: React.FC = () => {
               ) : (
                 <tr>
                   <td colSpan={5} className="text-center py-8 text-slate-500 italic">
-                    Không tìm thấy kết quả phù hợp.
+                    No matching regions found.
                   </td>
                 </tr>
               )}
