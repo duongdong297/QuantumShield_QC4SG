@@ -18,5 +18,13 @@
       "riskScore": 100
     }
   ],
-  "trendData": null
+  "trendData": [
+    {"day": "Mon", "infections": 420},
+    {"day": "Tue", "infections": 450},
+    {"day": "Wed", "infections": 510},
+    {"day": "Thu", "infections": 580},
+    {"day": "Fri", "infections": 610},
+    {"day": "Sat", "infections": 590},
+    {"day": "Sun", "infections": 640}
+  ]
 }

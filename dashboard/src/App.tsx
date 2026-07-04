@@ -635,14 +635,18 @@ const App: React.FC = () => {
         setHotspotsData(mappedHotspots);
 
         let trend = data.trendData;
-        if (!trend || trend.length === 0) {
-          const baseVal = data.forecast?.beds || data.alert?.probability || 100;
-          trend = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(day => ({
-            day,
-            infections: Math.max(0, Math.round(baseVal + (Math.random() * 30 - 15)))
-          }));
+        if (trend && trend.length > 0) {
+          setChartData(trend);
+        } else {
+          setChartData((prev: any[]) => {
+            if (prev && prev.length > 0) return prev; // Keep existing random data to prevent jumping
+            const baseVal = data.forecast?.beds || data.alert?.probability || 100;
+            return ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(day => ({
+              day,
+              infections: Math.max(0, Math.round(baseVal + (Math.random() * 30 - 15)))
+            }));
+          });
         }
-        setChartData(trend);
         
         setIsLoading(false);
       } catch (err) {
