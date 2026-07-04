@@ -7,6 +7,7 @@ import SummaryCards from './components/dashboard/SummaryCards';
 import ResourceDemand from './components/dashboard/ResourceDemand';
 import ActionPanel from './components/dashboard/ActionPanel';
 import ResourceTablesView from './components/ResourceTablesView';
+import AuditLogsView from './components/AuditLogsView';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Toaster, toast } from 'react-hot-toast';
 
@@ -256,7 +257,7 @@ const OutbreakMapsView = ({ hotspotsData, setSelectedProvince }: any) => {
     </div>
   );
 };
-const AuditLogsView = () => <div style={{ padding: '2rem', fontSize: '1.25rem', color: '#525f7f' }}>Coming soon</div>;
+
 
 const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayForecast, recommendations, handleExecuteAction, setSelectedProvince }: any) => {
   return (

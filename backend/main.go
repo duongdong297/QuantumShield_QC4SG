@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -58,6 +59,37 @@ type ProvinceInsight struct {
 	Temperature float64 `json:"temperature"`
 	PeakDays    int     `json:"peakDays"`
 	Population  string  `json:"population"`
+}
+
+type AuditLog struct {
+	Timestamp string `json:"timestamp"`
+	Type      string `json:"type"`
+	Message   string `json:"message"`
+}
+
+func appendAuditLog(logType, message string) {
+	logFile, err := os.OpenFile("system_audit.jsonl", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		log.Printf("Error opening audit log file: %v", err)
+		return
+	}
+	defer logFile.Close()
+
+	auditLog := AuditLog{
+		Timestamp: time.Now().Format(time.RFC3339),
+		Type:      logType,
+		Message:   message,
+	}
+
+	jsonBytes, err := json.Marshal(auditLog)
+	if err != nil {
+		log.Printf("Error marshaling audit log: %v", err)
+		return
+	}
+
+	if _, err := logFile.Write(append(jsonBytes, '\n')); err != nil {
+		log.Printf("Error writing audit log: %v", err)
+	}
 }
 
 type ResourceData struct {
@@ -192,21 +224,8 @@ func handleAction(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Mở (hoặc tạo mới) file system_audit.log ở chế độ ghi tiếp (append)
-	logFile, err := os.OpenFile("system_audit.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	if err != nil {
-		log.Printf("Error opening audit log file: %v", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-	defer logFile.Close()
-
-	// Ghi log với timestamp
-	timestamp := time.Now().Format("2006-01-02 15:04:05")
-	logEntry := fmt.Sprintf("[%s] ACTION EXECUTED: %s\n", timestamp, req.Description)
-	if _, err := logFile.WriteString(logEntry); err != nil {
-		log.Printf("Error writing to audit log: %v", err)
-	}
+	// Ghi log qua helper
+	appendAuditLog("HUMAN_ACTION", "Executed action: "+req.ActionID)
 
 	// Trả kết quả JSON về cho Frontend
 	w.Header().Set("Content-Type", "application/json")
@@ -538,9 +557,59 @@ func handleResources(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
+func handleGetLogs(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	file, err := os.Open("system_audit.jsonl")
+	if err != nil {
+		// If file doesn't exist, return empty array
+		if os.IsNotExist(err) {
+			w.Header().Set("Content-Type", "application/json")
+			w.Write([]byte("[]"))
+			return
+		}
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	defer file.Close()
+
+	var logs []AuditLog
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		if strings.TrimSpace(line) == "" {
+			continue
+		}
+		var logEntry AuditLog
+		if err := json.Unmarshal([]byte(line), &logEntry); err == nil {
+			logs = append(logs, logEntry)
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Printf("Error scanning audit logs: %v", err)
+	}
+
+	// Reverse slice to have latest logs first
+	reversedLogs := make([]AuditLog, len(logs))
+	for i, j := 0, len(logs)-1; j >= 0; i, j = i+1, j-1 {
+		reversedLogs[i] = logs[j]
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(reversedLogs)
+}
+
 // --- Main ---
 
 func main() {
+	// Ghi log khởi động hệ thống
+	appendAuditLog("SYSTEM", "Edge Server initialized and loading database")
+	appendAuditLog("SYSTEM", "QuantumShield Command Center operational on port 8080")
+
 	mux := http.NewServeMux()
 
 	// Đăng ký REST API nhận lệnh điều khiển với middleware CORS
@@ -548,6 +617,7 @@ func main() {
 	mux.HandleFunc("/api/insight", enableCORS(handleInsight))
 	mux.HandleFunc("/api/uav-recon", enableCORS(handleUAVRecon))
 	mux.HandleFunc("/api/resources", enableCORS(handleResources))
+	mux.HandleFunc("/api/logs", enableCORS(handleGetLogs))
 	
 	// Đăng ký WebSocket
 	mux.HandleFunc("/ws", handleWebSocket)
