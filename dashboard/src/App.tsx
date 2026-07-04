@@ -84,15 +84,15 @@ const App: React.FC = () => {
         });
 
         setForecastData([
-          { id: 1, label: "Hospital beds", value: `Shortage: ${data.forecast?.beds || 0}`, status: "Critical", color: "#ef4444", progress: 85 },
-          { id: 2, label: "Testing kits", value: `Needed: ${data.forecast?.kits || 0}`, status: "Warning", color: "#eab308", progress: 65 },
-          { id: 3, label: "Medical workforce", value: `Deploy ${data.forecast?.staffTeams || 0} Teams`, status: "Active", color: "#3b82f6", progress: 40 },
+          { id: 1, label: "Hospital beds", value: `Shortage: ${data.forecast?.beds || 0}`, status: "Critical", color: "#f5365c", progress: 85 },
+          { id: 2, label: "Testing kits", value: `Needed: ${data.forecast?.kits || 0}`, status: "Warning", color: "#fb6340", progress: 65 },
+          { id: 3, label: "Medical workforce", value: `Deploy ${data.forecast?.staffTeams || 0} Teams`, status: "Active", color: "#11cdef", progress: 40 },
         ]);
 
         const mappedHotspots = (data.hotspots || []).map((item, index) => {
-          let color = "#eab308"; // Vàng
-          if (item?.riskScore > 80) color = "#ef4444"; // Đỏ
-          else if (item?.riskScore > 60) color = "#f97316"; // Cam
+          let color = "#ffad46"; // Vàng
+          if (item?.riskScore > 80) color = "#f5365c"; // Đỏ
+          else if (item?.riskScore > 60) color = "#fb6340"; // Cam
 
           return {
             id: index + 1,
@@ -198,7 +198,7 @@ const App: React.FC = () => {
       <motion.div 
         animate={{ opacity: [0.5, 1, 0.5] }}
         transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f8fafc', color: '#1e293b', fontSize: '1.25rem', fontWeight: 600 }}
+        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f8f9fe', color: '#5e72e4', fontSize: '1.25rem', fontWeight: 600 }}
       >
         Loading QuantumShield Intelligence...
       </motion.div>
@@ -212,319 +212,448 @@ const App: React.FC = () => {
   };
 
   const displayForecast = forecastData.length > 0 ? forecastData : [
-    { id: 1, label: "Hospital beds", value: "Shortage: 0", status: "Offline", color: "#94a3b8", progress: 0 },
-    { id: 2, label: "Testing kits", value: "Needed: 0", status: "Offline", color: "#94a3b8", progress: 0 },
-    { id: 3, label: "Medical workforce", value: "Deploy 0 Teams", status: "Offline", color: "#94a3b8", progress: 0 },
+    { id: 1, label: "Hospital beds", value: "Shortage: 0", status: "Offline", color: "#adb5bd", progress: 0 },
+    { id: 2, label: "Testing kits", value: "Needed: 0", status: "Offline", color: "#adb5bd", progress: 0 },
+    { id: 3, label: "Medical workforce", value: "Deploy 0 Teams", status: "Offline", color: "#adb5bd", progress: 0 },
   ];
 
   return (
     <div style={{
-      fontFamily: "'Inter', 'Segoe UI', Roboto, sans-serif",
-      backgroundColor: '#f8fafc',
+      fontFamily: "'Open Sans', 'Inter', sans-serif",
+      backgroundColor: '#f8f9fe',
       minHeight: '100vh',
-      padding: '2rem',
-      color: '#0f172a',
-      position: 'relative',
-      overflowX: 'hidden' // Tránh lỗi scroll ngang khi drawer đẩy ra
+      display: 'flex',
+      position: 'relative'
     }}>
       <Toaster position="top-right" />
-      <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
-        
-        {/* Error Banner */}
-        {error && (
-          <div style={{
-            backgroundColor: '#fee2e2',
-            color: '#991b1b',
-            padding: '0.75rem 1rem',
-            borderRadius: '8px',
-            marginBottom: '1.5rem',
-            border: '1px solid #f87171',
+      
+      {/* 1. FIXED LEFT SIDEBAR */}
+      <div style={{
+        width: '250px',
+        backgroundColor: '#ffffff',
+        borderRight: '1px solid #e9ecef',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        zIndex: 100,
+        padding: '1.5rem 1rem',
+        display: 'flex',
+        flexDirection: 'column',
+        overflowY: 'auto'
+      }}>
+        {/* Brand */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '2.5rem', paddingLeft: '0.5rem' }}>
+          <div style={{ 
+            backgroundColor: '#1171ef', 
+            color: '#ffffff', 
+            width: '32px', 
+            height: '32px', 
+            borderRadius: '6px', 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            fontWeight: 800,
+            fontSize: '1.1rem' 
+          }}>A</div>
+          <div>
+            <h2 style={{ fontSize: '1.15rem', fontWeight: 800, margin: 0, color: '#1171ef', letterSpacing: '-0.025em' }}>argon</h2>
+            <span style={{ fontSize: '0.65rem', color: '#8898aa', fontWeight: 700, textTransform: 'uppercase' }}>QuantumShield</span>
+          </div>
+        </div>
+
+        {/* Sidebar Nav Section */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginBottom: '2rem' }}>
+          <div style={{ fontSize: '0.65rem', fontWeight: 800, color: '#adb5bd', textTransform: 'uppercase', letterSpacing: '0.05em', paddingLeft: '0.5rem', marginBottom: '0.5rem' }}>
+            Navigation
+          </div>
+          <a href="#" style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '8px',
-            fontSize: '0.95rem',
-            fontWeight: 500
+            gap: '12px',
+            padding: '10px 12px',
+            borderRadius: '6px',
+            backgroundColor: '#f6f9fc',
+            color: '#5e72e4',
+            fontWeight: 700,
+            fontSize: '0.85rem',
+            cursor: 'pointer',
+            textDecoration: 'none'
           }}>
-            <span>⚠️</span>
-            {error}
-          </div>
-        )}
+            <span>📊</span> Dashboard
+          </a>
+          {['Icons', 'Maps', 'Tables', 'User Profile'].map(item => (
+            <a key={item} href="#" style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              padding: '10px 12px',
+              borderRadius: '6px',
+              color: '#525f7f',
+              fontWeight: 600,
+              fontSize: '0.85rem',
+              cursor: 'pointer',
+              transition: 'background-color 0.2s',
+              textDecoration: 'none'
+            }}
+            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f6f9fc'}
+            onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+            >
+              <span style={{ opacity: 0.7 }}>🔹</span> {item}
+            </a>
+          ))}
+        </div>
 
-        {/* Header */}
-        <header style={{ 
-          marginBottom: '2.5rem', 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '1rem'
-        }}>
-          <div>
-            <h1 style={{ 
-              fontSize: '2.5rem', 
-              fontWeight: 800, 
-              margin: 0,
-              background: 'linear-gradient(90deg, #1e293b 0%, #3b82f6 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              letterSpacing: '-0.02em',
-              lineHeight: 1.4,
-              paddingBottom: '0.2em'
-            }}>
-              QuantumShield: Public Health Risk Intelligence
-            </h1>
-            <p style={{ color: '#64748b', fontSize: '1.1rem', marginTop: '0.5rem', fontWeight: 500 }}>
-              AI-Powered Real-time Monitoring & Forecasting
-            </p>
+        {/* Sidebar API Reference Section */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <div style={{ fontSize: '0.65rem', fontWeight: 800, color: '#adb5bd', textTransform: 'uppercase', letterSpacing: '0.05em', paddingLeft: '0.5rem', marginBottom: '0.5rem' }}>
+            Argon API Endpoints
           </div>
           
-          {/* Live System Badge */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            padding: '8px 16px',
-            backgroundColor: 'rgba(34, 197, 94, 0.1)',
-            border: '1px solid rgba(34, 197, 94, 0.2)',
-            borderRadius: '9999px',
-            boxShadow: '0 0 10px rgba(34, 197, 94, 0.1)'
-          }}>
-            <span style={{
-              width: '8px',
-              height: '8px',
-              backgroundColor: '#22c55e',
-              borderRadius: '50%',
-              boxShadow: '0 0 8px #22c55e',
-              animation: 'pulse 2s infinite'
-            }}></span>
-            <span style={{ color: '#166534', fontWeight: 600, fontSize: '0.875rem', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-              Live System
-            </span>
-          </div>
-        </header>
-
-        {/* Early Warning Alerts */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0 }}
-          style={{
-            background: 'linear-gradient(135deg, #ef4444 0%, #f97316 100%)',
-            padding: '1.5rem 2rem',
-            borderRadius: '16px',
-            boxShadow: '0 10px 25px -5px rgba(239, 68, 68, 0.4), 0 8px 10px -6px rgba(239, 68, 68, 0.1)',
-            marginBottom: '2rem',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '1.25rem',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            color: '#ffffff'
-          }}
-        >
-          <span style={{ fontSize: '2.5rem', filter: 'drop-shadow(0 0 8px rgba(255,255,255,0.4))' }}>🚨</span>
-          <div>
-            <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 700, letterSpacing: '0.025em' }}>
-              {displayAlert.title}
-            </h3>
-            <p style={{ margin: '0.25rem 0 0 0', fontWeight: 500, fontSize: '1.05rem', opacity: 0.9 }}>
-              {displayAlert.message}
-            </p>
-          </div>
-        </motion.div>
-
-        {/* Main Grid Layout */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '1.5rem' }}>
-          
-          {/* Left Column: Maps & Charts */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }} className="card-heatmaps">
-            {/* Risk Heatmaps */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              style={{
-                backgroundColor: '#ffffff',
-                borderRadius: '16px',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02)',
-                border: '1px solid rgba(255, 255, 255, 0.8)',
-                padding: '1.5rem',
-                backdropFilter: 'blur(10px)',
-              }}
-            >
-              <h2 style={{ fontSize: '1.25rem', marginTop: 0, marginBottom: '1.25rem', color: '#1e293b', fontWeight: 700 }}>
-                Geospatial Risk Intelligence
-              </h2>
-              <RiskMap 
-                data={hotspotsData} 
-                onProvinceClick={(province) => setSelectedProvince(province)} 
-              />
-            </motion.div>
-
-            {/* Infection Trend Chart */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              style={{
-                backgroundColor: '#ffffff',
-                borderRadius: '16px',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02)',
-                border: '1px solid rgba(255, 255, 255, 0.8)',
-                padding: '1.5rem',
-                backdropFilter: 'blur(10px)',
-              }}
-            >
-              <h2 style={{ fontSize: '1.25rem', marginTop: 0, marginBottom: '1.25rem', color: '#1e293b', fontWeight: 700 }}>
-                7-Day Outbreak Trend (Predicted Cases)
-              </h2>
-              <InfectionTrendChart data={chartData} />
-            </motion.div>
-          </div>
-
-          {/* Right Column: Forecasting & Recommendations */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }} className="card-right-col">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingLeft: '0.5rem' }}>
+            <div style={{ fontSize: '0.75rem', color: '#525f7f' }}>
+              <span style={{ fontWeight: 700, color: '#2dce89', fontSize: '0.65rem', display: 'block' }}>POST /users/login</span>
+              <span style={{ fontSize: '0.65rem', color: '#8898aa' }}>email, password</span>
+            </div>
             
-            {/* Healthcare Demand Forecasting */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              style={{
-                backgroundColor: '#ffffff',
-                borderRadius: '16px',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02)',
-                border: '1px solid rgba(255, 255, 255, 0.8)',
-                padding: '1.5rem'
-              }}
-            >
-              <h2 style={{ fontSize: '1.25rem', marginTop: 0, marginBottom: '1.5rem', color: '#1e293b', fontWeight: 700 }}>
-                Demand Forecasting <span style={{fontSize: '0.875rem', color: '#94a3b8', fontWeight: 500, marginLeft: '4px'}}>(14 Days)</span>
-              </h2>
-              
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                {displayForecast.map(item => (
-                  <div key={item.id} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontWeight: 600, color: '#334155', fontSize: '0.95rem' }}>{item.label}</span>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ fontWeight: 700, color: item.color }}>{item.value}</span>
-                        <span style={{ 
-                          fontSize: '0.7rem', 
-                          fontWeight: 700, 
-                          textTransform: 'uppercase', 
-                          padding: '2px 6px', 
-                          borderRadius: '4px',
-                          backgroundColor: `${item.color}20`,
-                          color: item.color
-                        }}>
-                          {item.status}
-                        </span>
-                      </div>
-                    </div>
-                    <div style={{ width: '100%', backgroundColor: '#f1f5f9', borderRadius: '999px', height: '8px', overflow: 'hidden' }}>
-                      <div style={{ 
-                        width: `${item.progress}%`, 
-                        backgroundColor: item.color, 
-                        height: '100%', 
-                        borderRadius: '999px',
-                        boxShadow: `0 0 8px ${item.color}80`
-                      }}></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
+            <div style={{ fontSize: '0.75rem', color: '#525f7f' }}>
+              <span style={{ fontWeight: 700, color: '#fb6340', fontSize: '0.65rem', display: 'block' }}>POST /users/logout</span>
+              <span style={{ fontSize: '0.65rem', color: '#8898aa' }}>Requires token</span>
+            </div>
 
-            {/* Quantum-Optimized Recommendations */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              style={{
-                background: 'linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)',
-                borderRadius: '16px',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02)',
-                border: '1px solid rgba(255, 255, 255, 0.8)',
-                padding: '1.5rem',
-                flex: 1
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1.25rem' }}>
-                <span style={{ fontSize: '1.25rem' }}>✨</span>
-                <h2 style={{ fontSize: '1.25rem', margin: 0, color: '#1e293b', fontWeight: 700 }}>
-                  Quantum-Optimized Actions
+            <div style={{ fontSize: '0.75rem', color: '#525f7f' }}>
+              <span style={{ fontWeight: 700, color: '#11cdef', fontSize: '0.65rem', display: 'block' }}>POST /users/checkSession</span>
+              <span style={{ fontSize: '0.65rem', color: '#8898aa' }}>Session validator</span>
+            </div>
+
+            <div style={{ fontSize: '0.75rem', color: '#525f7f' }}>
+              <span style={{ fontWeight: 700, color: '#5e72e4', fontSize: '0.65rem', display: 'block' }}>GET /api/insight</span>
+              <span style={{ fontSize: '0.65rem', color: '#8898aa' }}>Dynamic province details</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. MAIN CONTENT WRAPPER */}
+      <div style={{
+        marginLeft: '250px',
+        flex: 1,
+        minWidth: 0,
+        display: 'flex',
+        flexDirection: 'column'
+      }}>
+        
+        {/* TOP BLUE HEADER BLOCK */}
+        <div style={{
+          background: 'linear-gradient(87deg, #11cdef 0, #1171ef 100%)',
+          padding: '1.75rem 2rem 7.5rem 2rem',
+          color: '#ffffff'
+        }}>
+          {/* Top Navbar */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
+            <div>
+              <span style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', opacity: 0.8 }}>Pages</span>
+              <h1 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>Dashboard</h1>
+            </div>
+            
+            <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+              <div style={{
+                backgroundColor: 'rgba(255,255,255,0.15)',
+                borderRadius: '9999px',
+                padding: '5px 15px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                fontSize: '0.8rem',
+                border: '1px solid rgba(255,255,255,0.2)'
+              }}>
+                <span style={{ width: '6px', height: '6px', backgroundColor: '#2dce89', borderRadius: '50%' }} />
+                <span style={{ fontWeight: 600 }}>Operational</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: '#f6f9fc', color: '#525f7f', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700 }}>A</div>
+                <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>Argon Admin</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* FLOATING KPI CARDS ROW & MAIN GRID CONTAINER */}
+        <div style={{
+          padding: '0 2rem 2rem 2rem',
+          marginTop: '-5rem', // Pulls elements up into the blue block
+          flex: 1
+        }}>
+          {/* Error Banner */}
+          {error && (
+            <div style={{
+              backgroundColor: '#f5365c',
+              color: '#ffffff',
+              padding: '0.75rem 1rem',
+              borderRadius: '6px',
+              marginBottom: '1.5rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              fontSize: '0.85rem',
+              fontWeight: 600
+            }}>
+              <span>⚠️</span>
+              {error}
+            </div>
+          )}
+
+          {/* Early Warning Alerts */}
+          {displayAlert && (
+            <div style={{
+              background: 'linear-gradient(135deg, #f5365c 0%, #fb6340 100%)',
+              padding: '1rem 1.25rem',
+              borderRadius: '6px',
+              boxShadow: '0 4px 6px rgba(50,50,93,.11),0 1px 3px rgba(0,0,0,.08)',
+              marginBottom: '1.5rem',
+              color: '#ffffff'
+            }}>
+              <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 700 }}>
+                {displayAlert.title}
+              </h3>
+              <p style={{ margin: '0.2rem 0 0 0', fontSize: '0.8rem', opacity: 0.9 }}>
+                {displayAlert.message}
+              </p>
+            </div>
+          )}
+          
+          {/* 4 Floating KPI Cards */}
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', 
+            gap: '1.5rem', 
+            marginBottom: '2rem' 
+          }}>
+            {/* KPI 1 */}
+            <div style={{ backgroundColor: '#ffffff', borderRadius: '6px', padding: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 0 2rem 0 rgba(136, 152, 170, .15)', border: 'none' }}>
+              <div>
+                <span style={{ fontSize: '0.7rem', color: '#8898aa', fontWeight: 700, textTransform: 'uppercase' }}>Coverage</span>
+                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#32325d', marginTop: '4px' }}>63 Provinces</div>
+                <span style={{ fontSize: '0.75rem', color: '#2dce89', fontWeight: 600, display: 'block', marginTop: '8px' }}>↑ 100.0% coverage</span>
+              </div>
+              <div style={{ backgroundColor: '#fb6340', color: '#ffffff', width: '42px', height: '42px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem' }}>🗺️</div>
+            </div>
+
+            {/* KPI 2 */}
+            <div style={{ backgroundColor: '#ffffff', borderRadius: '6px', padding: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 0 2rem 0 rgba(136, 152, 170, .15)', border: 'none' }}>
+              <div>
+                <span style={{ fontSize: '0.7rem', color: '#8898aa', fontWeight: 700, textTransform: 'uppercase' }}>Hotspots</span>
+                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#32325d', marginTop: '4px' }}>{hotspotsData.length} Zones</div>
+                <span style={{ fontSize: '0.75rem', color: '#f5365c', fontWeight: 600, display: 'block', marginTop: '8px' }}>↓ Risk Score &gt; 60</span>
+              </div>
+              <div style={{ backgroundColor: '#f5365c', color: '#ffffff', width: '42px', height: '42px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem' }}>🚨</div>
+            </div>
+
+            {/* KPI 3 */}
+            <div style={{ backgroundColor: '#ffffff', borderRadius: '6px', padding: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 0 2rem 0 rgba(136, 152, 170, .15)', border: 'none' }}>
+              <div>
+                <span style={{ fontSize: '0.7rem', color: '#8898aa', fontWeight: 700, textTransform: 'uppercase' }}>Bed Demand</span>
+                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#32325d', marginTop: '4px' }}>Active Needs</div>
+                <span style={{ fontSize: '0.75rem', color: '#fb6340', fontWeight: 600, display: 'block', marginTop: '8px' }}>↑ Capacity Warning</span>
+              </div>
+              <div style={{ backgroundColor: '#ffad46', color: '#ffffff', width: '42px', height: '42px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem' }}>🏥</div>
+            </div>
+
+            {/* KPI 4 */}
+            <div style={{ backgroundColor: '#ffffff', borderRadius: '6px', padding: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 0 2rem 0 rgba(136, 152, 170, .15)', border: 'none' }}>
+              <div>
+                <span style={{ fontSize: '0.7rem', color: '#8898aa', fontWeight: 700, textTransform: 'uppercase' }}>Allocation</span>
+                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#32325d', marginTop: '4px' }}>+18.4% Rate</div>
+                <span style={{ fontSize: '0.75rem', color: '#2dce89', fontWeight: 600, display: 'block', marginTop: '8px' }}>↑ Quantum Optimized</span>
+              </div>
+              <div style={{ backgroundColor: '#11cdef', color: '#ffffff', width: '42px', height: '42px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem' }}>⚡</div>
+            </div>
+          </div>
+
+          {/* Main Grid: 2 Columns */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '1.5rem' }}>
+            
+            {/* Left Column: Map & Chart */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', gridColumn: 'span 8' }} className="card-heatmaps">
+              {/* Geospatial Map */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                style={{
+                  backgroundColor: '#ffffff',
+                  borderRadius: '6px',
+                  boxShadow: '0 0 2rem 0 rgba(136, 152, 170, .15)',
+                  border: 'none',
+                  padding: '1.25rem',
+                }}
+              >
+                <h2 style={{ fontSize: '1rem', marginTop: 0, marginBottom: '1rem', color: '#32325d', fontWeight: 800 }}>
+                  Geospatial Risk Intelligence (Viet Nam)
                 </h2>
-              </div>
+                <RiskMap 
+                  data={hotspotsData} 
+                  onProvinceClick={(province) => setSelectedProvince(province)} 
+                />
+              </motion.div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                {recommendations.map(rec => (
-                  <div key={rec.id} style={{
-                    backgroundColor: '#ffffff',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '12px',
-                    padding: '1.25rem',
-                    boxShadow: '0 2px 4px rgba(0,0,0,0.02)',
-                    transition: 'transform 0.2s, box-shadow 0.2s',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '12px'
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0,0,0,0.05)';
-                    e.currentTarget.style.borderColor = '#cbd5e1';
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 2px 4px rgba(0,0,0,0.02)';
-                    e.currentTarget.style.borderColor = '#e2e8f0';
-                  }}>
-                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                      <div style={{
-                        minWidth: '24px',
-                        height: '24px',
-                        borderRadius: '50%',
-                        backgroundColor: '#ecfdf5',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: '#10b981',
-                        border: '1px solid #a7f3d0'
-                      }}>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                      </div>
-                      <p style={{ margin: 0, color: '#334155', fontSize: '0.95rem', lineHeight: 1.5, fontWeight: 500 }}>
-                        {rec.text}
-                      </p>
-                    </div>
-                    
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '4px' }}>
-                      <button style={{
-                        backgroundColor: '#1e293b',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '6px',
-                        padding: '6px 12px',
-                        fontSize: '0.8rem',
-                        fontWeight: 600,
-                        cursor: 'pointer',
-                        boxShadow: '0 2px 4px rgba(15, 23, 42, 0.2)',
-                        transition: 'background-color 0.2s'
-                      }}
-                      onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#334155'}
-                      onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#1e293b'}
-                      onClick={() => handleExecuteAction(`ACT_${rec.id}`, rec.text)}
-                      >
-                        Execute Action
-                      </button>
-                    </div>
+              {/* Infection Trend (Dark Card matching Argon "Sales value") */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                style={{
+                  backgroundColor: '#172b4d', // Dark Navy
+                  borderRadius: '6px',
+                  boxShadow: '0 0 2rem 0 rgba(136, 152, 170, .15)',
+                  border: 'none',
+                  padding: '1.25rem',
+                  color: '#ffffff'
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                  <div>
+                    <span style={{ fontSize: '0.65rem', color: '#8898aa', fontWeight: 700, textTransform: 'uppercase' }}>Overview</span>
+                    <h2 style={{ fontSize: '1rem', margin: '2px 0 0 0', color: '#ffffff', fontWeight: 800 }}>
+                      7-Day Outbreak Trend (Predicted Cases)
+                    </h2>
                   </div>
-                ))}
-              </div>
-            </motion.div>
+                </div>
+                <InfectionTrendChart data={chartData} />
+              </motion.div>
+            </div>
+
+            {/* Right Column: Demand Forecasting & Recommended Actions */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', gridColumn: 'span 4' }} className="card-right-col">
+              
+              {/* Demand Forecasting */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                style={{
+                  backgroundColor: '#ffffff',
+                  borderRadius: '6px',
+                  boxShadow: '0 0 2rem 0 rgba(136, 152, 170, .15)',
+                  border: 'none',
+                  padding: '1.25rem'
+                }}
+              >
+                <h2 style={{ fontSize: '1rem', marginTop: 0, marginBottom: '1.25rem', color: '#32325d', fontWeight: 800 }}>
+                  Resource Demand Forecasting <span style={{fontSize: '0.75rem', color: '#8898aa', fontWeight: 500}}>(14 Days)</span>
+                </h2>
+                
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                  {displayForecast.map(item => (
+                    <div key={item.id} style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ fontWeight: 700, color: '#525f7f', fontSize: '0.8rem' }}>{item.label}</span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <span style={{ fontWeight: 800, color: item.color, fontSize: '0.8rem' }}>{item.value}</span>
+                          <span style={{ 
+                            fontSize: '0.6rem', 
+                            fontWeight: 700, 
+                            textTransform: 'uppercase', 
+                            padding: '2px 6px', 
+                            borderRadius: '4px',
+                            backgroundColor: `${item.color}15`,
+                            color: item.color
+                          }}>
+                            {item.status}
+                          </span>
+                        </div>
+                      </div>
+                      <div style={{ width: '100%', backgroundColor: '#e9ecef', borderRadius: '999px', height: '6px', overflow: 'hidden' }}>
+                        <div style={{ 
+                          width: `${item.progress}%`, 
+                          backgroundColor: item.color, 
+                          height: '100%', 
+                          borderRadius: '999px'
+                        }}></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Quantum-Optimized Actions */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+                style={{
+                  backgroundColor: '#ffffff',
+                  borderRadius: '6px',
+                  boxShadow: '0 0 2rem 0 rgba(136, 152, 170, .15)',
+                  border: 'none',
+                  padding: '1.25rem',
+                  flex: 1
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1.25rem' }}>
+                  <span style={{ fontSize: '1.1rem' }}>✨</span>
+                  <h2 style={{ fontSize: '1rem', margin: 0, color: '#32325d', fontWeight: 800 }}>
+                    Quantum-Optimized Actions
+                  </h2>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                  {recommendations.map(rec => (
+                    <div key={rec.id} style={{
+                      backgroundColor: '#f8f9fe',
+                      border: '1px solid #e9ecef',
+                      borderRadius: '6px',
+                      padding: '1rem',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '10px'
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                        <div style={{
+                          minWidth: '18px',
+                          height: '18px',
+                          borderRadius: '50%',
+                          backgroundColor: '#ecfdf5',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: '#2dce89',
+                          border: '1px solid #a7f3d0'
+                        }}>
+                          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                          </svg>
+                        </div>
+                        <p style={{ margin: 0, color: '#525f7f', fontSize: '0.8rem', lineHeight: 1.4, fontWeight: 600 }}>
+                          {rec.text}
+                        </p>
+                      </div>
+                      
+                      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <button style={{
+                          backgroundColor: '#5e72e4',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          padding: '5px 10px',
+                          fontSize: '0.75rem',
+                          fontWeight: 700,
+                          cursor: 'pointer',
+                          boxShadow: '0 4px 6px rgba(50,50,93,.11),0 1px 3px rgba(0,0,0,.08)',
+                          transition: 'background-color 0.2s'
+                        }}
+                        onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#324cdd'}
+                        onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#5e72e4'}
+                        onClick={() => handleExecuteAction(`ACT_${rec.id}`, rec.text)}
+                        >
+                          Execute Action
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
           </div>
         </div>
 
@@ -532,7 +661,7 @@ const App: React.FC = () => {
         <AnimatePresence>
           {selectedProvince && (
             <>
-              {/* Backdrop mờ */}
+              {/* Backdrop */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -541,13 +670,13 @@ const App: React.FC = () => {
                 style={{
                   position: 'fixed',
                   inset: 0,
-                  backgroundColor: 'rgba(15, 23, 42, 0.4)',
+                  backgroundColor: 'rgba(0, 0, 0, 0.4)',
                   backdropFilter: 'blur(4px)',
-                  zIndex: 40
+                  zIndex: 200
                 }}
               />
               
-              {/* Cửa sổ Drawer trượt từ phải sang */}
+              {/* Drawer slide-out panel */}
               <motion.div
                 initial={{ x: '100%' }}
                 animate={{ x: 0 }}
@@ -558,55 +687,56 @@ const App: React.FC = () => {
                   top: 0,
                   right: 0,
                   height: '100vh',
-                  width: '420px',
+                  width: '400px',
                   maxWidth: '100vw',
                   backgroundColor: '#ffffff',
-                  boxShadow: '-10px 0 30px rgba(0, 0, 0, 0.1)',
-                  zIndex: 50,
+                  boxShadow: '-10px 0 30px rgba(0, 0, 0, 0.05)',
+                  zIndex: 250,
                   padding: '2rem',
                   display: 'flex',
                   flexDirection: 'column',
-                  overflowY: 'auto'
+                  overflowY: 'auto',
+                  borderLeft: '1px solid #e9ecef'
                 }}
               >
-                {/* Header của Drawer */}
+                {/* Header */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem' }}>
                   <div>
-                    <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#3b82f6', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#5e72e4', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                       Locality Analysis
                     </span>
-                    <h2 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0f172a', margin: '4px 0 0 0', lineHeight: 1.2 }}>
+                    <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#32325d', margin: '4px 0 0 0', lineHeight: 1.2 }}>
                       {selectedProvince}
                     </h2>
                   </div>
                   <button 
                     onClick={() => setSelectedProvince(null)} 
                     style={{ 
-                      background: '#f1f5f9', 
+                      background: '#f6f9fc', 
                       border: 'none', 
                       borderRadius: '50%',
-                      width: '36px',
-                      height: '36px',
+                      width: '32px',
+                      height: '32px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '1.2rem', 
+                      fontSize: '1rem', 
                       cursor: 'pointer', 
-                      color: '#64748b',
+                      color: '#8898aa',
                       transition: 'all 0.2s'
                     }}
-                    onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#e2e8f0'; e.currentTarget.style.color = '#0f172a'; }}
-                    onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#64748b'; }}
+                    onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#e9ecef'; e.currentTarget.style.color = '#32325d'; }}
+                    onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#f6f9fc'; e.currentTarget.style.color = '#8898aa'; }}
                   >
                     ✕
                   </button>
                 </div>
 
-                  {/* Khối Quantum AI Insights */}
-                <div style={{ marginBottom: '2.5rem' }}>
+                {/* Quantum AI Insights */}
+                <div style={{ marginBottom: '2rem' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1rem' }}>
-                    <span style={{ fontSize: '1.25rem' }}>🧠</span>
-                    <h3 style={{ fontSize: '1.1rem', margin: 0, color: '#1e293b', fontWeight: 700 }}>
+                    <span style={{ fontSize: '1.1rem' }}>🧠</span>
+                    <h3 style={{ fontSize: '1rem', margin: 0, color: '#32325d', fontWeight: 800 }}>
                       Quantum AI Insights
                     </h3>
                   </div>
@@ -614,69 +744,71 @@ const App: React.FC = () => {
                   {isAnalyzing ? (
                     // --- LOADING SPINNER ---
                     <div style={{
-                      backgroundColor: '#f8fafc',
+                      backgroundColor: '#f8f9fe',
                       padding: '2rem 1.25rem',
-                      borderRadius: '12px',
-                      border: '1px solid #e2e8f0',
+                      borderRadius: '6px',
+                      border: '1px solid #e9ecef',
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
                       gap: '16px'
                     }}>
                       <div style={{
-                        width: '40px',
-                        height: '40px',
+                        width: '32px',
+                        height: '32px',
                         borderRadius: '50%',
-                        border: '3px solid #e2e8f0',
-                        borderTopColor: '#3b82f6',
+                        border: '3px solid #e9ecef',
+                        borderTopColor: '#5e72e4',
                         animation: 'spin 0.8s linear infinite'
                       }} />
-                      <p style={{ margin: 0, color: '#64748b', fontSize: '0.9rem', fontWeight: 500, textAlign: 'center' }}>
+                      <p style={{ margin: 0, color: '#8898aa', fontSize: '0.85rem', fontWeight: 600, textAlign: 'center' }}>
                         Quantum AI is analyzing<br />
-                        <span style={{ color: '#3b82f6', fontWeight: 700 }}>{selectedProvince}</span>...
+                        <span style={{ color: '#5e72e4', fontWeight: 700 }}>{selectedProvince}</span>...
                       </p>
                     </div>
                   ) : insightData ? (
                     // --- INSIGHT DATA ---
-                    <div style={{ backgroundColor: '#f8fafc', padding: '1.25rem', borderRadius: '12px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <div style={{ backgroundColor: '#f8f9fe', padding: '1.25rem', borderRadius: '6px', border: '1px solid #e9ecef', display: 'flex', flexDirection: 'column', gap: '14px' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ color: '#475569', fontWeight: 500 }}>Aedes Mosquito Density:</span>
+                        <span style={{ color: '#525f7f', fontWeight: 600, fontSize: '0.8rem' }}>Mosquito Density:</span>
                         <span style={{
-                          color: insightData.density.startsWith('Critical') ? '#ef4444' : insightData.density.startsWith('High') ? '#f97316' : '#eab308',
+                          color: insightData.density.startsWith('Critical') ? '#f5365c' : insightData.density.startsWith('High') ? '#fb6340' : '#ffad46',
                           fontWeight: 700,
-                          backgroundColor: insightData.density.startsWith('Critical') ? '#fef2f2' : insightData.density.startsWith('High') ? '#fff7ed' : '#fefce8',
-                          padding: '4px 8px',
-                          borderRadius: '6px'
+                          fontSize: '0.75rem',
+                          backgroundColor: insightData.density.startsWith('Critical') ? '#fef2f2' : insightData.density.startsWith('High') ? '#ffedd5' : '#fef9c3',
+                          padding: '3px 10px',
+                          borderRadius: '4px',
+                          border: `1px solid ${insightData.density.startsWith('Critical') ? '#fca5a5' : insightData.density.startsWith('High') ? '#fed7aa' : '#fef08a'}`
                         }}>
                           {insightData.density}
                         </span>
                       </div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ color: '#475569', fontWeight: 500 }}>Average Temperature:</span>
-                        <span style={{ color: '#1e293b', fontWeight: 700 }}>{insightData.temperature.toFixed(1)}°C</span>
+                        <span style={{ color: '#525f7f', fontWeight: 600, fontSize: '0.8rem' }}>Temperature:</span>
+                        <span style={{ color: '#32325d', fontWeight: 700, fontSize: '0.8rem' }}>{insightData.temperature.toFixed(1)}°C</span>
                       </div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ color: '#475569', fontWeight: 500 }}>Peak Outbreak Est.:</span>
-                        <span style={{ color: '#eab308', fontWeight: 700 }}>{insightData.peakDays} Days</span>
+                        <span style={{ color: '#525f7f', fontWeight: 600, fontSize: '0.8rem' }}>Peak Outbreak Est.:</span>
+                        <span style={{ color: '#fb6340', fontWeight: 700, fontSize: '0.8rem' }}>{insightData.peakDays} Days</span>
                       </div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ color: '#475569', fontWeight: 500 }}>Population at Risk:</span>
-                        <span style={{ color: '#1e293b', fontWeight: 700 }}>{insightData.population}</span>
+                        <span style={{ color: '#525f7f', fontWeight: 600, fontSize: '0.8rem' }}>Population at Risk:</span>
+                        <span style={{ color: '#32325d', fontWeight: 700, fontSize: '0.8rem' }}>{insightData.population}</span>
                       </div>
                     </div>
                   ) : (
-                    // --- ERROR / NO DATA ---
-                    <div style={{ backgroundColor: '#fef2f2', padding: '1.25rem', borderRadius: '12px', border: '1px solid #fecaca', color: '#991b1b', fontSize: '0.9rem', textAlign: 'center' }}>
+                    // --- ERROR ---
+                    <div style={{ backgroundColor: '#fef2f2', padding: '1.25rem', borderRadius: '6px', border: '1px solid #fca5a5', color: '#f5365c', fontSize: '0.8rem', textAlign: 'center' }}>
                       ⚠️ Could not load insight data. Make sure the backend is running.
                     </div>
                   )}
                 </div>
 
-                {/* Khối nút Hành động Điều phối */}
+                {/* Local Interventions */}
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1rem' }}>
-                    <span style={{ fontSize: '1.25rem' }}>⚡</span>
-                    <h3 style={{ fontSize: '1.1rem', margin: 0, color: '#1e293b', fontWeight: 700 }}>
+                    <span style={{ fontSize: '1.1rem' }}>⚡</span>
+                    <h3 style={{ fontSize: '1rem', margin: 0, color: '#32325d', fontWeight: 800 }}>
                       Local Interventions
                     </h3>
                   </div>
@@ -685,32 +817,31 @@ const App: React.FC = () => {
                     {recommendations.map(rec => (
                       <div key={rec.id} style={{
                         backgroundColor: '#ffffff',
-                        border: '1px solid #e2e8f0',
-                        borderRadius: '12px',
-                        padding: '1.25rem',
-                        boxShadow: '0 2px 4px rgba(0,0,0,0.02)',
+                        border: '1px solid #e9ecef',
+                        borderRadius: '6px',
+                        padding: '1rem',
                         display: 'flex',
                         flexDirection: 'column',
-                        gap: '12px'
+                        gap: '10px',
+                        boxShadow: '0 1px 2px rgba(0,0,0,0.02)'
                       }}>
-                        <p style={{ margin: 0, color: '#334155', fontSize: '0.95rem', lineHeight: 1.5, fontWeight: 500 }}>
+                        <p style={{ margin: 0, color: '#525f7f', fontSize: '0.8rem', lineHeight: 1.4, fontWeight: 500 }}>
                           {rec.text}
                         </p>
                         <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '4px' }}>
                           <button style={{
-                            backgroundColor: '#3b82f6',
+                            backgroundColor: '#5e72e4',
                             color: 'white',
                             border: 'none',
-                            borderRadius: '6px',
-                            padding: '8px 14px',
-                            fontSize: '0.85rem',
-                            fontWeight: 600,
+                            borderRadius: '4px',
+                            padding: '6px 12px',
+                            fontSize: '0.75rem',
+                            fontWeight: 700,
                             cursor: 'pointer',
-                            boxShadow: '0 2px 4px rgba(59, 130, 246, 0.3)',
-                            transition: 'background-color 0.2s'
+                            boxShadow: '0 4px 6px rgba(50,50,93,.11),0 1px 3px rgba(0,0,0,.08)'
                           }}
-                          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#2563eb'}
-                          onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#3b82f6'}
+                          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#324cdd'}
+                          onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#5e72e4'}
                           onClick={() => handleExecuteAction(`LOCAL_ACT_${rec.id}`, `[${selectedProvince}] ${rec.text}`)}
                           >
                             Execute Local Action
@@ -725,12 +856,14 @@ const App: React.FC = () => {
           )}
         </AnimatePresence>
 
-        {/* Simple global styles injection for the pulse animation and responsive grid */}
+        {/* Global style injections for animations and grids */}
         <style dangerouslySetInnerHTML={{__html: `
+          @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
+
           @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(45, 206, 137, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(45, 206, 137, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(45, 206, 137, 0); }
           }
 
           @keyframes spin {
