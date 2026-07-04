@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 	"time"
 
@@ -57,6 +58,33 @@ type ProvinceInsight struct {
 	Temperature float64 `json:"temperature"`
 	PeakDays    int     `json:"peakDays"`
 	Population  string  `json:"population"`
+}
+
+type ResourceData struct {
+	ProvinceName    string  `json:"province_name"`
+	RiskScore       int     `json:"risk_score"`
+	MosquitoDensity string  `json:"mosquito_density"`
+	Temperature     float64 `json:"temperature"`
+	BedsAvailable   int     `json:"beds_available"`
+	Status          string  `json:"status"`
+}
+
+var resourceDB = []ResourceData{
+	{ProvinceName: "Hồ Chí Minh", RiskScore: 92, MosquitoDensity: "Extreme (Level 5)", Temperature: 32.5, BedsAvailable: 15, Status: "Critical"},
+	{ProvinceName: "Hà Nội", RiskScore: 45, MosquitoDensity: "Moderate (Level 3)", Temperature: 28.0, BedsAvailable: 120, Status: "Warning"},
+	{ProvinceName: "Đà Nẵng", RiskScore: 78, MosquitoDensity: "High (Level 4)", Temperature: 30.5, BedsAvailable: 45, Status: "Warning"},
+	{ProvinceName: "Đồng Nai", RiskScore: 85, MosquitoDensity: "High (Level 4)", Temperature: 31.5, BedsAvailable: 20, Status: "Critical"},
+	{ProvinceName: "Bình Dương", RiskScore: 88, MosquitoDensity: "High (Level 4)", Temperature: 31.8, BedsAvailable: 18, Status: "Critical"},
+	{ProvinceName: "Khánh Hòa", RiskScore: 68, MosquitoDensity: "High (Level 4)", Temperature: 30.8, BedsAvailable: 50, Status: "Warning"},
+	{ProvinceName: "Cần Thơ", RiskScore: 72, MosquitoDensity: "High (Level 4)", Temperature: 31.2, BedsAvailable: 35, Status: "Warning"},
+	{ProvinceName: "An Giang", RiskScore: 35, MosquitoDensity: "Low (Level 2)", Temperature: 31.0, BedsAvailable: 80, Status: "Safe"},
+	{ProvinceName: "Bà Rịa - Vũng Tàu", RiskScore: 55, MosquitoDensity: "Moderate (Level 3)", Temperature: 30.2, BedsAvailable: 65, Status: "Warning"},
+	{ProvinceName: "Quảng Ninh", RiskScore: 25, MosquitoDensity: "Low (Level 2)", Temperature: 26.5, BedsAvailable: 150, Status: "Safe"},
+	{ProvinceName: "Thanh Hóa", RiskScore: 30, MosquitoDensity: "Low (Level 2)", Temperature: 27.0, BedsAvailable: 95, Status: "Safe"},
+	{ProvinceName: "Lâm Đồng", RiskScore: 40, MosquitoDensity: "Moderate (Level 3)", Temperature: 24.5, BedsAvailable: 110, Status: "Safe"},
+	{ProvinceName: "Đắk Lắk", RiskScore: 48, MosquitoDensity: "Moderate (Level 3)", Temperature: 25.5, BedsAvailable: 85, Status: "Safe"},
+	{ProvinceName: "Hải Phòng", RiskScore: 58, MosquitoDensity: "Moderate (Level 3)", Temperature: 27.5, BedsAvailable: 70, Status: "Warning"},
+	{ProvinceName: "Kiên Giang", RiskScore: 65, MosquitoDensity: "High (Level 4)", Temperature: 31.0, BedsAvailable: 55, Status: "Warning"},
 }
 
 // --- Epidemiological Knowledge Base ---
@@ -478,6 +506,37 @@ func handleUAVRecon(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+func handleResources(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Copy resourceDB to avoid concurrent modification issues
+	allProvinces := make([]ResourceData, len(resourceDB))
+	copy(allProvinces, resourceDB)
+
+	// Sắp xếp giảm dần theo RiskScore
+	sort.Slice(allProvinces, func(i, j int) bool {
+		return allProvinces[i].RiskScore > allProvinces[j].RiskScore
+	})
+
+	// Lấy 5 phần tử đầu tiên làm TopProvinces
+	limit := 5
+	if len(allProvinces) < limit {
+		limit = len(allProvinces)
+	}
+	topProvinces := allProvinces[:limit]
+
+	response := map[string]interface{}{
+		"top_provinces": topProvinces,
+		"all_provinces": allProvinces,
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
+}
+
 // --- Main ---
 
 func main() {
@@ -487,6 +546,7 @@ func main() {
 	mux.HandleFunc("/api/action", enableCORS(handleAction))
 	mux.HandleFunc("/api/insight", enableCORS(handleInsight))
 	mux.HandleFunc("/api/uav-recon", enableCORS(handleUAVRecon))
+	mux.HandleFunc("/api/resources", enableCORS(handleResources))
 	
 	// Đăng ký WebSocket
 	mux.HandleFunc("/ws", handleWebSocket)
