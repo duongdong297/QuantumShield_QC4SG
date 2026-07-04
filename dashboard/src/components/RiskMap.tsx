@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, GeoJSON, CircleMarker, Tooltip } from 'react-leaflet';
+import { MapContainer, TileLayer, GeoJSON, CircleMarker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
 interface HotspotProps {
@@ -13,9 +13,10 @@ interface HotspotProps {
 interface RiskMapProps {
   data: HotspotProps[];
   onProvinceClick: (provinceName: string) => void;
+  height?: string;
 }
 
-const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick }) => {
+const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400px' }) => {
   const [geoData, setGeoData] = useState<any>(null);
 
   // Tải dữ liệu ranh giới địa lý (GeoJSON) của Việt Nam
@@ -32,15 +33,22 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick }) => {
       .catch(err => console.error('Error loading GeoJSON:', err));
   }, []);
 
+  // Hàm chuẩn hóa chuỗi tiếng Việt
+  const normalizeString = (str: string) => {
+    if (!str) return '';
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/đ/g, "d").replace(/city/g, "").trim();
+  };
+
   // Hàm tô màu tùy chỉnh cho từng tỉnh
   const styleProvince = (feature: any) => {
     const provName = feature.properties?.Name || feature.properties?.name || '';
+    const nProvName = normalizeString(provName);
     
     // Kiểm tra xem tỉnh này có đang nằm trong danh sách điểm nóng (hotspots) không.
-    const isHotspot = (data || []).some(spot => 
-      spot.name.toLowerCase().includes(provName.toLowerCase()) || 
-      provName.toLowerCase().includes(spot.name.toLowerCase())
-    );
+    const isHotspot = (data || []).some(spot => {
+      const nSpotName = normalizeString(spot.name);
+      return nSpotName.includes(nProvName) || nProvName.includes(nSpotName);
+    });
 
     return {
       fillColor: isHotspot ? '#ef4444' : '#cbd5e1', // Light theme standard: red for hotspots, light slate for others
@@ -54,14 +62,35 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick }) => {
   // Hàm gắn sự kiện và Tooltip cho từng tỉnh
   const onEachProvince = (feature: any, layer: any) => {
     const provName = feature.properties?.Name || feature.properties?.name || 'Unknown Province';
+    const nProvName = normalizeString(provName);
+    
+    // Tìm kiếm thông tin risk score từ dữ liệu
+    const hotspotInfo = (data || []).find(spot => {
+      const nSpotName = normalizeString(spot.name);
+      return nSpotName.includes(nProvName) || nProvName.includes(nSpotName);
+    });
 
-    // Thêm Tooltip dính theo con trỏ chuột
+    const riskScore = hotspotInfo ? hotspotInfo.risk : 0;
+    const color = hotspotInfo ? hotspotInfo.color : '#64748b';
+    const status = riskScore > 80 ? 'CRITICAL' : riskScore > 60 ? 'WARNING' : 'SAFE';
+
+    // Thêm Tooltip dính theo con trỏ chuột với dữ liệu động
     layer.bindTooltip(`
-      <div style="font-family: Inter, sans-serif; text-align: center;">
-        <strong style="font-size: 1.05rem; color: #1e293b;">${provName}</strong><br/>
-        <span style="font-size: 0.85rem; color: #64748b;">Click to analyze</span>
+      <div style="font-family: Inter, sans-serif; text-align: left; padding: 4px;">
+        <strong style="font-size: 1.1rem; color: #1e293b; display: block; margin-bottom: 4px;">${provName}</strong>
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 2px;">
+           <span style="font-size: 0.8rem; color: #64748b; font-weight: 600;">Risk Score:</span>
+           <span style="font-size: 0.9rem; color: ${color}; font-weight: 800;">${riskScore.toFixed(1)}/100</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 15px;">
+           <span style="font-size: 0.8rem; color: #64748b; font-weight: 600;">Status:</span>
+           <span style="font-size: 0.75rem; color: #fff; background: ${color}; padding: 2px 6px; border-radius: 4px; font-weight: 700;">${status}</span>
+        </div>
+        <div style="margin-top: 8px; font-size: 0.75rem; color: #5e72e4; font-weight: 700; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 6px;">
+          (Click for AI Analysis)
+        </div>
       </div>
-    `, { sticky: true });
+    `, { sticky: true, opacity: 0.95 });
 
     // Bắt sự kiện Click để mở AI Analytics Drawer
     layer.on('click', () => {
@@ -71,7 +100,7 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick }) => {
 
   return (
     <div style={{
-      height: '400px',
+      height: height,
       width: '100%',
       borderRadius: '12px',
       zIndex: 0,
@@ -109,17 +138,8 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick }) => {
               key={`marker-${spot.id}`}
               center={spot.coords}
               pathOptions={{ color: 'red', fillColor: '#ef4444', fillOpacity: 0.8, weight: 2 }}
-              radius={12}
-            >
-              <Tooltip direction="top" offset={[0, -10]} opacity={1} permanent>
-                <div style={{ fontFamily: 'Inter, sans-serif', textAlign: 'center', minWidth: '100px' }}>
-                  <div style={{ fontWeight: 800, color: '#1e293b', fontSize: '0.95rem' }}>🚨 {spot.name}</div>
-                  <div style={{ color: '#ef4444', fontWeight: 700, fontSize: '0.85rem', marginTop: '2px' }}>
-                    Risk Score: {spot.risk}
-                  </div>
-                </div>
-              </Tooltip>
-            </CircleMarker>
+              radius={8}
+            />
           );
         })}
       </MapContainer>
