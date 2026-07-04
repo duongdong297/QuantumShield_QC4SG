@@ -1,4 +1,4 @@
-# QuantumShield Health 🛡️
+# QuantumShield Health
 **AI-Powered Dengue Early Warning & Quantum Resource Allocation Platform**
 
 ## 1. Introduction
@@ -24,12 +24,12 @@ Decision makers must determine: *Which district receives additional resources? H
 
 QuantumShield Health consists of three integrated intelligence layers. **Currently, the prototype version of the project (this repository) has fully implemented Layer 1 and Layer 2, and is professionally containerized using Docker.**
 
-### 🧠 Layer 1: AI Dengue Forecasting Engine
+### Layer 1: AI Dengue Forecasting Engine
 The forecasting engine predicts outbreak risks using multiple data sources (Epidemiological, Environmental, Geographic, and Mobility Indicators).
 - **Code Implementation:** Built with Python (Pandas, Scikit-Learn) within AI scripts. The models process the data and output predictive results to a centralized file at `artifacts/data.json`.
 - **Output:** 7-to-14-day outbreak risk forecasts for monitored regions.
 
-### 📊 Layer 2: Public Health Risk Intelligence Dashboard
+### Layer 2: Public Health Risk Intelligence Dashboard
 Predictions are transformed into actionable insights through a real-time Web dashboard.
 - **Code Implementation:**
   - **Backend (Edge Node):** Written in Golang, providing a lightweight WebSocket connection to push real-time data and a REST API to receive allocation commands.
@@ -40,7 +40,7 @@ Predictions are transformed into actionable insights through a real-time Web das
   - **AI Analytics Drawer:** A smart sliding drawer (opens from the right upon clicking the map) displaying deep insights: Aedes mosquito density, average temperature, and estimated peak outbreak time.
   - **Local Interventions (Command Execution):** Allows operators to issue resource allocation commands directly from the UI. The commands are sent to the Backend and securely logged in `backend/system_audit.log`.
 
-### ⚛️ Layer 3: Quantum Resource Allocation Engine (Future Phase)
+### Layer 3: Quantum Resource Allocation Engine (Future Phase)
 This layer determines how limited healthcare resources should be deployed based on optimization objectives (Minimize infections, Maximize coverage, Minimize costs). Formulated as a Quadratic Unconstrained Binary Optimization (QUBO) problem, we plan to apply QAOA (Quantum Approximate Optimization Algorithm) and D-Wave Hybrid Solvers to explore high-quality resource allocation strategies beyond classical OR-Tools/MILP limits.
 
 ---
@@ -54,7 +54,7 @@ QuantumShield Health aims to become Southeast Asia's intelligent public health o
 
 ---
 
-## 💻 Deployment & Experience Guide
+## Deployment & Experience Guide
 
 The project is fully configured with a Microservices architecture and is 100% automated using Docker.
 
@@ -67,7 +67,7 @@ docker-compose up -d --build
 
 ### Step 2: Access the Dashboard
 Open your web browser and navigate to:
-👉 **[http://localhost:3000](http://localhost:3000)**
+**[http://localhost:3000](http://localhost:3000)**
 
 ### Step 3: Test Scenarios
 To fully experience the architecture we have built:
@@ -77,7 +77,7 @@ To fully experience the architecture we have built:
 4. **Issue an Allocation Command:** Right inside the newly opened drawer, scroll down to *Local Interventions* and click the `Execute Local Action` button. A success notification (green Toast) will appear.
 5. **Verify Edge Node Audit Log:** Open the `backend/system_audit.log` file in your Code Editor. You will see that the Golang Backend has accurately received your resource allocation command and logged it with an exact real-time timestamp!
 
-### 🛑 Stop the System
+### Stop the System
 When you are done, you can stop the containers and free up memory by running:
 ```bash
 docker-compose down
