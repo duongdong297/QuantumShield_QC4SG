@@ -1,17 +1,16 @@
 import React from 'react';
 
 interface SidebarProps {
-  currentTab?: string;
-  onTabChange?: (tab: string) => void;
+  activeTab?: string;
+  setActiveTab?: (tab: string) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ currentTab = 'Dashboard', onTabChange }) => {
+const Sidebar: React.FC<SidebarProps> = ({ activeTab = 'dashboard', setActiveTab }) => {
   const navItems = [
-    { name: 'Dashboard', icon: '📊' },
-    { name: 'Outbreak Maps', icon: '🗺️' },
-    { name: 'Resource Tables', icon: '📋' },
-    { name: 'Edge Devices', icon: '🖥️' },
-    { name: 'Audit Logs', icon: '📝' }
+    { id: 'dashboard', name: 'Dashboard', icon: '📊' },
+    { id: 'outbreak_maps', name: 'Outbreak Maps', icon: '🗺️' },
+    { id: 'resource_tables', name: 'Resource Tables', icon: '📋' },
+    { id: 'audit_logs', name: 'Audit Logs', icon: '📝' }
   ];
 
   return (
@@ -55,14 +54,14 @@ const Sidebar: React.FC<SidebarProps> = ({ currentTab = 'Dashboard', onTabChange
           Navigation
         </div>
         {navItems.map(item => {
-          const isActive = currentTab === item.name;
+          const isActive = activeTab === item.id;
           return (
             <a 
-              key={item.name} 
+              key={item.id} 
               href="#" 
               onClick={(e) => {
                 e.preventDefault();
-                if (onTabChange) onTabChange(item.name);
+                if (setActiveTab) setActiveTab(item.id);
               }}
               style={{
                 display: 'flex',

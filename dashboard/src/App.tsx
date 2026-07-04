@@ -53,197 +53,15 @@ const recommendations = [
   { id: 2, text: "Reallocate testing kits across districts to optimize costs." }
 ];
 
-const App: React.FC = () => {
-  const [currentTab, setCurrentTab] = useState<string>('Dashboard');
-  const [alertData, setAlertData] = useState<any>(null);
-  const [forecastData, setForecastData] = useState<any[]>([]);
-  const [hotspotsData, setHotspotsData] = useState<any[]>([]);
-  const [chartData, setChartData] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
 
-  // State quản lý Drawer
-  const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
+const OutbreakMapsView = () => <div style={{ padding: '2rem', fontSize: '1.25rem', color: '#525f7f' }}>Coming soon</div>;
+const ResourceTablesView = () => <div style={{ padding: '2rem', fontSize: '1.25rem', color: '#525f7f' }}>Coming soon</div>;
+const AuditLogsView = () => <div style={{ padding: '2rem', fontSize: '1.25rem', color: '#525f7f' }}>Coming soon</div>;
 
-  // State quản lý dữ liệu insight động
-  const [insightData, setInsightData] = useState<InsightData | null>(null);
-  const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
-
-  useEffect(() => {
-    const ws = new WebSocket('ws://localhost:8080/ws');
-
-    ws.onopen = () => {
-      console.log('Connected to WebSocket server');
-      setError(null);
-    };
-
-    ws.onmessage = (event) => {
-      try {
-        const data: DashboardData = JSON.parse(event.data);
-        
-        setAlertData({
-          title: "High Risk Alert",
-          message: data.alert?.message || "Unknown error",
-          level: "Critical"
-        });
-
-        setForecastData([
-          { id: 1, label: "Hospital beds", value: `Shortage: ${data.forecast?.beds || 0}`, status: "Critical", color: "#f5365c", progress: 85 },
-          { id: 2, label: "Testing kits", value: `Needed: ${data.forecast?.kits || 0}`, status: "Warning", color: "#fb6340", progress: 65 },
-          { id: 3, label: "Medical workforce", value: `Deploy ${data.forecast?.staffTeams || 0} Teams`, status: "Active", color: "#11cdef", progress: 40 },
-        ]);
-
-        const mappedHotspots = (data.hotspots || []).map((item, index) => {
-          let color = "#ffad46"; // Vàng
-          if (item?.riskScore > 80) color = "#f5365c"; // Đỏ
-          else if (item?.riskScore > 60) color = "#fb6340"; // Cam
-
-          return {
-            id: index + 1,
-            name: item?.region || "Unknown Region",
-            risk: item?.riskScore || 0,
-            color: color,
-            coords: [item?.lat || 0, item?.lng || 0] as [number, number]
-          };
-        });
-        
-        setHotspotsData(mappedHotspots);
-
-        let trend = data.trendData;
-        if (!trend || trend.length === 0) {
-          const baseVal = data.forecast?.beds || data.alert?.probability || 100;
-          trend = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(day => ({
-            day,
-            infections: Math.max(0, Math.round(baseVal + (Math.random() * 30 - 15)))
-          }));
-        }
-        setChartData(trend);
-        
-        setIsLoading(false);
-      } catch (err) {
-        console.error("Error parsing websocket data:", err);
-      }
-    };
-
-    ws.onerror = (err) => {
-      console.error("WebSocket error:", err);
-      setError("Connection to WebSocket server failed. Displaying cached/offline data.");
-      setIsLoading(false);
-    };
-
-    ws.onclose = () => {
-      console.log('Disconnected from WebSocket server');
-    };
-
-    return () => {
-      ws.close();
-    };
-  }, []);
-
-  // Fetch insight data khi người dùng chọn tỉnh
-  useEffect(() => {
-    if (!selectedProvince) {
-      setInsightData(null);
-      return;
-    }
-
-    setIsAnalyzing(true);
-    setInsightData(null);
-
-    const controller = new AbortController();
-
-    fetch(`http://localhost:8080/api/insight?province=${encodeURIComponent(selectedProvince)}`, {
-      signal: controller.signal
-    })
-      .then(res => {
-        if (!res.ok) throw new Error('Failed to fetch insight');
-        return res.json();
-      })
-      .then(data => {
-        setTimeout(() => {
-          setInsightData(data);
-          setIsAnalyzing(false);
-        }, 1500);
-      })
-      .catch(err => {
-        if (err.name !== 'AbortError') {
-          console.error('Insight API error:', err);
-          setIsAnalyzing(false);
-        }
-      });
-
-    return () => controller.abort();
-  }, [selectedProvince]);
-
-  const handleExecuteAction = async (actionId: string, description: string) => {
-    const toastId = toast.loading("Transmitting command to Edge Node...");
-    try {
-      const response = await fetch('http://localhost:8080/api/action', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ actionId, description })
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to execute action");
-      }
-
-      toast.success("Action executed successfully!", { id: toastId });
-    } catch (err) {
-      toast.error("Failed to connect to Edge Node.", { id: toastId });
-    }
-  };
-
-  if (isLoading) {
-    return (
-      <motion.div 
-        animate={{ opacity: [0.5, 1, 0.5] }}
-        transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#cbd5e1', color: '#5e72e4', fontSize: '1.25rem', fontWeight: 600 }}
-      >
-        Loading QuantumShield Intelligence...
-      </motion.div>
-    );
-  }
-
-  const displayAlert = alertData || {
-    title: "System Offline",
-    message: "Cannot retrieve alert data from backend.",
-    level: "Unknown"
-  };
-
-  const displayForecast = forecastData.length > 0 ? forecastData : [
-    { id: 1, label: "Hospital beds", value: "Shortage: 0", status: "Offline", color: "#adb5bd", progress: 0 },
-    { id: 2, label: "Testing kits", value: "Needed: 0", status: "Offline", color: "#adb5bd", progress: 0 },
-    { id: 3, label: "Medical workforce", value: "Deploy 0 Teams", status: "Offline", color: "#adb5bd", progress: 0 },
-  ];
-
+const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayForecast, recommendations, handleExecuteAction, selectedProvince, setSelectedProvince, isAnalyzing, insightData }: any) => {
   return (
-    <div style={{
-      fontFamily: "'Open Sans', 'Inter', sans-serif",
-      backgroundColor: '#cbd5e1',
-      minHeight: '100vh',
-      display: 'flex',
-      position: 'relative'
-    }}>
-      <Toaster position="top-right" />
-      
-      <Sidebar currentTab={currentTab} onTabChange={setCurrentTab} />
-
-      {/* 2. MAIN CONTENT WRAPPER */}
-      <div style={{
-        marginLeft: '250px',
-        flex: 1,
-        minWidth: 0,
-        display: 'flex',
-        flexDirection: 'column'
-      }}>
-        
-        <TopNavbar title={currentTab} />
-
-        {/* FLOATING KPI CARDS ROW & MAIN GRID CONTAINER */}
+    <>
+      {/* FLOATING KPI CARDS ROW & MAIN GRID CONTAINER */}
         <div style={{
           padding: '0 2rem 2rem 2rem',
           marginTop: '-5rem', // Pulls elements up into the top header block
@@ -510,7 +328,7 @@ const App: React.FC = () => {
                   </div>
                   
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                    {recommendations.map(rec => (
+                    {recommendations.map((rec: any) => (
                       <div key={rec.id} style={{
                         backgroundColor: '#ffffff',
                         border: '1px solid #e9ecef',
@@ -552,6 +370,214 @@ const App: React.FC = () => {
           )}
         </AnimatePresence>
 
+        
+    </>
+  );
+};
+
+const App: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<string>('dashboard');
+  const [alertData, setAlertData] = useState<any>(null);
+  const [forecastData, setForecastData] = useState<any[]>([]);
+  const [hotspotsData, setHotspotsData] = useState<any[]>([]);
+  const [chartData, setChartData] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // State quản lý Drawer
+  const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
+
+  // State quản lý dữ liệu insight động
+  const [insightData, setInsightData] = useState<InsightData | null>(null);
+  const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
+
+  useEffect(() => {
+    const ws = new WebSocket('ws://localhost:8080/ws');
+
+    ws.onopen = () => {
+      console.log('Connected to WebSocket server');
+      setError(null);
+    };
+
+    ws.onmessage = (event) => {
+      try {
+        const data: DashboardData = JSON.parse(event.data);
+        
+        setAlertData({
+          title: "High Risk Alert",
+          message: data.alert?.message || "Unknown error",
+          level: "Critical"
+        });
+
+        setForecastData([
+          { id: 1, label: "Hospital beds", value: `Shortage: ${data.forecast?.beds || 0}`, status: "Critical", color: "#f5365c", progress: 85 },
+          { id: 2, label: "Testing kits", value: `Needed: ${data.forecast?.kits || 0}`, status: "Warning", color: "#fb6340", progress: 65 },
+          { id: 3, label: "Medical workforce", value: `Deploy ${data.forecast?.staffTeams || 0} Teams`, status: "Active", color: "#11cdef", progress: 40 },
+        ]);
+
+        const mappedHotspots = (data.hotspots || []).map((item, index) => {
+          let color = "#ffad46"; // Vàng
+          if (item?.riskScore > 80) color = "#f5365c"; // Đỏ
+          else if (item?.riskScore > 60) color = "#fb6340"; // Cam
+
+          return {
+            id: index + 1,
+            name: item?.region || "Unknown Region",
+            risk: item?.riskScore || 0,
+            color: color,
+            coords: [item?.lat || 0, item?.lng || 0] as [number, number]
+          };
+        });
+        
+        setHotspotsData(mappedHotspots);
+
+        let trend = data.trendData;
+        if (!trend || trend.length === 0) {
+          const baseVal = data.forecast?.beds || data.alert?.probability || 100;
+          trend = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(day => ({
+            day,
+            infections: Math.max(0, Math.round(baseVal + (Math.random() * 30 - 15)))
+          }));
+        }
+        setChartData(trend);
+        
+        setIsLoading(false);
+      } catch (err) {
+        console.error("Error parsing websocket data:", err);
+      }
+    };
+
+    ws.onerror = (err) => {
+      console.error("WebSocket error:", err);
+      setError("Connection to WebSocket server failed. Displaying cached/offline data.");
+      setIsLoading(false);
+    };
+
+    ws.onclose = () => {
+      console.log('Disconnected from WebSocket server');
+    };
+
+    return () => {
+      ws.close();
+    };
+  }, []);
+
+  // Fetch insight data khi người dùng chọn tỉnh
+  useEffect(() => {
+    if (!selectedProvince) {
+      setInsightData(null);
+      return;
+    }
+
+    setIsAnalyzing(true);
+    setInsightData(null);
+
+    const controller = new AbortController();
+
+    fetch(`http://localhost:8080/api/insight?province=${encodeURIComponent(selectedProvince)}`, {
+      signal: controller.signal
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch insight');
+        return res.json();
+      })
+      .then(data => {
+        setTimeout(() => {
+          setInsightData(data);
+          setIsAnalyzing(false);
+        }, 1500);
+      })
+      .catch(err => {
+        if (err.name !== 'AbortError') {
+          console.error('Insight API error:', err);
+          setIsAnalyzing(false);
+        }
+      });
+
+    return () => controller.abort();
+  }, [selectedProvince]);
+
+  const handleExecuteAction = async (actionId: string, description: string) => {
+    const toastId = toast.loading("Transmitting command to Edge Node...");
+    try {
+      const response = await fetch('http://localhost:8080/api/action', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ actionId, description })
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to execute action");
+      }
+
+      toast.success("Action executed successfully!", { id: toastId });
+    } catch (err) {
+      toast.error("Failed to connect to Edge Node.", { id: toastId });
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <motion.div 
+        animate={{ opacity: [0.5, 1, 0.5] }}
+        transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#cbd5e1', color: '#5e72e4', fontSize: '1.25rem', fontWeight: 600 }}
+      >
+        Loading QuantumShield Intelligence...
+      </motion.div>
+    );
+  }
+
+  const displayAlert = alertData || {
+    title: "System Offline",
+    message: "Cannot retrieve alert data from backend.",
+    level: "Unknown"
+  };
+
+  const displayForecast = forecastData.length > 0 ? forecastData : [
+    { id: 1, label: "Hospital beds", value: "Shortage: 0", status: "Offline", color: "#adb5bd", progress: 0 },
+    { id: 2, label: "Testing kits", value: "Needed: 0", status: "Offline", color: "#adb5bd", progress: 0 },
+    { id: 3, label: "Medical workforce", value: "Deploy 0 Teams", status: "Offline", color: "#adb5bd", progress: 0 },
+  ];
+
+  return (
+    <div style={{
+      fontFamily: "'Open Sans', 'Inter', sans-serif",
+      backgroundColor: '#cbd5e1',
+      minHeight: '100vh',
+      display: 'flex',
+      position: 'relative'
+    }}>
+      <Toaster position="top-right" />
+      
+      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+
+      {/* 2. MAIN CONTENT WRAPPER */}
+      <div style={{
+        marginLeft: '250px',
+        flex: 1,
+        minWidth: 0,
+        display: 'flex',
+        flexDirection: 'column'
+      }}>
+        
+        <TopNavbar title={activeTab === 'dashboard' ? 'Dashboard' : activeTab === 'outbreak_maps' ? 'Outbreak Maps' : activeTab === 'resource_tables' ? 'Resource Tables' : 'Audit Logs'} />
+
+        
+        {activeTab === 'dashboard' && (
+          <DashboardView 
+            error={error} displayAlert={displayAlert} hotspotsData={hotspotsData} 
+            chartData={chartData} displayForecast={displayForecast} recommendations={recommendations} 
+            handleExecuteAction={handleExecuteAction} selectedProvince={selectedProvince} 
+            setSelectedProvince={setSelectedProvince} isAnalyzing={isAnalyzing} insightData={insightData} 
+          />
+        )}
+        {activeTab === 'outbreak_maps' && <OutbreakMapsView />}
+        {activeTab === 'resource_tables' && <ResourceTablesView />}
+        {activeTab === 'audit_logs' && <AuditLogsView />}
+        
         {/* Global style injections for animations and grids */}
         <style dangerouslySetInnerHTML={{__html: `
           @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
