@@ -36,6 +36,13 @@ interface DashboardData {
   trendData: TrendPoint[];
 }
 
+interface InsightData {
+  density: string;
+  temperature: number;
+  peakDays: number;
+  population: string;
+}
+
 // --- MOCK DATA ---
 const recommendations = [
   { id: 1, text: "Coordinate mosquito eradication teams at outbreak hotspots." },
@@ -53,6 +60,10 @@ const App: React.FC = () => {
 
   // State quản lý Drawer
   const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
+
+  // State quản lý dữ liệu insight động
+  const [insightData, setInsightData] = useState<InsightData | null>(null);
+  const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
 
   useEffect(() => {
     const ws = new WebSocket('ws://localhost:8080/ws');
@@ -124,6 +135,42 @@ const App: React.FC = () => {
       ws.close();
     };
   }, []);
+
+  // Fetch insight data khi người dùng chọn tỉnh
+  useEffect(() => {
+    if (!selectedProvince) {
+      setInsightData(null);
+      return;
+    }
+
+    setIsAnalyzing(true);
+    setInsightData(null);
+
+    const controller = new AbortController();
+
+    fetch(`http://localhost:8080/api/insight?province=${encodeURIComponent(selectedProvince)}`, {
+      signal: controller.signal
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch insight');
+        return res.json();
+      })
+      .then(data => {
+        // Giả lập 1.5s độ trễ phân tích AI
+        setTimeout(() => {
+          setInsightData(data);
+          setIsAnalyzing(false);
+        }, 1500);
+      })
+      .catch(err => {
+        if (err.name !== 'AbortError') {
+          console.error('Insight API error:', err);
+          setIsAnalyzing(false);
+        }
+      });
+
+    return () => controller.abort();
+  }, [selectedProvince]);
 
   const handleExecuteAction = async (actionId: string, description: string) => {
     const toastId = toast.loading("Transmitting command to Edge Node...");
@@ -555,7 +602,7 @@ const App: React.FC = () => {
                   </button>
                 </div>
 
-                {/* Khối Quantum AI Insights */}
+                  {/* Khối Quantum AI Insights */}
                 <div style={{ marginBottom: '2.5rem' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1rem' }}>
                     <span style={{ fontSize: '1.25rem' }}>🧠</span>
@@ -563,27 +610,66 @@ const App: React.FC = () => {
                       Quantum AI Insights
                     </h3>
                   </div>
-                  
-                  <div style={{ backgroundColor: '#f8fafc', padding: '1.25rem', borderRadius: '12px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ color: '#475569', fontWeight: 500 }}>Aedes Mosquito Density:</span>
-                      <span style={{ color: '#ef4444', fontWeight: 700, backgroundColor: '#fef2f2', padding: '4px 8px', borderRadius: '6px' }}>
-                        High (Level 4)
-                      </span>
+
+                  {isAnalyzing ? (
+                    // --- LOADING SPINNER ---
+                    <div style={{
+                      backgroundColor: '#f8fafc',
+                      padding: '2rem 1.25rem',
+                      borderRadius: '12px',
+                      border: '1px solid #e2e8f0',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: '16px'
+                    }}>
+                      <div style={{
+                        width: '40px',
+                        height: '40px',
+                        borderRadius: '50%',
+                        border: '3px solid #e2e8f0',
+                        borderTopColor: '#3b82f6',
+                        animation: 'spin 0.8s linear infinite'
+                      }} />
+                      <p style={{ margin: 0, color: '#64748b', fontSize: '0.9rem', fontWeight: 500, textAlign: 'center' }}>
+                        Quantum AI is analyzing<br />
+                        <span style={{ color: '#3b82f6', fontWeight: 700 }}>{selectedProvince}</span>...
+                      </p>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ color: '#475569', fontWeight: 500 }}>Average Temperature:</span>
-                      <span style={{ color: '#1e293b', fontWeight: 700 }}>31.5°C</span>
+                  ) : insightData ? (
+                    // --- INSIGHT DATA ---
+                    <div style={{ backgroundColor: '#f8fafc', padding: '1.25rem', borderRadius: '12px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ color: '#475569', fontWeight: 500 }}>Aedes Mosquito Density:</span>
+                        <span style={{
+                          color: insightData.density.startsWith('Critical') ? '#ef4444' : insightData.density.startsWith('High') ? '#f97316' : '#eab308',
+                          fontWeight: 700,
+                          backgroundColor: insightData.density.startsWith('Critical') ? '#fef2f2' : insightData.density.startsWith('High') ? '#fff7ed' : '#fefce8',
+                          padding: '4px 8px',
+                          borderRadius: '6px'
+                        }}>
+                          {insightData.density}
+                        </span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ color: '#475569', fontWeight: 500 }}>Average Temperature:</span>
+                        <span style={{ color: '#1e293b', fontWeight: 700 }}>{insightData.temperature.toFixed(1)}°C</span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ color: '#475569', fontWeight: 500 }}>Peak Outbreak Est.:</span>
+                        <span style={{ color: '#eab308', fontWeight: 700 }}>{insightData.peakDays} Days</span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ color: '#475569', fontWeight: 500 }}>Population at Risk:</span>
+                        <span style={{ color: '#1e293b', fontWeight: 700 }}>{insightData.population}</span>
+                      </div>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ color: '#475569', fontWeight: 500 }}>Peak Outbreak Est.:</span>
-                      <span style={{ color: '#eab308', fontWeight: 700 }}>14 Days</span>
+                  ) : (
+                    // --- ERROR / NO DATA ---
+                    <div style={{ backgroundColor: '#fef2f2', padding: '1.25rem', borderRadius: '12px', border: '1px solid #fecaca', color: '#991b1b', fontSize: '0.9rem', textAlign: 'center' }}>
+                      ⚠️ Could not load insight data. Make sure the backend is running.
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ color: '#475569', fontWeight: 500 }}>Population at Risk:</span>
-                      <span style={{ color: '#1e293b', fontWeight: 700 }}>1.2M</span>
-                    </div>
-                  </div>
+                  )}
                 </div>
 
                 {/* Khối nút Hành động Điều phối */}
@@ -645,6 +731,11 @@ const App: React.FC = () => {
             0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
             70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+          }
+
+          @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
           }
           
           /* Responsive Layout */

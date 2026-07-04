@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math"
+	"math/rand"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -49,6 +51,13 @@ type DashboardData struct {
 type ActionRequest struct {
 	ActionID    string `json:"actionId"`
 	Description string `json:"description"`
+}
+
+type ProvinceInsight struct {
+	Density     string  `json:"density"`
+	Temperature float64 `json:"temperature"`
+	PeakDays    int     `json:"peakDays"`
+	Population  string  `json:"population"`
 }
 
 // --- WebSocket Upgrader ---
@@ -157,6 +166,60 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 	log.Println("Client disconnected")
 }
 
+func handleInsight(w http.ResponseWriter, r *http.Request) {
+	province := r.URL.Query().Get("province")
+	if province == "" {
+		http.Error(w, "Missing province parameter", http.StatusBadRequest)
+		return
+	}
+
+	// Dùng độ dài tên tỉnh làm seed để sinh dữ liệu khác nhau nhưng nhất quán
+	seed := int64(len(province))
+	for _, c := range province {
+		seed += int64(c)
+	}
+	rng := rand.New(rand.NewSource(seed))
+
+	// Nhiệt độ dao động 27.0 - 35.0°C tuỳ tỉnh
+	temperature := 27.0 + rng.Float64()*8.0
+	temperature = math.Round(temperature*10) / 10
+
+	// Đỉnh dịch dao động 7 - 21 ngày
+	peakDays := 7 + rng.Intn(15)
+
+	// Mật độ muỗi dựa vào nhiệt độ
+	var density string
+	switch {
+	case temperature >= 33:
+		density = "Critical (Level 5)"
+	case temperature >= 31:
+		density = "High (Level 4)"
+	case temperature >= 29:
+		density = "Moderate (Level 3)"
+	default:
+		density = "Low (Level 2)"
+	}
+
+	// Dân số nguy cơ dao động 200K - 3.5M
+	popRaw := 200 + rng.Intn(3300)
+	var population string
+	if popRaw >= 1000 {
+		population = fmt.Sprintf("%.1fM", float64(popRaw)/1000.0)
+	} else {
+		population = fmt.Sprintf("%dK", popRaw)
+	}
+
+	insight := ProvinceInsight{
+		Density:     density,
+		Temperature: temperature,
+		PeakDays:    peakDays,
+		Population:  population,
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(insight)
+}
+
 // --- Main ---
 
 func main() {
@@ -164,6 +227,7 @@ func main() {
 
 	// Đăng ký REST API nhận lệnh điều khiển với middleware CORS
 	mux.HandleFunc("/api/action", enableCORS(handleAction))
+	mux.HandleFunc("/api/insight", enableCORS(handleInsight))
 	
 	// Đăng ký WebSocket
 	mux.HandleFunc("/ws", handleWebSocket)
