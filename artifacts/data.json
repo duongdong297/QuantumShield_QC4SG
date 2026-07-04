@@ -1,5 +1,4 @@
 {
-  "prediction_month": "2023-06",
   "alert": {
     "active": true,
     "region": "Ho Chi Minh",
@@ -16,7 +15,8 @@
       "lat": 10.7626,
       "lng": 106.6601,
       "region": "Ho Chi Minh",
-      "riskScore": 95
+      "riskScore": 100
     }
-  ]
+  ],
+  "trendData": null
 }

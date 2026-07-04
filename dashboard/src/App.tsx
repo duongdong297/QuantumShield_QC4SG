@@ -86,18 +86,34 @@ const OutbreakMapsView = ({ hotspotsData, setSelectedProvince }: any) => {
     return () => clearInterval(interval);
   }, [hotspotsData]);
 
-  const handleDeployDrone = () => {
+  const handleDeployDrone = async () => {
     setDeployingDrone(true);
     toast("UAV Drone deployed for aerial recon. Scanning hotspots...", {
       icon: '🚁',
       style: { borderRadius: '10px', background: '#11cdef', color: '#fff', border: '1px solid rgba(255,255,255,0.2)', fontWeight: 700 }
     });
-    setTimeout(() => {
-      setDeployingDrone(false);
-      toast.success("Recon complete. Map data synced.", {
-        style: { borderRadius: '10px', background: '#2dce89', color: '#fff', fontWeight: 700 }
-      });
-    }, 4000);
+    
+    try {
+      const response = await fetch('http://localhost:8080/api/uav-recon', { method: 'POST' });
+      const data = await response.json();
+      
+      setTimeout(() => {
+        setDeployingDrone(false);
+        toast.success(`Recon complete. Critical threat detected in ${data.target_province}! Map data synced.`, {
+          style: { borderRadius: '10px', background: '#f5365c', color: '#fff', fontWeight: 700 },
+          duration: 4000,
+        });
+        // Tự động bật bảng phân tích cho vùng nguy hiểm nhất vừa tìm được
+        setSelectedProvince(data.target_province);
+      }, 4000);
+    } catch (err) {
+      setTimeout(() => {
+        setDeployingDrone(false);
+        toast.success("Recon complete. Map data synced.", {
+          style: { borderRadius: '10px', background: '#2dce89', color: '#fff', fontWeight: 700 }
+        });
+      }, 4000);
+    }
   };
 
   // Tính toán cấp độ DEFCON

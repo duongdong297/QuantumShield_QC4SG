@@ -437,6 +437,47 @@ func containsAny(s string, substrs ...string) bool {
 	return false
 }
 
+func handleUAVRecon(w http.ResponseWriter, r *http.Request) {
+	dataPath := filepath.Join("..", "artifacts", "data.json")
+	fileBytes, err := os.ReadFile(dataPath)
+	if err != nil {
+		http.Error(w, "Cannot read data", http.StatusInternalServerError)
+		return
+	}
+
+	var data DashboardData
+	if err := json.Unmarshal(fileBytes, &data); err != nil {
+		http.Error(w, "Cannot parse data", http.StatusInternalServerError)
+		return
+	}
+
+	if len(data.Hotspots) == 0 {
+		http.Error(w, "No hotspots found", http.StatusBadRequest)
+		return
+	}
+
+	// Tăng đột biến RiskScore của một hotspot ngẫu nhiên để giả lập "phát hiện mới"
+	targetIndex := time.Now().UnixNano() % int64(len(data.Hotspots))
+	targetProvince := data.Hotspots[targetIndex].Region
+	
+	// Tăng điểm rủi ro lên ngẫu nhiên từ 15 đến 30 điểm
+	bump := int(time.Now().UnixNano() % 16) + 15 
+	data.Hotspots[targetIndex].RiskScore += bump
+	if data.Hotspots[targetIndex].RiskScore > 100 {
+		data.Hotspots[targetIndex].RiskScore = 100
+	}
+
+	// Ghi lại file để WebSocket tự động broadcast thay đổi
+	newBytes, _ := json.MarshalIndent(data, "", "  ")
+	os.WriteFile(dataPath, newBytes, 0644)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]string{
+		"status": "success",
+		"target_province": targetProvince,
+	})
+}
+
 // --- Main ---
 
 func main() {
@@ -445,6 +486,7 @@ func main() {
 	// Đăng ký REST API nhận lệnh điều khiển với middleware CORS
 	mux.HandleFunc("/api/action", enableCORS(handleAction))
 	mux.HandleFunc("/api/insight", enableCORS(handleInsight))
+	mux.HandleFunc("/api/uav-recon", enableCORS(handleUAVRecon))
 	
 	// Đăng ký WebSocket
 	mux.HandleFunc("/ws", handleWebSocket)
