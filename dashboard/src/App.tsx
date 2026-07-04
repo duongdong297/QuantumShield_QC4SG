@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import RiskMap from './components/RiskMap';
 import InfectionTrendChart from './components/InfectionTrendChart';
+import Sidebar from './components/layout/Sidebar';
+import TopNavbar from './components/layout/TopNavbar';
+import SummaryCards from './components/dashboard/SummaryCards';
+import ResourceDemand from './components/dashboard/ResourceDemand';
+import ActionPanel from './components/dashboard/ActionPanel';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Toaster, toast } from 'react-hot-toast';
 
@@ -43,14 +48,13 @@ interface InsightData {
   population: string;
 }
 
-// --- MOCK DATA ---
 const recommendations = [
   { id: 1, text: "Coordinate mosquito eradication teams at outbreak hotspots." },
   { id: 2, text: "Reallocate testing kits across districts to optimize costs." }
 ];
 
-// --- MAIN DASHBOARD COMPONENT ---
 const App: React.FC = () => {
+  const [currentTab, setCurrentTab] = useState<string>('Dashboard');
   const [alertData, setAlertData] = useState<any>(null);
   const [forecastData, setForecastData] = useState<any[]>([]);
   const [hotspotsData, setHotspotsData] = useState<any[]>([]);
@@ -156,7 +160,6 @@ const App: React.FC = () => {
         return res.json();
       })
       .then(data => {
-        // Giả lập 1.5s độ trễ phân tích AI
         setTimeout(() => {
           setInsightData(data);
           setIsAnalyzing(false);
@@ -198,7 +201,7 @@ const App: React.FC = () => {
       <motion.div 
         animate={{ opacity: [0.5, 1, 0.5] }}
         transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f8f9fe', color: '#5e72e4', fontSize: '1.25rem', fontWeight: 600 }}
+        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#cbd5e1', color: '#5e72e4', fontSize: '1.25rem', fontWeight: 600 }}
       >
         Loading QuantumShield Intelligence...
       </motion.div>
@@ -220,119 +223,14 @@ const App: React.FC = () => {
   return (
     <div style={{
       fontFamily: "'Open Sans', 'Inter', sans-serif",
-      backgroundColor: '#f8f9fe',
+      backgroundColor: '#cbd5e1',
       minHeight: '100vh',
       display: 'flex',
       position: 'relative'
     }}>
       <Toaster position="top-right" />
       
-      {/* 1. FIXED LEFT SIDEBAR */}
-      <div style={{
-        width: '250px',
-        backgroundColor: '#ffffff',
-        borderRight: '1px solid #e9ecef',
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        bottom: 0,
-        zIndex: 100,
-        padding: '1.5rem 1rem',
-        display: 'flex',
-        flexDirection: 'column',
-        overflowY: 'auto'
-      }}>
-        {/* Brand */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '2.5rem', paddingLeft: '0.5rem' }}>
-          <div style={{ 
-            backgroundColor: '#1171ef', 
-            color: '#ffffff', 
-            width: '32px', 
-            height: '32px', 
-            borderRadius: '6px', 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center', 
-            fontWeight: 800,
-            fontSize: '1.1rem' 
-          }}>A</div>
-          <div>
-            <h2 style={{ fontSize: '1.15rem', fontWeight: 800, margin: 0, color: '#1171ef', letterSpacing: '-0.025em' }}>argon</h2>
-            <span style={{ fontSize: '0.65rem', color: '#8898aa', fontWeight: 700, textTransform: 'uppercase' }}>QuantumShield</span>
-          </div>
-        </div>
-
-        {/* Sidebar Nav Section */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginBottom: '2rem' }}>
-          <div style={{ fontSize: '0.65rem', fontWeight: 800, color: '#adb5bd', textTransform: 'uppercase', letterSpacing: '0.05em', paddingLeft: '0.5rem', marginBottom: '0.5rem' }}>
-            Navigation
-          </div>
-          <a href="#" style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-            padding: '10px 12px',
-            borderRadius: '6px',
-            backgroundColor: '#f6f9fc',
-            color: '#5e72e4',
-            fontWeight: 700,
-            fontSize: '0.85rem',
-            cursor: 'pointer',
-            textDecoration: 'none'
-          }}>
-            <span>📊</span> Dashboard
-          </a>
-          {['Icons', 'Maps', 'Tables', 'User Profile'].map(item => (
-            <a key={item} href="#" style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              padding: '10px 12px',
-              borderRadius: '6px',
-              color: '#525f7f',
-              fontWeight: 600,
-              fontSize: '0.85rem',
-              cursor: 'pointer',
-              transition: 'background-color 0.2s',
-              textDecoration: 'none'
-            }}
-            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f6f9fc'}
-            onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-            >
-              <span style={{ opacity: 0.7 }}>🔹</span> {item}
-            </a>
-          ))}
-        </div>
-
-        {/* Sidebar API Reference Section */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-          <div style={{ fontSize: '0.65rem', fontWeight: 800, color: '#adb5bd', textTransform: 'uppercase', letterSpacing: '0.05em', paddingLeft: '0.5rem', marginBottom: '0.5rem' }}>
-            Argon API Endpoints
-          </div>
-          
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingLeft: '0.5rem' }}>
-            <div style={{ fontSize: '0.75rem', color: '#525f7f' }}>
-              <span style={{ fontWeight: 700, color: '#2dce89', fontSize: '0.65rem', display: 'block' }}>POST /users/login</span>
-              <span style={{ fontSize: '0.65rem', color: '#8898aa' }}>email, password</span>
-            </div>
-            
-            <div style={{ fontSize: '0.75rem', color: '#525f7f' }}>
-              <span style={{ fontWeight: 700, color: '#fb6340', fontSize: '0.65rem', display: 'block' }}>POST /users/logout</span>
-              <span style={{ fontSize: '0.65rem', color: '#8898aa' }}>Requires token</span>
-            </div>
-
-            <div style={{ fontSize: '0.75rem', color: '#525f7f' }}>
-              <span style={{ fontWeight: 700, color: '#11cdef', fontSize: '0.65rem', display: 'block' }}>POST /users/checkSession</span>
-              <span style={{ fontSize: '0.65rem', color: '#8898aa' }}>Session validator</span>
-            </div>
-
-            <div style={{ fontSize: '0.75rem', color: '#525f7f' }}>
-              <span style={{ fontWeight: 700, color: '#5e72e4', fontSize: '0.65rem', display: 'block' }}>GET /api/insight</span>
-              <span style={{ fontSize: '0.65rem', color: '#8898aa' }}>Dynamic province details</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Sidebar currentTab={currentTab} onTabChange={setCurrentTab} />
 
       {/* 2. MAIN CONTENT WRAPPER */}
       <div style={{
@@ -343,45 +241,12 @@ const App: React.FC = () => {
         flexDirection: 'column'
       }}>
         
-        {/* TOP BLUE HEADER BLOCK */}
-        <div style={{
-          background: 'linear-gradient(87deg, #11cdef 0, #1171ef 100%)',
-          padding: '1.75rem 2rem 7.5rem 2rem',
-          color: '#ffffff'
-        }}>
-          {/* Top Navbar */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
-            <div>
-              <span style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', opacity: 0.8 }}>Pages</span>
-              <h1 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>Dashboard</h1>
-            </div>
-            
-            <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-              <div style={{
-                backgroundColor: 'rgba(255,255,255,0.15)',
-                borderRadius: '9999px',
-                padding: '5px 15px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                fontSize: '0.8rem',
-                border: '1px solid rgba(255,255,255,0.2)'
-              }}>
-                <span style={{ width: '6px', height: '6px', backgroundColor: '#2dce89', borderRadius: '50%' }} />
-                <span style={{ fontWeight: 600 }}>Operational</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: '#f6f9fc', color: '#525f7f', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700 }}>A</div>
-                <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>Argon Admin</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        <TopNavbar title={currentTab} />
 
         {/* FLOATING KPI CARDS ROW & MAIN GRID CONTAINER */}
         <div style={{
           padding: '0 2rem 2rem 2rem',
-          marginTop: '-5rem', // Pulls elements up into the blue block
+          marginTop: '-5rem', // Pulls elements up into the top header block
           flex: 1
         }}>
           {/* Error Banner */}
@@ -422,53 +287,7 @@ const App: React.FC = () => {
             </div>
           )}
           
-          {/* 4 Floating KPI Cards */}
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', 
-            gap: '1.5rem', 
-            marginBottom: '2rem' 
-          }}>
-            {/* KPI 1 */}
-            <div style={{ backgroundColor: '#ffffff', borderRadius: '6px', padding: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 0 2rem 0 rgba(136, 152, 170, .15)', border: 'none' }}>
-              <div>
-                <span style={{ fontSize: '0.7rem', color: '#8898aa', fontWeight: 700, textTransform: 'uppercase' }}>Coverage</span>
-                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#32325d', marginTop: '4px' }}>63 Provinces</div>
-                <span style={{ fontSize: '0.75rem', color: '#2dce89', fontWeight: 600, display: 'block', marginTop: '8px' }}>↑ 100.0% coverage</span>
-              </div>
-              <div style={{ backgroundColor: '#fb6340', color: '#ffffff', width: '42px', height: '42px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem' }}>🗺️</div>
-            </div>
-
-            {/* KPI 2 */}
-            <div style={{ backgroundColor: '#ffffff', borderRadius: '6px', padding: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 0 2rem 0 rgba(136, 152, 170, .15)', border: 'none' }}>
-              <div>
-                <span style={{ fontSize: '0.7rem', color: '#8898aa', fontWeight: 700, textTransform: 'uppercase' }}>Hotspots</span>
-                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#32325d', marginTop: '4px' }}>{hotspotsData.length} Zones</div>
-                <span style={{ fontSize: '0.75rem', color: '#f5365c', fontWeight: 600, display: 'block', marginTop: '8px' }}>↓ Risk Score &gt; 60</span>
-              </div>
-              <div style={{ backgroundColor: '#f5365c', color: '#ffffff', width: '42px', height: '42px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem' }}>🚨</div>
-            </div>
-
-            {/* KPI 3 */}
-            <div style={{ backgroundColor: '#ffffff', borderRadius: '6px', padding: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 0 2rem 0 rgba(136, 152, 170, .15)', border: 'none' }}>
-              <div>
-                <span style={{ fontSize: '0.7rem', color: '#8898aa', fontWeight: 700, textTransform: 'uppercase' }}>Bed Demand</span>
-                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#32325d', marginTop: '4px' }}>Active Needs</div>
-                <span style={{ fontSize: '0.75rem', color: '#fb6340', fontWeight: 600, display: 'block', marginTop: '8px' }}>↑ Capacity Warning</span>
-              </div>
-              <div style={{ backgroundColor: '#ffad46', color: '#ffffff', width: '42px', height: '42px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem' }}>🏥</div>
-            </div>
-
-            {/* KPI 4 */}
-            <div style={{ backgroundColor: '#ffffff', borderRadius: '6px', padding: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 0 2rem 0 rgba(136, 152, 170, .15)', border: 'none' }}>
-              <div>
-                <span style={{ fontSize: '0.7rem', color: '#8898aa', fontWeight: 700, textTransform: 'uppercase' }}>Allocation</span>
-                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#32325d', marginTop: '4px' }}>+18.4% Rate</div>
-                <span style={{ fontSize: '0.75rem', color: '#2dce89', fontWeight: 600, display: 'block', marginTop: '8px' }}>↑ Quantum Optimized</span>
-              </div>
-              <div style={{ backgroundColor: '#11cdef', color: '#ffffff', width: '42px', height: '42px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem' }}>⚡</div>
-            </div>
-          </div>
+          <SummaryCards hotspotsCount={hotspotsData.length} />
 
           {/* Main Grid: 2 Columns */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '1.5rem' }}>
@@ -526,133 +345,10 @@ const App: React.FC = () => {
             {/* Right Column: Demand Forecasting & Recommended Actions */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', gridColumn: 'span 4' }} className="card-right-col">
               
-              {/* Demand Forecasting */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                style={{
-                  backgroundColor: '#ffffff',
-                  borderRadius: '6px',
-                  boxShadow: '0 0 2rem 0 rgba(136, 152, 170, .15)',
-                  border: 'none',
-                  padding: '1.25rem'
-                }}
-              >
-                <h2 style={{ fontSize: '1rem', marginTop: 0, marginBottom: '1.25rem', color: '#32325d', fontWeight: 800 }}>
-                  Resource Demand Forecasting <span style={{fontSize: '0.75rem', color: '#8898aa', fontWeight: 500}}>(14 Days)</span>
-                </h2>
-                
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                  {displayForecast.map(item => (
-                    <div key={item.id} style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ fontWeight: 700, color: '#525f7f', fontSize: '0.8rem' }}>{item.label}</span>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <span style={{ fontWeight: 800, color: item.color, fontSize: '0.8rem' }}>{item.value}</span>
-                          <span style={{ 
-                            fontSize: '0.6rem', 
-                            fontWeight: 700, 
-                            textTransform: 'uppercase', 
-                            padding: '2px 6px', 
-                            borderRadius: '4px',
-                            backgroundColor: `${item.color}15`,
-                            color: item.color
-                          }}>
-                            {item.status}
-                          </span>
-                        </div>
-                      </div>
-                      <div style={{ width: '100%', backgroundColor: '#e9ecef', borderRadius: '999px', height: '6px', overflow: 'hidden' }}>
-                        <div style={{ 
-                          width: `${item.progress}%`, 
-                          backgroundColor: item.color, 
-                          height: '100%', 
-                          borderRadius: '999px'
-                        }}></div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
+              <ResourceDemand displayForecast={displayForecast} />
 
-              {/* Quantum-Optimized Actions */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.6 }}
-                style={{
-                  backgroundColor: '#ffffff',
-                  borderRadius: '6px',
-                  boxShadow: '0 0 2rem 0 rgba(136, 152, 170, .15)',
-                  border: 'none',
-                  padding: '1.25rem',
-                  flex: 1
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1.25rem' }}>
-                  <span style={{ fontSize: '1.1rem' }}>✨</span>
-                  <h2 style={{ fontSize: '1rem', margin: 0, color: '#32325d', fontWeight: 800 }}>
-                    Quantum-Optimized Actions
-                  </h2>
-                </div>
+              <ActionPanel recommendations={recommendations} onExecuteAction={handleExecuteAction} />
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-                  {recommendations.map(rec => (
-                    <div key={rec.id} style={{
-                      backgroundColor: '#f8f9fe',
-                      border: '1px solid #e9ecef',
-                      borderRadius: '6px',
-                      padding: '1rem',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '10px'
-                    }}>
-                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
-                        <div style={{
-                          minWidth: '18px',
-                          height: '18px',
-                          borderRadius: '50%',
-                          backgroundColor: '#ecfdf5',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: '#2dce89',
-                          border: '1px solid #a7f3d0'
-                        }}>
-                          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                        </div>
-                        <p style={{ margin: 0, color: '#525f7f', fontSize: '0.8rem', lineHeight: 1.4, fontWeight: 600 }}>
-                          {rec.text}
-                        </p>
-                      </div>
-                      
-                      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                        <button style={{
-                          backgroundColor: '#5e72e4',
-                          color: 'white',
-                          border: 'none',
-                          borderRadius: '4px',
-                          padding: '5px 10px',
-                          fontSize: '0.75rem',
-                          fontWeight: 700,
-                          cursor: 'pointer',
-                          boxShadow: '0 4px 6px rgba(50,50,93,.11),0 1px 3px rgba(0,0,0,.08)',
-                          transition: 'background-color 0.2s'
-                        }}
-                        onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#324cdd'}
-                        onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#5e72e4'}
-                        onClick={() => handleExecuteAction(`ACT_${rec.id}`, rec.text)}
-                        >
-                          Execute Action
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
             </div>
           </div>
         </div>
