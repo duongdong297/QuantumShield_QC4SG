@@ -54,7 +54,135 @@ const recommendations = [
 ];
 
 
-const OutbreakMapsView = () => <div style={{ padding: '2rem', fontSize: '1.25rem', color: '#525f7f' }}>Coming soon</div>;
+const OutbreakMapsView = ({ hotspotsData, setSelectedProvince }: any) => {
+  // Sinh dữ liệu sự kiện giả lập (Live Threat Feed)
+  const [liveEvents, setLiveEvents] = React.useState<any[]>([]);
+
+  React.useEffect(() => {
+    if (!hotspotsData || hotspotsData.length === 0) return;
+    
+    const generateEvent = () => {
+      const randomHotspot = hotspotsData[Math.floor(Math.random() * hotspotsData.length)];
+      const eventTypes = [
+        { msg: "Spike in Aedes mosquito density", icon: "🦟", color: "#f5365c" },
+        { msg: "New cluster of Dengue reported", icon: "🚨", color: "#fb6340" },
+        { msg: "Temperature optimal for breeding", icon: "🌡️", color: "#ffad46" }
+      ];
+      const ev = eventTypes[Math.floor(Math.random() * eventTypes.length)];
+      
+      const newEvent = {
+        id: Date.now(),
+        province: randomHotspot.name,
+        time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+        ...ev
+      };
+      
+      setLiveEvents(prev => [newEvent, ...prev].slice(0, 4));
+    };
+
+    // Khởi tạo vài event ban đầu
+    generateEvent(); generateEvent();
+
+    const interval = setInterval(generateEvent, 8000);
+    return () => clearInterval(interval);
+  }, [hotspotsData]);
+
+  return (
+    <div style={{ padding: '0 2rem 2rem 2rem', marginTop: '-5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+      <div style={{
+        background: 'linear-gradient(145deg, rgba(11, 17, 32, 0.8), rgba(30, 41, 59, 0.8))',
+        backdropFilter: 'blur(16px)',
+        border: '1px solid rgba(255, 255, 255, 0.08)',
+        borderRadius: '16px',
+        padding: '1.5rem',
+        boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.1)',
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'relative',
+        minHeight: '75vh'
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+          <h2 style={{ fontSize: '1.25rem', margin: 0, color: '#ffffff', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <span style={{ marginRight: '10px' }}>🌍</span>
+            Geospatial Spread Intelligence
+          </h2>
+          <div style={{ display: 'flex', gap: '8px' }}>
+             <span style={{ backgroundColor: 'rgba(239, 68, 68, 0.2)', color: '#ef4444', padding: '4px 12px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 700, border: '1px solid rgba(239, 68, 68, 0.3)' }}>Critical Nodes: {hotspotsData?.length || 0}</span>
+          </div>
+        </div>
+        
+        {/* Map Container */}
+        <div style={{ flex: 1, borderRadius: '12px', overflow: 'hidden', position: 'relative', boxShadow: '0 4px 20px rgba(0,0,0,0.2)' }}>
+          <RiskMap 
+            data={hotspotsData} 
+            onProvinceClick={setSelectedProvince} 
+            height="100%"
+          />
+          
+          {/* NEW FEATURE: Floating Live Threat Feed overlay on Map */}
+          <div style={{
+            position: 'absolute',
+            top: '20px',
+            right: '20px',
+            width: '320px',
+            background: 'rgba(15, 23, 42, 0.85)',
+            backdropFilter: 'blur(12px)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '16px',
+            padding: '1.25rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.4)',
+            zIndex: 400 /* Map leaflet z-index is 400 usually, need to be above */
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '10px' }}>
+              <div style={{ width: '8px', height: '8px', backgroundColor: '#f5365c', borderRadius: '50%', animation: 'pulse 1.5s infinite' }} />
+              <h3 style={{ margin: 0, color: '#ffffff', fontSize: '0.85rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                Live Threat Feed
+              </h3>
+            </div>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <AnimatePresence>
+                {liveEvents.map((ev) => (
+                  <motion.div 
+                    key={ev.id}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.3 }}
+                    style={{
+                      background: 'rgba(255,255,255,0.03)',
+                      borderLeft: `3px solid ${ev.color}`,
+                      padding: '10px',
+                      borderRadius: '4px',
+                      display: 'flex',
+                      gap: '10px'
+                    }}
+                  >
+                    <span style={{ fontSize: '1.2rem' }}>{ev.icon}</span>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                      <span style={{ color: '#e2e8f0', fontSize: '0.8rem', fontWeight: 700 }}>{ev.province}</span>
+                      <span style={{ color: '#94a3b8', fontSize: '0.75rem', lineHeight: 1.2 }}>{ev.msg}</span>
+                      <span style={{ color: ev.color, fontSize: '0.65rem', fontWeight: 600, marginTop: '2px' }}>{ev.time}</span>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+              {liveEvents.length === 0 && (
+                <div style={{ color: '#64748b', fontSize: '0.8rem', fontStyle: 'italic', textAlign: 'center', padding: '10px' }}>
+                  Scanning for threats...
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 const ResourceTablesView = () => <div style={{ padding: '2rem', fontSize: '1.25rem', color: '#525f7f' }}>Coming soon</div>;
 const AuditLogsView = () => <div style={{ padding: '2rem', fontSize: '1.25rem', color: '#525f7f' }}>Coming soon</div>;
 
@@ -574,7 +702,7 @@ const App: React.FC = () => {
             setSelectedProvince={setSelectedProvince} isAnalyzing={isAnalyzing} insightData={insightData} 
           />
         )}
-        {activeTab === 'outbreak_maps' && <OutbreakMapsView />}
+        {activeTab === 'outbreak_maps' && <OutbreakMapsView hotspotsData={hotspotsData} setSelectedProvince={setSelectedProvince} />}
         {activeTab === 'resource_tables' && <ResourceTablesView />}
         {activeTab === 'audit_logs' && <AuditLogsView />}
         
