@@ -43,10 +43,10 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick }) => {
     );
 
     return {
-      fillColor: isHotspot ? '#ef4444' : '#cbd5e1',
+      fillColor: isHotspot ? '#ef4444' : '#cbd5e1', // Light theme standard: red for hotspots, light slate for others
       weight: 1.5,
       opacity: 1,
-      color: '#ffffff', // Viền trắng phân cách các tỉnh
+      color: '#ffffff', // Clean white borders
       fillOpacity: isHotspot ? 0.7 : 0.4
     };
   };
@@ -76,7 +76,7 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick }) => {
       borderRadius: '12px',
       zIndex: 0,
       overflow: 'hidden',
-      border: '1px solid rgba(255, 255, 255, 0.6)',
+      border: '1px solid rgba(0, 0, 0, 0.08)',
       boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)'
     }}>
       <MapContainer 

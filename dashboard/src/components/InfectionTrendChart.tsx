@@ -25,20 +25,20 @@ const InfectionTrendChart: React.FC<InfectionTrendChartProps> = ({ data }) => {
         <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
           <defs>
             <linearGradient id="colorInfections" x1="0" y1="0" x2="0" y2="1">
-              {/* Gradient từ đỏ nhạt xuống trong suốt để tạo cảm giác cảnh báo hiện đại */}
-              <stop offset="5%" stopColor="#ef4444" stopOpacity={0.4} />
-              <stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
+              {/* Argon Blue Line color stop */}
+              <stop offset="5%" stopColor="#11cdef" stopOpacity={0.4} />
+              <stop offset="95%" stopColor="#11cdef" stopOpacity={0} />
             </linearGradient>
           </defs>
           <XAxis 
             dataKey="day" 
-            stroke="#94a3b8" 
+            stroke="#8898aa" 
             fontSize={12} 
             tickLine={false} 
             axisLine={false} 
           />
           <YAxis 
-            stroke="#94a3b8" 
+            stroke="#8898aa" 
             fontSize={12} 
             tickLine={false} 
             axisLine={false} 
@@ -46,26 +46,26 @@ const InfectionTrendChart: React.FC<InfectionTrendChartProps> = ({ data }) => {
           <CartesianGrid 
             strokeDasharray="3 3" 
             vertical={false} 
-            stroke="#e2e8f0" 
+            stroke="rgba(255, 255, 255, 0.08)" 
           />
           <Tooltip 
             contentStyle={{ 
-              backgroundColor: '#ffffff', 
+              backgroundColor: '#172b4d', 
               borderRadius: '8px', 
-              border: '1px solid #e2e8f0', 
-              boxShadow: '0 4px 15px rgba(0,0,0,0.05)' 
+              border: 'none', 
+              boxShadow: '0 15px 35px rgba(50,50,93,.1),0 5px 15px rgba(0,0,0,.07)' 
             }}
-            itemStyle={{ color: '#ef4444', fontWeight: 600 }}
-            labelStyle={{ color: '#475569', fontWeight: 600, marginBottom: '4px' }}
+            itemStyle={{ color: '#11cdef', fontWeight: 600 }}
+            labelStyle={{ color: '#ced4da', fontWeight: 600, marginBottom: '4px' }}
           />
           <Area 
             type="monotone" 
             dataKey="infections" 
-            stroke="#ef4444" 
-            strokeWidth={3}
+            stroke="#11cdef" 
+            strokeWidth={4}
             fillOpacity={1} 
             fill="url(#colorInfections)" 
-            animationDuration={800} // Cập nhật mượt khi nhận dữ liệu WebSocket
+            animationDuration={800} 
           />
         </AreaChart>
       </ResponsiveContainer>
