@@ -16,7 +16,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab = 'dashboard', setActiveTab
   return (
     <div style={{
       width: '250px',
-      backgroundColor: '#1e293b',
+      backgroundColor: '#f1f5f9',
       borderRight: '1px solid #334155',
       position: 'fixed',
       top: 0,
@@ -32,10 +32,10 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab = 'dashboard', setActiveTab
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '2.5rem', paddingLeft: '0.5rem' }}>
         <div style={{ 
           backgroundColor: '#1171ef', 
-          color: '#1e293b', 
+          color: '#f1f5f9', 
           width: '32px', 
           height: '32px', 
-          borderRadius: '6px', 
+          borderRadius: '12px', boxShadow: '0 0 2rem 0 rgba(136, 152, 170, 0.15)', 
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'center', 
@@ -44,7 +44,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab = 'dashboard', setActiveTab
         }}>🛡️</div>
         <div>
           <h2 style={{ fontSize: '1.15rem', fontWeight: 800, margin: 0, color: '#1171ef', letterSpacing: '-0.025em' }}>QuantumShield</h2>
-          <span style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase' }}>Command Center</span>
+          <span style={{ fontSize: '0.65rem', color: '#8898aa', fontWeight: 700, textTransform: 'uppercase' }}>Command Center</span>
         </div>
       </div>
 
@@ -68,9 +68,9 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab = 'dashboard', setActiveTab
                 alignItems: 'center',
                 gap: '12px',
                 padding: '10px 12px',
-                borderRadius: '6px',
-                backgroundColor: isActive ? '#334155' : 'transparent',
-                color: isActive ? '#5e72e4' : '#cbd5e1',
+                borderRadius: '12px', boxShadow: '0 0 2rem 0 rgba(136, 152, 170, 0.15)',
+                backgroundColor: isActive ? '#e9ecef' : 'transparent',
+                color: isActive ? '#5e72e4' : '#525f7f',
                 fontWeight: isActive ? 700 : 600,
                 fontSize: '0.85rem',
                 cursor: 'pointer',
@@ -78,7 +78,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab = 'dashboard', setActiveTab
                 textDecoration: 'none'
               }}
               onMouseOver={(e) => {
-                if (!isActive) e.currentTarget.style.backgroundColor = '#334155';
+                if (!isActive) e.currentTarget.style.backgroundColor = '#e9ecef';
               }}
               onMouseOut={(e) => {
                 if (!isActive) e.currentTarget.style.backgroundColor = 'transparent';
@@ -97,7 +97,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab = 'dashboard', setActiveTab
           alignItems: 'center',
           gap: '8px',
           padding: '12px',
-          borderRadius: '8px',
+          borderRadius: '12px', boxShadow: '0 0 2rem 0 rgba(136, 152, 170, 0.15)',
           backgroundColor: '#ecfdf5',
           border: '1px solid #a7f3d0',
           color: '#065f46',
