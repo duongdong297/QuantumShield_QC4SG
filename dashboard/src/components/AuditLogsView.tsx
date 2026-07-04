@@ -78,7 +78,7 @@ const AuditLogsView: React.FC = () => {
         <button
           onClick={exportToCSV}
           disabled={logs.length === 0}
-          className="bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-800 disabled:text-slate-600 text-white font-semibold text-xs px-4 py-2 rounded-lg transition-colors flex items-center gap-2 shadow-lg"
+          className="bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-800 disabled:text-slate-400 text-white font-semibold text-xs px-4 py-2 rounded-lg transition-colors flex items-center gap-2 shadow-lg"
         >
           <span>📥</span> Export Logs (CSV)
         </button>
@@ -93,8 +93,8 @@ const AuditLogsView: React.FC = () => {
             <span className="w-3 h-3 rounded-full bg-yellow-500 block" />
             <span className="w-3 h-3 rounded-full bg-green-500 block" />
           </div>
-          <span className="text-slate-600 text-xs">root@quantumshield-edge-node:~</span>
-          <span className="text-slate-600 text-xs">bash (UTF-8)</span>
+          <span className="text-slate-400 text-xs">root@quantumshield-edge-node:~</span>
+          <span className="text-slate-400 text-xs">bash (UTF-8)</span>
         </div>
 
         {/* Terminal Output */}
@@ -112,16 +112,16 @@ const AuditLogsView: React.FC = () => {
               const typeColor =
                 log.type === 'AI_ALERT' ? 'text-red-500' :
                 log.type === 'HUMAN_ACTION' ? 'text-emerald-400' :
-                log.type === 'SYSTEM' ? 'text-slate-400' : 'text-slate-300';
+                log.type === 'SYSTEM' ? 'text-slate-400' : 'text-slate-100';
               return (
                 <div key={index} className="hover:bg-slate-900/50 px-2 py-0.5 rounded transition-colors flex items-start gap-2">
-                  <span className="text-slate-600 shrink-0">
+                  <span className="text-slate-400 shrink-0">
                     [{formatTimestamp(log.timestamp)}]
                   </span>
                   <span className={`${typeColor} shrink-0 font-bold`}>
                     [{log.type}]
                   </span>
-                  <span className="text-slate-300 break-all">
+                  <span className="text-slate-100 break-all">
                     {log.message}
                   </span>
                 </div>

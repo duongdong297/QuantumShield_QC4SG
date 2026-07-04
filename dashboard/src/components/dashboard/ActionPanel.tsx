@@ -18,7 +18,7 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ recommendations, onExecuteAct
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.6 }}
       style={{
-        backgroundColor: '#ffffff',
+        backgroundColor: '#1e293b',
         borderRadius: '6px',
         boxShadow: '0 0 2rem 0 rgba(136, 152, 170, .15)',
         border: 'none',
@@ -28,7 +28,7 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ recommendations, onExecuteAct
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1.25rem' }}>
         <span style={{ fontSize: '1.1rem' }}>✨</span>
-        <h2 style={{ fontSize: '1rem', margin: 0, color: '#32325d', fontWeight: 800 }}>
+        <h2 style={{ fontSize: '1rem', margin: 0, color: '#f8fafc', fontWeight: 800 }}>
           Quantum-Optimized Actions
         </h2>
       </div>
@@ -36,7 +36,7 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ recommendations, onExecuteAct
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
         {recommendations.map(rec => (
           <div key={rec.id} style={{
-            backgroundColor: '#f8f9fe',
+            backgroundColor: '#0f172a',
             border: '1px solid #e9ecef',
             borderRadius: '6px',
             padding: '1rem',
@@ -60,7 +60,7 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ recommendations, onExecuteAct
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
               </div>
-              <p style={{ margin: 0, color: '#525f7f', fontSize: '0.8rem', lineHeight: 1.4, fontWeight: 600 }}>
+              <p style={{ margin: 0, color: '#cbd5e1', fontSize: '0.8rem', lineHeight: 1.4, fontWeight: 600 }}>
                 {rec.text}
               </p>
             </div>

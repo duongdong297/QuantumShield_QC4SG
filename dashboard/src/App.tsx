@@ -143,7 +143,7 @@ const OutbreakMapsView = ({ hotspotsData, setSelectedProvince }: any) => {
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-            <h2 style={{ fontSize: '1.25rem', margin: 0, color: '#1e293b', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <h2 style={{ fontSize: '1.25rem', margin: 0, color: '#ffffff', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               <span style={{ marginRight: '10px' }}>🌍</span>
               Geospatial Spread Intelligence
             </h2>
@@ -213,7 +213,7 @@ const OutbreakMapsView = ({ hotspotsData, setSelectedProvince }: any) => {
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '10px' }}>
               <div style={{ width: '8px', height: '8px', backgroundColor: '#f5365c', borderRadius: '50%', animation: 'pulse 1.5s infinite' }} />
-              <h3 style={{ margin: 0, color: '#1e293b', fontSize: '0.85rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <h3 style={{ margin: 0, color: '#ffffff', fontSize: '0.85rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Live Threat Feed
               </h3>
             </div>
@@ -238,7 +238,7 @@ const OutbreakMapsView = ({ hotspotsData, setSelectedProvince }: any) => {
                   >
                     <span style={{ fontSize: '1.2rem' }}>{ev.icon}</span>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                      <span style={{ color: '#0f172a', fontSize: '0.8rem', fontWeight: 700 }}>{ev.province}</span>
+                      <span style={{ color: '#f8fafc', fontSize: '0.8rem', fontWeight: 700 }}>{ev.province}</span>
                       <span style={{ color: '#94a3b8', fontSize: '0.75rem', lineHeight: 1.2 }}>{ev.msg}</span>
                       <span style={{ color: ev.color, fontSize: '0.65rem', fontWeight: 600, marginTop: '2px' }}>{ev.time}</span>
                     </div>
@@ -272,7 +272,7 @@ const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayFo
           {error && (
             <div style={{
               backgroundColor: '#f5365c',
-              color: '#1e293b',
+              color: '#ffffff',
               padding: '0.75rem 1rem',
               borderRadius: '12px',
               marginBottom: '1.5rem',
@@ -295,7 +295,7 @@ const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayFo
               borderRadius: '12px',
               boxShadow: '0 4px 6px rgba(50,50,93,.11),0 1px 3px rgba(0,0,0,.08)',
               marginBottom: '1.5rem',
-              color: '#1e293b'
+              color: '#ffffff'
             }}>
               <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 700 }}>
                 {displayAlert.title}
@@ -346,13 +346,13 @@ const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayFo
                   boxShadow: '0 0 2rem 0 rgba(136, 152, 170, .15)',
                   border: 'none',
                   padding: '1.25rem',
-                  color: '#1e293b'
+                  color: '#ffffff'
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                   <div>
                     <span style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase' }}>Overview</span>
-                    <h2 style={{ fontSize: '1rem', margin: '2px 0 0 0', color: '#1e293b', fontWeight: 800 }}>
+                    <h2 style={{ fontSize: '1rem', margin: '2px 0 0 0', color: '#ffffff', fontWeight: 800 }}>
                       7-Day Outbreak Trend (Predicted Cases)
                     </h2>
                   </div>
