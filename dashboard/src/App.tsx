@@ -143,7 +143,7 @@ const OutbreakMapsView = ({ hotspotsData, setSelectedProvince }: any) => {
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-            <h2 style={{ fontSize: '1.25rem', margin: 0, color: '#ffffff', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <h2 style={{ fontSize: '1.25rem', margin: 0, color: '#1e293b', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               <span style={{ marginRight: '10px' }}>🌍</span>
               Geospatial Spread Intelligence
             </h2>
@@ -166,7 +166,7 @@ const OutbreakMapsView = ({ hotspotsData, setSelectedProvince }: any) => {
             <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.3)', borderRadius: '12px', padding: '4px 12px', border: `1px solid ${defconColor}` }}>
               <span style={{ color: '#fff', fontSize: '0.7rem', fontWeight: 800, marginRight: '8px', letterSpacing: '0.1em' }}>THREAT LEVEL</span>
               <span style={{ color: defconColor, fontSize: '1.1rem', fontWeight: 900, textShadow: `0 0 10px ${defconColor}` }}>DEFCON {defcon}</span>
-              <span style={{ color: '#8898aa', fontSize: '0.65rem', marginLeft: '8px', fontWeight: 700 }}>({defconText})</span>
+              <span style={{ color: '#94a3b8', fontSize: '0.65rem', marginLeft: '8px', fontWeight: 700 }}>({defconText})</span>
             </div>
              <span style={{ backgroundColor: 'rgba(239, 68, 68, 0.2)', color: '#ef4444', padding: '6px 12px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 700, border: '1px solid rgba(239, 68, 68, 0.3)' }}>
                Critical Nodes: {activeNodes}
@@ -213,7 +213,7 @@ const OutbreakMapsView = ({ hotspotsData, setSelectedProvince }: any) => {
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '10px' }}>
               <div style={{ width: '8px', height: '8px', backgroundColor: '#f5365c', borderRadius: '50%', animation: 'pulse 1.5s infinite' }} />
-              <h3 style={{ margin: 0, color: '#ffffff', fontSize: '0.85rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <h3 style={{ margin: 0, color: '#1e293b', fontSize: '0.85rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Live Threat Feed
               </h3>
             </div>
@@ -272,7 +272,7 @@ const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayFo
           {error && (
             <div style={{
               backgroundColor: '#f5365c',
-              color: '#ffffff',
+              color: '#1e293b',
               padding: '0.75rem 1rem',
               borderRadius: '6px',
               marginBottom: '1.5rem',
@@ -295,7 +295,7 @@ const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayFo
               borderRadius: '6px',
               boxShadow: '0 4px 6px rgba(50,50,93,.11),0 1px 3px rgba(0,0,0,.08)',
               marginBottom: '1.5rem',
-              color: '#ffffff'
+              color: '#1e293b'
             }}>
               <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 700 }}>
                 {displayAlert.title}
@@ -319,14 +319,14 @@ const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayFo
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
                 style={{
-                  backgroundColor: '#ffffff',
+                  backgroundColor: '#1e293b',
                   borderRadius: '6px',
                   boxShadow: '0 0 2rem 0 rgba(136, 152, 170, .15)',
                   border: 'none',
                   padding: '1.25rem',
                 }}
               >
-                <h2 style={{ fontSize: '1rem', marginTop: 0, marginBottom: '1rem', color: '#32325d', fontWeight: 800 }}>
+                <h2 style={{ fontSize: '1rem', marginTop: 0, marginBottom: '1rem', color: '#f1f5f9', fontWeight: 800 }}>
                   Geospatial Risk Intelligence (Viet Nam)
                 </h2>
                 <RiskMap 
@@ -341,18 +341,18 @@ const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayFo
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
                 style={{
-                  backgroundColor: '#172b4d', // Dark Navy
+                  backgroundColor: '#020617', // Dark Navy
                   borderRadius: '6px',
                   boxShadow: '0 0 2rem 0 rgba(136, 152, 170, .15)',
                   border: 'none',
                   padding: '1.25rem',
-                  color: '#ffffff'
+                  color: '#1e293b'
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                   <div>
-                    <span style={{ fontSize: '0.65rem', color: '#8898aa', fontWeight: 700, textTransform: 'uppercase' }}>Overview</span>
-                    <h2 style={{ fontSize: '1rem', margin: '2px 0 0 0', color: '#ffffff', fontWeight: 800 }}>
+                    <span style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase' }}>Overview</span>
+                    <h2 style={{ fontSize: '1rem', margin: '2px 0 0 0', color: '#1e293b', fontWeight: 800 }}>
                       7-Day Outbreak Trend (Predicted Cases)
                     </h2>
                   </div>
@@ -408,7 +408,7 @@ const AIAnalyticsDrawer = ({ selectedProvince, setSelectedProvince, isAnalyzing,
               height: '100vh',
               width: '400px',
               maxWidth: '100vw',
-              backgroundColor: '#ffffff',
+              backgroundColor: '#1e293b',
               boxShadow: '-10px 0 30px rgba(0, 0, 0, 0.05)',
               zIndex: 250,
               padding: '2rem',
@@ -424,14 +424,14 @@ const AIAnalyticsDrawer = ({ selectedProvince, setSelectedProvince, isAnalyzing,
                 <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#5e72e4', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   Locality Analysis
                 </span>
-                <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#32325d', margin: '4px 0 0 0', lineHeight: 1.2 }}>
+                <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#f1f5f9', margin: '4px 0 0 0', lineHeight: 1.2 }}>
                   {selectedProvince}
                 </h2>
               </div>
               <button 
                 onClick={() => setSelectedProvince(null)} 
                 style={{ 
-                  background: '#f6f9fc', 
+                  background: '#334155', 
                   border: 'none', 
                   borderRadius: '50%',
                   width: '32px',
@@ -441,11 +441,11 @@ const AIAnalyticsDrawer = ({ selectedProvince, setSelectedProvince, isAnalyzing,
                   justifyContent: 'center',
                   fontSize: '1rem', 
                   cursor: 'pointer', 
-                  color: '#8898aa',
+                  color: '#94a3b8',
                   transition: 'all 0.2s'
                 }}
-                onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#e9ecef'; e.currentTarget.style.color = '#32325d'; }}
-                onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#f6f9fc'; e.currentTarget.style.color = '#8898aa'; }}
+                onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#334155'; e.currentTarget.style.color = '#f1f5f9'; }}
+                onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#334155'; e.currentTarget.style.color = '#94a3b8'; }}
               >
                 ✕
               </button>
@@ -455,7 +455,7 @@ const AIAnalyticsDrawer = ({ selectedProvince, setSelectedProvince, isAnalyzing,
             <div style={{ marginBottom: '2rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1rem' }}>
                 <span style={{ fontSize: '1.1rem' }}>🧠</span>
-                <h3 style={{ fontSize: '1rem', margin: 0, color: '#32325d', fontWeight: 800 }}>
+                <h3 style={{ fontSize: '1rem', margin: 0, color: '#f1f5f9', fontWeight: 800 }}>
                   Quantum AI Insights
                 </h3>
               </div>
@@ -463,10 +463,10 @@ const AIAnalyticsDrawer = ({ selectedProvince, setSelectedProvince, isAnalyzing,
               {isAnalyzing ? (
                 // --- LOADING SPINNER ---
                 <div style={{
-                  backgroundColor: '#f8f9fe',
+                  backgroundColor: '#0f172a',
                   padding: '2rem 1.25rem',
                   borderRadius: '6px',
-                  border: '1px solid #e9ecef',
+                  border: '1px solid #334155',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
@@ -480,16 +480,16 @@ const AIAnalyticsDrawer = ({ selectedProvince, setSelectedProvince, isAnalyzing,
                     borderTopColor: '#5e72e4',
                     animation: 'spin 0.8s linear infinite'
                   }} />
-                  <p style={{ margin: 0, color: '#8898aa', fontSize: '0.85rem', fontWeight: 600, textAlign: 'center' }}>
+                  <p style={{ margin: 0, color: '#94a3b8', fontSize: '0.85rem', fontWeight: 600, textAlign: 'center' }}>
                     Quantum AI is analyzing<br />
                     <span style={{ color: '#5e72e4', fontWeight: 700 }}>{selectedProvince}</span>...
                   </p>
                 </div>
               ) : insightData ? (
                 // --- INSIGHT DATA ---
-                <div style={{ backgroundColor: '#f8f9fe', padding: '1.25rem', borderRadius: '6px', border: '1px solid #e9ecef', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                <div style={{ backgroundColor: '#0f172a', padding: '1.25rem', borderRadius: '6px', border: '1px solid #334155', display: 'flex', flexDirection: 'column', gap: '14px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ color: '#525f7f', fontWeight: 600, fontSize: '0.8rem' }}>Mosquito Density:</span>
+                    <span style={{ color: '#cbd5e1', fontWeight: 600, fontSize: '0.8rem' }}>Mosquito Density:</span>
                     <span style={{
                       color: insightData.density.startsWith('Critical') ? '#f5365c' : insightData.density.startsWith('High') ? '#fb6340' : '#ffad46',
                       fontWeight: 700,
@@ -503,16 +503,16 @@ const AIAnalyticsDrawer = ({ selectedProvince, setSelectedProvince, isAnalyzing,
                     </span>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ color: '#525f7f', fontWeight: 600, fontSize: '0.8rem' }}>Temperature:</span>
-                    <span style={{ color: '#32325d', fontWeight: 700, fontSize: '0.8rem' }}>{insightData.temperature.toFixed(1)}°C</span>
+                    <span style={{ color: '#cbd5e1', fontWeight: 600, fontSize: '0.8rem' }}>Temperature:</span>
+                    <span style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '0.8rem' }}>{insightData.temperature.toFixed(1)}°C</span>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ color: '#525f7f', fontWeight: 600, fontSize: '0.8rem' }}>Peak Outbreak Est.:</span>
+                    <span style={{ color: '#cbd5e1', fontWeight: 600, fontSize: '0.8rem' }}>Peak Outbreak Est.:</span>
                     <span style={{ color: '#fb6340', fontWeight: 700, fontSize: '0.8rem' }}>{insightData.peakDays} Days</span>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ color: '#525f7f', fontWeight: 600, fontSize: '0.8rem' }}>Population at Risk:</span>
-                    <span style={{ color: '#32325d', fontWeight: 700, fontSize: '0.8rem' }}>{insightData.population}</span>
+                    <span style={{ color: '#cbd5e1', fontWeight: 600, fontSize: '0.8rem' }}>Population at Risk:</span>
+                    <span style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '0.8rem' }}>{insightData.population}</span>
                   </div>
                 </div>
               ) : (
@@ -527,7 +527,7 @@ const AIAnalyticsDrawer = ({ selectedProvince, setSelectedProvince, isAnalyzing,
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1rem' }}>
                 <span style={{ fontSize: '1.1rem' }}>⚡</span>
-                <h3 style={{ fontSize: '1rem', margin: 0, color: '#32325d', fontWeight: 800 }}>
+                <h3 style={{ fontSize: '1rem', margin: 0, color: '#f1f5f9', fontWeight: 800 }}>
                   Local Interventions
                 </h3>
               </div>
@@ -535,8 +535,8 @@ const AIAnalyticsDrawer = ({ selectedProvince, setSelectedProvince, isAnalyzing,
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {recommendations.map((rec: any) => (
                   <div key={rec.id} style={{
-                    backgroundColor: '#ffffff',
-                    border: '1px solid #e9ecef',
+                    backgroundColor: '#1e293b',
+                    border: '1px solid #334155',
                     borderRadius: '6px',
                     padding: '1rem',
                     display: 'flex',
@@ -544,7 +544,7 @@ const AIAnalyticsDrawer = ({ selectedProvince, setSelectedProvince, isAnalyzing,
                     gap: '10px',
                     boxShadow: '0 1px 2px rgba(0,0,0,0.02)'
                   }}>
-                    <p style={{ margin: 0, color: '#525f7f', fontSize: '0.8rem', lineHeight: 1.4, fontWeight: 500 }}>
+                    <p style={{ margin: 0, color: '#cbd5e1', fontSize: '0.8rem', lineHeight: 1.4, fontWeight: 500 }}>
                       {rec.text}
                     </p>
                     <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '4px' }}>
@@ -730,7 +730,7 @@ const App: React.FC = () => {
       <motion.div 
         animate={{ opacity: [0.5, 1, 0.5] }}
         transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#cbd5e1', color: '#5e72e4', fontSize: '1.25rem', fontWeight: 600 }}
+        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#0f172a', color: '#5e72e4', fontSize: '1.25rem', fontWeight: 600 }}
       >
         Loading QuantumShield Intelligence...
       </motion.div>
@@ -752,7 +752,7 @@ const App: React.FC = () => {
   return (
     <div style={{
       fontFamily: "'Open Sans', 'Inter', sans-serif",
-      backgroundColor: '#cbd5e1',
+      backgroundColor: '#0f172a',
       minHeight: '100vh',
       display: 'flex',
       position: 'relative'

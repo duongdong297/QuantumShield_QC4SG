@@ -16,8 +16,8 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab = 'dashboard', setActiveTab
   return (
     <div style={{
       width: '250px',
-      backgroundColor: '#ffffff',
-      borderRight: '1px solid #e9ecef',
+      backgroundColor: '#1e293b',
+      borderRight: '1px solid #334155',
       position: 'fixed',
       top: 0,
       left: 0,
@@ -32,7 +32,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab = 'dashboard', setActiveTab
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '2.5rem', paddingLeft: '0.5rem' }}>
         <div style={{ 
           backgroundColor: '#1171ef', 
-          color: '#ffffff', 
+          color: '#1e293b', 
           width: '32px', 
           height: '32px', 
           borderRadius: '6px', 
@@ -44,7 +44,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab = 'dashboard', setActiveTab
         }}>🛡️</div>
         <div>
           <h2 style={{ fontSize: '1.15rem', fontWeight: 800, margin: 0, color: '#1171ef', letterSpacing: '-0.025em' }}>QuantumShield</h2>
-          <span style={{ fontSize: '0.65rem', color: '#8898aa', fontWeight: 700, textTransform: 'uppercase' }}>Command Center</span>
+          <span style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase' }}>Command Center</span>
         </div>
       </div>
 
@@ -69,8 +69,8 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab = 'dashboard', setActiveTab
                 gap: '12px',
                 padding: '10px 12px',
                 borderRadius: '6px',
-                backgroundColor: isActive ? '#f6f9fc' : 'transparent',
-                color: isActive ? '#5e72e4' : '#525f7f',
+                backgroundColor: isActive ? '#334155' : 'transparent',
+                color: isActive ? '#5e72e4' : '#cbd5e1',
                 fontWeight: isActive ? 700 : 600,
                 fontSize: '0.85rem',
                 cursor: 'pointer',
@@ -78,7 +78,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab = 'dashboard', setActiveTab
                 textDecoration: 'none'
               }}
               onMouseOver={(e) => {
-                if (!isActive) e.currentTarget.style.backgroundColor = '#f6f9fc';
+                if (!isActive) e.currentTarget.style.backgroundColor = '#334155';
               }}
               onMouseOut={(e) => {
                 if (!isActive) e.currentTarget.style.backgroundColor = 'transparent';
