@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, GeoJSON, CircleMarker, Tooltip } from 'react-leaflet';
+import { MapContainer, TileLayer, GeoJSON, CircleMarker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
 interface HotspotProps {
@@ -33,15 +33,22 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
       .catch(err => console.error('Error loading GeoJSON:', err));
   }, []);
 
+  // Hàm chuẩn hóa chuỗi tiếng Việt
+  const normalizeString = (str: string) => {
+    if (!str) return '';
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/đ/g, "d").replace(/city/g, "").trim();
+  };
+
   // Hàm tô màu tùy chỉnh cho từng tỉnh
   const styleProvince = (feature: any) => {
     const provName = feature.properties?.Name || feature.properties?.name || '';
+    const nProvName = normalizeString(provName);
     
     // Kiểm tra xem tỉnh này có đang nằm trong danh sách điểm nóng (hotspots) không.
-    const isHotspot = (data || []).some(spot => 
-      spot.name.toLowerCase().includes(provName.toLowerCase()) || 
-      provName.toLowerCase().includes(spot.name.toLowerCase())
-    );
+    const isHotspot = (data || []).some(spot => {
+      const nSpotName = normalizeString(spot.name);
+      return nSpotName.includes(nProvName) || nProvName.includes(nSpotName);
+    });
 
     return {
       fillColor: isHotspot ? '#ef4444' : '#cbd5e1', // Light theme standard: red for hotspots, light slate for others
@@ -55,12 +62,13 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
   // Hàm gắn sự kiện và Tooltip cho từng tỉnh
   const onEachProvince = (feature: any, layer: any) => {
     const provName = feature.properties?.Name || feature.properties?.name || 'Unknown Province';
+    const nProvName = normalizeString(provName);
     
     // Tìm kiếm thông tin risk score từ dữ liệu
-    const hotspotInfo = (data || []).find(spot => 
-      spot.name.toLowerCase().includes(provName.toLowerCase()) || 
-      provName.toLowerCase().includes(spot.name.toLowerCase())
-    );
+    const hotspotInfo = (data || []).find(spot => {
+      const nSpotName = normalizeString(spot.name);
+      return nSpotName.includes(nProvName) || nProvName.includes(nSpotName);
+    });
 
     const riskScore = hotspotInfo ? hotspotInfo.risk : 0;
     const color = hotspotInfo ? hotspotInfo.color : '#64748b';
@@ -130,17 +138,8 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
               key={`marker-${spot.id}`}
               center={spot.coords}
               pathOptions={{ color: 'red', fillColor: '#ef4444', fillOpacity: 0.8, weight: 2 }}
-              radius={12}
-            >
-              <Tooltip direction="top" offset={[0, -10]} opacity={1} permanent>
-                <div style={{ fontFamily: 'Inter, sans-serif', textAlign: 'center', minWidth: '100px' }}>
-                  <div style={{ fontWeight: 800, color: '#1e293b', fontSize: '0.95rem' }}>🚨 {spot.name}</div>
-                  <div style={{ color: '#ef4444', fontWeight: 700, fontSize: '0.85rem', marginTop: '2px' }}>
-                    Risk Score: {spot.risk}
-                  </div>
-                </div>
-              </Tooltip>
-            </CircleMarker>
+              radius={8}
+            />
           );
         })}
       </MapContainer>
