@@ -250,7 +250,7 @@ def format_output(districts_risk: list[DistrictRisk], result,
 # STEP 7: WRITE OUTPUT BACK FOR DASHBOARD
 # ---------------------------------------------------------------------------
 
-def save_output(output: dict, filepath="../artifacts/allocation_output.json"):
+def save_output(output: dict, filepath="/artifacts/allocation_output.json"):
     """Save the allocation result where the dashboard can read it."""
     with open(filepath, "w") as f:
         json.dump(output, f, indent=2)
