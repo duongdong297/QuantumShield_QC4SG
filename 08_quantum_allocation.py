@@ -34,7 +34,7 @@ from dataclasses import dataclass
 # STEP 1: READ FROM THEIR data.json
 # ---------------------------------------------------------------------------
 
-def load_data(filepath="../artifacts/data.json"):
+def load_data(filepath=".."artifacts/data.json"):
     """Load the team's forecast data from Layer 1.
     Falls back to the sample data below if file not found --
     useful for testing without running the full system.
