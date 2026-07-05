@@ -30,15 +30,15 @@ The forecasting engine predicts outbreak risks using multiple data sources (Epid
 - **Output:** 7-to-14-day outbreak risk forecasts for monitored regions.
 
 ### 📊 Layer 2: Public Health Risk Intelligence Dashboard
-Predictions are transformed into actionable insights through a real-time Web dashboard.
+Predictions are transformed into actionable insights through a real-time Web dashboard seamlessly connected via WebSockets.
 - **Code Implementation:**
   - **Backend (Edge Node):** Written in Golang, providing a lightweight WebSocket connection to push real-time data and a REST API to receive allocation commands.
-  - **Frontend:** Built with React.js (Vite), Framer Motion, Recharts, and React-Leaflet (GeoJSON).
-- **Features in Prototype:**
-  - **Risk Heatmaps:** Interactive map of all 63 provinces in Vietnam. Risk areas are automatically color-coded (red/orange) based on alert levels.
-  - **Healthcare Demand Forecasting:** Real-time predictions of the required Hospital Beds, Testing Kits, and Medical Staff.
-  - **AI Analytics Drawer:** A smart sliding drawer (opens from the right upon clicking the map) displaying deep insights: Aedes mosquito density, average temperature, and estimated peak outbreak time.
-  - **Local Interventions (Command Execution):** Allows operators to issue resource allocation commands directly from the UI. The commands are sent to the Backend and securely logged in `backend/system_audit.log`.
+  - **Frontend:** Built with React.js (Vite), Framer Motion, Recharts, and React-Leaflet (GeoJSON). Designed with a premium Dark Mode aesthetic.
+- **Features in Prototype (Organized in 4 Navigation Modules):**
+  - **1. Dashboard:** Central hub with real-time KPI metrics, Healthcare Demand Forecasting, a 7-Day Outbreak Trend chart, and Quantum-Optimized Actions for immediate resource dispatch.
+  - **2. Outbreak Maps:** Interactive GIS map of all 63 provinces in Vietnam with a Live Threat Feed overlay and simulated UAV drone deployment capabilities.
+  - **3. Resource Tables:** Detailed tabular view of epidemiological metrics (Risk Score, Mosquito Density, Temperature) and a Donut Chart for quick status distribution.
+  - **4. Audit Logs:** A dedicated terminal-like UI directly within the web app to view system and human actions in real-time, backed by actual File I/O on the backend, with CSV export functionality.
 
 ### ⚛️ Layer 3: Quantum Resource Allocation Engine (Future Phase)
 This layer determines how limited healthcare resources should be deployed based on optimization objectives (Minimize infections, Maximize coverage, Minimize costs). Formulated as a Quadratic Unconstrained Binary Optimization (QUBO) problem, we plan to apply QAOA (Quantum Approximate Optimization Algorithm) and D-Wave Hybrid Solvers to explore high-quality resource allocation strategies beyond classical OR-Tools/MILP limits.
@@ -70,12 +70,11 @@ Open your web browser and navigate to:
 👉 **[http://localhost:3000](http://localhost:3000)**
 
 ### Step 3: Test Scenarios
-To fully experience the architecture we have built:
-1. **Real-time Streaming Data:** Observe the `7-Day Outbreak Trend` chart and the `Demand Forecasting` table. You will see the chart lines fluctuate and the numbers update smoothly every 3 seconds due to the WebSocket data stream continuously pushed from the Golang Backend.
-2. **Explore the GIS Map:** Hover over the provinces or red dots on the map to view the static Tooltip labels. The GeoJSON map automatically changes colors depending on the hotspot list.
-3. **In-depth Analysis (AI Analytics Drawer):** **Click** directly on a disease hotspot or any Province on the map. An analysis drawer (`Locality Analysis`) will slide out smoothly from the right edge, containing AI predictions (e.g., Mosquito Density Level 4, Peak Time).
-4. **Issue an Allocation Command:** Right inside the newly opened drawer, scroll down to *Local Interventions* and click the `Execute Local Action` button. A success notification (green Toast) will appear.
-5. **Verify Edge Node Audit Log:** Open the `backend/system_audit.log` file in your Code Editor. You will see that the Golang Backend has accurately received your resource allocation command and logged it with an exact real-time timestamp!
+To fully experience the architecture we have built, please explore our 4 core navigation modules:
+1. **Dashboard (Real-time Streaming):** Observe the `7-Day Outbreak Trend` chart and the `Demand Forecasting` metrics. The UI updates smoothly in real-time via WebSocket data pushed from the Golang Backend. Click `Execute Action` under Quantum-Optimized Actions to dispatch resources.
+2. **Outbreak Maps (Geospatial Intelligence):** Navigate to this tab to explore the interactive GIS map. Watch the `Live Threat Feed` update dynamically, and click `Deploy UAV` to simulate aerial reconnaissance.
+3. **Resource Tables (Data Analysis):** Switch here to view a comprehensive breakdown of provincial risk scores, mosquito densities, and available beds, powered directly by our Golang In-memory database.
+4. **Audit Logs (System Monitoring):** Open the Audit Logs tab to see a stunning Terminal UI. You will instantly see your previous "Execute Action" commands logged here with exact timestamps. Click `Export Logs (CSV)` to download a native report generated directly from the backend's File I/O system.
 
 ### 🛑 Stop the System
 When you are done, you can stop the containers and free up memory by running:
