@@ -1,4 +1,4 @@
-# QuantumShield Health 🛡️
+# QuantumShield Health
 **AI-Powered Dengue Early Warning & Quantum Resource Allocation Platform**
 
 ## 1. Introduction
@@ -24,23 +24,23 @@ Decision makers must determine: *Which district receives additional resources? H
 
 QuantumShield Health consists of three integrated intelligence layers. **Currently, the prototype version of the project (this repository) has fully implemented Layer 1 and Layer 2, and is professionally containerized using Docker.**
 
-### 🧠 Layer 1: AI Dengue Forecasting Engine
+### Layer 1: AI Dengue Forecasting Engine
 The forecasting engine predicts outbreak risks using multiple data sources (Epidemiological, Environmental, Geographic, and Mobility Indicators).
 - **Code Implementation:** Built with Python (Pandas, Scikit-Learn) within AI scripts. The models process the data and output predictive results to a centralized file at `artifacts/data.json`.
 - **Output:** 7-to-14-day outbreak risk forecasts for monitored regions.
 
-### 📊 Layer 2: Public Health Risk Intelligence Dashboard
+### Layer 2: Public Health Risk Intelligence Dashboard
 Predictions are transformed into actionable insights through a real-time Web dashboard seamlessly connected via WebSockets.
 - **Code Implementation:**
   - **Backend (Edge Node):** Written in Golang, providing a lightweight WebSocket connection to push real-time data and a REST API to receive allocation commands.
-  - **Frontend:** Built with React.js (Vite), Framer Motion, Recharts, and React-Leaflet (GeoJSON). Designed with a premium Dark Mode aesthetic.
+  - **Frontend:** Built with React.js (Vite), Framer Motion, Recharts, and React-Leaflet (GeoJSON).
 - **Features in Prototype (Organized in 4 Navigation Modules):**
-  - **1. Dashboard:** Central hub with real-time KPI metrics, Healthcare Demand Forecasting, a 7-Day Outbreak Trend chart, and Quantum-Optimized Actions for immediate resource dispatch.
-  - **2. Outbreak Maps:** Interactive GIS map of all 63 provinces in Vietnam with a Live Threat Feed overlay and simulated UAV drone deployment capabilities.
+  - **1. Dashboard:** Central hub featuring real-time KPI metrics, Healthcare Demand Forecasting, a 7-Day Outbreak Trend chart, and Quantum-Optimized Actions for immediate resource dispatch.
+  - **2. Outbreak Maps (Risk Heatmaps):** Interactive GIS map of all 63 provinces in Vietnam. Risk areas are automatically color-coded (red/orange) based on alert levels. Clicking on a province opens an **AI Analytics Drawer** (a smart sliding drawer from the right) displaying deep insights like Aedes mosquito density, average temperature, and estimated peak outbreak time. Also features a Live Threat Feed overlay and simulated UAV drone deployment.
   - **3. Resource Tables:** Detailed tabular view of epidemiological metrics (Risk Score, Mosquito Density, Temperature) and a Donut Chart for quick status distribution.
-  - **4. Audit Logs:** A dedicated terminal-like UI directly within the web app to view system and human actions in real-time, backed by actual File I/O on the backend, with CSV export functionality.
+  - **4. Audit Logs (Local Interventions):** Allows operators to issue resource allocation commands directly from the UI. Features a dedicated terminal-like UI to view system and human actions in real-time. Commands are sent to the Backend and securely logged via File I/O (`system_audit.jsonl`), with CSV export functionality.
 
-### ⚛️ Layer 3: Quantum Resource Allocation Engine (Future Phase)
+### Layer 3: Quantum Resource Allocation Engine (Future Phase)
 This layer determines how limited healthcare resources should be deployed based on optimization objectives (Minimize infections, Maximize coverage, Minimize costs). Formulated as a Quadratic Unconstrained Binary Optimization (QUBO) problem, we plan to apply QAOA (Quantum Approximate Optimization Algorithm) and D-Wave Hybrid Solvers to explore high-quality resource allocation strategies beyond classical OR-Tools/MILP limits.
 
 ---
@@ -54,7 +54,7 @@ QuantumShield Health aims to become Southeast Asia's intelligent public health o
 
 ---
 
-## 💻 Deployment & Experience Guide
+## Deployment & Experience Guide
 
 The project is fully configured with a Microservices architecture and is 100% automated using Docker.
 
@@ -67,16 +67,16 @@ docker-compose up -d --build
 
 ### Step 2: Access the Dashboard
 Open your web browser and navigate to:
-👉 **[http://localhost:3000](http://localhost:3000)**
+**[http://localhost:3000](http://localhost:3000)**
 
 ### Step 3: Test Scenarios
 To fully experience the architecture we have built, please explore our 4 core navigation modules:
-1. **Dashboard (Real-time Streaming):** Observe the `7-Day Outbreak Trend` chart and the `Demand Forecasting` metrics. The UI updates smoothly in real-time via WebSocket data pushed from the Golang Backend. Click `Execute Action` under Quantum-Optimized Actions to dispatch resources.
-2. **Outbreak Maps (Geospatial Intelligence):** Navigate to this tab to explore the interactive GIS map. Watch the `Live Threat Feed` update dynamically, and click `Deploy UAV` to simulate aerial reconnaissance.
-3. **Resource Tables (Data Analysis):** Switch here to view a comprehensive breakdown of provincial risk scores, mosquito densities, and available beds, powered directly by our Golang In-memory database.
-4. **Audit Logs (System Monitoring):** Open the Audit Logs tab to see a stunning Terminal UI. You will instantly see your previous "Execute Action" commands logged here with exact timestamps. Click `Export Logs (CSV)` to download a native report generated directly from the backend's File I/O system.
+1. **Real-time Streaming Data (Dashboard):** Observe the `7-Day Outbreak Trend` chart and the `Demand Forecasting` table. You will see the chart lines fluctuate and the numbers update smoothly every 3 seconds due to the WebSocket data stream continuously pushed from the Golang Backend.
+2. **Explore the GIS Map (Outbreak Maps):** Hover over the provinces or red dots on the map to view the static Tooltip labels. The GeoJSON map automatically changes colors depending on the hotspot list.
+3. **In-depth Analysis (AI Analytics Drawer):** **Click** directly on a disease hotspot or any Province on the map. An analysis drawer (`Locality Analysis`) will slide out smoothly from the right edge, containing AI predictions (e.g., Mosquito Density Level 4, Peak Time).
+4. **Issue an Allocation Command & Verify Logs (Audit Logs):** Click the `Execute Action` button under Quantum-Optimized Actions. A success notification will appear. Then, switch to the **Audit Logs** tab to view the secure Terminal UI. You will instantly see your command logged with an exact real-time timestamp by the Golang Backend. You can also click `Export Logs (CSV)` to download the report!
 
-### 🛑 Stop the System
+### Stop the System
 When you are done, you can stop the containers and free up memory by running:
 ```bash
 docker-compose down
