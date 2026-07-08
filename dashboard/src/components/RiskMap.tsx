@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, GeoJSON, CircleMarker } from 'react-leaflet';
+import { MapContainer, TileLayer, GeoJSON, CircleMarker, Marker } from 'react-leaflet';
+import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 interface HotspotProps {
@@ -152,21 +153,45 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
         style={{ height: '100%', width: '100%', zIndex: 0 }}
       >
         <TileLayer
-          attribution='&copy; Esri'
-          url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
-        />
-        <TileLayer
-          url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}"
+          attribution='&copy; <a href="https://carto.com/">Carto</a>'
+          url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png"
         />
         
         {/* Render Lớp GeoJSON khi dữ liệu đã tải xong */}
         {geoData && (
-          <GeoJSON 
-            key={JSON.stringify(data)} 
-            data={geoData} 
-            style={styleProvince} 
-            onEachFeature={onEachProvince} 
-          />
+          <>
+            <GeoJSON 
+              key={JSON.stringify(data) + "geojson"} 
+              data={geoData} 
+              style={styleProvince} 
+              onEachFeature={onEachProvince} 
+            />
+            {geoData.features.map((feature: any, idx: number) => {
+              if (feature.geometry.type === 'Polygon' || feature.geometry.type === 'MultiPolygon') {
+                // Calculate rough centroid
+                let latSum = 0, lngSum = 0, count = 0;
+                const coords = feature.geometry.type === 'Polygon' ? feature.geometry.coordinates[0] : feature.geometry.coordinates[0][0];
+                coords.forEach((c: any) => {
+                  lngSum += c[0];
+                  latSum += c[1];
+                  count++;
+                });
+                if (count === 0) return null;
+                const center: [number, number] = [latSum / count, lngSum / count];
+                const provName = feature.properties?.Name || feature.properties?.name || '';
+                if (!provName) return null;
+                
+                const icon = L.divIcon({
+                  className: 'custom-province-label',
+                  html: `<div style="font-size: 9px; font-weight: 700; color: #475569; text-shadow: 1px 1px 0 #fff, -1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff; text-align: center; white-space: nowrap; transform: translate(-50%, -50%); opacity: 0.8;">${provName}</div>`,
+                  iconSize: [0, 0]
+                });
+                
+                return <Marker key={`label-${idx}`} position={center} icon={icon} interactive={false} />;
+              }
+              return null;
+            })}
+          </>
         )}
 
         {/* Render Lớp CircleMarker hiển thị chính xác tâm dịch đè lên GeoJSON */}
