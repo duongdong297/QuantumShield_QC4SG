@@ -28,6 +28,11 @@ interface AllocationData {
   }
 }
 
+const normalizeString = (str: string) => {
+  if (!str) return '';
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/đ/g, "d").replace(/city/g, "").trim();
+};
+
 const COLORS = {
   Critical: '#ef4444',
   Warning: '#eab308',
@@ -299,9 +304,17 @@ const ResourceTablesView: React.FC = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap border-b border-slate-700/50">
                         {allocation && allocation.allocation_result ? (
-                          allocation.allocation_result.covered_regions.some(r => r.region === prov.province_name) ? (
+                          allocation.allocation_result.covered_regions.some(r => {
+                            const nRegion = normalizeString(r.region);
+                            const nProv = normalizeString(prov.province_name);
+                            return nRegion.includes(nProv) || nProv.includes(nRegion);
+                          }) ? (
                             <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border bg-emerald-500/20 text-emerald-400 border-emerald-500/50">Deployed</span>
-                          ) : allocation.allocation_result.waiting_regions.some(r => r.region === prov.province_name) ? (
+                          ) : allocation.allocation_result.waiting_regions.some(r => {
+                            const nRegion = normalizeString(r.region);
+                            const nProv = normalizeString(prov.province_name);
+                            return nRegion.includes(nProv) || nProv.includes(nRegion);
+                          }) ? (
                             <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border bg-slate-500/20 text-slate-400 border-slate-500/50">Pending</span>
                           ) : (
                             <span className="text-slate-500">-</span>

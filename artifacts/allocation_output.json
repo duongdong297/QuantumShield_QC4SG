@@ -1,8 +1,8 @@
 {
   "quantum_allocation": {
     "solver": "dimod.ExactSolver (classical baseline)",
-    "qubo_variables": 1,
-    "timestamp": "2026-07-08T04:05:50Z",
+    "qubo_variables": 8,
+    "timestamp": "2026-07-08T04:38:17Z",
     "alert_region": "Ho Chi Minh",
     "alert_probability": 95
   },
@@ -19,13 +19,63 @@
         "lng": 106.6601,
         "riskScore": 100,
         "riskScoreNormalized": 1.0
+      },
+      {
+        "region": "Binh Duong",
+        "lat": 10.8,
+        "lng": 106.7,
+        "riskScore": 72,
+        "riskScoreNormalized": 0.72
+      },
+      {
+        "region": "Dong Nai",
+        "lat": 10.95,
+        "lng": 106.82,
+        "riskScore": 65,
+        "riskScoreNormalized": 0.65
+      },
+      {
+        "region": "Long An",
+        "lat": 10.36,
+        "lng": 106.34,
+        "riskScore": 48,
+        "riskScoreNormalized": 0.48
+      },
+      {
+        "region": "Tien Giang",
+        "lat": 10.58,
+        "lng": 106.41,
+        "riskScore": 35,
+        "riskScoreNormalized": 0.35
       }
     ],
-    "waiting_regions": [],
-    "staff_teams_deployed": 1,
+    "waiting_regions": [
+      {
+        "region": "Ben Tre",
+        "lat": 10.25,
+        "lng": 106.37,
+        "riskScore": 28,
+        "riskScoreNormalized": 0.28
+      },
+      {
+        "region": "Can Tho",
+        "lat": 10.03,
+        "lng": 105.78,
+        "riskScore": 20,
+        "riskScoreNormalized": 0.2
+      },
+      {
+        "region": "Ba Ria-Vung Tau",
+        "lat": 10.46,
+        "lng": 107.18,
+        "riskScore": 15,
+        "riskScoreNormalized": 0.15
+      }
+    ],
+    "staff_teams_deployed": 5,
     "staff_teams_budget": 5,
-    "total_risk_score_covered": 1.0,
-    "coverage_percent": 100.0
+    "total_risk_score_covered": 3.2,
+    "coverage_percent": 62.5
   },
-  "summary": "Deploying 1 of 5 available staff teams to highest-risk regions. Top priority: Ho Chi Minh (risk score: 100/100)."
+  "summary": "Deploying 5 of 5 available staff teams to highest-risk regions. Top priority: Ho Chi Minh (risk score: 100/100)."
 }
