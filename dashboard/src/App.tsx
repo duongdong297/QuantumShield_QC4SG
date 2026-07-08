@@ -55,6 +55,18 @@ const recommendations = [
   { id: 2, text: "Reallocate testing kits across districts to optimize costs." }
 ];
 
+interface AllocationRegion {
+  region: string;
+}
+
+interface AllocationData {
+  allocation_result: {
+    covered_regions: AllocationRegion[];
+    waiting_regions: AllocationRegion[];
+    staff_teams_deployed: number;
+    coverage_percent: number;
+  }
+}
 
 const OutbreakMapsView = ({ hotspotsData, setSelectedProvince }: any) => {
   // Sinh dữ liệu sự kiện giả lập (Live Threat Feed)
@@ -259,7 +271,7 @@ const OutbreakMapsView = ({ hotspotsData, setSelectedProvince }: any) => {
 };
 
 
-const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayForecast, recommendations, handleExecuteAction, setSelectedProvince }: any) => {
+const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayForecast, recommendations, handleExecuteAction, setSelectedProvince, allocationData, fetchAllocationData }: any) => {
   return (
     <>
       {/* FLOATING KPI CARDS ROW & MAIN GRID CONTAINER */}
@@ -306,7 +318,7 @@ const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayFo
             </div>
           )}
           
-          <SummaryCards hotspotsCount={hotspotsData.length} />
+          <SummaryCards hotspotsCount={hotspotsData.length} allocationData={allocationData} />
 
           {/* Main Grid: 2 Columns */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '1.5rem' }}>
@@ -364,9 +376,9 @@ const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayFo
             {/* Right Column: Demand Forecasting & Recommended Actions */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', gridColumn: 'span 4' }} className="card-right-col">
               
-              <ResourceDemand displayForecast={displayForecast} />
+              <ResourceDemand displayForecast={displayForecast} allocationData={allocationData} />
 
-              <ActionPanel recommendations={recommendations} onExecuteAction={handleExecuteAction} />
+              <ActionPanel recommendations={recommendations} onExecuteAction={handleExecuteAction} onOptimizationComplete={fetchAllocationData} />
 
             </div>
           </div>
@@ -580,6 +592,19 @@ const AIAnalyticsDrawer = ({ selectedProvince, setSelectedProvince, isAnalyzing,
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('dashboard');
+  const [allocationData, setAllocationData] = useState<AllocationData | null>(null);
+
+  const fetchAllocationData = async () => {
+    try {
+      const res = await fetch('http://localhost:8080/api/allocation');
+      if (res.ok) {
+        const data = await res.json();
+        setAllocationData(data);
+      }
+    } catch (err) {
+      console.error("Error fetching allocation data:", err);
+    }
+  };
   const [alertData, setAlertData] = useState<any>(null);
   const [forecastData, setForecastData] = useState<any[]>([]);
   const [hotspotsData, setHotspotsData] = useState<any[]>([]);
@@ -704,6 +729,10 @@ const App: React.FC = () => {
     return () => controller.abort();
   }, [selectedProvince]);
 
+  useEffect(() => {
+    fetchAllocationData();
+  }, []);
+
   const handleExecuteAction = async (actionId: string, description: string) => {
     const toastId = toast.loading("Transmitting command to Edge Node...");
     try {
@@ -775,10 +804,16 @@ const App: React.FC = () => {
         
         {activeTab === 'dashboard' && (
           <DashboardView 
-            error={error} displayAlert={displayAlert} hotspotsData={hotspotsData} 
-            chartData={chartData} displayForecast={displayForecast} recommendations={recommendations} 
-            handleExecuteAction={handleExecuteAction} selectedProvince={selectedProvince} 
-            setSelectedProvince={setSelectedProvince} isAnalyzing={isAnalyzing} insightData={insightData} 
+            error={error} 
+            displayAlert={displayAlert} 
+            hotspotsData={hotspotsData} 
+            chartData={chartData} 
+            displayForecast={displayForecast} 
+            recommendations={recommendations} 
+            handleExecuteAction={handleExecuteAction} 
+            setSelectedProvince={setSelectedProvince} 
+            allocationData={allocationData}
+            fetchAllocationData={fetchAllocationData}
           />
         )}
         {activeTab === 'outbreak_maps' && <OutbreakMapsView hotspotsData={hotspotsData} setSelectedProvince={setSelectedProvince} />}
