@@ -11,14 +11,54 @@
     "staffTeams": 5
   },
   "hotspots": [
-    {"lat": 10.7626, "lng": 106.6601, "region": "Ho Chi Minh", "riskScore": 100},
-    {"lat": 10.8000, "lng": 106.7000, "region": "Binh Duong",  "riskScore": 72},
-    {"lat": 10.9500, "lng": 106.8200, "region": "Dong Nai",    "riskScore": 65},
-    {"lat": 10.3600, "lng": 106.3400, "region": "Long An",     "riskScore": 48},
-    {"lat": 10.5800, "lng": 106.4100, "region": "Tien Giang",  "riskScore": 35},
-    {"lat": 10.2500, "lng": 106.3700, "region": "Ben Tre",     "riskScore": 28},
-    {"lat": 10.0300, "lng": 105.7800, "region": "Can Tho",     "riskScore": 20},
-    {"lat": 10.4600, "lng": 107.1800, "region": "Ba Ria-Vung Tau", "riskScore": 15}
+    {
+      "lat": 10.7626,
+      "lng": 106.6601,
+      "region": "Ho Chi Minh",
+      "riskScore": 100
+    },
+    {
+      "lat": 10.8,
+      "lng": 106.7,
+      "region": "Binh Duong",
+      "riskScore": 72
+    },
+    {
+      "lat": 10.95,
+      "lng": 106.82,
+      "region": "Dong Nai",
+      "riskScore": 65
+    },
+    {
+      "lat": 10.36,
+      "lng": 106.34,
+      "region": "Long An",
+      "riskScore": 48
+    },
+    {
+      "lat": 10.58,
+      "lng": 106.41,
+      "region": "Tien Giang",
+      "riskScore": 62
+    },
+    {
+      "lat": 10.25,
+      "lng": 106.37,
+      "region": "Ben Tre",
+      "riskScore": 28
+    },
+    {
+      "lat": 10.03,
+      "lng": 105.78,
+      "region": "Can Tho",
+      "riskScore": 20
+    },
+    {
+      "lat": 10.46,
+      "lng": 107.18,
+      "region": "Ba Ria-Vung Tau",
+      "riskScore": 15
+    }
   ],
   "trendData": [
     {

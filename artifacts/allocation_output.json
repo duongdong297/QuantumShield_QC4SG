@@ -2,7 +2,7 @@
   "quantum_allocation": {
     "solver": "dimod.ExactSolver (classical baseline)",
     "qubo_variables": 8,
-    "timestamp": "2026-07-08T05:34:01Z",
+    "timestamp": "2026-07-08T05:42:41Z",
     "alert_region": "Ho Chi Minh",
     "alert_probability": 95
   },
@@ -35,18 +35,18 @@
         "riskScoreNormalized": 0.65
       },
       {
+        "region": "Tien Giang",
+        "lat": 10.58,
+        "lng": 106.41,
+        "riskScore": 62,
+        "riskScoreNormalized": 0.62
+      },
+      {
         "region": "Long An",
         "lat": 10.36,
         "lng": 106.34,
         "riskScore": 48,
         "riskScoreNormalized": 0.48
-      },
-      {
-        "region": "Tien Giang",
-        "lat": 10.58,
-        "lng": 106.41,
-        "riskScore": 35,
-        "riskScoreNormalized": 0.35
       }
     ],
     "waiting_regions": [
@@ -74,7 +74,7 @@
     ],
     "staff_teams_deployed": 5,
     "staff_teams_budget": 5,
-    "total_risk_score_covered": 3.2,
+    "total_risk_score_covered": 3.47,
     "coverage_percent": 62.5
   },
   "summary": "Deploying 5 of 5 available staff teams to highest-risk regions. Top priority: Ho Chi Minh (risk score: 100/100)."
