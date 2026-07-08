@@ -153,7 +153,7 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
       >
         <TileLayer
           attribution='&copy; <a href="https://carto.com/">Carto</a>'
-          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+          url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png"
         />
         
         {/* Render Lớp GeoJSON khi dữ liệu đã tải xong */}
