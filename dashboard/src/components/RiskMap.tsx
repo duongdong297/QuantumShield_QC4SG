@@ -167,29 +167,45 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
               onEachFeature={onEachProvince} 
             />
             {geoData.features.map((feature: any, idx: number) => {
-              if (feature.geometry.type === 'Polygon' || feature.geometry.type === 'MultiPolygon') {
-                // Calculate rough centroid
-                let latSum = 0, lngSum = 0, count = 0;
-                const coords = feature.geometry.type === 'Polygon' ? feature.geometry.coordinates[0] : feature.geometry.coordinates[0][0];
-                coords.forEach((c: any) => {
-                  lngSum += c[0];
-                  latSum += c[1];
-                  count++;
-                });
-                if (count === 0) return null;
-                const center: [number, number] = [latSum / count, lngSum / count];
-                const provName = feature.properties?.Name || feature.properties?.name || '';
-                if (!provName) return null;
-                
-                const icon = L.divIcon({
-                  className: 'custom-province-label',
-                  html: `<div style="font-size: 9px; font-weight: 700; color: #475569; text-shadow: 1px 1px 0 #fff, -1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff; text-align: center; white-space: nowrap; transform: translate(-50%, -50%); opacity: 0.8;">${provName}</div>`,
-                  iconSize: [0, 0]
-                });
-                
-                return <Marker key={`label-${idx}`} position={center} icon={icon} interactive={false} />;
-              }
-              return null;
+              const center = (() => {
+                try {
+                  if (!feature || !feature.geometry) return null;
+                  const geom = feature.geometry;
+                  let coords: any[] = [];
+                  if (geom.type === 'Polygon') {
+                    coords = geom.coordinates[0];
+                  } else if (geom.type === 'MultiPolygon') {
+                    if (geom.coordinates && geom.coordinates[0]) {
+                      coords = geom.coordinates[0][0];
+                    }
+                  }
+                  if (!coords || !Array.isArray(coords) || coords.length === 0) return null;
+                  let latSum = 0, lngSum = 0, count = 0;
+                  coords.forEach((c: any) => {
+                    if (c && Array.isArray(c) && c.length >= 2) {
+                      lngSum += Number(c[0]);
+                      latSum += Number(c[1]);
+                      count++;
+                    }
+                  });
+                  if (count === 0) return null;
+                  return [latSum / count, lngSum / count] as [number, number];
+                } catch (e) {
+                  return null;
+                }
+              })();
+
+              if (!center) return null;
+              const provName = feature.properties?.Name || feature.properties?.name || '';
+              if (!provName) return null;
+              
+              const icon = L.divIcon({
+                className: 'custom-province-label',
+                html: `<div style="font-size: 9px; font-weight: 700; color: #475569; text-shadow: 1px 1px 0 #fff, -1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff; text-align: center; white-space: nowrap; transform: translate(-50%, -50%); opacity: 0.8;">${provName}</div>`,
+                iconSize: [0, 0]
+              });
+              
+              return <Marker key={`label-${idx}`} position={center} icon={icon} interactive={false} />;
             })}
           </>
         )}
