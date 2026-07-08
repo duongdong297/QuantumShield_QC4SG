@@ -4,11 +4,10 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 interface HotspotProps {
-  id: number;
-  name: string;
-  risk: number;
-  color: string;
-  coords: [number, number];
+  region: string;
+  lat: number;
+  lng: number;
+  riskScore: number;
 }
 
 interface RiskMapProps {
