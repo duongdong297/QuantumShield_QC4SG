@@ -103,15 +103,15 @@ type ResourceData struct {
 }
 
 var resourceDB = []ResourceData{
-	// Dữ liệu thực tế bám sát báo cáo dịch tễ Bộ Y tế (năm 2025)
-	{ProvinceName: "Ho Chi Minh", RiskScore: 98, MosquitoDensity: "Extreme (Level 5)", Temperature: 34.2, BedsAvailable: 3, Status: "Critical"}, // Ghi nhận 69.386 ca
-	{ProvinceName: "Dong Nai", RiskScore: 91, MosquitoDensity: "Extreme (Level 5)", Temperature: 33.5, BedsAvailable: 12, Status: "Critical"}, // Tăng đột biến
-	{ProvinceName: "Tay Ninh", RiskScore: 89, MosquitoDensity: "High (Level 4)", Temperature: 33.8, BedsAvailable: 15, Status: "Critical"}, // Tăng đột biến
-	{ProvinceName: "Long An", RiskScore: 87, MosquitoDensity: "High (Level 4)", Temperature: 33.0, BedsAvailable: 10, Status: "Critical"}, // Tăng đột biến
-	{ProvinceName: "Ben Tre", RiskScore: 85, MosquitoDensity: "High (Level 4)", Temperature: 32.5, BedsAvailable: 18, Status: "Critical"}, // Tăng đột biến
+	// Du lieu thuc te bam sat bao cao dich te Bo Y te (nam 2025)
+	{ProvinceName: "Ho Chi Minh", RiskScore: 98, MosquitoDensity: "Extreme (Level 5)", Temperature: 34.2, BedsAvailable: 3, Status: "Critical"}, // Ghi nhan 69.386 ca
+	{ProvinceName: "Dong Nai", RiskScore: 91, MosquitoDensity: "Extreme (Level 5)", Temperature: 33.5, BedsAvailable: 12, Status: "Critical"}, // Tang dot bien
+	{ProvinceName: "Tay Ninh", RiskScore: 89, MosquitoDensity: "High (Level 4)", Temperature: 33.8, BedsAvailable: 15, Status: "Critical"}, // Tang dot bien
+	{ProvinceName: "Long An", RiskScore: 87, MosquitoDensity: "High (Level 4)", Temperature: 33.0, BedsAvailable: 10, Status: "Critical"}, // Tang dot bien
+	{ProvinceName: "Ben Tre", RiskScore: 85, MosquitoDensity: "High (Level 4)", Temperature: 32.5, BedsAvailable: 18, Status: "Critical"}, // Tang dot bien
 	{ProvinceName: "Binh Duong", RiskScore: 82, MosquitoDensity: "High (Level 4)", Temperature: 33.1, BedsAvailable: 25, Status: "Critical"},
 	{ProvinceName: "Da Nang", RiskScore: 75, MosquitoDensity: "High (Level 4)", Temperature: 30.5, BedsAvailable: 45, Status: "Warning"},
-	{ProvinceName: "Ha Noi", RiskScore: 68, MosquitoDensity: "Moderate (Level 3)", Temperature: 28.5, BedsAvailable: 150, Status: "Warning"}, // Bắt đầu gia tăng ca bệnh
+	{ProvinceName: "Ha Noi", RiskScore: 68, MosquitoDensity: "Moderate (Level 3)", Temperature: 28.5, BedsAvailable: 150, Status: "Warning"}, // Bat dau gia tang ca benh
 	{ProvinceName: "Can Tho", RiskScore: 65, MosquitoDensity: "Moderate (Level 3)", Temperature: 31.2, BedsAvailable: 60, Status: "Warning"},
 	{ProvinceName: "Khanh Hoa", RiskScore: 62, MosquitoDensity: "Moderate (Level 3)", Temperature: 30.8, BedsAvailable: 55, Status: "Warning"},
 	{ProvinceName: "Hai Phong", RiskScore: 55, MosquitoDensity: "Moderate (Level 3)", Temperature: 27.5, BedsAvailable: 80, Status: "Warning"},
@@ -122,61 +122,61 @@ var resourceDB = []ResourceData{
 }
 
 // --- Epidemiological Knowledge Base ---
-// Dữ liệu dịch tễ học thực tế cho các tỉnh thành trọng điểm Việt Nam.
-// Nguồn tham khảo: Viện Pasteur TP.HCM, Cục Y tế Dự phòng (Bộ Y tế),
+// Du lieu dich te hoc thuc te cho cac tinh thanh trong diem Viet Nam.
+// Nguon tham khao: Vien Pasteur TP.HCM, Cuc Y te Du phong (Bo Y te),
 // WHO Dengue Situation Reports - Western Pacific Region.
 
 var provinceDB = map[string]ProvinceInsight{
-	// TP.HCM - Tâm dịch sốt xuất huyết lớn nhất cả nước.
-	// Khí hậu nhiệt đới gió mùa, nóng ẩm quanh năm. Mật độ dân số cực cao (~4,400 người/km²).
+	// TP.HCM - Tam dich sot xuat huyet lon nhat ca nuoc.
+	// Khi hau nhiet doi gio mua, nong am quanh nam. Mat do dan so cuc cao (~4,400 nguoi/km²).
 	"Ho Chi Minh": {
 		Density:     "Extreme (Level 5)",
 		Temperature: 32.5,
 		PeakDays:    5,
 		Population:  "9.3M",
 	},
-	// Ha Noi - Dịch theo mùa (đỉnh tháng 9-11), khí hậu cận nhiệt đới ẩm.
-	// Mật độ muỗi tăng mạnh sau mùa mưa nhưng mùa đông lạnh hạn chế vector.
+	// Ha Noi - Dich theo mua (dinh thang 9-11), khi hau can nhiet doi am.
+	// Mat do muoi tang manh sau mua mua nhung mua dong lanh han che vector.
 	"Ha Noi": {
 		Density:     "Moderate (Level 3)",
 		Temperature: 28.0,
 		PeakDays:    14,
 		Population:  "8.5M",
 	},
-	// Da Nang - Khí hậu nhiệt đới, mưa lớn tháng 9-12. Đô thị hóa nhanh,
-	// nhiều công trình xây dựng tạo ổ nước đọng. Nguy cơ cao hơn trung bình.
+	// Da Nang - Khi hau nhiet doi, mua lon thang 9-12. Do thi hoa nhanh,
+	// nhieu cong trinh xay dung tao o nuoc dong. Nguy co cao hon trung binh.
 	"Da Nang": {
 		Density:     "High (Level 4)",
 		Temperature: 30.5,
 		PeakDays:    10,
 		Population:  "1.2M",
 	},
-	// Dong Nai - Vùng công nghiệp trọng điểm phía Nam, nhiều khu nhà trọ
-	// công nhân mật độ cao, điều kiện vệ sinh hạn chế. Rủi ro bùng phát nhanh.
+	// Dong Nai - Vung cong nghiep trong diem phia Nam, nhieu khu nha tro
+	// cong nhan mat do cao, dieu kien ve sinh han che. Rui ro bung phat nhanh.
 	"Dong Nai": {
 		Density:     "High (Level 4)",
 		Temperature: 31.5,
 		PeakDays:    7,
 		Population:  "3.2M",
 	},
-	// Binh Duong - Tương tự Dong Nai, KCN mật độ cao. Dân số lao động nhập cư lớn,
-	// khó kiểm soát ổ dịch trong khu lưu trú tạm.
+	// Binh Duong - Tuong tu Dong Nai, KCN mat do cao. Dan so lao dong nhap cu lon,
+	// kho kiem soat o dich trong khu luu tru tam.
 	"Binh Duong": {
 		Density:     "High (Level 4)",
 		Temperature: 31.8,
 		PeakDays:    7,
 		Population:  "2.6M",
 	},
-	// Khanh Hoa (Nha Trang) - Ven biển Nam Trung Bộ, nóng ẩm.
-	// Điểm du lịch quốc tế → nguy cơ nhập khẩu chủng virus Dengue mới.
+	// Khanh Hoa (Nha Trang) - Ven bien Nam Trung Bo, nong am.
+	// Diem du lich quoc te → nguy co nhap khau chung virus Dengue moi.
 	"Khanh Hoa": {
 		Density:     "High (Level 4)",
 		Temperature: 30.8,
 		PeakDays:    9,
 		Population:  "1.2M",
 	},
-	// Can Tho - Trung tâm ĐBSCL, hệ thống kênh rạch dày đặc tạo môi trường
-	// lý tưởng cho Aedes aegypti sinh sản. Đỉnh dịch ngắn nhưng bùng phát mạnh.
+	// Can Tho - Trung tam DBSCL, he thong kenh rach day dac tao moi truong
+	// ly tuong cho Aedes aegypti sinh san. Dinh dich ngan nhung bung phat manh.
 	"Can Tho": {
 		Density:     "High (Level 4)",
 		Temperature: 31.2,
@@ -189,7 +189,7 @@ var provinceDB = map[string]ProvinceInsight{
 
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
-		return true // Bypass CORS để Frontend gọi sang thoải mái
+		return true // Bypass CORS de Frontend goi sang thoai mai
 	},
 }
 
@@ -201,7 +201,7 @@ func enableCORS(next http.HandlerFunc) http.HandlerFunc {
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
-		// Bắt request OPTIONS (Preflight)
+		// Bat request OPTIONS (Preflight)
 		if r.Method == "OPTIONS" {
 			w.WriteHeader(http.StatusOK)
 			return
@@ -228,7 +228,7 @@ func handleAction(w http.ResponseWriter, r *http.Request) {
 	// Ghi log qua helper
 	appendAuditLog("HUMAN_ACTION", "Executed action: "+req.ActionID)
 
-	// Trả kết quả JSON về cho Frontend
+	// Tra ket qua JSON ve cho Frontend
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]string{
 		"status":  "success",
@@ -246,11 +246,11 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 
 	log.Println("Client connected via WebSocket")
 
-	// Vì Go server chạy trong thư mục "backend", ta lùi ra 1 cấp ".." và truy cập vào "artifacts/data.json"
+	// Vi Go server chay trong thu muc "backend", ta lui ra 1 cap ".." va truy cap vao "artifacts/data.json"
 	dataPath := filepath.Join("..", "artifacts", "data.json")
 
 	for {
-		// Đọc nội dung file
+		// Doc noi dung file
 		fileBytes, err := os.ReadFile(dataPath)
 		if err != nil {
 			log.Printf("Error reading data file: %v (Retrying in 3s...)", err)
@@ -258,7 +258,7 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 			continue
 		}
 
-		// Map dữ liệu vào Struct
+		// Map du lieu vao Struct
 		var data DashboardData
 		if err := json.Unmarshal(fileBytes, &data); err != nil {
 			log.Printf("Error parsing JSON: %v (File might be incomplete/locked. Retrying in 3s...)", err)
@@ -266,7 +266,7 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 			continue
 		}
 
-		// Bắn dữ liệu về Frontend
+		// Ban du lieu ve Frontend
 		if err := conn.WriteJSON(data); err != nil {
 			log.Printf("Error writing JSON to websocket: %v", err)
 			break
@@ -297,58 +297,57 @@ var provinceCoords = map[string][2]float64{
 	"Da Nang":           {16.0667, 108.2333},
 	"Dak Lak":           {12.6667, 108.0333},
 	"Dak Nong":          {12.1167, 107.6833},
-	"Dak Nong":          {12.1167, 107.6833},
-	"Điện Biên":         {21.3833, 103.0167},
+	"Dien Bien":         {21.3833, 103.0167},
 	"Dong Nai":          {11.0000, 107.1667},
-	"Đồng Tháp":         {10.4500, 105.6333},
+	"Dong Thap":         {10.4500, 105.6333},
 	"Gia Lai":           {13.9833, 108.0000},
-	"Hà Giang":          {22.8000, 104.9833},
-	"Hà Nam":            {20.5333, 105.9167},
+	"Ha Giang":          {22.8000, 104.9833},
+	"Ha Nam":            {20.5333, 105.9167},
 	"Ha Noi":            {21.0285, 105.8542},
-	"Hà Tĩnh":           {18.3333, 105.9000},
-	"Hải Dương":         {20.9333, 106.3167},
+	"Ha Tinh":           {18.3333, 105.9000},
+	"Hai Duong":         {20.9333, 106.3167},
 	"Hai Phong":         {20.8500, 106.6833},
-	"Hậu Giang":         {9.7833, 105.4667},
-	"Hòa Bình":          {20.6833, 105.3333},
-	"Hưng Yên":          {20.6500, 106.0500},
+	"Hau Giang":         {9.7833, 105.4667},
+	"Hoa Binh":          {20.6833, 105.3333},
+	"Hung Yen":          {20.6500, 106.0500},
 	"Khanh Hoa":         {12.2500, 109.1667},
-	"Kiên Giang":        {9.8833, 105.1167},
+	"Kien Giang":        {9.8833, 105.1167},
 	"Kon Tum":           {14.3500, 107.9833},
-	"Lai Châu":          {22.3833, 103.4667},
+	"Lai Chau":          {22.3833, 103.4667},
 	"Lam Dong":          {11.9333, 108.4500},
-	"Lạng Sơn":          {21.8500, 106.7500},
-	"Lào Cai":           {22.4833, 103.9667},
+	"Lang Son":          {21.8500, 106.7500},
+	"Lao Cai":           {22.4833, 103.9667},
 	"Long An":           {10.5333, 106.4000},
-	"Nam Định":          {20.4167, 106.1667},
-	"Nghệ An":           {19.1667, 104.8333},
-	"Ninh Bình":         {20.2500, 105.9667},
-	"Ninh Thuận":        {11.5667, 108.9833},
-	"Phú Thọ":           {21.3167, 105.2000},
-	"Phú Yên":           {13.0833, 109.0833},
-	"Quảng Bình":        {17.4833, 106.6000},
-	"Quảng Nam":         {15.5500, 107.9833},
-	"Quảng Ngãi":        {15.1167, 108.8000},
+	"Nam Dinh":          {20.4167, 106.1667},
+	"Nghe An":           {19.1667, 104.8333},
+	"Ninh Binh":         {20.2500, 105.9667},
+	"Ninh Thuan":        {11.5667, 108.9833},
+	"Phu Tho":           {21.3167, 105.2000},
+	"Phu Yen":           {13.0833, 109.0833},
+	"Quang Binh":        {17.4833, 106.6000},
+	"Quang Nam":         {15.5500, 107.9833},
+	"Quang Ngai":        {15.1167, 108.8000},
 	"Quang Ninh":        {21.0000, 107.3333},
-	"Quảng Trị":         {16.7500, 107.1667},
-	"Sóc Trăng":         {9.6000, 105.9667},
-	"Sơn La":            {21.3333, 103.9000},
+	"Quang Tri":         {16.7500, 107.1667},
+	"Soc Trang":         {9.6000, 105.9667},
+	"Son La":            {21.3333, 103.9000},
 	"Tay Ninh":          {11.3167, 106.1000},
-	"Thái Bình":         {20.4500, 106.3333},
-	"Thái Nguyên":       {21.5833, 105.8500},
+	"Thai Binh":         {20.4500, 106.3333},
+	"Thai Nguyen":       {21.5833, 105.8500},
 	"Thanh Hoa":         {19.8000, 105.7833},
-	"Thừa Thiên Huế":    {16.4500, 107.5833},
-	"Huế":               {16.4500, 107.5833},
+	"Thua Thien Hue":    {16.4500, 107.5833},
+	"Hue":               {16.4500, 107.5833},
 	"Tien Giang":        {10.3500, 106.3500},
 	"TP Ho Chi Minh":    {10.7626, 106.6601},
 	"Ho Chi Minh":       {10.7626, 106.6601},
-	"Trà Vinh":          {9.9333, 106.3333},
-	"Tuyên Quang":       {21.8167, 105.2167},
-	"Vĩnh Long":         {10.2500, 105.9667},
-	"Vĩnh Phúc":         {21.3000, 105.6000},
-	"Yên Bái":           {21.7000, 104.8667},
+	"Tra Vinh":          {9.9333, 106.3333},
+	"Tuyen Quang":       {21.8167, 105.2167},
+	"Vinh Long":         {10.2500, 105.9667},
+	"Vinh Phuc":         {21.3000, 105.6000},
+	"Yen Bai":           {21.7000, 104.8667},
 }
 
-// getRealtimeTemp gọi Open-Meteo API để lấy nhiệt độ hiện tại.
+// getRealtimeTemp goi Open-Meteo API de lay nhiet do hien tai.
 func getRealtimeTemp(lat, lng float64) (float64, error) {
 	url := fmt.Sprintf("https://api.open-meteo.com/v1/forecast?latitude=%.4f&longitude=%.4f&current=temperature_2m", lat, lng)
 	
@@ -388,30 +387,30 @@ func handleInsight(w http.ResponseWriter, r *http.Request) {
 	var insight ProvinceInsight
 	var foundInDB bool
 
-	// 1. Tra cứu chính xác trong Knowledge Base
+	// 1. Tra cuu chinh xac trong Knowledge Base
 	if baseInsight, found := provinceDB[province]; found {
 		insight = baseInsight
 		foundInDB = true
 	}
 
-	// 2. Regional Fallback — phân loại theo đặc điểm địa lý vùng miền nếu không có trong DB
+	// 2. Regional Fallback — phan loai theo dac diem dia ly vung mien neu khong co trong DB
 	if !foundInDB {
 		switch {
-		case containsAny(province, "Bắc", "Thái", "Lạng", "Cao Bang", "Hà Giang", "Lào Cai", "Sơn La", "Lai Châu", "Điện Biên", "Yên Bái"):
+		case containsAny(province, "Bac", "Thai", "Lang", "Cao Bang", "Ha Giang", "Lao Cai", "Son La", "Lai Chau", "Dien Bien", "Yen Bai"):
 			insight = ProvinceInsight{
 				Density:     "Low (Level 2)",
 				Temperature: 23.5,
 				PeakDays:    21,
 				Population:  "~800K",
 			}
-		case containsAny(province, "Hai Phong", "Hải Dương", "Hưng Yên", "Nam Định", "Ninh Bình", "Vĩnh Phúc"):
+		case containsAny(province, "Hai Phong", "Hai Duong", "Hung Yen", "Nam Dinh", "Ninh Binh", "Vinh Phuc"):
 			insight = ProvinceInsight{
 				Density:     "Moderate (Level 3)",
 				Temperature: 27.5,
 				PeakDays:    16,
 				Population:  "~1.8M",
 			}
-		case containsAny(province, "Huế", "Thừa Thiên", "Quảng Nam", "Quảng Ngãi", "Binh Dinh", "Phú Yên", "Ninh Thuận", "Binh Thuan"):
+		case containsAny(province, "Hue", "Thua Thien", "Quang Nam", "Quang Ngai", "Binh Dinh", "Phu Yen", "Ninh Thuan", "Binh Thuan"):
 			insight = ProvinceInsight{
 				Density:     "Moderate-High (Level 3-4)",
 				Temperature: 30.0,
@@ -425,14 +424,14 @@ func handleInsight(w http.ResponseWriter, r *http.Request) {
 				PeakDays:    15,
 				Population:  "~1.2M",
 			}
-		case containsAny(province, "Ca Mau", "Kiên Giang", "Đồng Tháp", "An Giang", "Tien Giang", "Ben Tre", "Vĩnh Long", "Trà Vinh", "Sóc Trăng", "Bac Lieu", "Long An", "Hậu Giang"):
+		case containsAny(province, "Ca Mau", "Kien Giang", "Dong Thap", "An Giang", "Tien Giang", "Ben Tre", "Vinh Long", "Tra Vinh", "Soc Trang", "Bac Lieu", "Long An", "Hau Giang"):
 			insight = ProvinceInsight{
 				Density:     "High (Level 4)",
 				Temperature: 31.0,
 				PeakDays:    9,
 				Population:  "~1.7M",
 			}
-		case containsAny(province, "Tay Ninh", "Bà Rịa", "Vũng Tàu", "Binh Phuoc"):
+		case containsAny(province, "Tay Ninh", "Ba Ria", "Vung Tau", "Binh Phuoc"):
 			insight = ProvinceInsight{
 				Density:     "High (Level 4)",
 				Temperature: 31.2,
@@ -449,11 +448,11 @@ func handleInsight(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// 3. Cập nhật nhiệt độ Real-time từ API Open-Meteo
+	// 3. Cap nhat nhiet do Real-time tu API Open-Meteo
 	var coords [2]float64
 	var foundCoords bool
 
-	// Tìm tọa độ tương đối của tỉnh
+	// Tim toa do tuong doi cua tinh
 	for name, c := range provinceCoords {
 		if strings.Contains(strings.ToLower(province), strings.ToLower(name)) || strings.Contains(strings.ToLower(name), strings.ToLower(province)) {
 			coords = c
@@ -476,7 +475,7 @@ func handleInsight(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(insight)
 }
 
-// containsAny kiểm tra xem chuỗi s có chứa bất kỳ substring nào trong danh sách hay không.
+// containsAny kiem tra xem chuoi s co chua bat ky substring nao trong danh sach hay khong.
 func containsAny(s string, substrs ...string) bool {
 	for _, sub := range substrs {
 		if strings.Contains(s, sub) {
@@ -505,18 +504,18 @@ func handleUAVRecon(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Tăng đột biến RiskScore của một hotspot ngẫu nhiên để giả lập "phát hiện mới"
+	// Tang dot bien RiskScore cua mot hotspot ngau nhien de gia lap "phat hien moi"
 	targetIndex := time.Now().UnixNano() % int64(len(data.Hotspots))
 	targetProvince := data.Hotspots[targetIndex].Region
 	
-	// Tăng điểm rủi ro lên ngẫu nhiên từ 15 đến 30 điểm
+	// Tang diem rui ro len ngau nhien tu 15 den 30 diem
 	bump := int(time.Now().UnixNano() % 16) + 15 
 	data.Hotspots[targetIndex].RiskScore += bump
 	if data.Hotspots[targetIndex].RiskScore > 100 {
 		data.Hotspots[targetIndex].RiskScore = 100
 	}
 
-	// Ghi lại file để WebSocket tự động broadcast thay đổi
+	// Ghi lai file de WebSocket tu dong broadcast thay doi
 	newBytes, _ := json.MarshalIndent(data, "", "  ")
 	os.WriteFile(dataPath, newBytes, 0644)
 
@@ -537,12 +536,12 @@ func handleResources(w http.ResponseWriter, r *http.Request) {
 	allProvinces := make([]ResourceData, len(resourceDB))
 	copy(allProvinces, resourceDB)
 
-	// Sắp xếp giảm dần theo RiskScore
+	// Sap xep giam dan theo RiskScore
 	sort.Slice(allProvinces, func(i, j int) bool {
 		return allProvinces[i].RiskScore > allProvinces[j].RiskScore
 	})
 
-	// Lấy 5 phần tử đầu tiên làm TopProvinces
+	// Lay 5 phan tu dau tien lam TopProvinces
 	limit := 5
 	if len(allProvinces) < limit {
 		limit = len(allProvinces)
@@ -657,13 +656,13 @@ func handleAllocation(w http.ResponseWriter, r *http.Request) {
 // --- Main ---
 
 func main() {
-	// Ghi log khởi động hệ thống
+	// Ghi log khoi dong he thong
 	appendAuditLog("SYSTEM", "Edge Server initialized and loading database")
 	appendAuditLog("SYSTEM", "QuantumShield Command Center operational on port 8080")
 
 	mux := http.NewServeMux()
 
-	// Đăng ký REST API nhận lệnh điều khiển với middleware CORS
+	// Dang ky REST API nhan lenh dieu khien voi middleware CORS
 	mux.HandleFunc("/api/action", enableCORS(handleAction))
 	mux.HandleFunc("/api/insight", enableCORS(handleInsight))
 	mux.HandleFunc("/api/uav-recon", enableCORS(handleUAVRecon))
@@ -672,7 +671,7 @@ func main() {
 	mux.HandleFunc("/api/optimize", enableCORS(handleOptimize))
 	mux.HandleFunc("/api/allocation", enableCORS(handleAllocation))
 	
-	// Đăng ký WebSocket
+	// Dang ky WebSocket
 	mux.HandleFunc("/ws", handleWebSocket)
 
 	port := ":8080"
