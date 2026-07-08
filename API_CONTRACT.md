@@ -96,6 +96,30 @@ This file is outputted to the `artifacts/` folder after running the quantum QUBO
 
 ---
 
+## 3. UI Representation: How Optimization Results are Displayed
+When the Quantum Resource Allocation is executed, the Frontend Dashboard reacts dynamically to the changes in `allocation_output.json` through the following visual updates:
+
+### 3.1. Main Map (Geospatial Risk Intelligence)
+The 63-province map of Vietnam changes color based on the allocation result:
+*   **Covered/Allocated Regions (`covered_regions`):** 
+    *   The province polygon is colored **Emerald Green** (`#10b981`) with a glowing green border (`#34d399`) and an elevated opacity (`0.85`), signaling that resources have been safely deployed.
+*   **Threat Hotspots Waiting (`waiting_regions`):** 
+    *   The province polygon is colored **Red** (`#ef4444`) with red circle markers flashing over its centroid, signaling that it is still a pending threat waiting for medical team allocation.
+*   **Safe/Unmonitored Regions:**
+    *   Colored Slate Gray (`#cbd5e1`) with lower opacity (`0.4`).
+
+### 3.2. AI Analytics Drawer (Locality Details)
+When a user clicks on any province to open the right-side sliding drawer:
+*   An additional **Quantum Status** row appears at the top.
+*   If the region is covered, it displays a bright green badge: `DEPLOYED`.
+*   If the region is a hotspot waiting for allocation, it displays a gray badge: `PENDING`.
+
+### 3.3. Dashboard KPI Cards
+*   **Allocation Rate Card:** The percentage rate dynamically transitions to match `coverage_percent` (e.g. `62.5%`).
+*   **Medical Workforce Card:** The status transitions to **OPTIMIZED** with a green badge showing the count of teams deployed (e.g. `Deployed 5 Teams` based on `staff_teams_deployed`).
+
+---
+
 ## Standardization Note
 > [!IMPORTANT]
 > To avoid string mismatches between layers (Python AI ➔ Go Backend ➔ GeoJSON Frontend), all region/province names must be standardized to **unaccented English text** (e.g. `Ho Chi Minh`, `Binh Duong`, `Long An`, `Ba Ria-Vung Tau`).
