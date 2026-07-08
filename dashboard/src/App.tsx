@@ -87,7 +87,7 @@ const OutbreakMapsView = ({ hotspotsData, setSelectedProvince, allocationData }:
       
       const newEvent = {
         id: Date.now(),
-        province: randomHotspot.name,
+        province: randomHotspot.region,
         time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
         ...ev
       };
