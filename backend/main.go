@@ -104,21 +104,21 @@ type ResourceData struct {
 
 var resourceDB = []ResourceData{
 	// Dữ liệu thực tế bám sát báo cáo dịch tễ Bộ Y tế (năm 2025)
-	{ProvinceName: "Hồ Chí Minh", RiskScore: 98, MosquitoDensity: "Extreme (Level 5)", Temperature: 34.2, BedsAvailable: 3, Status: "Critical"}, // Ghi nhận 69.386 ca
-	{ProvinceName: "Đồng Nai", RiskScore: 91, MosquitoDensity: "Extreme (Level 5)", Temperature: 33.5, BedsAvailable: 12, Status: "Critical"}, // Tăng đột biến
-	{ProvinceName: "Tây Ninh", RiskScore: 89, MosquitoDensity: "High (Level 4)", Temperature: 33.8, BedsAvailable: 15, Status: "Critical"}, // Tăng đột biến
+	{ProvinceName: "Ho Chi Minh", RiskScore: 98, MosquitoDensity: "Extreme (Level 5)", Temperature: 34.2, BedsAvailable: 3, Status: "Critical"}, // Ghi nhận 69.386 ca
+	{ProvinceName: "Dong Nai", RiskScore: 91, MosquitoDensity: "Extreme (Level 5)", Temperature: 33.5, BedsAvailable: 12, Status: "Critical"}, // Tăng đột biến
+	{ProvinceName: "Tay Ninh", RiskScore: 89, MosquitoDensity: "High (Level 4)", Temperature: 33.8, BedsAvailable: 15, Status: "Critical"}, // Tăng đột biến
 	{ProvinceName: "Long An", RiskScore: 87, MosquitoDensity: "High (Level 4)", Temperature: 33.0, BedsAvailable: 10, Status: "Critical"}, // Tăng đột biến
-	{ProvinceName: "Bến Tre", RiskScore: 85, MosquitoDensity: "High (Level 4)", Temperature: 32.5, BedsAvailable: 18, Status: "Critical"}, // Tăng đột biến
-	{ProvinceName: "Bình Dương", RiskScore: 82, MosquitoDensity: "High (Level 4)", Temperature: 33.1, BedsAvailable: 25, Status: "Critical"},
-	{ProvinceName: "Đà Nẵng", RiskScore: 75, MosquitoDensity: "High (Level 4)", Temperature: 30.5, BedsAvailable: 45, Status: "Warning"},
-	{ProvinceName: "Hà Nội", RiskScore: 68, MosquitoDensity: "Moderate (Level 3)", Temperature: 28.5, BedsAvailable: 150, Status: "Warning"}, // Bắt đầu gia tăng ca bệnh
-	{ProvinceName: "Cần Thơ", RiskScore: 65, MosquitoDensity: "Moderate (Level 3)", Temperature: 31.2, BedsAvailable: 60, Status: "Warning"},
-	{ProvinceName: "Khánh Hòa", RiskScore: 62, MosquitoDensity: "Moderate (Level 3)", Temperature: 30.8, BedsAvailable: 55, Status: "Warning"},
-	{ProvinceName: "Hải Phòng", RiskScore: 55, MosquitoDensity: "Moderate (Level 3)", Temperature: 27.5, BedsAvailable: 80, Status: "Warning"},
-	{ProvinceName: "Đắk Lắk", RiskScore: 42, MosquitoDensity: "Low (Level 2)", Temperature: 25.5, BedsAvailable: 110, Status: "Safe"},
-	{ProvinceName: "Lâm Đồng", RiskScore: 35, MosquitoDensity: "Low (Level 2)", Temperature: 23.5, BedsAvailable: 130, Status: "Safe"},
-	{ProvinceName: "Thanh Hóa", RiskScore: 30, MosquitoDensity: "Low (Level 2)", Temperature: 27.0, BedsAvailable: 95, Status: "Safe"},
-	{ProvinceName: "Quảng Ninh", RiskScore: 25, MosquitoDensity: "Low (Level 2)", Temperature: 26.5, BedsAvailable: 140, Status: "Safe"},
+	{ProvinceName: "Ben Tre", RiskScore: 85, MosquitoDensity: "High (Level 4)", Temperature: 32.5, BedsAvailable: 18, Status: "Critical"}, // Tăng đột biến
+	{ProvinceName: "Binh Duong", RiskScore: 82, MosquitoDensity: "High (Level 4)", Temperature: 33.1, BedsAvailable: 25, Status: "Critical"},
+	{ProvinceName: "Da Nang", RiskScore: 75, MosquitoDensity: "High (Level 4)", Temperature: 30.5, BedsAvailable: 45, Status: "Warning"},
+	{ProvinceName: "Ha Noi", RiskScore: 68, MosquitoDensity: "Moderate (Level 3)", Temperature: 28.5, BedsAvailable: 150, Status: "Warning"}, // Bắt đầu gia tăng ca bệnh
+	{ProvinceName: "Can Tho", RiskScore: 65, MosquitoDensity: "Moderate (Level 3)", Temperature: 31.2, BedsAvailable: 60, Status: "Warning"},
+	{ProvinceName: "Khanh Hoa", RiskScore: 62, MosquitoDensity: "Moderate (Level 3)", Temperature: 30.8, BedsAvailable: 55, Status: "Warning"},
+	{ProvinceName: "Hai Phong", RiskScore: 55, MosquitoDensity: "Moderate (Level 3)", Temperature: 27.5, BedsAvailable: 80, Status: "Warning"},
+	{ProvinceName: "Dak Lak", RiskScore: 42, MosquitoDensity: "Low (Level 2)", Temperature: 25.5, BedsAvailable: 110, Status: "Safe"},
+	{ProvinceName: "Lam Dong", RiskScore: 35, MosquitoDensity: "Low (Level 2)", Temperature: 23.5, BedsAvailable: 130, Status: "Safe"},
+	{ProvinceName: "Thanh Hoa", RiskScore: 30, MosquitoDensity: "Low (Level 2)", Temperature: 27.0, BedsAvailable: 95, Status: "Safe"},
+	{ProvinceName: "Quang Ninh", RiskScore: 25, MosquitoDensity: "Low (Level 2)", Temperature: 26.5, BedsAvailable: 140, Status: "Safe"},
 }
 
 // --- Epidemiological Knowledge Base ---
@@ -129,55 +129,55 @@ var resourceDB = []ResourceData{
 var provinceDB = map[string]ProvinceInsight{
 	// TP.HCM - Tâm dịch sốt xuất huyết lớn nhất cả nước.
 	// Khí hậu nhiệt đới gió mùa, nóng ẩm quanh năm. Mật độ dân số cực cao (~4,400 người/km²).
-	"Hồ Chí Minh": {
+	"Ho Chi Minh": {
 		Density:     "Extreme (Level 5)",
 		Temperature: 32.5,
 		PeakDays:    5,
 		Population:  "9.3M",
 	},
-	// Hà Nội - Dịch theo mùa (đỉnh tháng 9-11), khí hậu cận nhiệt đới ẩm.
+	// Ha Noi - Dịch theo mùa (đỉnh tháng 9-11), khí hậu cận nhiệt đới ẩm.
 	// Mật độ muỗi tăng mạnh sau mùa mưa nhưng mùa đông lạnh hạn chế vector.
-	"Hà Nội": {
+	"Ha Noi": {
 		Density:     "Moderate (Level 3)",
 		Temperature: 28.0,
 		PeakDays:    14,
 		Population:  "8.5M",
 	},
-	// Đà Nẵng - Khí hậu nhiệt đới, mưa lớn tháng 9-12. Đô thị hóa nhanh,
+	// Da Nang - Khí hậu nhiệt đới, mưa lớn tháng 9-12. Đô thị hóa nhanh,
 	// nhiều công trình xây dựng tạo ổ nước đọng. Nguy cơ cao hơn trung bình.
-	"Đà Nẵng": {
+	"Da Nang": {
 		Density:     "High (Level 4)",
 		Temperature: 30.5,
 		PeakDays:    10,
 		Population:  "1.2M",
 	},
-	// Đồng Nai - Vùng công nghiệp trọng điểm phía Nam, nhiều khu nhà trọ
+	// Dong Nai - Vùng công nghiệp trọng điểm phía Nam, nhiều khu nhà trọ
 	// công nhân mật độ cao, điều kiện vệ sinh hạn chế. Rủi ro bùng phát nhanh.
-	"Đồng Nai": {
+	"Dong Nai": {
 		Density:     "High (Level 4)",
 		Temperature: 31.5,
 		PeakDays:    7,
 		Population:  "3.2M",
 	},
-	// Bình Dương - Tương tự Đồng Nai, KCN mật độ cao. Dân số lao động nhập cư lớn,
+	// Binh Duong - Tương tự Dong Nai, KCN mật độ cao. Dân số lao động nhập cư lớn,
 	// khó kiểm soát ổ dịch trong khu lưu trú tạm.
-	"Bình Dương": {
+	"Binh Duong": {
 		Density:     "High (Level 4)",
 		Temperature: 31.8,
 		PeakDays:    7,
 		Population:  "2.6M",
 	},
-	// Khánh Hòa (Nha Trang) - Ven biển Nam Trung Bộ, nóng ẩm.
+	// Khanh Hoa (Nha Trang) - Ven biển Nam Trung Bộ, nóng ẩm.
 	// Điểm du lịch quốc tế → nguy cơ nhập khẩu chủng virus Dengue mới.
-	"Khánh Hòa": {
+	"Khanh Hoa": {
 		Density:     "High (Level 4)",
 		Temperature: 30.8,
 		PeakDays:    9,
 		Population:  "1.2M",
 	},
-	// Cần Thơ - Trung tâm ĐBSCL, hệ thống kênh rạch dày đặc tạo môi trường
+	// Can Tho - Trung tâm ĐBSCL, hệ thống kênh rạch dày đặc tạo môi trường
 	// lý tưởng cho Aedes aegypti sinh sản. Đỉnh dịch ngắn nhưng bùng phát mạnh.
-	"Cần Thơ": {
+	"Can Tho": {
 		Density:     "High (Level 4)",
 		Temperature: 31.2,
 		PeakDays:    8,
@@ -281,41 +281,41 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 // --- Coordinates DB for Vietnam Provinces ---
 var provinceCoords = map[string][2]float64{
 	"An Giang":          {10.5256, 105.1258},
-	"Bà Rịa - Vũng Tàu": {10.5113, 107.1685},
-	"Bắc Giang":         {21.2822, 106.2008},
-	"Bắc Kạn":           {22.2570, 105.8208},
-	"Bạc Liêu":          {9.2942, 105.7278},
-	"Bắc Ninh":          {21.1861, 106.0763},
-	"Bến Tre":           {10.2435, 106.3758},
-	"Bình Định":         {13.9852, 109.0258},
-	"Bình Dương":        {11.1601, 106.6601},
-	"Bình Phước":        {11.7501, 106.9001},
-	"Bình Thuận":        {11.0833, 108.1667},
-	"Cà Mau":            {9.1764, 104.9889},
-	"Cần Thơ":           {10.0333, 105.7833},
-	"Cao Bằng":          {22.6667, 105.9167},
-	"Đà Nẵng":           {16.0667, 108.2333},
-	"Đắk Lắk":           {12.6667, 108.0333},
-	"Đắk Nông":          {12.1167, 107.6833},
-	"Đăk Nông":          {12.1167, 107.6833},
+	"Ba Ria - Vung Tau": {10.5113, 107.1685},
+	"Bac Giang":         {21.2822, 106.2008},
+	"Bac Kan":           {22.2570, 105.8208},
+	"Bac Lieu":          {9.2942, 105.7278},
+	"Bac Ninh":          {21.1861, 106.0763},
+	"Ben Tre":           {10.2435, 106.3758},
+	"Binh Dinh":         {13.9852, 109.0258},
+	"Binh Duong":        {11.1601, 106.6601},
+	"Binh Phuoc":        {11.7501, 106.9001},
+	"Binh Thuan":        {11.0833, 108.1667},
+	"Ca Mau":            {9.1764, 104.9889},
+	"Can Tho":           {10.0333, 105.7833},
+	"Cao Bang":          {22.6667, 105.9167},
+	"Da Nang":           {16.0667, 108.2333},
+	"Dak Lak":           {12.6667, 108.0333},
+	"Dak Nong":          {12.1167, 107.6833},
+	"Dak Nong":          {12.1167, 107.6833},
 	"Điện Biên":         {21.3833, 103.0167},
-	"Đồng Nai":          {11.0000, 107.1667},
+	"Dong Nai":          {11.0000, 107.1667},
 	"Đồng Tháp":         {10.4500, 105.6333},
 	"Gia Lai":           {13.9833, 108.0000},
 	"Hà Giang":          {22.8000, 104.9833},
 	"Hà Nam":            {20.5333, 105.9167},
-	"Hà Nội":            {21.0285, 105.8542},
+	"Ha Noi":            {21.0285, 105.8542},
 	"Hà Tĩnh":           {18.3333, 105.9000},
 	"Hải Dương":         {20.9333, 106.3167},
-	"Hải Phòng":         {20.8500, 106.6833},
+	"Hai Phong":         {20.8500, 106.6833},
 	"Hậu Giang":         {9.7833, 105.4667},
 	"Hòa Bình":          {20.6833, 105.3333},
 	"Hưng Yên":          {20.6500, 106.0500},
-	"Khánh Hòa":         {12.2500, 109.1667},
+	"Khanh Hoa":         {12.2500, 109.1667},
 	"Kiên Giang":        {9.8833, 105.1167},
 	"Kon Tum":           {14.3500, 107.9833},
 	"Lai Châu":          {22.3833, 103.4667},
-	"Lâm Đồng":          {11.9333, 108.4500},
+	"Lam Dong":          {11.9333, 108.4500},
 	"Lạng Sơn":          {21.8500, 106.7500},
 	"Lào Cai":           {22.4833, 103.9667},
 	"Long An":           {10.5333, 106.4000},
@@ -328,19 +328,19 @@ var provinceCoords = map[string][2]float64{
 	"Quảng Bình":        {17.4833, 106.6000},
 	"Quảng Nam":         {15.5500, 107.9833},
 	"Quảng Ngãi":        {15.1167, 108.8000},
-	"Quảng Ninh":        {21.0000, 107.3333},
+	"Quang Ninh":        {21.0000, 107.3333},
 	"Quảng Trị":         {16.7500, 107.1667},
 	"Sóc Trăng":         {9.6000, 105.9667},
 	"Sơn La":            {21.3333, 103.9000},
-	"Tây Ninh":          {11.3167, 106.1000},
+	"Tay Ninh":          {11.3167, 106.1000},
 	"Thái Bình":         {20.4500, 106.3333},
 	"Thái Nguyên":       {21.5833, 105.8500},
-	"Thanh Hóa":         {19.8000, 105.7833},
+	"Thanh Hoa":         {19.8000, 105.7833},
 	"Thừa Thiên Huế":    {16.4500, 107.5833},
 	"Huế":               {16.4500, 107.5833},
-	"Tiền Giang":        {10.3500, 106.3500},
-	"TP Hồ Chí Minh":    {10.7626, 106.6601},
-	"Hồ Chí Minh":       {10.7626, 106.6601},
+	"Tien Giang":        {10.3500, 106.3500},
+	"TP Ho Chi Minh":    {10.7626, 106.6601},
+	"Ho Chi Minh":       {10.7626, 106.6601},
 	"Trà Vinh":          {9.9333, 106.3333},
 	"Tuyên Quang":       {21.8167, 105.2167},
 	"Vĩnh Long":         {10.2500, 105.9667},
@@ -397,42 +397,42 @@ func handleInsight(w http.ResponseWriter, r *http.Request) {
 	// 2. Regional Fallback — phân loại theo đặc điểm địa lý vùng miền nếu không có trong DB
 	if !foundInDB {
 		switch {
-		case containsAny(province, "Bắc", "Thái", "Lạng", "Cao Bằng", "Hà Giang", "Lào Cai", "Sơn La", "Lai Châu", "Điện Biên", "Yên Bái"):
+		case containsAny(province, "Bắc", "Thái", "Lạng", "Cao Bang", "Hà Giang", "Lào Cai", "Sơn La", "Lai Châu", "Điện Biên", "Yên Bái"):
 			insight = ProvinceInsight{
 				Density:     "Low (Level 2)",
 				Temperature: 23.5,
 				PeakDays:    21,
 				Population:  "~800K",
 			}
-		case containsAny(province, "Hải Phòng", "Hải Dương", "Hưng Yên", "Nam Định", "Ninh Bình", "Vĩnh Phúc"):
+		case containsAny(province, "Hai Phong", "Hải Dương", "Hưng Yên", "Nam Định", "Ninh Bình", "Vĩnh Phúc"):
 			insight = ProvinceInsight{
 				Density:     "Moderate (Level 3)",
 				Temperature: 27.5,
 				PeakDays:    16,
 				Population:  "~1.8M",
 			}
-		case containsAny(province, "Huế", "Thừa Thiên", "Quảng Nam", "Quảng Ngãi", "Bình Định", "Phú Yên", "Ninh Thuận", "Bình Thuận"):
+		case containsAny(province, "Huế", "Thừa Thiên", "Quảng Nam", "Quảng Ngãi", "Binh Dinh", "Phú Yên", "Ninh Thuận", "Binh Thuan"):
 			insight = ProvinceInsight{
 				Density:     "Moderate-High (Level 3-4)",
 				Temperature: 30.0,
 				PeakDays:    12,
 				Population:  "~1.5M",
 			}
-		case containsAny(province, "Đắk Lắk", "Đắk Nông", "Gia Lai", "Kon Tum", "Lâm Đồng"):
+		case containsAny(province, "Dak Lak", "Dak Nong", "Gia Lai", "Kon Tum", "Lam Dong"):
 			insight = ProvinceInsight{
 				Density:     "Moderate (Level 3)",
 				Temperature: 25.5,
 				PeakDays:    15,
 				Population:  "~1.2M",
 			}
-		case containsAny(province, "Cà Mau", "Kiên Giang", "Đồng Tháp", "An Giang", "Tiền Giang", "Bến Tre", "Vĩnh Long", "Trà Vinh", "Sóc Trăng", "Bạc Liêu", "Long An", "Hậu Giang"):
+		case containsAny(province, "Ca Mau", "Kiên Giang", "Đồng Tháp", "An Giang", "Tien Giang", "Ben Tre", "Vĩnh Long", "Trà Vinh", "Sóc Trăng", "Bac Lieu", "Long An", "Hậu Giang"):
 			insight = ProvinceInsight{
 				Density:     "High (Level 4)",
 				Temperature: 31.0,
 				PeakDays:    9,
 				Population:  "~1.7M",
 			}
-		case containsAny(province, "Tây Ninh", "Bà Rịa", "Vũng Tàu", "Bình Phước"):
+		case containsAny(province, "Tay Ninh", "Bà Rịa", "Vũng Tàu", "Binh Phuoc"):
 			insight = ProvinceInsight{
 				Density:     "High (Level 4)",
 				Temperature: 31.2,
