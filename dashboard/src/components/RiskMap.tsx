@@ -4,10 +4,11 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 interface HotspotProps {
-  region: string;
-  lat: number;
-  lng: number;
-  riskScore: number;
+  id: number;
+  name: string;
+  risk: number;
+  color: string;
+  coords: [number, number];
 }
 
 interface RiskMapProps {
@@ -47,7 +48,7 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
     
     // Kiểm tra xem tỉnh này có đang nằm trong danh sách điểm nóng (hotspots) không.
     const isHotspot = (data || []).some(spot => {
-      const nSpotName = normalizeString(spot.region);
+      const nSpotName = normalizeString(spot.name);
       return nSpotName.includes(nProvName) || nProvName.includes(nSpotName);
     });
 
@@ -76,12 +77,12 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
     
     // Tìm kiếm thông tin risk score từ dữ liệu
     const hotspotInfo = (data || []).find(spot => {
-      const nSpotName = normalizeString(spot.region);
+      const nSpotName = normalizeString(spot.name);
       return nSpotName.includes(nProvName) || nProvName.includes(nSpotName);
     });
 
-    const riskScore = hotspotInfo ? hotspotInfo.riskScore : 0;
-    const color = hotspotInfo ? (hotspotInfo.riskScore > 80 ? '#f5365c' : hotspotInfo.riskScore > 60 ? '#fb6340' : '#ffad46') : '#64748b';
+    const riskScore = hotspotInfo ? hotspotInfo.risk : 0;
+    const color = hotspotInfo ? hotspotInfo.color : '#64748b';
     const status = riskScore > 80 ? 'CRITICAL' : riskScore > 60 ? 'WARNING' : 'SAFE';
 
     // Kiểm tra xem tỉnh này có được thuật toán lượng tử cấp phát tài nguyên không
@@ -212,12 +213,12 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
         {/* Render Lớp CircleMarker hiển thị chính xác tâm dịch đè lên GeoJSON */}
         {(data || []).map(spot => {
           // Bỏ qua nếu tọa độ không hợp lệ
-          if (!spot.lat || !spot.lng) return null;
+          if (!spot.coords || spot.coords.length < 2 || spot.coords[0] === 0) return null;
           
           return (
             <CircleMarker
-              key={`marker-${spot.region}`}
-              center={[spot.lat, spot.lng]}
+              key={`marker-${spot.id}`}
+              center={spot.coords}
               pathOptions={{ color: 'red', fillColor: '#ef4444', fillOpacity: 0.8, weight: 2 }}
               radius={8}
             />
