@@ -15,6 +15,19 @@ interface ApiResponse {
   all_provinces: ProvinceData[];
 }
 
+interface AllocationRegion {
+  region: string;
+}
+
+interface AllocationData {
+  allocation_result: {
+    covered_regions: AllocationRegion[];
+    waiting_regions: AllocationRegion[];
+    staff_teams_deployed: number;
+    coverage_percent: number;
+  }
+}
+
 const COLORS = {
   Critical: '#ef4444',
   Warning: '#eab308',
@@ -23,6 +36,7 @@ const COLORS = {
 
 const ResourceTablesView: React.FC = () => {
   const [data, setData] = useState<ApiResponse | null>(null);
+  const [allocation, setAllocation] = useState<AllocationData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [sortField, setSortField] = useState<keyof ProvinceData>('risk_score');
@@ -39,6 +53,16 @@ const ResourceTablesView: React.FC = () => {
         console.error("Error fetching resources:", err);
         setIsLoading(false);
       });
+
+    fetch('http://localhost:8080/api/allocation')
+      .then(res => {
+        if (res.ok) return res.json();
+        return null;
+      })
+      .then((data) => {
+        if (data) setAllocation(data);
+      })
+      .catch(err => console.error("Error fetching allocation:", err));
   }, []);
 
   if (isLoading) {
@@ -251,10 +275,13 @@ const ResourceTablesView: React.FC = () => {
                 <th className="px-6 py-4 border-b border-slate-700/50 font-bold cursor-pointer hover:text-slate-200 transition-colors" onClick={() => toggleSort('beds_available')}>
                   Beds Available {sortField === 'beds_available' ? (sortAscending ? '▲' : '▼') : ''}
                 </th>
-                <th className="px-6 py-4 border-b border-slate-700/50 font-bold cursor-pointer hover:text-slate-200 transition-colors" onClick={() => toggleSort('status')}>
-                  Status {sortField === 'status' ? (sortAscending ? '▲' : '▼') : ''}
-                </th>
-              </tr>
+                    <th className="px-6 py-4 font-bold text-slate-300 uppercase tracking-wider whitespace-nowrap cursor-pointer" onClick={() => toggleSort('status')}>
+                      Epidemic Status {sortField === 'status' ? (sortAscending ? '↑' : '↓') : '↕'}
+                    </th>
+                    <th className="px-6 py-4 font-bold text-slate-300 uppercase tracking-wider whitespace-nowrap">
+                      Allocation Status
+                    </th>
+                  </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/80">
               {sortedProvinces.length > 0 ? (
@@ -267,14 +294,25 @@ const ResourceTablesView: React.FC = () => {
                     <td className="px-6 py-4 border-b border-slate-700/50 text-slate-300">{prov.mosquito_density}</td>
                     <td className="px-6 py-4 border-b border-slate-700/50 text-slate-300">{prov.temperature.toFixed(1)}°C</td>
                     <td className="px-6 py-4 border-b border-slate-700/50 text-slate-300 font-mono font-medium">{prov.beds_available}</td>
-                    <td className="px-6 py-4 border-b border-slate-700/50">
-                      {renderStatusBadge(prov.status)}
-                    </td>
-                  </tr>
+                      <td className="px-6 py-4 whitespace-nowrap border-b border-slate-700/50">
+                        {renderStatusBadge(prov.status)}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap border-b border-slate-700/50">
+                        {allocation && allocation.allocation_result ? (
+                          allocation.allocation_result.covered_regions.some(r => r.region === prov.province_name) ? (
+                            <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border bg-emerald-500/20 text-emerald-400 border-emerald-500/50">Deployed</span>
+                          ) : allocation.allocation_result.waiting_regions.some(r => r.region === prov.province_name) ? (
+                            <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border bg-slate-500/20 text-slate-400 border-slate-500/50">Pending</span>
+                          ) : (
+                            <span className="text-slate-500">-</span>
+                          )
+                        ) : <span className="text-slate-500 font-medium italic">Not Run</span>}
+                      </td>
+                    </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={5} className="text-center py-8 text-slate-500 italic">
+                  <td colSpan={6} className="text-center py-8 text-slate-500 italic">
                     No matching regions found.
                   </td>
                 </tr>

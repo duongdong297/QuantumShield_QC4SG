@@ -1,0 +1,31 @@
+{
+  "quantum_allocation": {
+    "solver": "dimod.ExactSolver (classical baseline)",
+    "qubo_variables": 1,
+    "timestamp": "2026-07-08T04:05:50Z",
+    "alert_region": "Ho Chi Minh",
+    "alert_probability": 95
+  },
+  "resources_available": {
+    "staff_teams": 5,
+    "beds": 53,
+    "kits": 808
+  },
+  "allocation_result": {
+    "covered_regions": [
+      {
+        "region": "Ho Chi Minh",
+        "lat": 10.7626,
+        "lng": 106.6601,
+        "riskScore": 100,
+        "riskScoreNormalized": 1.0
+      }
+    ],
+    "waiting_regions": [],
+    "staff_teams_deployed": 1,
+    "staff_teams_budget": 5,
+    "total_risk_score_covered": 1.0,
+    "coverage_percent": 100.0
+  },
+  "summary": "Deploying 1 of 5 available staff teams to highest-risk regions. Top priority: Ho Chi Minh (risk score: 100/100)."
+}

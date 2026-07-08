@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -603,6 +604,56 @@ func handleGetLogs(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(reversedLogs)
 }
 
+// handleOptimize triggers the Layer 3 Python script.
+func handleOptimize(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost && r.Method != http.MethodOptions {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	cmd := exec.Command("python", "08_quantum_allocation.py")
+	cmd.Dir = ".."
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		log.Printf("Error running quantum allocation: %v\nOutput: %s", err, string(out))
+		http.Error(w, "Failed to execute quantum allocation", http.StatusInternalServerError)
+		return
+	}
+
+	appendAuditLog("SYSTEM", "Quantum allocation executed successfully")
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(map[string]string{
+		"message": "Quantum allocation executed",
+	})
+}
+
+// handleAllocation reads the output of Layer 3 and returns it.
+func handleAllocation(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet && r.Method != http.MethodOptions {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	data, err := os.ReadFile("../artifacts/allocation_output.json")
+	if err != nil {
+		log.Printf("Error reading allocation output: %v", err)
+		http.Error(w, "Allocation output not found", http.StatusNotFound)
+		return
+	}
+
+	var result map[string]interface{}
+	if err := json.Unmarshal(data, &result); err != nil {
+		log.Printf("Error parsing allocation output: %v", err)
+		http.Error(w, "Invalid allocation output format", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(result)
+}
+
 // --- Main ---
 
 func main() {
@@ -618,6 +669,8 @@ func main() {
 	mux.HandleFunc("/api/uav-recon", enableCORS(handleUAVRecon))
 	mux.HandleFunc("/api/resources", enableCORS(handleResources))
 	mux.HandleFunc("/api/logs", enableCORS(handleGetLogs))
+	mux.HandleFunc("/api/optimize", enableCORS(handleOptimize))
+	mux.HandleFunc("/api/allocation", enableCORS(handleAllocation))
 	
 	// Đăng ký WebSocket
 	mux.HandleFunc("/ws", handleWebSocket)

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { toast } from 'react-hot-toast';
 
 interface Recommendation {
   id: number;
@@ -12,6 +13,30 @@ interface ActionPanelProps {
 }
 
 const ActionPanel: React.FC<ActionPanelProps> = ({ recommendations, onExecuteAction }) => {
+  const [isOptimizing, setIsOptimizing] = useState(false);
+
+  const handleRunQuantumAllocation = async () => {
+    setIsOptimizing(true);
+    const toastId = toast.loading("Quantum computing in progress...", {
+      style: { borderRadius: '10px', background: '#3b0764', color: '#fff' }
+    });
+
+    try {
+      const response = await fetch('http://localhost:8080/api/optimize', { method: 'POST' });
+      if (response.ok) {
+        toast.success("Quantum allocation executed successfully!", {
+          id: toastId,
+          style: { borderRadius: '10px', background: '#10b981', color: '#fff' }
+        });
+      } else {
+        toast.error("Failed to run quantum allocation", { id: toastId });
+      }
+    } catch (error) {
+      toast.error("Network error during quantum allocation", { id: toastId });
+    } finally {
+      setIsOptimizing(false);
+    }
+  };
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -26,11 +51,32 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ recommendations, onExecuteAct
         flex: 1
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1.25rem' }}>
-        <span style={{ fontSize: '1.1rem' }}>✨</span>
-        <h2 style={{ fontSize: '1rem', margin: 0, color: '#f8fafc', fontWeight: 800 }}>
-          Quantum-Optimized Actions
-        </h2>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1.25rem', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span style={{ fontSize: '1.1rem' }}>✨</span>
+          <h2 style={{ fontSize: '1rem', margin: 0, color: '#f8fafc', fontWeight: 800 }}>
+            Quantum-Optimized Actions
+          </h2>
+        </div>
+        <button 
+          onClick={handleRunQuantumAllocation}
+          disabled={isOptimizing}
+          style={{
+            background: 'linear-gradient(135deg, #8b5cf6, #3b82f6)',
+            color: 'white',
+            border: 'none',
+            borderRadius: '6px',
+            padding: '6px 12px',
+            fontSize: '0.8rem',
+            fontWeight: 800,
+            cursor: isOptimizing ? 'not-allowed' : 'pointer',
+            boxShadow: '0 0 10px rgba(139, 92, 246, 0.4)',
+            opacity: isOptimizing ? 0.7 : 1,
+            transition: 'all 0.2s'
+          }}
+        >
+          {isOptimizing ? 'Optimizing...' : 'Run Quantum Allocation'}
+        </button>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
