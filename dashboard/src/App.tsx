@@ -68,7 +68,7 @@ interface AllocationData {
   }
 }
 
-const OutbreakMapsView = ({ hotspotsData, setSelectedProvince }: any) => {
+const OutbreakMapsView = ({ hotspotsData, setSelectedProvince, allocationData }: any) => {
   // Sinh dữ liệu sự kiện giả lập (Live Threat Feed)
   const [liveEvents, setLiveEvents] = React.useState<any[]>([]);
   const [deployingDrone, setDeployingDrone] = React.useState(false);
@@ -204,6 +204,7 @@ const OutbreakMapsView = ({ hotspotsData, setSelectedProvince }: any) => {
             data={hotspotsData} 
             onProvinceClick={setSelectedProvince} 
             height="100%"
+            allocationData={allocationData}
           />
           
           {/* NEW FEATURE: Floating Live Threat Feed overlay on Map */}
@@ -344,6 +345,7 @@ const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayFo
                 <RiskMap 
                   data={hotspotsData} 
                   onProvinceClick={(province) => setSelectedProvince(province)} 
+                  allocationData={allocationData}
                 />
               </motion.div>
 
@@ -816,7 +818,7 @@ const App: React.FC = () => {
             fetchAllocationData={fetchAllocationData}
           />
         )}
-        {activeTab === 'outbreak_maps' && <OutbreakMapsView hotspotsData={hotspotsData} setSelectedProvince={setSelectedProvince} />}
+        {activeTab === 'outbreak_maps' && <OutbreakMapsView hotspotsData={hotspotsData} setSelectedProvince={setSelectedProvince} allocationData={allocationData} />}
         {activeTab === 'resource_tables' && <ResourceTablesView />}
         {activeTab === 'audit_logs' && <AuditLogsView />}
         
