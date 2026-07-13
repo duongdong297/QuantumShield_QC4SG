@@ -3,6 +3,9 @@ FROM alpine:latest
 
 # Cài đặt CA certificates và tzdata (nếu cần thiết cho bảo mật và timezone)
 RUN apk --no-cache add ca-certificates tzdata
+RUN apk --no-cache add python3 py3-pip
+RUN pip3 install --break-system-packages dimod
+
 
 WORKDIR /app/backend
 
