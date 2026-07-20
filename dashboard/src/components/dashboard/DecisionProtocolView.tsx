@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 
-const DecisionProtocolView = ({ allocationData }: any) => {
+const DecisionProtocolView = ({ allocationData, handleExecuteAction }: any) => {
   const recommendations = allocationData?.recommendations || [];
   
   const rules = [
@@ -113,6 +113,7 @@ const DecisionProtocolView = ({ allocationData }: any) => {
                 }}
                 onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#5e72e4'}
                 onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'rgba(94, 114, 228, 0.15)'}
+                onClick={() => handleExecuteAction && handleExecuteAction(rec.id)}
                 >
                   Execute
                 </button>

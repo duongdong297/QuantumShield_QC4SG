@@ -823,7 +823,7 @@ const App: React.FC = () => {
           />
         )}
         {activeTab === 'outbreak_maps' && <OutbreakMapsView hotspotsData={hotspotsData} setSelectedProvince={setSelectedProvince} allocationData={allocationData} />}
-        {activeTab === 'decision_protocol' && <DecisionProtocolView allocationData={allocationData} />}
+        {activeTab === 'decision_protocol' && <DecisionProtocolView allocationData={allocationData} handleExecuteAction={handleExecuteAction} />}
         {activeTab === 'resource_tables' && <ResourceTablesView />}
         {activeTab === 'audit_logs' && <AuditLogsView />}
         
