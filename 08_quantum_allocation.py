@@ -99,6 +99,9 @@ class DistrictRisk:
     lat: float
     lng: float
     raw_risk: int        # original 0-100 from their data
+    population: int
+    case_count: int
+    incidence_rate: float
 
 
 def extract_risk_scores(data: dict) -> list[DistrictRisk]:
@@ -109,12 +112,29 @@ def extract_risk_scores(data: dict) -> list[DistrictRisk]:
 
     results = []
     for h in hotspots:
+        pop = h.get("population", 1000000)
+        cases = h.get("caseCount", 100)
+        incidence = round((cases / pop) * 100000, 2) if pop > 0 else 0
+        
+        # Override raw_risk based on incidence
+        if incidence > 50:
+            computed_risk = 100
+        elif incidence > 25:
+            computed_risk = 75
+        elif incidence > 10:
+            computed_risk = 50
+        else:
+            computed_risk = 25
+
         results.append(DistrictRisk(
             name=h["region"],
-            risk_score=round(h["riskScore"] / 100, 3),
+            risk_score=round(computed_risk / 100, 3),
             lat=h["lat"],
             lng=h["lng"],
-            raw_risk=h["riskScore"],
+            raw_risk=computed_risk,
+            population=pop,
+            case_count=cases,
+            incidence_rate=incidence
         ))
     return results
 
@@ -142,13 +162,13 @@ def risk_tier(risk_score_normalized: float) -> dict:
     Thresholds are provisional -- based on quartiles of the 0-1 score.
     """
     if risk_score_normalized >= 0.75:
-        return {"tier": "Critical", "action": "Activate emergency response; deploy staff team now"}
+        return {"tier": "CRITICAL", "action": "Activate emergency response; deploy staff team now"}
     elif risk_score_normalized >= 0.50:
-        return {"tier": "High", "action": "Prepare medical resources; pre-position supplies"}
+        return {"tier": "HIGH RISK", "action": "Prepare medical resources; pre-position supplies"}
     elif risk_score_normalized >= 0.25:
-        return {"tier": "Medium", "action": "Increase surveillance; early testing"}
+        return {"tier": "MEDIUM RISK", "action": "Increase surveillance; early testing"}
     else:
-        return {"tier": "Low", "action": "Routine monitoring"}
+        return {"tier": "LOW RISK", "action": "Routine monitoring"}
 
 
 # ---------------------------------------------------------------------------
@@ -279,6 +299,8 @@ def format_output(districts_risk: list[DistrictRisk], result,
 
     covered = []
     waiting = []
+    recommendations = []
+    rec_id = 1
 
     for name, val in assignment.items():
         d = risk_lookup[name]
@@ -286,6 +308,9 @@ def format_output(districts_risk: list[DistrictRisk], result,
             "region": name,
             "lat": d.lat,
             "lng": d.lng,
+            "population": d.population,
+            "caseCount": d.case_count,
+            "incidenceRate": d.incidence_rate,
             "riskScore": d.raw_risk,
             "riskScoreNormalized": d.risk_score,
         }
@@ -295,8 +320,30 @@ def format_output(districts_risk: list[DistrictRisk], result,
         else:
             waiting.append(entry)
 
+        # Generate recommendation
+        tier_info = risk_tier(d.risk_score)
+        tier_name = tier_info["tier"]
+        action = ""
+        if tier_name == "CRITICAL":
+            action = "Kích hoạt phản ứng khẩn cấp. Điều động Đội Y Tế và thiết lập vùng cách ly ngay lập tức."
+        elif tier_name == "HIGH RISK":
+            action = "Chuẩn bị nguồn lực. Tăng cường phun hóa chất diệt muỗi toàn khu vực."
+        elif tier_name == "MEDIUM RISK":
+            action = "Tăng cường giám sát dịch tễ. Mở rộng khoanh vùng xét nghiệm PCR."
+        else:
+            action = "Theo dõi tình hình. Khuyến cáo người dân giữ gìn vệ sinh."
+            
+        recommendations.append({
+            "id": rec_id,
+            "region": name,
+            "tier": tier_name,
+            "text": f"[{name} - {tier_name}] {action} (Tỷ lệ mắc: {d.incidence_rate}/100k dân)"
+        })
+        rec_id += 1
+
     covered.sort(key=lambda x: -x["riskScore"])
     waiting.sort(key=lambda x: -x["riskScore"])
+    recommendations.sort(key=lambda x: -risk_lookup[x["region"]].risk_score)
 
     total_risk_covered = sum(d["riskScoreNormalized"] for d in covered)
 
@@ -320,6 +367,7 @@ def format_output(districts_risk: list[DistrictRisk], result,
             "total_risk_score_covered": round(total_risk_covered, 3),
             "coverage_percent": round(100 * len(covered) / len(districts_risk), 1),
         },
+        "recommendations": recommendations,
         "kpi_comparison": kpi_comparison,
         "sensitivity_analysis": sensitivity,
         "summary": (

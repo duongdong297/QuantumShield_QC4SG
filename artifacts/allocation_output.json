@@ -2,7 +2,8 @@
   "quantum_allocation": {
     "solver": "dimod.ExactSolver (classical baseline)",
     "qubo_variables": 8,
-    "timestamp": "2026-07-20T19:41:20Z",
+    "timestamp": "2026-07-20T20:02:06Z",
+
     "alert_region": "Ho Chi Minh",
     "alert_probability": 95
   },
@@ -14,22 +15,16 @@
   "allocation_result": {
     "covered_regions": [
       {
-        "region": "Ho Chi Minh",
-        "lat": 10.7626,
-        "lng": 106.6601,
-        "riskScore": 100,
-        "riskScoreNormalized": 1.0,
-        "tier": "Critical",
-        "action": "Activate emergency response; deploy staff team now"
-      },
-      {
         "region": "Binh Duong",
         "lat": 10.8,
         "lng": 106.7,
-        "riskScore": 72,
-        "riskScoreNormalized": 0.72,
-        "tier": "High",
-        "action": "Prepare medical resources; pre-position supplies"
+        "population": 2500000,
+        "caseCount": 1625,
+        "incidenceRate": 65.0,
+        "riskScore": 100,
+        "riskScoreNormalized": 1.0,
+        "tier": "CRITICAL",
+        "action": "Activate emergency response; deploy staff team now"
       },
       {
         "region": "Dong Nai",
@@ -48,6 +43,25 @@
         "riskScoreNormalized": 0.62,
         "tier": "High",
         "action": "Prepare medical resources; pre-position supplies"
+        "population": 3200000,
+        "caseCount": 1850,
+        "incidenceRate": 57.81,
+        "riskScore": 100,
+        "riskScoreNormalized": 1.0,
+        "tier": "CRITICAL",
+        "action": "Activate emergency response; deploy staff team now"
+      },
+      {
+        "region": "Ho Chi Minh",
+        "lat": 10.7626,
+        "lng": 106.6601,
+        "population": 9000000,
+        "caseCount": 5400,
+        "incidenceRate": 60.0,
+        "riskScore": 100,
+        "riskScoreNormalized": 1.0,
+        "tier": "CRITICAL",
+        "action": "Activate emergency response; deploy staff team now"
       },
       {
         "region": "Long An",
@@ -57,6 +71,25 @@
         "riskScoreNormalized": 0.48,
         "tier": "Medium",
         "action": "Increase surveillance; early testing"
+        "population": 1700000,
+        "caseCount": 850,
+        "incidenceRate": 50.0,
+        "riskScore": 75,
+        "riskScoreNormalized": 0.75,
+        "tier": "CRITICAL",
+        "action": "Activate emergency response; deploy staff team now"
+      },
+      {
+        "region": "Tien Giang",
+        "lat": 10.58,
+        "lng": 106.41,
+        "population": 1780000,
+        "caseCount": 650,
+        "incidenceRate": 36.52,
+        "riskScore": 75,
+        "riskScoreNormalized": 0.75,
+        "tier": "CRITICAL",
+        "action": "Activate emergency response; deploy staff team now"
       }
     ],
     "waiting_regions": [
@@ -77,6 +110,13 @@
         "riskScoreNormalized": 0.2,
         "tier": "Low",
         "action": "Routine monitoring"
+        "population": 1290000,
+        "caseCount": 350,
+        "incidenceRate": 27.13,
+        "riskScore": 75,
+        "riskScoreNormalized": 0.75,
+        "tier": "CRITICAL",
+        "action": "Activate emergency response; deploy staff team now"
       },
       {
         "region": "Ba Ria-Vung Tau",
@@ -86,13 +126,82 @@
         "riskScoreNormalized": 0.15,
         "tier": "Low",
         "action": "Routine monitoring"
+        "population": 1150000,
+        "caseCount": 150,
+        "incidenceRate": 13.04,
+        "riskScore": 50,
+        "riskScoreNormalized": 0.5,
+        "tier": "HIGH RISK",
+        "action": "Prepare medical resources; pre-position supplies"
+      },
+      {
+        "region": "Can Tho",
+        "lat": 10.03,
+        "lng": 105.78,
+        "population": 1240000,
+        "caseCount": 200,
+        "incidenceRate": 16.13,
+        "riskScore": 50,
+        "riskScoreNormalized": 0.5,
+        "tier": "HIGH RISK",
+        "action": "Prepare medical resources; pre-position supplies"
       }
     ],
     "staff_teams_deployed": 5,
     "staff_teams_budget": 5,
-    "total_risk_score_covered": 3.47,
+    "total_risk_score_covered": 4.5,
     "coverage_percent": 62.5
   },
+  "recommendations": [
+    {
+      "id": 3,
+      "region": "Binh Duong",
+      "tier": "CRITICAL",
+      "text": "[Binh Duong - CRITICAL] K\u00edch ho\u1ea1t ph\u1ea3n \u1ee9ng kh\u1ea9n c\u1ea5p. \u0110i\u1ec1u \u0111\u1ed9ng \u0110\u1ed9i Y T\u1ebf v\u00e0 thi\u1ebft l\u1eadp v\u00f9ng c\u00e1ch ly ngay l\u1eadp t\u1ee9c. (T\u1ef7 l\u1ec7 m\u1eafc: 65.0/100k d\u00e2n)"
+    },
+    {
+      "id": 5,
+      "region": "Dong Nai",
+      "tier": "CRITICAL",
+      "text": "[Dong Nai - CRITICAL] K\u00edch ho\u1ea1t ph\u1ea3n \u1ee9ng kh\u1ea9n c\u1ea5p. \u0110i\u1ec1u \u0111\u1ed9ng \u0110\u1ed9i Y T\u1ebf v\u00e0 thi\u1ebft l\u1eadp v\u00f9ng c\u00e1ch ly ngay l\u1eadp t\u1ee9c. (T\u1ef7 l\u1ec7 m\u1eafc: 57.81/100k d\u00e2n)"
+    },
+    {
+      "id": 6,
+      "region": "Ho Chi Minh",
+      "tier": "CRITICAL",
+      "text": "[Ho Chi Minh - CRITICAL] K\u00edch ho\u1ea1t ph\u1ea3n \u1ee9ng kh\u1ea9n c\u1ea5p. \u0110i\u1ec1u \u0111\u1ed9ng \u0110\u1ed9i Y T\u1ebf v\u00e0 thi\u1ebft l\u1eadp v\u00f9ng c\u00e1ch ly ngay l\u1eadp t\u1ee9c. (T\u1ef7 l\u1ec7 m\u1eafc: 60.0/100k d\u00e2n)"
+    },
+    {
+      "id": 2,
+      "region": "Ben Tre",
+      "tier": "CRITICAL",
+      "text": "[Ben Tre - CRITICAL] K\u00edch ho\u1ea1t ph\u1ea3n \u1ee9ng kh\u1ea9n c\u1ea5p. \u0110i\u1ec1u \u0111\u1ed9ng \u0110\u1ed9i Y T\u1ebf v\u00e0 thi\u1ebft l\u1eadp v\u00f9ng c\u00e1ch ly ngay l\u1eadp t\u1ee9c. (T\u1ef7 l\u1ec7 m\u1eafc: 27.13/100k d\u00e2n)"
+    },
+    {
+      "id": 7,
+      "region": "Long An",
+      "tier": "CRITICAL",
+      "text": "[Long An - CRITICAL] K\u00edch ho\u1ea1t ph\u1ea3n \u1ee9ng kh\u1ea9n c\u1ea5p. \u0110i\u1ec1u \u0111\u1ed9ng \u0110\u1ed9i Y T\u1ebf v\u00e0 thi\u1ebft l\u1eadp v\u00f9ng c\u00e1ch ly ngay l\u1eadp t\u1ee9c. (T\u1ef7 l\u1ec7 m\u1eafc: 50.0/100k d\u00e2n)"
+    },
+    {
+      "id": 8,
+      "region": "Tien Giang",
+      "tier": "CRITICAL",
+      "text": "[Tien Giang - CRITICAL] K\u00edch ho\u1ea1t ph\u1ea3n \u1ee9ng kh\u1ea9n c\u1ea5p. \u0110i\u1ec1u \u0111\u1ed9ng \u0110\u1ed9i Y T\u1ebf v\u00e0 thi\u1ebft l\u1eadp v\u00f9ng c\u00e1ch ly ngay l\u1eadp t\u1ee9c. (T\u1ef7 l\u1ec7 m\u1eafc: 36.52/100k d\u00e2n)"
+    },
+    {
+      "id": 1,
+      "region": "Ba Ria-Vung Tau",
+      "tier": "HIGH RISK",
+      "text": "[Ba Ria-Vung Tau - HIGH RISK] Chu\u1ea9n b\u1ecb ngu\u1ed3n l\u1ef1c. T\u0103ng c\u01b0\u1eddng phun h\u00f3a ch\u1ea5t di\u1ec7t mu\u1ed7i to\u00e0n khu v\u1ef1c. (T\u1ef7 l\u1ec7 m\u1eafc: 13.04/100k d\u00e2n)"
+    },
+    {
+      "id": 4,
+      "region": "Can Tho",
+      "tier": "HIGH RISK",
+      "text": "[Can Tho - HIGH RISK] Chu\u1ea9n b\u1ecb ngu\u1ed3n l\u1ef1c. T\u0103ng c\u01b0\u1eddng phun h\u00f3a ch\u1ea5t di\u1ec7t mu\u1ed7i to\u00e0n khu v\u1ef1c. (T\u1ef7 l\u1ec7 m\u1eafc: 16.13/100k d\u00e2n)"
+    }
+  ],
   "kpi_comparison": {
     "baseline_regions": [
       "Binh Duong",
@@ -102,6 +211,7 @@
       "Tien Giang"
     ],
     "baseline_risk_covered": 3.47,
+    "baseline_risk_covered": 4.5,
     "qubo_regions": [
       "Binh Duong",
       "Dong Nai",
@@ -110,6 +220,7 @@
       "Tien Giang"
     ],
     "qubo_risk_covered": 3.47,
+    "qubo_risk_covered": 4.5,
     "improvement_percent": 0.0
   },
   "sensitivity_analysis": {
@@ -133,6 +244,7 @@
         "Dong Nai",
         "Ho Chi Minh",
         "Tien Giang"
+        "Long An"
       ],
       "num_covered": 4
     },
@@ -175,4 +287,5 @@
     }
   },
   "summary": "Deploying 5 of 5 available staff teams to highest-risk regions. Top priority: Ho Chi Minh (risk score: 100/100)."
+  "summary": "Deploying 5 of 5 available staff teams to highest-risk regions. Top priority: Binh Duong (risk score: 100/100)."
 }
