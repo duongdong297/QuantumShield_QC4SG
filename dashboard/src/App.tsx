@@ -3,6 +3,7 @@ import RiskMap from './components/RiskMap';
 import InfectionTrendChart from './components/InfectionTrendChart';
 import Sidebar from './components/layout/Sidebar';
 import TopNavbar from './components/layout/TopNavbar';
+import DecisionProtocolView from './components/dashboard/DecisionProtocolView';
 import SummaryCards from './components/dashboard/SummaryCards';
 import ResourceDemand from './components/dashboard/ResourceDemand';
 import ActionPanel from './components/dashboard/ActionPanel';
@@ -801,9 +802,9 @@ const App: React.FC = () => {
         flexDirection: 'column'
       }}>
         
-        <TopNavbar title={activeTab === 'dashboard' ? 'Dashboard' : activeTab === 'outbreak_maps' ? 'Outbreak Maps' : activeTab === 'resource_tables' ? 'Resource Tables' : 'Audit Logs'} />
+        <TopNavbar title={activeTab === 'dashboard' ? 'Dashboard' : activeTab === 'outbreak_maps' ? 'Outbreak Maps' : activeTab === 'decision_protocol' ? 'Decision Protocol' : activeTab === 'resource_tables' ? 'Resource Tables' : 'Audit Logs'} />
 
-        
+        {/* Views */}
         {activeTab === 'dashboard' && (
           <DashboardView 
             error={error} 
@@ -819,6 +820,7 @@ const App: React.FC = () => {
           />
         )}
         {activeTab === 'outbreak_maps' && <OutbreakMapsView hotspotsData={hotspotsData} setSelectedProvince={setSelectedProvince} allocationData={allocationData} />}
+        {activeTab === 'decision_protocol' && <DecisionProtocolView allocationData={allocationData} />}
         {activeTab === 'resource_tables' && <ResourceTablesView />}
         {activeTab === 'audit_logs' && <AuditLogsView />}
         
