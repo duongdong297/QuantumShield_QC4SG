@@ -6,6 +6,7 @@ import TopNavbar from './components/layout/TopNavbar';
 import SummaryCards from './components/dashboard/SummaryCards';
 import ResourceDemand from './components/dashboard/ResourceDemand';
 import ActionPanel from './components/dashboard/ActionPanel';
+import QuantumAnalyticsPanel from './components/dashboard/QuantumAnalyticsPanel';
 import ResourceTablesView from './components/ResourceTablesView';
 import AuditLogsView from './components/AuditLogsView';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -381,6 +382,8 @@ const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayFo
               <ResourceDemand displayForecast={displayForecast} allocationData={allocationData} />
 
               <ActionPanel recommendations={recommendations} onExecuteAction={handleExecuteAction} onOptimizationComplete={fetchAllocationData} />
+
+              <QuantumAnalyticsPanel allocationData={allocationData} />
 
             </div>
           </div>
