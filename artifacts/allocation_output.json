@@ -3,6 +3,7 @@
     "solver": "dimod.ExactSolver (classical baseline)",
     "qubo_variables": 8,
     "timestamp": "2026-07-20T20:02:06Z",
+
     "alert_region": "Ho Chi Minh",
     "alert_probability": 95
   },
@@ -29,6 +30,19 @@
         "region": "Dong Nai",
         "lat": 10.95,
         "lng": 106.82,
+        "riskScore": 65,
+        "riskScoreNormalized": 0.65,
+        "tier": "High",
+        "action": "Prepare medical resources; pre-position supplies"
+      },
+      {
+        "region": "Tien Giang",
+        "lat": 10.58,
+        "lng": 106.41,
+        "riskScore": 62,
+        "riskScoreNormalized": 0.62,
+        "tier": "High",
+        "action": "Prepare medical resources; pre-position supplies"
         "population": 3200000,
         "caseCount": 1850,
         "incidenceRate": 57.81,
@@ -53,6 +67,10 @@
         "region": "Long An",
         "lat": 10.36,
         "lng": 106.34,
+        "riskScore": 48,
+        "riskScoreNormalized": 0.48,
+        "tier": "Medium",
+        "action": "Increase surveillance; early testing"
         "population": 1700000,
         "caseCount": 850,
         "incidenceRate": 50.0,
@@ -79,6 +97,19 @@
         "region": "Ben Tre",
         "lat": 10.25,
         "lng": 106.37,
+        "riskScore": 28,
+        "riskScoreNormalized": 0.28,
+        "tier": "Medium",
+        "action": "Increase surveillance; early testing"
+      },
+      {
+        "region": "Can Tho",
+        "lat": 10.03,
+        "lng": 105.78,
+        "riskScore": 20,
+        "riskScoreNormalized": 0.2,
+        "tier": "Low",
+        "action": "Routine monitoring"
         "population": 1290000,
         "caseCount": 350,
         "incidenceRate": 27.13,
@@ -91,6 +122,10 @@
         "region": "Ba Ria-Vung Tau",
         "lat": 10.46,
         "lng": 107.18,
+        "riskScore": 15,
+        "riskScoreNormalized": 0.15,
+        "tier": "Low",
+        "action": "Routine monitoring"
         "population": 1150000,
         "caseCount": 150,
         "incidenceRate": 13.04,
@@ -175,6 +210,7 @@
       "Long An",
       "Tien Giang"
     ],
+    "baseline_risk_covered": 3.47,
     "baseline_risk_covered": 4.5,
     "qubo_regions": [
       "Binh Duong",
@@ -183,6 +219,7 @@
       "Long An",
       "Tien Giang"
     ],
+    "qubo_risk_covered": 3.47,
     "qubo_risk_covered": 4.5,
     "improvement_percent": 0.0
   },
@@ -206,6 +243,7 @@
         "Binh Duong",
         "Dong Nai",
         "Ho Chi Minh",
+        "Tien Giang"
         "Long An"
       ],
       "num_covered": 4
@@ -248,5 +286,6 @@
       "num_covered": 5
     }
   },
+  "summary": "Deploying 5 of 5 available staff teams to highest-risk regions. Top priority: Ho Chi Minh (risk score: 100/100)."
   "summary": "Deploying 5 of 5 available staff teams to highest-risk regions. Top priority: Binh Duong (risk score: 100/100)."
 }

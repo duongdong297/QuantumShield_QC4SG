@@ -610,7 +610,7 @@ func handleOptimize(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	cmd := exec.Command("python", "08_quantum_allocation.py")
+	cmd := exec.Command("python3", "08_quantum_allocation.py")
 	cmd.Dir = ".."
 	out, err := cmd.CombinedOutput()
 	if err != nil {
