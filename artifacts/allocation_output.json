@@ -2,7 +2,7 @@
   "quantum_allocation": {
     "solver": "dimod.ExactSolver (classical baseline)",
     "qubo_variables": 8,
-    "timestamp": "2026-07-20T20:01:06Z",
+    "timestamp": "2026-07-20T20:02:06Z",
     "alert_region": "Ho Chi Minh",
     "alert_probability": 95
   },
