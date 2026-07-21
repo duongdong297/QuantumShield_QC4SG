@@ -346,9 +346,9 @@ def format_output(districts_risk: list[DistrictRisk], result,
             logistics = calculate_logistics_package(d.case_count, tier_name)
             entry["logistics"] = logistics
             entry["llm_rag_prompt"] = (
-                f"Hệ thống yêu cầu xuất {logistics['iv_fluids_bags']} túi dịch truyền Ringer Lactate và "
-                f"{logistics['fogging_units']} máy phun sương mù cho khu vực {name} với {d.case_count} ca bệnh. "
-                "Hãy dùng tài liệu Hướng dẫn phòng chống Sốt xuất huyết (RAG) để viết lệnh điều động và giải thích chuyên môn cho Giám đốc Sở."
+                f"The system requests dispatching {logistics['iv_fluids_bags']} bags of Ringer Lactate IV fluids and "
+                f"{logistics['fogging_units']} fogging units for the {name} region with {d.case_count} cases. "
+                "Use the Dengue Prevention Guidelines (RAG document) to write a dispatch order and provide a professional medical explanation for the Health Department Director."
             )
             covered.append(entry)
         else:
@@ -359,19 +359,19 @@ def format_output(districts_risk: list[DistrictRisk], result,
         tier_name = tier_info["tier"]
         action = ""
         if tier_name == "CRITICAL":
-            action = "Kích hoạt phản ứng khẩn cấp. Điều động Đội Y Tế và thiết lập vùng cách ly ngay lập tức."
+            action = "Activate emergency response. Deploy Medical Team and establish isolation zones immediately."
         elif tier_name == "HIGH RISK":
-            action = "Chuẩn bị nguồn lực. Tăng cường phun hóa chất diệt muỗi toàn khu vực."
+            action = "Prepare resources. Intensify mosquito fogging across the entire region."
         elif tier_name == "MEDIUM RISK":
-            action = "Tăng cường giám sát dịch tễ. Mở rộng khoanh vùng xét nghiệm PCR."
+            action = "Enhance epidemiological surveillance. Expand PCR testing zones."
         else:
-            action = "Theo dõi tình hình. Khuyến cáo người dân giữ gìn vệ sinh."
+            action = "Monitor the situation. Advise the public on sanitation."
             
         recommendations.append({
             "id": rec_id,
             "region": name,
             "tier": tier_name,
-            "text": f"[{name} - {tier_name}] {action} (Tỷ lệ mắc: {d.incidence_rate}/100k dân)"
+            "text": f"[{name} - {tier_name}] {action} (Incidence rate: {d.incidence_rate}/100k pop)"
         })
         rec_id += 1
 

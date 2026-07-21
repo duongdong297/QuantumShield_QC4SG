@@ -47,4 +47,4 @@ def test_format_output_includes_logistics_and_prompt():
     assert 'logistics' in covered_region
     assert covered_region['logistics']['icu_beds'] == 75
     assert 'llm_rag_prompt' in covered_region
-    assert 'Hệ thống yêu cầu xuất 750 túi dịch truyền Ringer Lactate' in covered_region['llm_rag_prompt']
+    assert 'The system requests dispatching 750 bags of Ringer Lactate IV fluids' in covered_region['llm_rag_prompt']
