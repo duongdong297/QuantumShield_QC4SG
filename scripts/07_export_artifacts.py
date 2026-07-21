@@ -3,7 +3,6 @@ import joblib
 import json
 from pathlib import Path
 
-# ponytail: Minimal manual export script to freeze AI artifacts as requested
 Path('artifacts').mkdir(exist_ok=True)
 
 m1 = joblib.load('models/model_h1.pkl')

@@ -6,7 +6,6 @@ from src.inference.pipeline import run_pipeline
 from src.inference.export_dashboard import export_to_backend_json
 
 def generate_mock_history(province, lat, lng, base_date):
-    # ponytail: minimal dummy data for any generic unseen location matching schema
     end_date = pd.to_datetime(base_date)
     dates = pd.date_range(end=end_date, periods=15, freq="ME")
     df = pd.DataFrame({

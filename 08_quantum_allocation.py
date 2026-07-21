@@ -85,9 +85,7 @@ def get_sample_data():
     }
 
 
-# ---------------------------------------------------------------------------
 # STEP 2: CONVERT THEIR RISK SCORES TO OUR FORMAT
-# ---------------------------------------------------------------------------
 # Their data.json has riskScore (0-100) per hotspot/region.
 # We normalize to 0-1 and wrap in our DistrictRisk dataclass.
 # This replaces the synthetic cases-per-capita calculation from the MVP.
@@ -246,9 +244,7 @@ def format_output(districts_risk: list[DistrictRisk], result,
     }
 
 
-# ---------------------------------------------------------------------------
 # STEP 7: WRITE OUTPUT BACK FOR DASHBOARD
-# ---------------------------------------------------------------------------
 
 def save_output(output: dict, filepath="artifacts/allocation_output.json"):
     """Save the allocation result where the dashboard can read it."""
@@ -257,9 +253,8 @@ def save_output(output: dict, filepath="artifacts/allocation_output.json"):
     print(f"Allocation result saved to {filepath}")
 
 
-# ---------------------------------------------------------------------------
+
 # MAIN PIPELINE
-# ---------------------------------------------------------------------------
 
 def run_qubo_allocation(data=None):
     """Full pipeline: data.json → QUBO → allocation_output.json"""
