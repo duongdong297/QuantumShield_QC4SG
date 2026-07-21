@@ -1,4 +1,4 @@
-FROM golang:1.21-bullseye AS builder
+FROM golang:latest AS builder
 
 WORKDIR /app
 # Build backend
