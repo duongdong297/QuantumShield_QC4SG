@@ -24,7 +24,10 @@ def main():
 
     dataset_path = "data/final/real_vietnam_dataset.csv"
     if not os.path.exists(dataset_path):
-        print(json.dumps({"error": f"Dataset not found at {dataset_path}"}))
+        err = {"error": f"Dataset not found at {dataset_path}"}
+        os.makedirs("artifacts", exist_ok=True)
+        with open("artifacts/long_term_forecast.json", "w") as f: json.dump(err, f)
+        print(json.dumps(err))
         return
 
     # 1. Load Real Dataset
@@ -44,13 +47,19 @@ def main():
     mapped_region = csv_mapping.get(normalized_region, None)
 
     if not mapped_region:
-        print(json.dumps({"error": f"Chưa có dữ liệu thực tế cho tỉnh/thành này. Vui lòng chọn Hà Nội, Đắk Lắk, Khánh Hòa, hoặc Đồng Nai."}))
+        err = {"error": f"Chưa có dữ liệu thực tế cho tỉnh/thành này. Vui lòng chọn Hà Nội, Đắk Lắk, Khánh Hòa, hoặc Đồng Nai."}
+        os.makedirs("artifacts", exist_ok=True)
+        with open("artifacts/long_term_forecast.json", "w") as f: json.dump(err, f)
+        print(json.dumps(err))
         return
 
     # Filter data for the mapped region
     region_data = df[df['region'] == mapped_region].copy()
     if region_data.empty:
-        print(json.dumps({"error": f"Không có dữ liệu lịch sử cho {mapped_region}"}))
+        err = {"error": f"Không có dữ liệu lịch sử cho {mapped_region}"}
+        os.makedirs("artifacts", exist_ok=True)
+        with open("artifacts/long_term_forecast.json", "w") as f: json.dump(err, f)
+        print(json.dumps(err))
         return
 
     # Sort by time
@@ -63,7 +72,10 @@ def main():
     train_data = region_data.dropna(subset=features + [target])
     
     if len(train_data) < 10:
-         print(json.dumps({"error": f"Không đủ dữ liệu cho {mapped_region} để huấn luyện mô hình."}))
+         err = {"error": f"Không đủ dữ liệu cho {mapped_region} để huấn luyện mô hình."}
+         os.makedirs("artifacts", exist_ok=True)
+         with open("artifacts/long_term_forecast.json", "w") as f: json.dump(err, f)
+         print(json.dumps(err))
          return
 
     X_train = train_data[features]
@@ -137,12 +149,18 @@ def main():
     # 5. Combine and Output JSON
     final_output = historical_output + forecast_output
     
+    full_response = {
+        "region": region_raw,
+        "mapped_to": mapped_region,
+        "data": final_output
+    }
+    
     # Write to a JSON file (the Go backend will read this or stdout)
     os.makedirs("artifacts", exist_ok=True)
     with open("artifacts/long_term_forecast.json", "w") as f:
-        json.dump(final_output, f)
+        json.dump(full_response, f)
         
-    print(json.dumps(final_output))
+    print(json.dumps(full_response))
 
 if __name__ == "__main__":
     main()

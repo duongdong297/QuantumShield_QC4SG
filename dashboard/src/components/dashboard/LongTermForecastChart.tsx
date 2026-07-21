@@ -10,24 +10,34 @@ interface ForecastDataPoint {
 }
 
 interface ForecastResponse {
-  region: string;
-  mapped_to: string;
-  data: ForecastDataPoint[];
+  region?: string;
+  mapped_to?: string;
+  data?: ForecastDataPoint[];
+  error?: string;
 }
 
 export const LongTermForecastChart = ({ region }: { region: string }) => {
   const [data, setData] = useState<ForecastDataPoint[]>([]);
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchForecast = async () => {
       setLoading(true);
+      setErrorMsg(null);
       try {
         const response = await fetch(`http://localhost:8080/api/forecast?region=${encodeURIComponent(region)}`);
         const json: ForecastResponse = await response.json();
-        setData(json.data);
+        if (json.error) {
+          setErrorMsg(json.error);
+          setData([]);
+        } else {
+          setData(json.data || []);
+        }
       } catch (error) {
         console.error("Failed to fetch forecast", error);
+        setErrorMsg("Failed to fetch forecast data from server.");
+        setData([]);
       }
       setLoading(false);
     };
@@ -42,6 +52,16 @@ export const LongTermForecastChart = ({ region }: { region: string }) => {
       <div className="h-full w-full flex items-center justify-center flex-col space-y-4 bg-slate-900/50 rounded-xl border border-slate-700/50 p-4 shadow-xl min-h-[500px]">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-400"></div>
         <p className="text-slate-400">Đang chạy mô hình AI Dự báo dài hạn...</p>
+      </div>
+    );
+  }
+
+  if (errorMsg || !data || data.length === 0) {
+    return (
+      <div className="h-full w-full flex items-center justify-center flex-col space-y-4 bg-slate-900/50 rounded-xl border border-slate-700/50 p-4 shadow-xl text-center min-h-[500px]">
+        <span className="text-4xl mb-2">⚠️</span>
+        <h3 className="text-xl font-bold text-slate-200">{region}</h3>
+        <p className="text-slate-400 max-w-md">{errorMsg || "Không có dữ liệu dự báo cho khu vực này."}</p>
       </div>
     );
   }
