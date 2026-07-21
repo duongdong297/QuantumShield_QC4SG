@@ -703,6 +703,10 @@ func main() {
 	// Dang ky WebSocket
 	mux.HandleFunc("/ws", handleWebSocket)
 
+	// Serve static files for the React frontend
+	fs := http.FileServer(http.Dir("../dashboard/dist"))
+	mux.Handle("/", fs)
+
 	port := ":8080"
 	log.Printf("Server is starting and listening on port %s...", port)
 	
