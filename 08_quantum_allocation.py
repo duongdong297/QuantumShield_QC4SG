@@ -293,6 +293,29 @@ def compare_to_baseline(districts_risk: list[DistrictRisk], qubo_covered: set,
 # STEP 6: FORMAT OUTPUT FOR THEIR DASHBOARD
 # ---------------------------------------------------------------------------
 
+def calculate_logistics_package(case_count: int, risk_tier: str) -> dict:
+    """Calculate clinical and prevention resources based on case counts and risk tier."""
+    # Clinical resources
+    icu_beds = int(case_count * 0.15)
+    iv_fluids_bags = icu_beds * 10
+    ns1_test_kits = case_count * 2
+    
+    # Prevention resources
+    fogging_units = 0
+    insecticide_liters = 0
+    if risk_tier in ["CRITICAL", "HIGH RISK"]:
+        fogging_units = max(1, int(case_count / 50))
+        insecticide_liters = fogging_units * 20
+        
+    return {
+        "icu_beds": icu_beds,
+        "iv_fluids_bags": iv_fluids_bags,
+        "ns1_test_kits": ns1_test_kits,
+        "fogging_units": fogging_units,
+        "insecticide_liters": insecticide_liters
+    }
+
+
 def format_output(districts_risk: list[DistrictRisk], result,
                   budget: dict, data: dict, sensitivity: dict = None) -> dict:
     """Format QUBO result as JSON for the dashboard."""
