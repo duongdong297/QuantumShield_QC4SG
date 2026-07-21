@@ -389,19 +389,7 @@ const AIAnalyticsDrawer = ({ selectedProvince, setSelectedProvince, isAnalyzing,
     <AnimatePresence>
       {selectedProvince && (
         <>
-          {/* Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedProvince(null)}
-            style={{
-              position: 'fixed',
-              inset: 0,
-              backgroundColor: 'rgba(0, 0, 0, 0.1)',
-              zIndex: 200
-            }}
-          />
+        <>
           
           {/* Drawer slide-out panel */}
           <motion.div
@@ -789,6 +777,8 @@ const App: React.FC = () => {
       {/* 2. MAIN CONTENT WRAPPER */}
       <div style={{
         marginLeft: '250px',
+        marginRight: selectedProvince ? '400px' : '0',
+        transition: 'margin-right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
         flex: 1,
         minWidth: 0,
         display: 'flex',
