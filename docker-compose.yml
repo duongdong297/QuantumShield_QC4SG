@@ -8,6 +8,8 @@ services:
       - "8080:8080"
     volumes:
       - ./artifacts:/app/artifacts
+      - ./08_quantum_allocation.py:/app/08_quantum_allocation.py
+
     restart: unless-stopped
     networks:
       - quantum_network

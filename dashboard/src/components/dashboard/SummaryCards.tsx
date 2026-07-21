@@ -57,9 +57,16 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ hotspotsCount, allocationDa
       <div style={{ background: isOptimized ? 'linear-gradient(145deg, rgba(45, 206, 137, 0.15), rgba(30, 41, 59, 0.7))' : 'linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.7))', backdropFilter: 'blur(12px)', borderRadius: '12px', padding: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.1)', border: isOptimized ? '1px solid rgba(45, 206, 137, 0.3)' : '1px solid rgba(255, 255, 255, 0.08)', transition: 'all 0.5s ease' }}>
         <div>
           <span style={{ fontSize: '0.75rem', color: isOptimized ? '#a7f3d0' : '#94a3b8', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Allocation</span>
-          <div style={{ fontSize: '1.4rem', fontWeight: 800, color: isOptimized ? '#10b981' : '#f8fafc', margin: '4px 0' }}>{isOptimized ? '' : '+'}{coveragePercent}% Rate</div>
-          <span style={{ fontSize: '0.8rem', color: '#2dce89', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <span>↑</span> {isOptimized ? `Deployed: ${deployedTeams} Teams` : 'Quantum Optimized'}
+          <div style={{ fontSize: '1.4rem', fontWeight: 800, color: isOptimized ? '#10b981' : '#f8fafc', margin: '4px 0' }}>
+            {isOptimized ? '' : '+'}{coveragePercent}% Rate
+            {isOptimized && allocationData.kpi_comparison && (
+              <span style={{ marginLeft: '8px', fontSize: '0.8rem', padding: '2px 6px', background: 'rgba(16, 185, 129, 0.2)', borderRadius: '8px', color: '#10b981', verticalAlign: 'middle' }}>
+                +{allocationData.kpi_comparison.improvement_percent}% vs Base
+              </span>
+            )}
+          </div>
+          <span style={{ fontSize: '0.8rem', color: isOptimized ? '#10b981' : '#11cdef', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <span>{isOptimized ? '✓' : '⚡'}</span> {isOptimized ? `Deployed ${deployedTeams} Teams` : 'Run Optimization'}
           </span>
         </div>
         <div style={{ background: isOptimized ? 'linear-gradient(135deg, #2dce89, #2b908f)' : 'linear-gradient(135deg, #11cdef, #1171ef)', color: '#ffffff', width: '48px', height: '48px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.25rem', boxShadow: isOptimized ? '0 0 15px rgba(45, 206, 137, 0.5)' : '0 4px 10px rgba(17, 205, 239, 0.3)', transition: 'all 0.5s ease' }}>⚡</div>
