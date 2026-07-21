@@ -2,7 +2,7 @@ FROM golang:1.21-bullseye AS builder
 
 WORKDIR /app
 # Build backend
-COPY main.go go.mod ./
+COPY backend/main.go backend/go.* ./
 # (If there is a go.sum, it would be copied here, but it's okay to skip if not present or let go mod tidy run)
 RUN go mod tidy
 RUN go build -o server main.go
