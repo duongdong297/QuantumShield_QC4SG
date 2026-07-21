@@ -653,6 +653,34 @@ func handleAllocation(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(result)
 }
 
+func handleForecast(w http.ResponseWriter, r *http.Request) {
+	region := r.URL.Query().Get("region")
+	if region == "" {
+		region = "Ho Chi Minh"
+	}
+
+	log.Printf("Running python ML script for region: %s", region)
+	cmd := exec.Command("python", "09_dengue_forecasting.py", region)
+	cmd.Dir = "."
+	err := cmd.Run()
+	if err != nil {
+		log.Printf("Error running forecasting script: %v", err)
+		http.Error(w, "Failed to run forecasting model", http.StatusInternalServerError)
+		return
+	}
+
+	forecastPath := filepath.Join("artifacts", "long_term_forecast.json")
+	data, err := os.ReadFile(forecastPath)
+	if err != nil {
+		log.Printf("Error reading forecast output: %v", err)
+		http.Error(w, "Forecast output not found", http.StatusNotFound)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(data)
+}
+
 // --- Main ---
 
 func main() {
@@ -670,6 +698,7 @@ func main() {
 	mux.HandleFunc("/api/logs", enableCORS(handleGetLogs))
 	mux.HandleFunc("/api/optimize", enableCORS(handleOptimize))
 	mux.HandleFunc("/api/allocation", enableCORS(handleAllocation))
+	mux.HandleFunc("/api/forecast", enableCORS(handleForecast))
 	
 	// Dang ky WebSocket
 	mux.HandleFunc("/ws", handleWebSocket)
