@@ -10,8 +10,8 @@ RUN npm run build
 FROM golang:latest AS backend-builder
 WORKDIR /app/backend
 COPY backend/go.* ./
-RUN go mod tidy
 COPY backend/main.go ./
+RUN go mod tidy
 RUN go build -o server main.go
 
 # Stage 3: Final Runtime Image (Python + ML tools + Go binary + React static files)
