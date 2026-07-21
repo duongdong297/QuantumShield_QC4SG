@@ -389,7 +389,6 @@ const AIAnalyticsDrawer = ({ selectedProvince, setSelectedProvince, isAnalyzing,
     <AnimatePresence>
       {selectedProvince && (
         <>
-        <>
           
           {/* Drawer slide-out panel */}
           <motion.div
