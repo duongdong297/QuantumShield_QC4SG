@@ -113,7 +113,7 @@ const DecisionProtocolView = ({ allocationData, handleExecuteAction }: any) => {
                 }}
                 onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#5e72e4'}
                 onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'rgba(94, 114, 228, 0.15)'}
-                onClick={() => handleExecuteAction && handleExecuteAction(rec.id)}
+                onClick={() => handleExecuteAction && handleExecuteAction(String(rec.id), rec.text)}
                 >
                   Execute
                 </button>
