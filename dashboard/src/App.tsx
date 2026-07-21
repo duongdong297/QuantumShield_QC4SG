@@ -398,8 +398,7 @@ const AIAnalyticsDrawer = ({ selectedProvince, setSelectedProvince, isAnalyzing,
             style={{
               position: 'fixed',
               inset: 0,
-              backgroundColor: 'rgba(0, 0, 0, 0.4)',
-              backdropFilter: 'blur(4px)',
+              backgroundColor: 'rgba(0, 0, 0, 0.1)',
               zIndex: 200
             }}
           />
