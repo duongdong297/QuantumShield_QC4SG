@@ -255,11 +255,10 @@ def solve_qubo(bqm: dimod.BinaryQuadraticModel):
 # ---------------------------------------------------------------------------
 
 def naive_baseline_allocation(districts_risk: list[DistrictRisk], budget_teams: int) -> set:
-    """Simple baseline: assign teams to the top-N regions by raw risk score,
-    ignoring the QUBO's combinatorial optimization. Used only to measure
-    how much better the QUBO allocation is.
+    """Simple baseline: assign teams to the top-N regions by raw case count (historical human behavior),
+    ignoring the ML's future risk score. Used to measure how much better the ML+QUBO allocation is.
     """
-    sorted_districts = sorted(districts_risk, key=lambda d: -d.risk_score)
+    sorted_districts = sorted(districts_risk, key=lambda d: -d.case_count)
     covered_names = {d.name for d in sorted_districts[:budget_teams]}
     return covered_names
 
