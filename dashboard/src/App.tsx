@@ -14,6 +14,68 @@ import AuditLogsView from './components/AuditLogsView';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Toaster, toast } from 'react-hot-toast';
 
+const DengueForecastingView = ({ selectedProvince, setSelectedProvince }: any) => {
+  return (
+    <div style={{ padding: '0 2rem 2rem 2rem', marginTop: '-5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+      <div style={{
+        background: 'linear-gradient(145deg, rgba(11, 17, 32, 0.8), rgba(30, 41, 59, 0.8))',
+        backdropFilter: 'blur(16px)',
+        border: '1px solid rgba(255, 255, 255, 0.08)',
+        borderRadius: '16px',
+        padding: '1.5rem',
+        boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.3)',
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '75vh'
+      }}>
+        <div style={{ marginBottom: '1.5rem' }}>
+          <h2 style={{ fontSize: '1.25rem', color: '#ffffff', fontWeight: 800, textTransform: 'uppercase' }}>
+            📈 Dengue Long-term Forecasting (AI)
+          </h2>
+          <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>
+            Sử dụng mô hình AI dự báo dài hạn dựa trên dữ liệu khí hậu và dịch tễ học thực tế của Bộ Y Tế.
+          </p>
+        </div>
+        
+        {/* Simple province selector for the standalone view */}
+        <div style={{ marginBottom: '1rem', display: 'flex', gap: '1rem' }}>
+          {['Ha Noi', 'Dak Lak', 'Khanh Hoa', 'Dong Nai'].map(prov => (
+            <button
+              key={prov}
+              onClick={() => setSelectedProvince(prov)}
+              style={{
+                padding: '0.5rem 1rem',
+                borderRadius: '8px',
+                border: '1px solid #334155',
+                background: selectedProvince === prov ? '#1171ef' : '#1e293b',
+                color: selectedProvince === prov ? '#fff' : '#94a3b8',
+                cursor: 'pointer',
+                fontWeight: 600,
+                transition: 'all 0.2s'
+              }}
+            >
+              {prov}
+            </button>
+          ))}
+        </div>
+        
+        <div style={{ flex: 1 }}>
+          {selectedProvince ? (
+            <LongTermForecastChart region={selectedProvince} />
+          ) : (
+            <div className="flex-1 flex flex-col items-center justify-center bg-slate-900/50 rounded-xl border border-slate-700/50 p-4 shadow-xl text-center min-h-[500px]">
+              <span className="text-4xl mb-4">🤖</span>
+              <h3 className="text-xl font-bold text-slate-200 mb-2">Chưa chọn Tỉnh/Thành</h3>
+              <p className="text-slate-400">Vui lòng chọn 1 trong 4 tỉnh trọng điểm bên trên để tải mô hình AI.</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 interface AlertResponse {
   active: boolean;
   region: string;
@@ -752,6 +814,7 @@ const App: React.FC = () => {
           />
         )}
         {activeTab === 'outbreak_maps' && <OutbreakMapsView hotspotsData={hotspotsData} setSelectedProvince={setSelectedProvince} selectedProvince={selectedProvince} allocationData={allocationData} />}
+        {activeTab === 'dengue_forecasting' && <DengueForecastingView selectedProvince={selectedProvince} setSelectedProvince={setSelectedProvince} />}
         {activeTab === 'decision_protocol' && <DecisionProtocolView allocationData={allocationData} handleExecuteAction={handleExecuteAction} />}
         {activeTab === 'resource_tables' && <ResourceTablesView />}
         {activeTab === 'audit_logs' && <AuditLogsView />}

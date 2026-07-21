@@ -9,6 +9,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab = 'dashboard', setActiveTab
   const navItems = [
     { id: 'dashboard', name: 'Dashboard', icon: '📊' },
     { id: 'outbreak_maps', name: 'Outbreak Maps', icon: '🗺️' },
+    { id: 'dengue_forecasting', name: 'Dengue Forecasting (AI)', icon: '📈' },
     { id: 'decision_protocol', name: 'Decision Protocol', icon: '🧠' },
     { id: 'resource_tables', name: 'Resource Tables', icon: '📋' },
     { id: 'audit_logs', name: 'Audit Logs', icon: '📝' }

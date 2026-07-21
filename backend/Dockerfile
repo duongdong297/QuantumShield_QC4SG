@@ -1,21 +1,34 @@
-# Stage 2: Create a lightweight runtime image
-FROM alpine:latest
+FROM golang:1.21-bullseye AS builder
 
-# Cài đặt CA certificates và tzdata (nếu cần thiết cho bảo mật và timezone)
-RUN apk --no-cache add ca-certificates tzdata
-RUN apk --no-cache add python3 py3-pip && \
-    apk --no-cache add --virtual .build-deps build-base python3-dev && \
-    pip3 install --break-system-packages dimod && \
-    apk del .build-deps
+WORKDIR /app
+# Build backend
+COPY main.go go.mod ./
+# (If there is a go.sum, it would be copied here, but it's okay to skip if not present or let go mod tidy run)
+RUN go mod tidy
+RUN go build -o server main.go
 
+# Final stage with Python
+FROM python:3.10-slim
+
+# Install dependencies for python
+RUN pip install --no-cache-dir pandas scikit-learn numpy dimod
 
 WORKDIR /app/backend
 
-# Copy the binary compiled on the host directly
-COPY server /app/backend/server
+# Copy backend binary
+COPY --from=builder /app/server /app/backend/server
 
-# Expose port
+# Copy python scripts and data to root /app (since Go server executes them with cmd.Dir = "..")
+WORKDIR /app
+COPY data/ ./data/
+COPY artifacts/ ./artifacts/
+COPY scripts/ ./scripts/
+COPY *.py ./
+
+# Make artifacts dir writable
+RUN mkdir -p /app/artifacts && chmod 777 /app/artifacts
+
+WORKDIR /app/backend
 EXPOSE 8080
 
-# Run the executable
 CMD ["./server"]

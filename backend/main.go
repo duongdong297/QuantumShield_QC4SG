@@ -661,7 +661,7 @@ func handleForecast(w http.ResponseWriter, r *http.Request) {
 
 	log.Printf("Running python ML script for region: %s", region)
 	cmd := exec.Command("python", "09_dengue_forecasting.py", region)
-	cmd.Dir = "."
+	cmd.Dir = ".."
 	err := cmd.Run()
 	if err != nil {
 		log.Printf("Error running forecasting script: %v", err)
@@ -669,7 +669,7 @@ func handleForecast(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	forecastPath := filepath.Join("artifacts", "long_term_forecast.json")
+	forecastPath := filepath.Join("..", "artifacts", "long_term_forecast.json")
 	data, err := os.ReadFile(forecastPath)
 	if err != nil {
 		log.Printf("Error reading forecast output: %v", err)
