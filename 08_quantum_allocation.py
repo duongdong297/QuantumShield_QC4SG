@@ -341,6 +341,15 @@ def format_output(districts_risk: list[DistrictRisk], result,
         }
         entry.update(risk_tier(d.risk_score))
         if val == 1:
+            # Add Actionable Logistics & RAG Prompt for covered regions
+            tier_name = entry["tier"]
+            logistics = calculate_logistics_package(d.case_count, tier_name)
+            entry["logistics"] = logistics
+            entry["llm_rag_prompt"] = (
+                f"Hệ thống yêu cầu xuất {logistics['iv_fluids_bags']} túi dịch truyền Ringer Lactate và "
+                f"{logistics['fogging_units']} máy phun sương mù cho khu vực {name} với {d.case_count} ca bệnh. "
+                "Hãy dùng tài liệu Hướng dẫn phòng chống Sốt xuất huyết (RAG) để viết lệnh điều động và giải thích chuyên môn cho Giám đốc Sở."
+            )
             covered.append(entry)
         else:
             waiting.append(entry)
