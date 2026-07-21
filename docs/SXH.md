@@ -1,151 +1,150 @@
+# DENGUE FEVER PREVENTION AND CONTROL HANDBOOK - HO CHI MINH CITY DEPARTMENT OF HEALTH - CENTER FOR DISEASE CONTROL
 
-# CẨM NANG PHÒNG, CHỐNG DỊCH SỐT XUẤT HUYẾT - SỞ Y TẾ TP. HCM - TRUNG TÂM KIỂM SOÁT DỊCH BỆNH
+*(Document for health communication collaborators)*
 
-*(Tài liệu dành cho cộng tác viên truyền thông)*
+**For all inquiries, please contact:**
 
-**Mọi thắc mắc xin liên hệ:**
-
-* Trung tâm Kiểm soát Bệnh tật TP. Hồ Chí Minh
-* Địa chỉ: 366A Âu Dương Lân, Phường Chánh Hưng, Thành phố Hồ Chí Minh
-* Website: hcdc.vn - Fanpage: hcdc.vn/f - Youtube: hcdc.vn/y
-
----
-
-### LỜI NÓI ĐẦU
-
-Sốt xuất huyết là bệnh truyền nhiễm xảy ra quanh năm với số ca mắc bệnh cao và mỗi năm đều có trường hợp tử vong do bệnh Sốt xuất huyết. Công tác phòng chống dịch bệnh Sốt xuất huyết không chỉ là trách nhiệm riêng của ngành y tế mà còn là trách nhiệm của chính quyền địa phương các cấp, các sở, ban ngành, đoàn thể và người dân.
-
-Để lan tỏa thông điệp về phòng, chống Sốt xuất huyết sâu rộng đến từng hộ gia đình, từng người dân, không thể không kể đến vai trò to lớn của lực lượng cộng tác viên sức khỏe cộng đồng. Cộng tác viên tại các khu phố/ấp, tổ dân phố là những người sẽ tuyên truyền, vận động người dân cũng như các hộ gia đình chủ động phòng chống dịch bệnh, đặc biệt trong việc tự diệt muỗi, diệt lăng quăng phòng bệnh Sốt xuất huyết.
-
-Nhằm giúp cộng tác viên phòng, chống dịch các cấp có được một công cụ hiệu quả để thực hiện các hoạt động phòng, chống dịch bệnh Sốt xuất huyết, Trung tâm Kiểm soát bệnh tật thành phố biên soạn **“Cẩm nang phòng, chống dịch Sốt xuất huyết”** dành cho cộng tác viên phòng, chống dịch bệnh.
-
-Cẩm nang gồm các câu hỏi đáp về kiến thức chung về bệnh Sốt xuất huyết và truyền thông vận động người dân tham gia phòng, chống dịch bệnh.
-
-Trung tâm Kiểm soát bệnh tật thành phố trân trọng giới thiệu tài liệu này đến bạn đọc, mong tài liệu hỗ trợ tốt cho công tác giám sát phòng, chống dịch bệnh Sốt xuất huyết của cộng tác viên phòng, chống dịch bệnh các cấp.
+*   Ho Chi Minh City Center for Disease Control (HCDC)
+*   Address: 366A Au Duong Lan, Chanh Hung Ward, Ho Chi Minh City
+*   Website: hcdc.vn - Fanpage: hcdc.vn/f - Youtube: hcdc.vn/y
 
 ---
 
-### MỤC LỤC
+### FOREWORD
 
-* **Trang 07:** 1. Bệnh Sốt xuất huyết Dengue là gì? Bệnh lây như thế nào?
-* **Trang 08:** 2. Khi nào nên nghi ngờ bị bệnh Sốt xuất huyết?
-* **Trang 09:** 3. Người bệnh Sốt xuất huyết có thể được theo dõi tại nhà hay không?
-* **Trang 09:** 4. Khi theo dõi người bệnh tại nhà, chúng ta cần lưu ý gì để đưa bệnh nhân đi khám ngay?
-* **Trang 11:** 5. Phòng bệnh Sốt xuất huyết bằng cách nào?
-* **Trang 12:** 6. KHÔNG cho muỗi đốt bằng cách nào?
-* **Trang 13:** 7. KHÔNG cho muỗi đẻ bằng cách nào?
-* **Trang 15:** 8. KHÔNG cho muỗi ở bằng biện pháp nào?
-* **Trang 16:** 9. Những nơi nào có thể bùng phát Sốt xuất huyết?
-* **Trang 16:** 10. Đối với những cá nhân, tổ chức sau nhiều lần được hướng dẫn, vận động diệt lăng quăng nhưng không thực hiện và vẫn để phát sinh lăng quăng thì có thể bị xử phạt như thế nào?
-* **Trang 17:** 11. Người dân cần biết thông tin gì trước và trong khi phun hóa chất diệt muỗi?
-* **Trang 18:** 12. Nhiệm vụ của cộng tác viên phòng chống Sốt xuất huyết?
-* **Trang 18:** 13. Các dụng cụ bảo hộ cho cộng tác viên khi tham gia đội phun hóa chất?
+Dengue fever is an infectious disease that occurs year-round, with a high number of reported cases and annual fatalities. Dengue fever prevention and control is not solely the responsibility of the health sector but also of local authorities at all levels, departments, agencies, organizations, and the general public.
+
+To widely disseminate the message of Dengue fever prevention and control to every household and individual, the crucial role of community health collaborators cannot be overstated. Collaborators in neighborhoods/hamlets and residential groups are responsible for disseminating information and mobilizing residents and households to actively prevent and control the disease, especially through self-elimination of adult mosquitoes and mosquito larvae (larval control) to prevent Dengue fever.
+
+To provide disease prevention and control collaborators at all levels with an effective tool for Dengue fever prevention and control activities, the City Center for Disease Control has compiled the **“Dengue Fever Prevention and Control Handbook”** for disease prevention and control collaborators.
+
+This handbook comprises frequently asked questions regarding general knowledge about Dengue fever and communication strategies to mobilize public participation in disease prevention and control.
+
+The City Center for Disease Control respectfully introduces this document to readers, hoping it will effectively support the Dengue fever prevention and control monitoring efforts of disease prevention and control collaborators at all levels.
 
 ---
 
-### NỘI DUNG CHI TIẾT
+### TABLE OF CONTENTS
 
-#### 1. Bệnh Sốt xuất huyết Dengue là gì? Bệnh lây như thế nào?
-
-Sốt xuất huyết Dengue (gọi tắt là SXH) là bệnh truyền nhiễm cấp tính do vi-rút Dengue gây ra. Bệnh lây truyền qua trung gian muỗi vằn (*Aedes aegypti*). Bệnh có thể gây ra các biến chứng nặng, thậm chí tử vong. Hiện nay bệnh chưa có thuốc điều trị đặc hiệu.
-
-**Chu trình lây truyền:**
-Người bị nhiễm bệnh $\rightarrow$ Muỗi vằn đốt người bệnh $\rightarrow$ Muỗi nhiễm vi-rút Dengue $\rightarrow$ Muỗi lành/nhiễm vi-rút đốt người lành $\rightarrow$ Người lành mắc bệnh.
-
-#### 2. Khi nào nên nghi ngờ bị bệnh SXH?
-
-* Dấu hiệu quan trọng nhất trong bệnh SXH là **SỐT**. Chúng ta cần xác định chính xác thời gian sốt xuất hiện và phải đo bằng nhiệt kế để xác định.
-* Sốt của SXH có đặc điểm là sốt cao $39 - 40^\circ\text{C}$, liên tục, kéo dài 2 - 7 ngày, khó hạ sốt.
-* Bên cạnh đó còn có các dấu hiệu kèm theo như: đau nhức mình mẩy, đau đầu, đau sau hốc mắt, người uể uải, khó chịu, chán ăn, buồn nôn, có thể có nổi mẩn, phát ban, da xung huyết...
-* Khi nghi ngờ mắc bệnh SXH cần đưa ngay người bệnh đến cơ sở y tế gần nhất để được khám và điều trị. Để chẩn đoán chính xác bệnh, bác sĩ có thể thực hiện thêm một số xét nghiệm.
-
-#### 3. Người bệnh SXH có thể được theo dõi tại nhà hay không?
-
-Người bệnh SXH có thể được theo dõi tại nhà hoặc tại bệnh viện. Điều này sẽ được bác sĩ quyết định khi thăm khám. Người bệnh cần tuân thủ theo đúng hướng dẫn của bác sĩ.
-
-#### 4. Khi theo dõi người bệnh tại nhà, chúng ta cần lưu ý gì để đưa bệnh nhân đi khám ngay?
-
-**06 dấu hiệu nguy hiểm của bệnh Sốt xuất huyết:**
-
-1. Nôn ói nhiều.
-2. Đau bụng.
-3. Có biểu hiện chảy máu: chảy máu chân răng, chảy máu mũi, ói ra máu, đi cầu phân đen, có kinh bất thường ở nữ.
-4. Lừ đừ, bứt rứt, bồn chồn.
-5. Khó thở, thở nhanh.
-6. Ở trẻ em: Trẻ có biểu hiện bỏ ăn, bỏ bú, mệt mỏi dù hết sốt.
-
-> *Đến cơ sở y tế KỊP THỜI để được ĐIỀU TRỊ SỚM là chìa khóa để HẠN CHẾ TỬ VONG.*
-
-#### 5. Phòng bệnh Sốt xuất huyết bằng cách nào?
-
-Biện pháp phòng bệnh chủ yếu là:
-
-* **KHÔNG** cho muỗi đốt.
-* **KHÔNG** cho muỗi đẻ.
-* **KHÔNG** cho muỗi ở.
-
-*Trong đó quan trọng nhất là không cho muỗi đẻ thông qua hoạt động tìm và triệt nơi sinh sản của muỗi vằn.*
-
-#### 6. KHÔNG cho muỗi đốt bằng cách nào?
-
-Muỗi vằn cái chích/đốt người vào ban ngày, đốt mạnh nhất là vào sáng sớm và chiều tối. Do đó cần phòng muỗi đốt bằng các biện pháp như:
-
-* Diệt muỗi bằng vợt điện, bình xịt/nhang diệt muỗi, kem chống muỗi, phun hóa chất diệt muỗi.
-* Khi ngành y tế phun hóa chất diệt muỗi thì mọi người dân cần tạo mọi điều kiện thuận lợi nhất cho cán bộ y tế thực thi nhiệm vụ.
-* Ngủ mùng kể cả ban ngày.
-
-#### 7. KHÔNG cho muỗi đẻ bằng cách nào?
-
-Muỗi vằn đẻ trứng ở các vũng nước hoặc các dụng cụ chứa nước sạch trong và xung quanh nhà như: bể nước, chum, vại, lu, khạp, giếng nước, hốc cây...; các đồ vật hoặc đồ phế thải có chứa nước như lọ hoa, chén nước kê tủ bếp, vỏ xe đã qua sử dụng, vỏ dừa, xô chậu, lọ trồng cây thủy sinh...
-
-*Lưu ý: Muỗi vằn không đẻ trứng ở ao tù, kênh rạch.*
-
-Hàng tuần mỗi hộ gia đình, cơ quan, đơn vị nên tìm và xử lý các đồ vật, khu vực đọng nước xung quanh nơi ở, nơi làm việc, học tập. Xử lý các vật chứa nước có thể phát sinh lăng quăng theo **07 nguyên tắc**:
-
-1. **Ngăn cản muỗi tiếp xúc nguồn nước:** Dùng giải pháp che, đậy kín vật chứa bằng vật liệu mà muỗi không bay qua được như: vải, nylon, lưới chống muỗi, nhựa, gỗ... Và phải đảm bảo đậy kín không có khe hở để muỗi bay vào.
-2. **Sử dụng thiên địch của lăng quăng:** Cá (các loại cá ăn lăng quăng), bọ nước (*Mesocyclops*)... là các loài động vật sống trong môi trường nước và lăng quăng là nguồn thức ăn của chúng.
-3. **Sử dụng hóa chất để diệt lăng quăng:** Sử dụng hóa chất diệt lăng quăng theo hướng dẫn của nhân viên y tế.
-4. **Không để các vật có thể chứa nước bị đọng nước:** Lật úp vật chứa, đục lỗ, khơi thông dòng chảy, làm bằng phẳng các nơi bị đọng nước, che chắn để tránh nước mưa.
-5. **Loại bỏ vật chứa nước:** Loại bỏ phế liệu, thu gom rác thải có thể trở thành môi trường sống của muỗi.
-6. **Thường xuyên vệ sinh, làm sạch vật chứa nước:** Thay nước và chà rửa vật chứa nước định kỳ không quá 7 ngày 1 lần.
-7. **Thay đổi hình thức trữ nước:** Thay đổi tập quán trữ nước, không sử dụng các vật chứa nước có nguy cơ đọng nước làm phát sinh lăng quăng mà thay bằng sử dụng trực tiếp từ vòi nước.
-
-#### 8. KHÔNG cho muỗi ở bằng biện pháp nào?
-
-Muỗi vằn thường trú đậu ở các góc/xó tối trong nhà, trên quần áo, chăn màn, dây phơi và các đồ dùng trong nhà. Cần thường xuyên dọn dẹp các khu vực này để không làm nơi cho muỗi trú đậu, ở trong nhà. Bên cạnh đó, có thể làm lưới chắn muỗi ở cửa ra vào, cửa sổ, cửa thông gió để muỗi không bay vào.
-
-#### 9. Những nơi nào có thể bùng phát Sốt xuất huyết?
-
-Những nơi tập trung đông người hoặc nơi thường xuyên có nhiều người hay lui tới, có nhiều vật chứa nước hoặc vật phế thải có thể là nơi sinh sản của muỗi vằn là những nơi có thể bùng phát bệnh Sốt xuất huyết.
-
-#### 10. Đối với những cá nhân, tổ chức sau nhiều lần được hướng dẫn, vận động diệt lăng quăng nhưng không thực hiện và vẫn để phát sinh lăng quăng thì có thể bị xử phạt như thế nào?
-
-Theo điểm b, khoản 2, Điều 12 Nghị định số 117/2020/NĐ-CP về quy định xử phạt vi phạm hành chính trong lĩnh vực y tế: **Phạt tiền từ 5.000.000 đồng đến 10.000.000 đồng** đối với một trong các hành vi: *Không thực hiện hoặc từ chối thực hiện biện pháp vệ sinh, diệt trùng, tẩy uế trong vùng có dịch.*
-
-#### 11. Người dân cần biết thông tin gì trước và trong khi phun hóa chất diệt muỗi?
-
-* Biết rõ ngày giờ phun hóa chất.
-* Che đậy thức ăn, nước uống, tắt bếp lửa, di chuyển vật nuôi đến nơi an toàn.
-* Mở cửa ra vào, cửa sổ theo hướng dẫn của nhân viên y tế.
-* Nên ở bên ngoài nhà khoảng 30 phút sau khi phun hóa chất xong.
-
-*Để phun hóa chất diệt muỗi có hiệu quả, tất cả các hộ gia đình trong phạm vi phun cần được phun hóa chất đầy đủ.*
-
-#### 12. Nhiệm vụ của cộng tác viên phòng chống Sốt xuất huyết:
-
-* Đến từng nhà hướng dẫn, vận động người dân diệt lăng quăng.
-* Hỗ trợ nhân viên y tế giám sát các điểm nguy cơ gây dịch SXH tại địa phương.
-
-#### 13. Các dụng cụ bảo hộ cho cộng tác viên khi tham gia đội phun hóa chất?
-
-* Các dụng cụ bảo hộ cho người đi theo đội phun hóa chất bao gồm: khẩu trang, kính.
-* Tuân theo hướng dẫn của đội phun hóa chất.
+*   **Page 07:** 1. What is Dengue Fever? How is it transmitted?
+*   **Page 08:** 2. When should Dengue Fever be suspected?
+*   **Page 09:** 3. Can Dengue Fever patients be monitored at home?
+*   **Page 09:** 4. When monitoring a patient at home, what warning signs should prompt immediate medical consultation?
+*   **Page 11:** 5. How to prevent Dengue Fever?
+*   **Page 12:** 6. How to AVOID mosquito bites?
+*   **Page 13:** 7. How to PREVENT mosquitoes from breeding?
+*   **Page 15:** 8. How to PREVENT mosquitoes from harboring/resting?
+*   **Page 16:** 9. Which locations are prone to Dengue Fever outbreaks?
+*   **Page 16:** 10. What penalties may be imposed on individuals or organizations who, despite repeated guidance and mobilization for larval control, fail to comply and allow mosquito larvae to proliferate?
+*   **Page 17:** 11. What information should residents know before and during mosquito chemical spraying operations?
+*   **Page 18:** 12. Responsibilities of Dengue Fever prevention and control collaborators?
+*   **Page 18:** 13. Personal protective equipment (PPE) for collaborators participating in chemical spraying teams?
 
 ---
 
-### THÔNG TIN XUẤT BẢN
+### DETAILED CONTENT
 
-* **Chịu trách nhiệm xuất bản:** BS.CKII. Nguyễn Hồng Tâm, ThS.BS. Lê Hồng Nga
-* **Biên tập:** ThS.BS. Đinh Thị Hải Yến, BS. Nguyễn Thế Thịnh
-* **Thực hiện:** ThS. Đỗ Ngọc Hà, CN. Nguyễn Thị Lệ Thu
-* **Trình bày:** CN. Trần Thị Minh Hà
+#### 1. What is Dengue Fever? How is it transmitted?
+
+Dengue Fever (DF), often abbreviated as SXH in Vietnamese, is an acute infectious disease caused by the Dengue virus. The disease is transmitted by the *Aedes aegypti* mosquito. It can lead to severe complications, even death. Currently, there is no specific treatment for the disease.
+
+**Transmission cycle:**
+Infected person $\rightarrow$ *Aedes* mosquito bites infected person $\rightarrow$ Mosquito becomes infected with Dengue virus $\rightarrow$ Infected mosquito bites healthy person $\rightarrow$ Healthy person contracts the disease.
+
+#### 2. When should DF be suspected?
+
+*   The most important symptom of DF is **FEVER**. It is crucial to accurately determine the onset of fever and measure it with a thermometer.
+*   DF fever is characterized by a high, continuous fever of $39 - 40^\circ\text{C}$, lasting 2 - 7 days, and is difficult to bring down.
+*   Accompanying symptoms may include: body aches, headache, retro-orbital pain, fatigue, discomfort, anorexia, nausea, and possibly skin rash or flushed skin...
+*   If DF is suspected, the patient should be immediately taken to the nearest healthcare facility for examination and treatment. To accurately diagnose the disease, the physician may perform additional tests.
+
+#### 3. Can DF patients be monitored at home?
+
+DF patients may be monitored either at home or in the hospital. This decision will be made by the physician during examination. Patients must strictly adhere to the physician's instructions.
+
+#### 4. When monitoring a patient at home, what warning signs should prompt immediate medical consultation?
+
+**06 Danger Signs of Dengue Fever:**
+
+1.  Severe vomiting.
+2.  Abdominal pain.
+3.  Signs of bleeding: bleeding gums, nosebleeds, vomiting blood, black stools, unusual menstrual bleeding in females.
+4.  Lethargy, restlessness, agitation.
+5.  Difficulty breathing, rapid breathing.
+6.  In children: Signs of refusing food/milk, persistent fatigue even after fever subsides.
+
+> *Seeking TIMELY medical attention for EARLY TREATMENT is key to LIMITING FATALITIES.*
+
+#### 5. How to prevent Dengue Fever?
+
+The main preventive measures are:
+
+*   **AVOID** mosquito bites.
+*   **PREVENT** mosquitoes from breeding.
+*   **PREVENT** mosquitoes from harboring/resting.
+
+*The most crucial among these is preventing mosquitoes from breeding by identifying and eliminating *Aedes* mosquito breeding sites.*
+
+#### 6. How to AVOID mosquito bites?
+
+Female *Aedes* mosquitoes bite people during the daytime, with peak biting activity in the early morning and late afternoon. Therefore, mosquito bites can be prevented through measures such as:
+
+*   Eliminating mosquitoes using electric rackets, mosquito sprays/coils, insect repellent creams, and chemical mosquito spraying.
+*   When the health sector conducts chemical mosquito spraying, all residents should create the most favorable conditions for health workers to perform their duties.
+*   Sleeping under mosquito nets, even during the day.
+
+#### 7. How to PREVENT mosquitoes from breeding?
+
+*Aedes* mosquitoes lay eggs in puddles or clean water containers inside and around homes, such as water tanks, jars, large pots, wells, tree holes...; and in objects or discarded items that collect water like flower vases, water bowls under kitchen cabinets, used tires, coconut shells, buckets, and pots for aquatic plants...
+
+*Note: Aedes mosquitoes do not lay eggs in stagnant ponds or canals.*
+
+Weekly, every household, agency, and institution should identify and manage water-storing objects and stagnant water areas around their living, working, and studying environments. Manage water containers that can foster larval proliferation according to **07 principles**:
+
+1.  **Prevent mosquito access to water sources:** Use covers or tightly seal containers with materials that mosquitoes cannot penetrate, such as: fabric, nylon, mosquito netting, plastic, wood... Ensure they are tightly sealed without gaps for mosquitoes to enter.
+2.  **Utilize natural predators of mosquito larvae:** Fish (larvivorous fish species), copepods (*Mesocyclops*)... are aquatic animals that feed on mosquito larvae.
+3.  **Use chemicals for larval control:** Apply larvicides as instructed by healthcare personnel.
+4.  **Prevent water accumulation in potential containers:** Invert containers, drill drainage holes, clear blockages, level areas where water can collect, and cover to prevent rainwater accumulation.
+5.  **Eliminate water-holding objects:** Remove junk and collect waste that can become mosquito breeding grounds.
+6.  **Regularly clean water containers:** Change water and scrub water containers regularly, at least once every 7 days.
+7.  **Change water storage practices:** Alter traditional water storage habits; avoid using containers prone to stagnant water and larval proliferation, opting instead for direct tap water usage.
+
+#### 8. How to PREVENT mosquitoes from harboring/resting?
+
+*Aedes* mosquitoes often rest in dark corners/nooks inside homes, on clothes, bedding, clotheslines, and household items. These areas should be regularly cleaned to prevent them from becoming mosquito resting/harboring sites within the home. Additionally, install mosquito screens on doorways, windows, and ventilation openings to prevent mosquitoes from entering.
+
+#### 9. Which locations are prone to Dengue Fever outbreaks?
+
+Locations with high population density or frequent human traffic, numerous water containers, or discarded items that can serve as *Aedes* mosquito breeding sites are prone to Dengue Fever outbreaks.
+
+#### 10. What penalties may be imposed on individuals or organizations who, despite repeated guidance and mobilization for larval control, fail to comply and allow mosquito larvae to proliferate?
+
+According to point b, clause 2, Article 12 of Decree No. 117/2020/ND-CP on stipulating administrative penalties in the health sector: **A fine of VND 5,000,000 to VND 10,000,000** will be imposed for one of the following acts: *Failure to implement or refusal to implement sanitation, disinfection, or decontamination measures in an epidemic area.*
+
+#### 11. What information should residents know before and during mosquito chemical spraying operations?
+
+*   Be aware of the exact date and time of the chemical spraying.
+*   Cover food and drinks, turn off stoves/open flames, and move pets to a safe location.
+*   Open doors and windows as instructed by health personnel.
+*   Remain outside the house for approximately 30 minutes after spraying is completed.
+
+*For effective mosquito chemical spraying, all households within the designated spraying area must be fully sprayed.*
+
+#### 12. Responsibilities of Dengue Fever prevention and control collaborators?
+
+*   Visit each household to instruct and mobilize residents to carry out larval control.
+*   Support healthcare personnel in monitoring local high-risk areas for DF outbreaks.
+
+#### 13. Personal protective equipment (PPE) for collaborators participating in chemical spraying teams?
+
+*   Personal protective equipment (PPE) for collaborators accompanying chemical spraying teams includes: masks and goggles.
+*   Adhere to the instructions of the chemical spraying team.
+
+---
+
+### PUBLICATION INFORMATION
+
+*   **Responsible for Publication:** Senior Specialist Physician, Dr. Nguyen Hong Tam; Master of Medicine, Dr. Le Hong Nga
+*   **Editors:** Master of Medicine, Dr. Dinh Thi Hai Yen; Dr. Nguyen The Thinh
+*   **Executive Team:** Master Do Ngoc Ha; Bachelor Nguyen Thi Le Thu
+*   **Layout/Design:** Bachelor Tran Thi Minh Ha
