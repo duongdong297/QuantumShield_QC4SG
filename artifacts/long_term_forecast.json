@@ -1,0 +1,97 @@
+{
+  "region": "Quang Nam",
+  "mapped_to": "CHONBURI",
+  "data": [
+    {
+      "month": "2026-01",
+      "recordedCases": 44,
+      "forecastMean": null,
+      "forecastUpper": null,
+      "probExceed75th": null
+    },
+    {
+      "month": "2026-02",
+      "recordedCases": 63,
+      "forecastMean": null,
+      "forecastUpper": null,
+      "probExceed75th": null
+    },
+    {
+      "month": "2026-03",
+      "recordedCases": 153,
+      "forecastMean": null,
+      "forecastUpper": null,
+      "probExceed75th": null
+    },
+    {
+      "month": "2026-04",
+      "recordedCases": 194,
+      "forecastMean": null,
+      "forecastUpper": null,
+      "probExceed75th": null
+    },
+    {
+      "month": "2026-05",
+      "recordedCases": 210,
+      "forecastMean": null,
+      "forecastUpper": null,
+      "probExceed75th": null
+    },
+    {
+      "month": "2026-06",
+      "recordedCases": 289,
+      "forecastMean": null,
+      "forecastUpper": null,
+      "probExceed75th": null
+    },
+    {
+      "month": "2026-07",
+      "recordedCases": 289,
+      "forecastMean": 289,
+      "forecastUpper": 289,
+      "probExceed75th": 32.0
+    },
+    {
+      "month": "2026-08",
+      "recordedCases": null,
+      "forecastMean": 115,
+      "forecastUpper": 289,
+      "probExceed75th": 32.0
+    },
+    {
+      "month": "2026-09",
+      "recordedCases": null,
+      "forecastMean": 126,
+      "forecastUpper": 210,
+      "probExceed75th": 35.0
+    },
+    {
+      "month": "2026-10",
+      "recordedCases": null,
+      "forecastMean": 42,
+      "forecastUpper": 47,
+      "probExceed75th": 4.0
+    },
+    {
+      "month": "2026-11",
+      "recordedCases": null,
+      "forecastMean": 136,
+      "forecastUpper": 261,
+      "probExceed75th": 47.0
+    },
+    {
+      "month": "2026-12",
+      "recordedCases": null,
+      "forecastMean": 95,
+      "forecastUpper": 186,
+      "probExceed75th": 23.0
+    },
+    {
+      "month": "2027-01",
+      "recordedCases": null,
+      "forecastMean": 63,
+      "forecastUpper": 137,
+      "probExceed75th": 2.0
+    }
+  ]
+}
