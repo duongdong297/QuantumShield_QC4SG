@@ -1,83 +1,86 @@
 # QuantumShield Health
-**AI-Powered Dengue Early Warning & Quantum Resource Allocation Platform**
+**AI-Powered Dengue Early Warning, Quantum Resource Allocation & GenAI Decision Platform**
 
 ## 1. Introduction
-Dengue fever remains one of the most serious public health challenges across Southeast Asia, particularly in Vietnam, where seasonal outbreaks place significant pressure on hospitals, healthcare workers, and local public health agencies.
+Dengue fever remains one of the most serious public health challenges across Southeast Asia, particularly in Vietnam. Seasonal outbreaks place significant pressure on hospitals, healthcare workers, and local public health agencies.
 
-Despite advances in surveillance systems, public health responses are often reactive rather than proactive. Authorities typically respond after case numbers have already increased, leading to delayed interventions, overloaded hospitals, shortages of medical resources, and preventable infections. At the same time, healthcare resources such as hospital beds, diagnostic kits, medical personnel, and vector-control teams are limited and must be allocated carefully.
+Despite advances in surveillance systems, public health responses are often reactive rather than proactive. At the same time, healthcare resources such as hospital beds, diagnostic kits, medical personnel, and vector-control teams are highly limited and must be allocated carefully.
 
-**QuantumShield Health** is a hybrid AI-Quantum public health platform designed to help authorities predict dengue outbreaks before they occur and optimize healthcare resource deployment to maximize outbreak containment while minimizing operational costs.
+**QuantumShield Health** is a comprehensive, hybrid AI-Quantum public health platform designed to help authorities predict dengue outbreaks before they occur, optimize healthcare resource deployment via Quantum Optimization algorithms, and automate decision-making processes through Large Language Models (LLM / RAG).
 
 ## 2. The Problem: Rising Dengue Burden in Vietnam
 Vietnam experiences recurring dengue outbreaks every year, especially during rainy seasons. Key challenges include:
 - Rapid outbreak escalation in urban and semi-urban areas.
 - Limited visibility into future disease hotspots.
-- Delayed intervention and response planning.
 - Uneven healthcare capacity across provinces.
-- Resource shortages during peak outbreaks.
+- Resource shortages during peak outbreaks (beds, staff, IV fluids).
 
-Decision makers must determine: *Which district receives additional resources? How many? When? How should transportation costs be minimized?* This creates a large-scale combinatorial optimization problem that is extremely difficult to solve using traditional planning methods.
+Decision makers must determine: *Which district receives additional resources? How many? When? How should transportation costs be minimized?* This creates a large-scale combinatorial optimization problem (the Knapsack Problem) that is extremely difficult to solve at scale using traditional planning methods.
 
 ---
 
 ## 3. Our Solution & Current Implementation
 
-QuantumShield Health consists of three integrated intelligence layers. **Currently, the prototype version of the project (this repository) has fully implemented Layer 1 and Layer 2, and is professionally containerized using Docker.**
+QuantumShield Health consists of three integrated intelligence layers. **In this prototype version, ALL THREE LAYERS are fully implemented, and the entire system is professionally containerized using Docker.**
 
-### Layer 1: AI Dengue Forecasting Engine
-The forecasting engine predicts outbreak risks using multiple data sources (Epidemiological, Environmental, Geographic, and Mobility Indicators).
-- **Code Implementation:** Built with Python (Pandas, Scikit-Learn) within AI scripts. The models process the data and output predictive results to a centralized file at `artifacts/data.json`.
-- **Output:** 7-to-14-day outbreak risk forecasts for monitored regions.
+### Layer 1: AI Dengue Forecasting Engine (ML)
+The forecasting engine predicts outbreak risks using historical epidemiological data.
+- **Code Implementation:** Built with Python (`scikit-learn`'s `RandomForestRegressor`). The model is trained and validated on real HCDC (Ho Chi Minh City Center for Disease Control) data from 2001-2026.
+- **Output:** Long-term outbreak predictions (mean, upper bounds, and probabilities of exceeding critical thresholds) visualized in the **Dengue Forecasting (AI)** tab.
 
-### Layer 2: Public Health Risk Intelligence Dashboard
-Predictions are transformed into actionable insights through a real-time Web dashboard seamlessly connected via WebSockets.
-- **Code Implementation:**
-  - **Backend (Edge Node):** Written in Golang, providing a lightweight WebSocket connection to push real-time data and a REST API to receive allocation commands.
-  - **Frontend:** Built with React.js (Vite), Framer Motion, Recharts, and React-Leaflet (GeoJSON).
-- **Features in Prototype (Organized in 4 Navigation Modules):**
-  - **1. Dashboard:** Central hub featuring real-time KPI metrics, Healthcare Demand Forecasting, a 7-Day Outbreak Trend chart, and Quantum-Optimized Actions for immediate resource dispatch.
-  - **2. Outbreak Maps (Risk Heatmaps):** Interactive GIS map of all 63 provinces in Vietnam. Risk areas are automatically color-coded (red/orange) based on alert levels. Clicking on a province opens an **AI Analytics Drawer** (a smart sliding drawer from the right) displaying deep insights like Aedes mosquito density, average temperature, and estimated peak outbreak time. Also features a Live Threat Feed overlay and simulated UAV drone deployment.
-  - **3. Resource Tables:** Detailed tabular view of epidemiological metrics (Risk Score, Mosquito Density, Temperature) and a Donut Chart for quick status distribution.
-  - **4. Audit Logs (Local Interventions):** Allows operators to issue resource allocation commands directly from the UI. Features a dedicated terminal-like UI to view system and human actions in real-time. Commands are sent to the Backend and securely logged via File I/O (`system_audit.jsonl`), with CSV export functionality.
+### Layer 2: Public Health Risk Intelligence Dashboard & GenAI
+Predictions and resource allocations are transformed into actionable insights through a real-time Web dashboard seamlessly connected via WebSockets, augmented with Generative AI.
+- **Backend (Edge Node):** Written in Golang, providing a lightweight WebSocket connection to push real-time data and REST APIs to orchestrate AI/Quantum scripts.
+- **Frontend:** Built with React.js (Vite), Framer Motion, Recharts, and React-Leaflet (GeoJSON).
+- **GenAI Decision Protocol (RAG):** The system integrates with LLMs (OpenAI) through a Retrieval-Augmented Generation (RAG) pipeline to automatically draft highly professional medical dispatch orders based on official Dengue Prevention Guidelines.
 
-### Layer 3: Quantum Resource Allocation Engine (Future Phase)
-This layer determines how limited healthcare resources should be deployed based on optimization objectives (Minimize infections, Maximize coverage, Minimize costs). Formulated as a Quadratic Unconstrained Binary Optimization (QUBO) problem, we plan to apply QAOA (Quantum Approximate Optimization Algorithm) and D-Wave Hybrid Solvers to explore high-quality resource allocation strategies beyond classical OR-Tools/MILP limits.
+### Layer 3: Quantum Resource Allocation Engine (QUBO)
+This layer determines how limited healthcare resources should be deployed based on optimization objectives (Maximize risk coverage while staying under budget).
+- **Code Implementation:** Formulated as a Quadratic Unconstrained Binary Optimization (QUBO) problem using D-Wave's `dimod`. The engine calculates true ROI (Return on Investment) for medical teams and dynamically balances penalty strengths vs. resource constraints.
+- **Output:** The optimal allocation strategy is generated and immediately sent to the Dashboard for execution.
 
 ---
 
-## 4. Vision & Development Roadmap
-QuantumShield Health aims to become Southeast Asia's intelligent public health operating system, expanding beyond Dengue to HFMD, Influenza, Malaria, and emerging infectious diseases.
+## 4. Key Dashboard Modules (Navigation)
 
-- **Phase 1-2 (Months 1-6):** MVP Validation, Pilot Preparation, and Operational Decision Support.
-- **Phase 3-4 (Months 7-18):** Provincial Pilot Deployment and Multi-Disease Expansion.
-- **Phase 5-6 (Months 19-24):** Regional Scaling, Advanced Quantum Optimization, and ASEAN Expansion.
+1. **Dashboard (NOC):** Central hub featuring real-time KPI metrics, Healthcare Demand Forecasting, and a 7-Day Outbreak Trend chart.
+2. **Methodology & Pilot:** Detailed scientific breakdown of the AI models, QUBO formulation, and RAG architecture used in the project.
+3. **Outbreak Maps:** Interactive GIS map of all 63 provinces in Vietnam. Risk areas are automatically color-coded. Click on a province to open an **AI Analytics Drawer** displaying deep insights.
+4. **Dengue Forecasting (AI):** Interactive charts displaying the RandomForest ML predictions validated on real HCDC data.
+5. **Decision Protocol:** The GenAI hub. View automated medical dispatch orders generated by the RAG LLM pipeline based on the Quantum Allocation results. You can execute these orders with one click.
+6. **Resource Tables:** Detailed tabular view of epidemiological metrics across all monitored provinces.
+7. **Audit Logs:** A secure, terminal-like UI to view system and human actions in real-time, backed by File I/O (`system_audit.jsonl`).
 
 ---
 
-## Deployment & Experience Guide
+## 5. Deployment & Experience Guide
 
-The project is fully configured with a Microservices architecture and is 100% automated using Docker.
+The project is fully configured with a Microservices architecture and is **100% automated using Docker.**
 
 ### Step 1: Start the System
-Ensure **Docker Desktop** is installed and running on your machine. Open a Terminal (Git Bash/PowerShell) at the root directory of the project (`d:\Project\QuantumShield`) and run the following command:
+Ensure **Docker Desktop** is installed and running on your machine. Open a Terminal (Git Bash/PowerShell) at the root directory of the project and run the following commands:
 ```bash
-docker-compose up -d --build
+# Build the Docker image
+docker build -t quantumshield .
+
+# Run the container on port 8080
+docker run -p 8080:8080 -d quantumshield
 ```
-*(The system will automatically download the required environments, compile Go, build the static React package, and spin up all services seamlessly in the background).*
+*(The system will automatically download the required environments, compile Go, build the static React package, install Python ML/Quantum dependencies, and spin up the server in the background).*
 
 ### Step 2: Access the Dashboard
 Open your web browser and navigate to:
-**[http://localhost:3000](http://localhost:3000)**
+**[http://localhost:8080](http://localhost:8080)**
 
 ### Step 3: Test Scenarios
-To fully experience the architecture we have built, please explore our 4 core navigation modules:
-1. **Real-time Streaming Data (Dashboard):** Observe the `7-Day Outbreak Trend` chart and the `Demand Forecasting` table. You will see the chart lines fluctuate and the numbers update smoothly every 3 seconds due to the WebSocket data stream continuously pushed from the Golang Backend.
-2. **Explore the GIS Map (Outbreak Maps):** Hover over the provinces or red dots on the map to view the static Tooltip labels. The GeoJSON map automatically changes colors depending on the hotspot list.
-3. **In-depth Analysis (AI Analytics Drawer):** **Click** directly on a disease hotspot or any Province on the map. An analysis drawer (`Locality Analysis`) will slide out smoothly from the right edge, containing AI predictions (e.g., Mosquito Density Level 4, Peak Time).
-4. **Issue an Allocation Command & Verify Logs (Audit Logs):** Click the `Execute Action` button under Quantum-Optimized Actions. A success notification will appear. Then, switch to the **Audit Logs** tab to view the secure Terminal UI. You will instantly see your command logged with an exact real-time timestamp by the Golang Backend. You can also click `Export Logs (CSV)` to download the report!
+1. **Trigger Quantum Optimization:** Navigate to the Dashboard or wait for the system to run. Observe how the Quantum Engine allocates resources to high-risk areas.
+2. **Review GenAI Dispatch Orders:** Go to the **Decision Protocol** tab to read the automated, LLM-generated dispatch orders for each targeted province. Click "Execute Order".
+3. **Real-time Map Scanning:** Go to **Outbreak Maps**, observe the GeoJSON map colors, and click on a province to see the sliding AI Analysis panel. You can also click "Deploy UAV" for a simulated drone recon.
+4. **View Audit Logs:** Go to **Audit Logs** to see a secure terminal logging the actions you just executed.
 
-### Stop the System
-When you are done, you can stop the containers and free up memory by running:
+### Step 4: Stop the System
+When you are done, you can stop the container by finding its ID and removing it:
 ```bash
-docker-compose down
+docker ps
+docker rm -f <CONTAINER_ID>
 ```
