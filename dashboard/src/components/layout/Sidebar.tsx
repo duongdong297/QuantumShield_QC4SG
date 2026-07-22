@@ -8,6 +8,7 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ activeTab = 'dashboard', setActiveTab }) => {
   const navItems = [
     { id: 'dashboard', name: 'Dashboard', icon: '📊' },
+    { id: 'methodology', name: 'Methodology & Pilot', icon: '🧪' },
     { id: 'outbreak_maps', name: 'Outbreak Maps', icon: '🗺️' },
     { id: 'dengue_forecasting', name: 'Dengue Forecasting (AI)', icon: '📈' },
     { id: 'decision_protocol', name: 'Decision Protocol', icon: '🧠' },

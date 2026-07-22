@@ -681,6 +681,19 @@ func handleForecast(w http.ResponseWriter, r *http.Request) {
 	w.Write(data)
 }
 
+func handleDispatchOrders(w http.ResponseWriter, r *http.Request) {
+	ordersPath := filepath.Join("..", "artifacts", "dispatch_orders.json")
+	data, err := os.ReadFile(ordersPath)
+	if err != nil {
+		log.Printf("Error reading dispatch orders: %v", err)
+		http.Error(w, "Dispatch orders not found", http.StatusNotFound)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(data)
+}
+
 // --- Main ---
 
 func main() {
@@ -699,6 +712,7 @@ func main() {
 	mux.HandleFunc("/api/optimize", enableCORS(handleOptimize))
 	mux.HandleFunc("/api/allocation", enableCORS(handleAllocation))
 	mux.HandleFunc("/api/forecast", enableCORS(handleForecast))
+	mux.HandleFunc("/api/dispatch-orders", enableCORS(handleDispatchOrders))
 	
 	// Dang ky WebSocket
 	mux.HandleFunc("/ws", handleWebSocket)

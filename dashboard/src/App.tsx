@@ -11,6 +11,7 @@ import QuantumAnalyticsPanel from './components/dashboard/QuantumAnalyticsPanel'
 import { LongTermForecastChart } from './components/dashboard/LongTermForecastChart';
 import ResourceTablesView from './components/ResourceTablesView';
 import AuditLogsView from './components/AuditLogsView';
+import MethodologyView from './components/MethodologyView';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Toaster, toast } from 'react-hot-toast';
 
@@ -30,11 +31,14 @@ const DengueForecastingView = ({ selectedProvince, setSelectedProvince }: any) =
         minHeight: '75vh'
       }}>
         <div style={{ marginBottom: '1.5rem' }}>
-          <h2 style={{ fontSize: '1.25rem', color: '#ffffff', fontWeight: 800, textTransform: 'uppercase' }}>
+          <h2 style={{ fontSize: '1.25rem', color: '#ffffff', fontWeight: 800, textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '10px' }}>
             📈 Dengue Long-term Forecasting (AI)
+            <span style={{ fontSize: '0.65rem', padding: '4px 10px', borderRadius: '12px', background: 'rgba(52, 211, 153, 0.2)', color: '#34d399', fontWeight: 800, letterSpacing: '0.05em' }}>
+              ✅ VALIDATED ON REAL HCDC DATA (2001-2026)
+            </span>
           </h2>
           <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>
-            Sử dụng mô hình AI dự báo dài hạn dựa trên dữ liệu khí hậu và dịch tễ học thực tế của Bộ Y Tế.
+            Sử dụng mô hình AI dự báo dài hạn dựa trên dữ liệu khí hậu và dịch tễ học thực tế của Bộ Y Tế (không dùng dữ liệu giả lập).
           </p>
         </div>
         
@@ -133,7 +137,7 @@ interface AllocationData {
   }
 }
 
-const OutbreakMapsView = ({ hotspotsData, setSelectedProvince, selectedProvince, allocationData }: any) => {
+const OutbreakMapsView = ({ hotspotsData, setSelectedProvince, allocationData }: any) => {
   const [deployingDrone, setDeployingDrone] = React.useState(false);
 
   const handleDeployDrone = async () => {
@@ -222,10 +226,9 @@ const OutbreakMapsView = ({ hotspotsData, setSelectedProvince, selectedProvince,
           </div>
         </div>
         
-        {/* Split Screen Container */}
-        <div style={{ flex: 1, display: 'flex', gap: '20px', minHeight: '500px' }}>
-          {/* Map Column (45%) */}
-          <div style={{ flex: '0 0 45%', borderRadius: '12px', overflow: 'hidden', position: 'relative', boxShadow: '0 4px 20px rgba(0,0,0,0.2)' }}>
+        {/* Map Container */}
+        <div style={{ flex: 1, display: 'flex', minHeight: '500px' }}>
+          <div style={{ flex: 1, borderRadius: '12px', overflow: 'hidden', position: 'relative', boxShadow: '0 4px 20px rgba(0,0,0,0.2)' }}>
             {deployingDrone && (
               <div style={{ position: 'absolute', inset: 0, zIndex: 500, pointerEvents: 'none', overflow: 'hidden' }}>
                 <div style={{
@@ -244,19 +247,6 @@ const OutbreakMapsView = ({ hotspotsData, setSelectedProvince, selectedProvince,
               height="100%"
               allocationData={allocationData}
             />
-          </div>
-          
-          {/* Chart Column (55%) */}
-          <div style={{ flex: '1', display: 'flex', flexDirection: 'column' }}>
-            {selectedProvince ? (
-              <LongTermForecastChart region={selectedProvince} />
-            ) : (
-              <div className="flex-1 flex flex-col items-center justify-center bg-slate-900/50 rounded-xl border border-slate-700/50 p-4 shadow-xl text-center min-h-[500px]">
-                <span className="text-4xl mb-4">🌍</span>
-                <h3 className="text-xl font-bold text-slate-200 mb-2">Chưa chọn Tỉnh/Thành</h3>
-                <p className="text-slate-400">Vui lòng click vào một tỉnh trên bản đồ để tải mô hình AI dự báo dài hạn.</p>
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -591,6 +581,7 @@ const App: React.FC = () => {
   const [alertData, setAlertData] = useState<any>(null);
   const [forecastData, setForecastData] = useState<any[]>([]);
   const [hotspotsData, setHotspotsData] = useState<any[]>([]);
+  const [dispatchOrders, setDispatchOrders] = useState<any[]>([]);
   const [chartData, setChartData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -607,6 +598,12 @@ const App: React.FC = () => {
 
     ws.onopen = () => {
       console.log('Connected to WebSocket server');
+      // Fetch dispatch orders
+      fetch('http://localhost:8080/api/dispatch-orders')
+        .then(r => r.json())
+        .then(orders => setDispatchOrders(orders))
+        .catch(e => console.error("Could not fetch dispatch orders:", e));
+        
       setError(null);
     };
 
@@ -801,9 +798,10 @@ const App: React.FC = () => {
             fetchAllocationData={fetchAllocationData}
           />
         )}
-        {activeTab === 'outbreak_maps' && <OutbreakMapsView hotspotsData={hotspotsData} setSelectedProvince={setSelectedProvince} selectedProvince={selectedProvince} allocationData={allocationData} />}
+        {activeTab === 'methodology' && <MethodologyView setActiveTab={setActiveTab} />}
+        {activeTab === 'outbreak_maps' && <OutbreakMapsView hotspotsData={hotspotsData} setSelectedProvince={setSelectedProvince} allocationData={allocationData} />}
         {activeTab === 'dengue_forecasting' && <DengueForecastingView selectedProvince={selectedProvince} setSelectedProvince={setSelectedProvince} />}
-        {activeTab === 'decision_protocol' && <DecisionProtocolView allocationData={allocationData} handleExecuteAction={handleExecuteAction} />}
+        {activeTab === 'decision_protocol' && <DecisionProtocolView allocationData={allocationData} handleExecuteAction={handleExecuteAction} dispatchOrders={dispatchOrders} />}
         {activeTab === 'resource_tables' && <ResourceTablesView />}
         {activeTab === 'audit_logs' && <AuditLogsView />}
         

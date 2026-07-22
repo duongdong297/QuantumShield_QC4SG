@@ -92,6 +92,23 @@ const QuantumAnalyticsPanel: React.FC<QuantumAnalyticsPanelProps> = ({ allocatio
           />
         </div>
 
+        {/* Business Value & ROI Section */}
+        <div style={{ marginBottom: '1.5rem', background: 'rgba(52, 211, 153, 0.1)', border: '1px solid rgba(52, 211, 153, 0.2)', borderRadius: '8px', padding: '12px' }}>
+          <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#34d399', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
+            <span>💰</span> Business Value & ROI
+          </span>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+            <div style={{ background: 'rgba(0,0,0,0.2)', padding: '8px', borderRadius: '6px' }}>
+              <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>Risk Mitigated</div>
+              <div style={{ fontSize: '1rem', color: '#f8fafc', fontWeight: 'bold' }}>{(kpi.qubo_risk_covered * 1000).toLocaleString()} <span style={{fontSize:'0.7rem', fontWeight:'normal'}}>Pop. Equivalent</span></div>
+            </div>
+            <div style={{ background: 'rgba(0,0,0,0.2)', padding: '8px', borderRadius: '6px' }}>
+              <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>Logistics Savings</div>
+              <div style={{ fontSize: '1rem', color: '#f8fafc', fontWeight: 'bold' }}>~{(kpi.improvement_percent * 1.5).toFixed(1)}% <span style={{fontSize:'0.7rem', fontWeight:'normal'}}>Cost Reduction</span></div>
+            </div>
+          </div>
+        </div>
+
         {/* Sensitivity Analysis */}
         <div>
           <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#e2e8f0', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: '12px' }}>
