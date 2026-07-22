@@ -68,8 +68,6 @@ def create_features(group):
     for lag in [1, 2, 3, 6, 12]:
         group[f'dengue_lag{lag}'] = group['dengue_cases'].shift(lag)
 
-    # ── Weather Lags ─────────────────────────────────────
-    # FIX: đổi tên thành feat_lagN (bỏ underscore dư)
     for feat in WEATHER_FEATS:
         for lag in [1, 2, 3]:
             group[f'{feat}_lag{lag}'] = group[feat].shift(lag)
@@ -81,7 +79,6 @@ def create_features(group):
             group[f'{feat}_roll{window}'] = shifted.rolling(window=window, min_periods=1).mean()
 
     # ── Rolling Std ───────────────────────────────────────
-    # FIX: đổi tên _std_ → _rollstd_ để tránh xung đột với tên cột khác
     for feat in WEATHER_FEATS:
         shifted = group[feat].shift(1)
         for window in [3, 6]:
@@ -122,7 +119,7 @@ df_feat = (
 
 df_feat = df_feat.drop(columns=['year_month_dt'])
 
-# 4. FIX: Selective dropna — chỉ drop khi target hoặc lag ngắn bị NaN
+# 4. FIX: Selective dropna
 
 initial_rows = len(df_feat)
 

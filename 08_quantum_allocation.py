@@ -88,9 +88,11 @@ def get_sample_data():
     }
 
 
-# ---------------------------------------------------------------------------
 # STEP 2: CONVERT THEIR RISK SCORES TO OUR FORMAT
-# ---------------------------------------------------------------------------
+
+# Their data.json has riskScore (0-100) per hotspot/region.
+# We normalize to 0-1 and wrap in our DistrictRisk dataclass.
+# This replaces the synthetic cases-per-capita calculation from the MVP.
 
 @dataclass
 class DistrictRisk:
@@ -253,11 +255,10 @@ def solve_qubo(bqm: dimod.BinaryQuadraticModel):
 # ---------------------------------------------------------------------------
 
 def naive_baseline_allocation(districts_risk: list[DistrictRisk], budget_teams: int) -> set:
-    """Simple baseline: assign teams to the top-N regions by raw risk score,
-    ignoring the QUBO's combinatorial optimization. Used only to measure
-    how much better the QUBO allocation is.
+    """Simple baseline: assign teams to the top-N regions by raw case count (historical human behavior),
+    ignoring the ML's future risk score. Used to measure how much better the ML+QUBO allocation is.
     """
-    sorted_districts = sorted(districts_risk, key=lambda d: -d.risk_score)
+    sorted_districts = sorted(districts_risk, key=lambda d: -d.case_count)
     covered_names = {d.name for d in sorted_districts[:budget_teams]}
     return covered_names
 
@@ -291,6 +292,29 @@ def compare_to_baseline(districts_risk: list[DistrictRisk], qubo_covered: set,
 # STEP 6: FORMAT OUTPUT FOR THEIR DASHBOARD
 # ---------------------------------------------------------------------------
 
+def calculate_logistics_package(case_count: int, risk_tier: str) -> dict:
+    """Calculate clinical and prevention resources based on case counts and risk tier."""
+    # Clinical resources
+    icu_beds = int(case_count * 0.15)
+    iv_fluids_bags = icu_beds * 10
+    ns1_test_kits = case_count * 2
+    
+    # Prevention resources
+    fogging_units = 0
+    insecticide_liters = 0
+    if risk_tier in ["CRITICAL", "HIGH RISK"]:
+        fogging_units = max(1, int(case_count / 50))
+        insecticide_liters = fogging_units * 20
+        
+    return {
+        "icu_beds": icu_beds,
+        "iv_fluids_bags": iv_fluids_bags,
+        "ns1_test_kits": ns1_test_kits,
+        "fogging_units": fogging_units,
+        "insecticide_liters": insecticide_liters
+    }
+
+
 def format_output(districts_risk: list[DistrictRisk], result,
                   budget: dict, data: dict, sensitivity: dict = None) -> dict:
     """Format QUBO result as JSON for the dashboard."""
@@ -316,6 +340,15 @@ def format_output(districts_risk: list[DistrictRisk], result,
         }
         entry.update(risk_tier(d.risk_score))
         if val == 1:
+            # Add Actionable Logistics & RAG Prompt for covered regions
+            tier_name = entry["tier"]
+            logistics = calculate_logistics_package(d.case_count, tier_name)
+            entry["logistics"] = logistics
+            entry["llm_rag_prompt"] = (
+                f"The system requests dispatching {logistics['iv_fluids_bags']} bags of Ringer Lactate IV fluids and "
+                f"{logistics['fogging_units']} fogging units for the {name} region with {d.case_count} cases. "
+                "Use the Dengue Prevention Guidelines (RAG document) to write a dispatch order and provide a professional medical explanation for the Health Department Director."
+            )
             covered.append(entry)
         else:
             waiting.append(entry)
@@ -325,19 +358,19 @@ def format_output(districts_risk: list[DistrictRisk], result,
         tier_name = tier_info["tier"]
         action = ""
         if tier_name == "CRITICAL":
-            action = "Kích hoạt phản ứng khẩn cấp. Điều động Đội Y Tế và thiết lập vùng cách ly ngay lập tức."
+            action = "Activate emergency response. Deploy Medical Team and establish isolation zones immediately."
         elif tier_name == "HIGH RISK":
-            action = "Chuẩn bị nguồn lực. Tăng cường phun hóa chất diệt muỗi toàn khu vực."
+            action = "Prepare resources. Intensify mosquito fogging across the entire region."
         elif tier_name == "MEDIUM RISK":
-            action = "Tăng cường giám sát dịch tễ. Mở rộng khoanh vùng xét nghiệm PCR."
+            action = "Enhance epidemiological surveillance. Expand PCR testing zones."
         else:
-            action = "Theo dõi tình hình. Khuyến cáo người dân giữ gìn vệ sinh."
+            action = "Monitor the situation. Advise the public on sanitation."
             
         recommendations.append({
             "id": rec_id,
             "region": name,
             "tier": tier_name,
-            "text": f"[{name} - {tier_name}] {action} (Tỷ lệ mắc: {d.incidence_rate}/100k dân)"
+            "text": f"[{name} - {tier_name}] {action} (Incidence rate: {d.incidence_rate}/100k pop)"
         })
         rec_id += 1
 
@@ -378,9 +411,7 @@ def format_output(districts_risk: list[DistrictRisk], result,
     }
 
 
-# ---------------------------------------------------------------------------
 # STEP 7: WRITE OUTPUT BACK FOR DASHBOARD
-# ---------------------------------------------------------------------------
 
 def save_output(output: dict, filepath="artifacts/allocation_output.json"):
     """Save the allocation result where the dashboard can read it."""
@@ -389,9 +420,8 @@ def save_output(output: dict, filepath="artifacts/allocation_output.json"):
     print(f"Allocation result saved to {filepath}")
 
 
-# ---------------------------------------------------------------------------
+
 # MAIN PIPELINE
-# ---------------------------------------------------------------------------
 
 def run_qubo_allocation(data=None):
     """Full pipeline: data.json -> QUBO -> allocation_output.json"""
