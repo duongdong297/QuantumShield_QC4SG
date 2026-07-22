@@ -2,7 +2,7 @@
   "quantum_allocation": {
     "solver": "dimod.ExactSolver (classical baseline)",
     "qubo_variables": 8,
-    "timestamp": "2026-07-21T13:42:54Z",
+    "timestamp": "2026-07-22T16:09:38Z",
     "alert_region": "Ho Chi Minh",
     "alert_probability": 95
   },
@@ -20,10 +20,10 @@
         "population": 2500000,
         "caseCount": 1625,
         "incidenceRate": 65.0,
-        "riskScore": 100,
-        "riskScoreNormalized": 1.0,
-        "tier": "CRITICAL",
-        "action": "Activate emergency response; deploy staff team now",
+        "riskScore": 72,
+        "riskScoreNormalized": 0.72,
+        "tier": "HIGH RISK",
+        "action": "Prepare medical resources; pre-position supplies",
         "logistics": {
           "icu_beds": 243,
           "iv_fluids_bags": 2430,
@@ -34,25 +34,67 @@
         "llm_rag_prompt": "The system requests dispatching 2430 bags of Ringer Lactate IV fluids and 32 fogging units for the Binh Duong region with 1625 cases. Use the Dengue Prevention Guidelines (RAG document) to write a dispatch order and provide a professional medical explanation for the Health Department Director."
       },
       {
-        "region": "Dong Nai",
-        "lat": 10.95,
-        "lng": 106.82,
-        "population": 3200000,
-        "caseCount": 1850,
-        "incidenceRate": 57.81,
-        "riskScore": 100,
-        "riskScoreNormalized": 1.0,
-        "tier": "CRITICAL",
-        "action": "Activate emergency response; deploy staff team now",
+        "region": "Tien Giang",
+        "lat": 10.58,
+        "lng": 106.41,
+        "population": 1780000,
+        "caseCount": 650,
+        "incidenceRate": 36.52,
+        "riskScore": 62,
+        "riskScoreNormalized": 0.62,
+        "tier": "HIGH RISK",
+        "action": "Prepare medical resources; pre-position supplies",
         "logistics": {
-          "icu_beds": 277,
-          "iv_fluids_bags": 2770,
-          "ns1_test_kits": 3700,
-          "fogging_units": 37,
-          "insecticide_liters": 740
+          "icu_beds": 97,
+          "iv_fluids_bags": 970,
+          "ns1_test_kits": 1300,
+          "fogging_units": 13,
+          "insecticide_liters": 260
         },
-        "llm_rag_prompt": "The system requests dispatching 2770 bags of Ringer Lactate IV fluids and 37 fogging units for the Dong Nai region with 1850 cases. Use the Dengue Prevention Guidelines (RAG document) to write a dispatch order and provide a professional medical explanation for the Health Department Director."
+        "llm_rag_prompt": "The system requests dispatching 970 bags of Ringer Lactate IV fluids and 13 fogging units for the Tien Giang region with 650 cases. Use the Dengue Prevention Guidelines (RAG document) to write a dispatch order and provide a professional medical explanation for the Health Department Director."
       },
+      {
+        "region": "Long An",
+        "lat": 10.36,
+        "lng": 106.34,
+        "population": 1700000,
+        "caseCount": 850,
+        "incidenceRate": 50.0,
+        "riskScore": 48,
+        "riskScoreNormalized": 0.48,
+        "tier": "MEDIUM RISK",
+        "action": "Increase surveillance; early testing",
+        "logistics": {
+          "icu_beds": 127,
+          "iv_fluids_bags": 1270,
+          "ns1_test_kits": 1700,
+          "fogging_units": 0,
+          "insecticide_liters": 0
+        },
+        "llm_rag_prompt": "The system requests dispatching 1270 bags of Ringer Lactate IV fluids and 0 fogging units for the Long An region with 850 cases. Use the Dengue Prevention Guidelines (RAG document) to write a dispatch order and provide a professional medical explanation for the Health Department Director."
+      },
+      {
+        "region": "Ben Tre",
+        "lat": 10.25,
+        "lng": 106.37,
+        "population": 1290000,
+        "caseCount": 350,
+        "incidenceRate": 27.13,
+        "riskScore": 28,
+        "riskScoreNormalized": 0.28,
+        "tier": "MEDIUM RISK",
+        "action": "Increase surveillance; early testing",
+        "logistics": {
+          "icu_beds": 52,
+          "iv_fluids_bags": 520,
+          "ns1_test_kits": 700,
+          "fogging_units": 0,
+          "insecticide_liters": 0
+        },
+        "llm_rag_prompt": "The system requests dispatching 520 bags of Ringer Lactate IV fluids and 0 fogging units for the Ben Tre region with 350 cases. Use the Dengue Prevention Guidelines (RAG document) to write a dispatch order and provide a professional medical explanation for the Health Department Director."
+      }
+    ],
+    "waiting_regions": [
       {
         "region": "Ho Chi Minh",
         "lat": 10.7626,
@@ -63,69 +105,31 @@
         "riskScore": 100,
         "riskScoreNormalized": 1.0,
         "tier": "CRITICAL",
-        "action": "Activate emergency response; deploy staff team now",
-        "logistics": {
-          "icu_beds": 810,
-          "iv_fluids_bags": 8100,
-          "ns1_test_kits": 10800,
-          "fogging_units": 108,
-          "insecticide_liters": 2160
-        },
-        "llm_rag_prompt": "The system requests dispatching 8100 bags of Ringer Lactate IV fluids and 108 fogging units for the Ho Chi Minh region with 5400 cases. Use the Dengue Prevention Guidelines (RAG document) to write a dispatch order and provide a professional medical explanation for the Health Department Director."
-      },
-      {
-        "region": "Long An",
-        "lat": 10.36,
-        "lng": 106.34,
-        "population": 1700000,
-        "caseCount": 850,
-        "incidenceRate": 50.0,
-        "riskScore": 75,
-        "riskScoreNormalized": 0.75,
-        "tier": "CRITICAL",
-        "action": "Activate emergency response; deploy staff team now",
-        "logistics": {
-          "icu_beds": 127,
-          "iv_fluids_bags": 1270,
-          "ns1_test_kits": 1700,
-          "fogging_units": 17,
-          "insecticide_liters": 340
-        },
-        "llm_rag_prompt": "The system requests dispatching 1270 bags of Ringer Lactate IV fluids and 17 fogging units for the Long An region with 850 cases. Use the Dengue Prevention Guidelines (RAG document) to write a dispatch order and provide a professional medical explanation for the Health Department Director."
-      },
-      {
-        "region": "Tien Giang",
-        "lat": 10.58,
-        "lng": 106.41,
-        "population": 1780000,
-        "caseCount": 650,
-        "incidenceRate": 36.52,
-        "riskScore": 75,
-        "riskScoreNormalized": 0.75,
-        "tier": "CRITICAL",
-        "action": "Activate emergency response; deploy staff team now",
-        "logistics": {
-          "icu_beds": 97,
-          "iv_fluids_bags": 970,
-          "ns1_test_kits": 1300,
-          "fogging_units": 13,
-          "insecticide_liters": 260
-        },
-        "llm_rag_prompt": "The system requests dispatching 970 bags of Ringer Lactate IV fluids and 13 fogging units for the Tien Giang region with 650 cases. Use the Dengue Prevention Guidelines (RAG document) to write a dispatch order and provide a professional medical explanation for the Health Department Director."
-      }
-    ],
-    "waiting_regions": [
-      {
-        "region": "Ben Tre",
-        "lat": 10.25,
-        "lng": 106.37,
-        "population": 1290000,
-        "caseCount": 350,
-        "incidenceRate": 27.13,
-        "riskScore": 75,
-        "riskScoreNormalized": 0.75,
-        "tier": "CRITICAL",
         "action": "Activate emergency response; deploy staff team now"
+      },
+      {
+        "region": "Dong Nai",
+        "lat": 10.95,
+        "lng": 106.82,
+        "population": 3200000,
+        "caseCount": 1850,
+        "incidenceRate": 57.81,
+        "riskScore": 65,
+        "riskScoreNormalized": 0.65,
+        "tier": "HIGH RISK",
+        "action": "Prepare medical resources; pre-position supplies"
+      },
+      {
+        "region": "Can Tho",
+        "lat": 10.03,
+        "lng": 105.78,
+        "population": 10000000,
+        "caseCount": 1000,
+        "incidenceRate": 10.0,
+        "riskScore": 20,
+        "riskScoreNormalized": 0.2,
+        "tier": "LOW RISK",
+        "action": "Routine monitoring"
       },
       {
         "region": "Ba Ria-Vung Tau",
@@ -134,42 +138,18 @@
         "population": 1150000,
         "caseCount": 150,
         "incidenceRate": 13.04,
-        "riskScore": 50,
-        "riskScoreNormalized": 0.5,
-        "tier": "HIGH RISK",
-        "action": "Prepare medical resources; pre-position supplies"
-      },
-      {
-        "region": "Can Tho",
-        "lat": 10.03,
-        "lng": 105.78,
-        "population": 1240000,
-        "caseCount": 200,
-        "incidenceRate": 16.13,
-        "riskScore": 50,
-        "riskScoreNormalized": 0.5,
-        "tier": "HIGH RISK",
-        "action": "Prepare medical resources; pre-position supplies"
+        "riskScore": 15,
+        "riskScoreNormalized": 0.15,
+        "tier": "LOW RISK",
+        "action": "Routine monitoring"
       }
     ],
-    "staff_teams_deployed": 5,
+    "staff_teams_deployed": 4,
     "staff_teams_budget": 5,
-    "total_risk_score_covered": 4.5,
-    "coverage_percent": 62.5
+    "total_risk_score_covered": 2.1,
+    "coverage_percent": 50.0
   },
   "recommendations": [
-    {
-      "id": 3,
-      "region": "Binh Duong",
-      "tier": "CRITICAL",
-      "text": "[Binh Duong - CRITICAL] Activate emergency response. Deploy Medical Team and establish isolation zones immediately. (Incidence rate: 65.0/100k pop)"
-    },
-    {
-      "id": 5,
-      "region": "Dong Nai",
-      "tier": "CRITICAL",
-      "text": "[Dong Nai - CRITICAL] Activate emergency response. Deploy Medical Team and establish isolation zones immediately. (Incidence rate: 57.81/100k pop)"
-    },
     {
       "id": 6,
       "region": "Ho Chi Minh",
@@ -177,116 +157,117 @@
       "text": "[Ho Chi Minh - CRITICAL] Activate emergency response. Deploy Medical Team and establish isolation zones immediately. (Incidence rate: 60.0/100k pop)"
     },
     {
-      "id": 2,
-      "region": "Ben Tre",
-      "tier": "CRITICAL",
-      "text": "[Ben Tre - CRITICAL] Activate emergency response. Deploy Medical Team and establish isolation zones immediately. (Incidence rate: 27.13/100k pop)"
+      "id": 3,
+      "region": "Binh Duong",
+      "tier": "HIGH RISK",
+      "text": "[Binh Duong - HIGH RISK] Prepare resources. Intensify mosquito fogging across the entire region. (Incidence rate: 65.0/100k pop)"
     },
     {
-      "id": 7,
-      "region": "Long An",
-      "tier": "CRITICAL",
-      "text": "[Long An - CRITICAL] Activate emergency response. Deploy Medical Team and establish isolation zones immediately. (Incidence rate: 50.0/100k pop)"
+      "id": 5,
+      "region": "Dong Nai",
+      "tier": "HIGH RISK",
+      "text": "[Dong Nai - HIGH RISK] Prepare resources. Intensify mosquito fogging across the entire region. (Incidence rate: 57.81/100k pop)"
     },
     {
       "id": 8,
       "region": "Tien Giang",
-      "tier": "CRITICAL",
-      "text": "[Tien Giang - CRITICAL] Activate emergency response. Deploy Medical Team and establish isolation zones immediately. (Incidence rate: 36.52/100k pop)"
+      "tier": "HIGH RISK",
+      "text": "[Tien Giang - HIGH RISK] Prepare resources. Intensify mosquito fogging across the entire region. (Incidence rate: 36.52/100k pop)"
     },
     {
-      "id": 1,
-      "region": "Ba Ria-Vung Tau",
-      "tier": "HIGH RISK",
-      "text": "[Ba Ria-Vung Tau - HIGH RISK] Prepare resources. Intensify mosquito fogging across the entire region. (Incidence rate: 13.04/100k pop)"
+      "id": 7,
+      "region": "Long An",
+      "tier": "MEDIUM RISK",
+      "text": "[Long An - MEDIUM RISK] Enhance epidemiological surveillance. Expand PCR testing zones. (Incidence rate: 50.0/100k pop)"
+    },
+    {
+      "id": 2,
+      "region": "Ben Tre",
+      "tier": "MEDIUM RISK",
+      "text": "[Ben Tre - MEDIUM RISK] Enhance epidemiological surveillance. Expand PCR testing zones. (Incidence rate: 27.13/100k pop)"
     },
     {
       "id": 4,
       "region": "Can Tho",
-      "tier": "HIGH RISK",
-      "text": "[Can Tho - HIGH RISK] Prepare resources. Intensify mosquito fogging across the entire region. (Incidence rate: 16.13/100k pop)"
+      "tier": "LOW RISK",
+      "text": "[Can Tho - LOW RISK] Monitor the situation. Advise the public on sanitation. (Incidence rate: 10.0/100k pop)"
+    },
+    {
+      "id": 1,
+      "region": "Ba Ria-Vung Tau",
+      "tier": "LOW RISK",
+      "text": "[Ba Ria-Vung Tau - LOW RISK] Monitor the situation. Advise the public on sanitation. (Incidence rate: 13.04/100k pop)"
     }
   ],
   "kpi_comparison": {
     "baseline_regions": [
-      "Binh Duong",
-      "Dong Nai",
-      "Ho Chi Minh",
-      "Long An",
-      "Tien Giang"
+      "Ho Chi Minh"
     ],
-    "baseline_risk_covered": 4.5,
+    "baseline_risk_covered": 1.0,
     "qubo_regions": [
+      "Ben Tre",
       "Binh Duong",
-      "Dong Nai",
-      "Ho Chi Minh",
       "Long An",
       "Tien Giang"
     ],
-    "qubo_risk_covered": 4.5,
-    "improvement_percent": 0.0
+    "qubo_risk_covered": 2.1,
+    "improvement_percent": 110.0
   },
   "sensitivity_analysis": {
     "base": {
       "budget_teams": 5,
       "penalty_strength": 2.0,
       "covered_regions": [
+        "Ben Tre",
         "Binh Duong",
-        "Dong Nai",
-        "Ho Chi Minh",
         "Long An",
         "Tien Giang"
       ],
-      "num_covered": 5
+      "num_covered": 4
     },
     "budget_minus20": {
       "budget_teams": 4,
       "penalty_strength": 2.0,
       "covered_regions": [
         "Binh Duong",
-        "Dong Nai",
-        "Ho Chi Minh",
-        "Long An"
+        "Long An",
+        "Tien Giang"
       ],
-      "num_covered": 4
+      "num_covered": 3
     },
     "budget_plus20": {
       "budget_teams": 6,
       "penalty_strength": 2.0,
       "covered_regions": [
-        "Ben Tre",
         "Binh Duong",
         "Dong Nai",
-        "Ho Chi Minh",
         "Long An",
         "Tien Giang"
       ],
-      "num_covered": 6
+      "num_covered": 4
     },
     "penalty_minus20": {
       "budget_teams": 5,
       "penalty_strength": 1.6,
       "covered_regions": [
+        "Ben Tre",
         "Binh Duong",
-        "Dong Nai",
-        "Ho Chi Minh",
         "Long An",
         "Tien Giang"
       ],
-      "num_covered": 5
+      "num_covered": 4
     },
     "penalty_plus20": {
       "budget_teams": 5,
       "penalty_strength": 2.4,
       "covered_regions": [
+        "Ben Tre",
         "Binh Duong",
-        "Dong Nai",
-        "Ho Chi Minh",
         "Long An",
         "Tien Giang"
       ],
-      "num_covered": 5
+      "num_covered": 4
     }
   },
-  "summary": "Deploying 5 of 5 available staff teams to highest-risk regions. Top priority: Binh Duong (risk score: 100/100)."
+  "summary": "Deploying 4 of 5 available staff teams to highest-risk regions. Top priority: Binh Duong (risk score: 72/100)."
 }

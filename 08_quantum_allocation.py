@@ -104,6 +104,7 @@ class DistrictRisk:
     population: int
     case_count: int
     incidence_rate: float
+    team_cost: int
 
 
 def extract_risk_scores(data: dict) -> list[DistrictRisk]:
@@ -118,25 +119,22 @@ def extract_risk_scores(data: dict) -> list[DistrictRisk]:
         cases = h.get("caseCount", 100)
         incidence = round((cases / pop) * 100000, 2) if pop > 0 else 0
         
-        # Override raw_risk based on incidence
-        if incidence > 50:
-            computed_risk = 100
-        elif incidence > 25:
-            computed_risk = 75
-        elif incidence > 10:
-            computed_risk = 50
-        else:
-            computed_risk = 25
+        # Use real ML riskScore instead of bucketing
+        raw_risk = h.get("riskScore", 50)
+        
+        # Calculate realistic team cost based on cases (min 1)
+        team_cost = max(1, round(cases / 1000))
 
         results.append(DistrictRisk(
             name=h["region"],
-            risk_score=round(computed_risk / 100, 3),
+            risk_score=round(raw_risk / 100, 3),
             lat=h["lat"],
             lng=h["lng"],
-            raw_risk=computed_risk,
+            raw_risk=raw_risk,
             population=pop,
             case_count=cases,
-            incidence_rate=incidence
+            incidence_rate=incidence,
+            team_cost=team_cost
         ))
     return results
 
@@ -186,15 +184,18 @@ def build_qubo(districts_risk: list[DistrictRisk], budget_teams: int,
         bqm.add_variable(d.name, -d.risk_score)
 
     names = [d.name for d in districts_risk]
-    bundle_cost = 1
+    costs = {d.name: d.team_cost for d in districts_risk}
 
     for name in names:
-        linear_contrib = penalty_strength * (bundle_cost**2 - 2 * budget_teams * bundle_cost)
+        c_i = costs[name]
+        linear_contrib = penalty_strength * (c_i**2 - 2 * budget_teams * c_i)
         bqm.add_linear(name, linear_contrib)
 
     for i, name_i in enumerate(names):
         for name_j in names[i + 1:]:
-            quad_contrib = penalty_strength * (2 * bundle_cost * bundle_cost)
+            c_i = costs[name_i]
+            c_j = costs[name_j]
+            quad_contrib = penalty_strength * (2 * c_i * c_j)
             bqm.add_quadratic(name_i, name_j, quad_contrib)
 
     return bqm
@@ -259,7 +260,12 @@ def naive_baseline_allocation(districts_risk: list[DistrictRisk], budget_teams: 
     ignoring the ML's future risk score. Used to measure how much better the ML+QUBO allocation is.
     """
     sorted_districts = sorted(districts_risk, key=lambda d: -d.case_count)
-    covered_names = {d.name for d in sorted_districts[:budget_teams]}
+    covered_names = set()
+    spent = 0
+    for d in sorted_districts:
+        if spent + d.team_cost <= budget_teams:
+            covered_names.add(d.name)
+            spent += d.team_cost
     return covered_names
 
 
