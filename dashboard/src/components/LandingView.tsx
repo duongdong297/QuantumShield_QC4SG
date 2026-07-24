@@ -112,17 +112,63 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="max-w-4xl mx-auto text-center mb-20 bg-slate-800/20 backdrop-blur-md border border-slate-700/50 rounded-3xl p-8 md:p-12 shadow-2xl"
+          whileHover={{ scale: 1.02, boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.5)', borderColor: 'rgba(52, 211, 153, 0.5)' }}
+          transition={{ duration: 0.4 }}
+          className="max-w-4xl mx-auto text-center mb-24 bg-gradient-to-b from-slate-800/40 to-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden group cursor-default"
         >
-          <div className="text-3xl mb-4">🛡️</div>
-          <h2 className="text-2xl font-bold text-white mb-6">Project Overview</h2>
-          <p className="text-slate-400 leading-relaxed mb-4 text-justify md:text-center">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-400 to-cyan-500 opacity-50 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <motion.div 
+            animate={{ rotate: [0, 5, -5, 0] }} 
+            transition={{ repeat: Infinity, duration: 4 }}
+            className="text-5xl mb-6 inline-block drop-shadow-[0_0_15px_rgba(52,211,153,0.5)]"
+          >
+            🛡️
+          </motion.div>
+          <h2 className="text-3xl font-extrabold text-white mb-6 tracking-tight">Project Overview</h2>
+          <p className="text-slate-300 leading-relaxed mb-6 text-justify md:text-center text-lg">
             Dengue fever remains one of the most critical public health challenges in Vietnam. Seasonal outbreaks put immense pressure on hospitals, healthcare professionals, and local disease control agencies.
           </p>
-          <p className="text-slate-400 leading-relaxed text-justify md:text-center">
-            <strong>QuantumShield Health</strong> is an advanced public health platform that combines the power of <strong>Artificial Intelligence (AI)</strong> and <strong>Quantum Computing</strong>. The system is designed to predict outbreaks early, optimize medical resource allocation via quantum algorithms, and automate decision-making processes using Large Language Models (LLMs).
+          <p className="text-slate-300 leading-relaxed text-justify md:text-center text-lg">
+            <strong>QuantumShield Health</strong> is an advanced public health platform that combines the power of <strong className="text-emerald-400">Artificial Intelligence (AI)</strong> and <strong className="text-cyan-400">Quantum Computing</strong>. The system is designed to predict outbreaks early, optimize medical resource allocation via quantum algorithms, and automate decision-making processes using Large Language Models (LLMs).
           </p>
         </motion.div>
+
+        {/* How It Works */}
+        <div className="w-full max-w-5xl mx-auto mb-24">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-white mb-4">How It Works</h2>
+            <p className="text-slate-400">A seamless integration of data, AI, and Quantum optimization.</p>
+          </div>
+          
+          <div className="flex flex-col md:flex-row gap-8 md:gap-4 items-center justify-between relative pt-6">
+            {/* Connecting Line */}
+            <div className="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-slate-700/50 -z-10 transform -translate-y-1/2 rounded-full"></div>
+            
+            {[
+              { step: 1, title: 'Data Ingestion', desc: 'Real-time epidemiological & climate data.', icon: '📡', color: 'text-blue-400', border: 'border-blue-500/30' },
+              { step: 2, title: 'AI Prediction', desc: 'Random Forest forecasts future outbreaks.', icon: '🧠', color: 'text-purple-400', border: 'border-purple-500/30' },
+              { step: 3, title: 'Quantum Allocator', desc: 'Optimizes resources via QUBO logic.', icon: '⚡', color: 'text-emerald-400', border: 'border-emerald-500/30' },
+              { step: 4, title: 'GenAI Dispatch', desc: 'Creates actionable medical protocols.', icon: '📋', color: 'text-amber-400', border: 'border-amber-500/30' },
+            ].map((item, i) => (
+              <motion.div
+                key={item.step}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.2 }}
+                whileHover={{ y: -10 }}
+                className={`bg-slate-800/80 backdrop-blur-md rounded-2xl p-6 text-center border ${item.border} w-full md:w-1/4 shadow-xl relative group`}
+              >
+                <div className="w-10 h-10 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center mx-auto mb-4 absolute -top-5 left-1/2 transform -translate-x-1/2 text-slate-300 font-bold shadow-lg group-hover:scale-110 group-hover:text-white transition-all group-hover:border-slate-500">
+                  {item.step}
+                </div>
+                <div className={`text-4xl mb-4 mt-2 ${item.color}`}>{item.icon}</div>
+                <h3 className="text-lg font-bold text-white mb-2">{item.title}</h3>
+                <p className="text-sm text-slate-400">{item.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
 
         {/* Scroll Indicator */}
         <motion.div 
@@ -174,7 +220,7 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
             <div className="flex-1 h-px bg-gradient-to-r from-slate-700 to-transparent"></div>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-20">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-10">
             {[1, 2, 3, 4].map((member) => (
               <motion.div
                 key={member}
@@ -198,6 +244,29 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
             ))}
           </div>
         </div>
+
+        {/* Thank You Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="w-full border-t border-slate-700/50 pt-16 pb-12 text-center relative"
+        >
+          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <div className="w-12 h-12 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-2xl shadow-xl">
+              🌟
+            </div>
+          </div>
+          <h2 className="text-3xl font-bold text-white mb-6">Thank You for Exploring</h2>
+          <p className="text-slate-400 max-w-2xl mx-auto leading-relaxed mb-8">
+            This project represents our dedication to leveraging cutting-edge technology for social impact. We extend our deepest gratitude to our mentors, open-source communities, and everyone who supported our vision of a safer, healthier future in Vietnam.
+          </p>
+          <div className="text-sm text-slate-500 font-medium uppercase tracking-widest flex items-center justify-center gap-2">
+            <span>© 2026 QuantumShield Health Team</span>
+            <span className="text-emerald-500">|</span>
+            <span className="text-cyan-500">Hackathon Edition</span>
+          </div>
+        </motion.div>
 
       </div>
 
