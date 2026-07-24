@@ -68,7 +68,7 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
       name: "Member 2",
       role: "Full-Stack Developer",
       desc: "Built the robust React frontend and high-performance Go backend, ensuring seamless real-time WebSocket data flow and responsive UI/UX.",
-      img: "/image/member2.jpg",
+      img: "/image/member2.JPG",
       color: "from-emerald-500 to-teal-500"
     },
     {
