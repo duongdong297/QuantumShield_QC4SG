@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { MapContainer, TileLayer, GeoJSON, CircleMarker, Marker } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import vietnamGeoData from '../../public/vietnam.json';
 
 interface HotspotProps {
   id: number;
@@ -19,21 +20,7 @@ interface RiskMapProps {
 }
 
 const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400px', allocationData }) => {
-  const [geoData, setGeoData] = useState<any>(null);
-
-  // Tải dữ liệu ranh giới địa lý (GeoJSON) của Việt Nam
-  useEffect(() => {
-    fetch('/vietnam.json')
-      .then(res => {
-        if (!res.ok) throw new Error('Cannot fetch vietnam.json');
-        return res.json();
-      })
-      .then(json => {
-        console.log("GeoJSON Data Loaded Successfully:", json);
-        setGeoData(json);
-      })
-      .catch(err => console.error('Error loading GeoJSON:', err));
-  }, []);
+  const [geoData] = useState<any>(vietnamGeoData);
 
   // Hàm chuẩn hóa chuỗi tiếng Việt
   const normalizeString = (str: string) => {

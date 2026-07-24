@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import RiskMap from './components/RiskMap';
 import InfectionTrendChart from './components/InfectionTrendChart';
-import Sidebar from './components/layout/Sidebar';
+import LandingView from './components/LandingView';
 import TopNavbar from './components/layout/TopNavbar';
 import DecisionProtocolView from './components/dashboard/DecisionProtocolView';
 import SummaryCards from './components/dashboard/SummaryCards';
@@ -38,7 +38,7 @@ const DengueForecastingView = ({ selectedProvince, setSelectedProvince }: any) =
             </span>
           </h2>
           <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>
-            Sử dụng mô hình AI dự báo dài hạn dựa trên dữ liệu khí hậu và dịch tễ học thực tế của Bộ Y Tế (không dùng dữ liệu giả lập).
+            Utilizing AI for long-term forecasting based on real climate and epidemiological data from the Ministry of Health (no simulated data).
           </p>
         </div>
         
@@ -70,8 +70,8 @@ const DengueForecastingView = ({ selectedProvince, setSelectedProvince }: any) =
           ) : (
             <div className="flex-1 flex flex-col items-center justify-center bg-slate-900/50 rounded-xl border border-slate-700/50 p-4 shadow-xl text-center min-h-[500px]">
               <span className="text-4xl mb-4">🤖</span>
-              <h3 className="text-xl font-bold text-slate-200 mb-2">Chưa chọn Tỉnh/Thành</h3>
-              <p className="text-slate-400">Vui lòng chọn 1 trong 4 tỉnh trọng điểm bên trên để tải mô hình AI.</p>
+              <h3 className="text-xl font-bold text-slate-200 mb-2">No Province Selected</h3>
+              <p className="text-slate-400">Please select 1 of the 4 key provinces above to load the AI forecasting model.</p>
             </div>
           )}
         </div>
@@ -564,7 +564,11 @@ const AIAnalyticsDrawer = ({ selectedProvince, setSelectedProvince, isAnalyzing,
 
 
 const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>('dashboard');
+  const [activeTab, setActiveTab] = useState<string>('home');
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [activeTab]);
   const [allocationData, setAllocationData] = useState<AllocationData | null>(null);
 
   const fetchAllocationData = async () => {
@@ -768,11 +772,9 @@ const App: React.FC = () => {
     }}>
       <Toaster position="top-right" />
       
-      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
-
       {/* 2. MAIN CONTENT WRAPPER */}
       <div style={{
-        marginLeft: '250px',
+        marginLeft: '0',
         marginRight: selectedProvince ? '400px' : '0',
         transition: 'margin-right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
         flex: 1,
@@ -781,29 +783,50 @@ const App: React.FC = () => {
         flexDirection: 'column'
       }}>
         
-        <TopNavbar title={activeTab === 'dashboard' ? 'Dashboard' : activeTab === 'outbreak_maps' ? 'Outbreak Maps' : activeTab === 'decision_protocol' ? 'Decision Protocol' : activeTab === 'resource_tables' ? 'Resource Tables' : 'Audit Logs'} />
-
-        {/* Views */}
-        {activeTab === 'dashboard' && (
-          <DashboardView 
-            error={error} 
-            displayAlert={displayAlert} 
-            hotspotsData={hotspotsData} 
-            chartData={chartData} 
-            displayForecast={displayForecast} 
-            recommendations={recommendations} 
-            handleExecuteAction={handleExecuteAction} 
-            setSelectedProvince={setSelectedProvince} 
-            allocationData={allocationData}
-            fetchAllocationData={fetchAllocationData}
+        {activeTab !== 'home' && (
+          <TopNavbar 
+            title={activeTab === 'dashboard' ? 'Command NOC' : activeTab === 'outbreak_maps' ? 'Outbreak Maps' : activeTab === 'decision_protocol' ? 'Decision Protocol' : activeTab === 'resource_tables' ? 'Resource Tables' : 'Audit Logs'} 
+            setActiveTab={setActiveTab}
           />
         )}
-        {activeTab === 'methodology' && <MethodologyView setActiveTab={setActiveTab} />}
-        {activeTab === 'outbreak_maps' && <OutbreakMapsView hotspotsData={hotspotsData} setSelectedProvince={setSelectedProvince} allocationData={allocationData} />}
-        {activeTab === 'dengue_forecasting' && <DengueForecastingView selectedProvince={selectedProvince} setSelectedProvince={setSelectedProvince} />}
-        {activeTab === 'decision_protocol' && <DecisionProtocolView allocationData={allocationData} handleExecuteAction={handleExecuteAction} dispatchOrders={dispatchOrders} />}
-        {activeTab === 'resource_tables' && <ResourceTablesView />}
-        {activeTab === 'audit_logs' && <AuditLogsView />}
+
+        {/* Views with Framer Motion Transitions */}
+        <div style={{ flex: 1, position: 'relative', display: 'flex', flexDirection: 'column' }}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              style={{ width: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}
+            >
+              {activeTab === 'home' && (
+                <LandingView setActiveTab={setActiveTab} allocationData={allocationData} />
+              )}
+              {activeTab === 'dashboard' && (
+                <DashboardView 
+                  error={error} 
+                  displayAlert={displayAlert} 
+                  hotspotsData={hotspotsData} 
+                  chartData={chartData} 
+                  displayForecast={displayForecast} 
+                  recommendations={recommendations} 
+                  handleExecuteAction={handleExecuteAction} 
+                  setSelectedProvince={setSelectedProvince} 
+                  allocationData={allocationData}
+                  fetchAllocationData={fetchAllocationData}
+                />
+              )}
+              {activeTab === 'methodology' && <MethodologyView setActiveTab={setActiveTab} />}
+              {activeTab === 'outbreak_maps' && <OutbreakMapsView hotspotsData={hotspotsData} setSelectedProvince={setSelectedProvince} allocationData={allocationData} />}
+              {activeTab === 'dengue_forecasting' && <DengueForecastingView selectedProvince={selectedProvince} setSelectedProvince={setSelectedProvince} />}
+              {activeTab === 'decision_protocol' && <DecisionProtocolView allocationData={allocationData} handleExecuteAction={handleExecuteAction} dispatchOrders={dispatchOrders} />}
+              {activeTab === 'resource_tables' && <ResourceTablesView />}
+              {activeTab === 'audit_logs' && <AuditLogsView />}
+            </motion.div>
+          </AnimatePresence>
+        </div>
         
         {/* Global Drawer shared across views */}
         <AIAnalyticsDrawer
