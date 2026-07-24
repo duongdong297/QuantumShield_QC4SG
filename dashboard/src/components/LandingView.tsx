@@ -57,24 +57,36 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
   return (
     <div className="landing-container" style={{ minHeight: '100vh', width: '100%', overflowX: 'hidden' }}>
       
-      {/* Advanced Dynamic Background (Aurora / Tech Grid) */}
+      {/* Advanced Dynamic Background (Aurora / Tech Grid / Particles) */}
       <div className="absolute inset-0 z-0 overflow-hidden bg-[#0a0f1c]" style={{ pointerEvents: 'none' }}>
         {/* Animated Gradient Mesh (Aurora Effect) */}
-        <div className="absolute top-[-20%] left-[-10%] w-[70vw] h-[70vw] rounded-full mix-blend-screen opacity-30 blur-[120px]" 
-             style={{ background: 'radial-gradient(circle, #1171ef 0%, transparent 70%)', animation: 'aurora1 25s ease-in-out infinite alternate' }}></div>
-        <div className="absolute bottom-[-20%] right-[-10%] w-[80vw] h-[80vw] rounded-full mix-blend-screen opacity-20 blur-[150px]"
-             style={{ background: 'radial-gradient(circle, #f5365c 0%, transparent 70%)', animation: 'aurora2 30s ease-in-out infinite alternate-reverse' }}></div>
-        <div className="absolute top-[30%] left-[40%] w-[60vw] h-[60vw] rounded-full mix-blend-screen opacity-20 blur-[130px]"
-             style={{ background: 'radial-gradient(circle, #2dce89 0%, transparent 70%)', animation: 'aurora3 20s ease-in-out infinite alternate' }}></div>
+        <div className="absolute top-[-20%] left-[-10%] w-[70vw] h-[70vw] rounded-full mix-blend-screen opacity-40 blur-[120px]" 
+             style={{ background: 'radial-gradient(circle, #1171ef 0%, transparent 70%)', animation: 'aurora1 15s ease-in-out infinite alternate' }}></div>
+        <div className="absolute bottom-[-20%] right-[-10%] w-[80vw] h-[80vw] rounded-full mix-blend-screen opacity-30 blur-[150px]"
+             style={{ background: 'radial-gradient(circle, #f5365c 0%, transparent 70%)', animation: 'aurora2 20s ease-in-out infinite alternate-reverse' }}></div>
+        <div className="absolute top-[30%] left-[40%] w-[60vw] h-[60vw] rounded-full mix-blend-screen opacity-30 blur-[130px]"
+             style={{ background: 'radial-gradient(circle, #2dce89 0%, transparent 70%)', animation: 'aurora3 18s ease-in-out infinite alternate' }}></div>
              
         {/* Animated Tech Grid Overlay */}
-        <div className="absolute inset-0 z-0 opacity-[0.03]" 
+        <div className="absolute inset-0 z-0 opacity-[0.04]" 
              style={{
                backgroundImage: `linear-gradient(rgba(255, 255, 255, 1) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 1) 1px, transparent 1px)`,
-               backgroundSize: '40px 40px',
-               animation: 'gridMove 15s linear infinite'
+               backgroundSize: '50px 50px',
+               animation: 'gridMove 10s linear infinite'
              }}>
         </div>
+
+        {/* Floating Data Nodes (Particles) */}
+        <div className="absolute top-[80%] left-[10%] w-2 h-2 bg-blue-400 rounded-full shadow-[0_0_10px_#60a5fa] opacity-0" style={{ animation: 'floatUp 10s ease-in infinite' }}></div>
+        <div className="absolute top-[90%] left-[30%] w-3 h-3 bg-emerald-400 rounded-full shadow-[0_0_15px_#34d399] opacity-0" style={{ animation: 'floatUp 14s ease-in-out infinite 2s' }}></div>
+        <div className="absolute top-[75%] left-[80%] w-1.5 h-1.5 bg-cyan-400 rounded-full shadow-[0_0_8px_#22d3ee] opacity-0" style={{ animation: 'floatUp 12s linear infinite 5s' }}></div>
+        <div className="absolute top-[85%] left-[60%] w-2.5 h-2.5 bg-purple-400 rounded-full shadow-[0_0_12px_#a78bfa] opacity-0" style={{ animation: 'floatUp 15s ease-out infinite 1s' }}></div>
+        <div className="absolute top-[95%] left-[45%] w-2 h-2 bg-pink-400 rounded-full shadow-[0_0_10px_#f472b6] opacity-0" style={{ animation: 'floatUp 11s ease-in infinite 7s' }}></div>
+        
+        {/* Shooting Data Streams */}
+        <div className="absolute top-[10%] left-[-10%] w-[150px] h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-0" style={{ animation: 'shootingStar 7s linear infinite' }}></div>
+        <div className="absolute top-[40%] left-[-10%] w-[200px] h-[2px] bg-gradient-to-r from-transparent via-emerald-400 to-transparent opacity-0" style={{ animation: 'shootingStar 11s linear infinite 3s' }}></div>
+        <div className="absolute top-[70%] left-[-10%] w-[100px] h-[2px] bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-0" style={{ animation: 'shootingStar 9s linear infinite 6s' }}></div>
       </div>
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 py-20 flex flex-col items-center justify-center min-h-screen">
@@ -307,7 +319,19 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
         }
         @keyframes gridMove {
           0% { transform: translateY(0); }
-          100% { transform: translateY(40px); }
+          100% { transform: translateY(50px); }
+        }
+        @keyframes floatUp {
+          0% { transform: translateY(0) scale(1); opacity: 0; }
+          10% { opacity: 1; }
+          90% { opacity: 1; }
+          100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+        }
+        @keyframes shootingStar {
+          0% { transform: rotate(35deg) translateX(-20vw); opacity: 0; }
+          5% { opacity: 1; }
+          20% { transform: rotate(35deg) translateX(120vw); opacity: 0; }
+          100% { transform: rotate(35deg) translateX(120vw); opacity: 0; }
         }
       `}} />
     </div>
