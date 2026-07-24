@@ -57,12 +57,24 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
   return (
     <div className="landing-container" style={{ minHeight: '100vh', width: '100%', overflowX: 'hidden' }}>
       
-      {/* Dynamic Background */}
-      <div className="absolute inset-0 z-0 overflow-hidden" style={{ pointerEvents: 'none' }}>
-        <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full mix-blend-screen opacity-20 blur-[100px]" 
-             style={{ background: 'radial-gradient(circle, rgba(17,113,239,1) 0%, rgba(0,0,0,0) 70%)', animation: 'float1 15s ease-in-out infinite' }}></div>
-        <div className="absolute bottom-[-20%] right-[-10%] w-[60vw] h-[60vw] rounded-full mix-blend-screen opacity-10 blur-[120px]"
-             style={{ background: 'radial-gradient(circle, rgba(245,54,92,1) 0%, rgba(0,0,0,0) 70%)', animation: 'float2 20s ease-in-out infinite reverse' }}></div>
+      {/* Advanced Dynamic Background (Aurora / Tech Grid) */}
+      <div className="absolute inset-0 z-0 overflow-hidden bg-[#0a0f1c]" style={{ pointerEvents: 'none' }}>
+        {/* Animated Gradient Mesh (Aurora Effect) */}
+        <div className="absolute top-[-20%] left-[-10%] w-[70vw] h-[70vw] rounded-full mix-blend-screen opacity-30 blur-[120px]" 
+             style={{ background: 'radial-gradient(circle, #1171ef 0%, transparent 70%)', animation: 'aurora1 25s ease-in-out infinite alternate' }}></div>
+        <div className="absolute bottom-[-20%] right-[-10%] w-[80vw] h-[80vw] rounded-full mix-blend-screen opacity-20 blur-[150px]"
+             style={{ background: 'radial-gradient(circle, #f5365c 0%, transparent 70%)', animation: 'aurora2 30s ease-in-out infinite alternate-reverse' }}></div>
+        <div className="absolute top-[30%] left-[40%] w-[60vw] h-[60vw] rounded-full mix-blend-screen opacity-20 blur-[130px]"
+             style={{ background: 'radial-gradient(circle, #2dce89 0%, transparent 70%)', animation: 'aurora3 20s ease-in-out infinite alternate' }}></div>
+             
+        {/* Animated Tech Grid Overlay */}
+        <div className="absolute inset-0 z-0 opacity-[0.03]" 
+             style={{
+               backgroundImage: `linear-gradient(rgba(255, 255, 255, 1) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 1) 1px, transparent 1px)`,
+               backgroundSize: '40px 40px',
+               animation: 'gridMove 15s linear infinite'
+             }}>
+        </div>
       </div>
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 py-20 flex flex-col items-center justify-center min-h-screen">
@@ -74,9 +86,16 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
           transition={{ duration: 0.8, ease: 'easeOut' }}
           className="text-center mb-16 mt-10"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/50 border border-slate-700/50 backdrop-blur-md mb-8">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span className="text-sm font-semibold text-slate-300 tracking-wider uppercase">System Online • Defcon 3</span>
+          <div className="flex justify-center flex-wrap gap-4 mb-8 relative z-10">
+            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 border border-emerald-500/30 backdrop-blur-md shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+              <span className="text-sm md:text-base font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 tracking-wider">
+                QC4SG Vietnam 2026 – The 2nd SEA Quantathon
+              </span>
+            </div>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/50 border border-slate-700/50 backdrop-blur-md">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span className="text-sm font-semibold text-slate-300 tracking-wider uppercase">System Online • Defcon 3</span>
+            </div>
           </div>
           
           <h1 className="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-white to-slate-500 mb-6 tracking-tight">
@@ -261,23 +280,34 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
           <p className="text-slate-400 max-w-2xl mx-auto leading-relaxed mb-8">
             This project represents our dedication to leveraging cutting-edge technology for social impact. We extend our deepest gratitude to our mentors, open-source communities, and everyone who supported our vision of a safer, healthier future in Vietnam.
           </p>
-          <div className="text-sm text-slate-500 font-medium uppercase tracking-widest flex items-center justify-center gap-2">
+          <div className="text-sm text-slate-500 font-medium uppercase tracking-widest flex flex-col md:flex-row items-center justify-center gap-4">
             <span>© 2026 QuantumShield Health Team</span>
-            <span className="text-emerald-500">|</span>
-            <span className="text-cyan-500">Hackathon Edition</span>
+            <span className="hidden md:inline text-emerald-500">|</span>
+            <span className="text-cyan-400 font-bold">QC4SG Vietnam 2026 – The 2nd SEA Quantathon</span>
           </div>
         </motion.div>
 
       </div>
 
       <style dangerouslySetInnerHTML={{__html: `
-        @keyframes float1 {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          50% { transform: translate(5%, 5%) scale(1.1); }
+        @keyframes aurora1 {
+          0% { transform: translate(0, 0) scale(1); }
+          50% { transform: translate(10%, 15%) scale(1.2); }
+          100% { transform: translate(-5%, 5%) scale(0.9); }
         }
-        @keyframes float2 {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          50% { transform: translate(-5%, -5%) scale(1.1); }
+        @keyframes aurora2 {
+          0% { transform: translate(0, 0) scale(1); }
+          50% { transform: translate(-10%, -10%) scale(1.1); }
+          100% { transform: translate(10%, -5%) scale(1.3); }
+        }
+        @keyframes aurora3 {
+          0% { transform: translate(0, 0) scale(1); }
+          50% { transform: translate(-15%, 10%) scale(0.8); }
+          100% { transform: translate(5%, -15%) scale(1.2); }
+        }
+        @keyframes gridMove {
+          0% { transform: translateY(0); }
+          100% { transform: translateY(40px); }
         }
       `}} />
     </div>
