@@ -127,34 +127,49 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 py-20 flex flex-col items-center justify-center min-h-screen">
         
         {/* Hero Section */}
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="text-center mb-16 mt-10"
-        >
-          <div className="flex justify-center flex-wrap gap-4 mb-8 relative z-10">
-            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 border border-emerald-500/30 backdrop-blur-md shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+        <div className="text-center mb-16 mt-10 relative z-10 flex flex-col items-center w-full">
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="flex justify-center flex-wrap gap-4 mb-8"
+          >
+            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 border border-emerald-500/30 backdrop-blur-md shadow-[0_0_15px_rgba(16,185,129,0.3)] hover:shadow-[0_0_25px_rgba(16,185,129,0.5)] transition-shadow duration-300 cursor-default">
               <span className="text-sm md:text-base font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 tracking-wider">
                 QC4SG Vietnam 2026 – The 2nd SEA Quantathon
               </span>
             </div>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/50 border border-slate-700/50 backdrop-blur-md">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.8)]"></span>
               <span className="text-sm font-semibold text-slate-300 tracking-wider uppercase">System Online • Defcon 3</span>
             </div>
-          </div>
+          </motion.div>
           
-          <h1 className="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-white to-slate-300 mb-6 tracking-tight">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
+            className="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-emerald-400 bg-[length:200%_auto] animate-gradient-text mb-6 tracking-tight drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]"
+          >
             Welcome to QuantumShield
-          </h1>
+          </motion.h1>
           
-          <p className="text-lg md:text-xl text-slate-200 max-w-5xl mx-auto leading-relaxed font-light mb-12 drop-shadow-md">
-            The Next-Generation Public Health Intelligence Platform. We empower government agencies and healthcare decision-makers by fusing predictive <strong className="text-white font-semibold">AI Forecasting</strong> with ultra-fast <strong className="text-white font-semibold">Quantum Optimization</strong>. QuantumShield continuously monitors epidemiological data across 63 provinces, instantly intercepting and neutralizing Dengue outbreaks before they can escalate into national crises.
-          </p>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
+            className="text-lg md:text-xl text-slate-200 max-w-5xl mx-auto leading-relaxed font-light mb-12 drop-shadow-md"
+          >
+            The Next-Generation Public Health Intelligence Platform. We empower government agencies and healthcare decision-makers by fusing predictive <strong className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-cyan-300 font-bold shadow-sm">AI Forecasting</strong> with ultra-fast <strong className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-cyan-300 font-bold shadow-sm">Quantum Optimization</strong>. QuantumShield continuously monitors epidemiological data across 63 provinces, instantly intercepting and neutralizing Dengue outbreaks before they can escalate into national crises.
+          </motion.p>
 
           {/* KPI Mini-bar */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto w-full"
+          >
             <div className="bg-slate-900/60 backdrop-blur-xl border border-slate-600/50 rounded-2xl p-6 text-center transform transition-all hover:scale-105 hover:bg-slate-800/80 shadow-2xl shadow-black/50">
               <div className="text-4xl mb-2">📍</div>
               <div className="text-3xl font-bold text-white mb-2">63</div>
@@ -170,8 +185,8 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
               <div className="text-3xl font-bold text-blue-400 mb-2">Active</div>
               <div className="text-xs text-slate-200 font-bold uppercase tracking-widest drop-shadow-md">Generative AI Node</div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
 
         {/* Project Overview */}
         <motion.div 
@@ -411,6 +426,14 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
           5% { opacity: 1; }
           20% { transform: rotate(35deg) translateX(120vw); opacity: 0; }
           100% { transform: rotate(35deg) translateX(120vw); opacity: 0; }
+        }
+        @keyframes gradient-shift {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .animate-gradient-text {
+          animation: gradient-shift 5s ease infinite;
         }
       `}} />
     </div>
