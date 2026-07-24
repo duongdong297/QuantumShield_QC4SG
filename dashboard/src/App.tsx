@@ -563,6 +563,23 @@ const AIAnalyticsDrawer = ({ selectedProvince, setSelectedProvince, isAnalyzing,
 };
 
 
+const ScrollRestorer = ({ activeTab, scrollPositions }: { activeTab: string, scrollPositions: React.MutableRefObject<Record<string, number>> }) => {
+  useEffect(() => {
+    // We use a small timeout to ensure the DOM height has fully expanded 
+    // after the new component mounts, preventing scrollTo from stopping early.
+    const savedPos = scrollPositions.current[activeTab];
+    setTimeout(() => {
+      if (savedPos !== undefined) {
+        window.scrollTo({ top: savedPos, behavior: 'instant' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }
+    }, 10);
+  }, [activeTab, scrollPositions]);
+  
+  return null;
+};
+
 const App: React.FC = () => {
   const [activeTab, _setActiveTab] = useState<string>('home');
   const scrollPositions = React.useRef<Record<string, number>>({});
@@ -575,16 +592,6 @@ const App: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    const savedPos = scrollPositions.current[activeTab];
-    if (savedPos !== undefined) {
-      setTimeout(() => {
-        window.scrollTo({ top: savedPos, behavior: 'instant' });
-      }, 50); // slight delay to ensure DOM is rendered
-    } else {
-      window.scrollTo({ top: 0, behavior: 'instant' });
-    }
-  }, [activeTab]);
   const [allocationData, setAllocationData] = useState<AllocationData | null>(null);
 
   const fetchAllocationData = async () => {
@@ -817,6 +824,7 @@ const App: React.FC = () => {
               transition={{ duration: 0.3, ease: 'easeOut' }}
               style={{ width: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}
             >
+              <ScrollRestorer activeTab={activeTab} scrollPositions={scrollPositions} />
               {activeTab === 'home' && (
                 <LandingView setActiveTab={setActiveTab} allocationData={allocationData} />
               )}
