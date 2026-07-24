@@ -564,10 +564,26 @@ const AIAnalyticsDrawer = ({ selectedProvince, setSelectedProvince, isAnalyzing,
 
 
 const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>('home');
+  const [activeTab, _setActiveTab] = useState<string>('home');
+  const scrollPositions = React.useRef<Record<string, number>>({});
+
+  const setActiveTab = (newTab: string | ((prev: string) => string)) => {
+    const nextTab = typeof newTab === 'function' ? newTab(activeTab) : newTab;
+    if (nextTab !== activeTab) {
+      scrollPositions.current[activeTab] = window.scrollY;
+      _setActiveTab(nextTab);
+    }
+  };
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const savedPos = scrollPositions.current[activeTab];
+    if (savedPos !== undefined) {
+      setTimeout(() => {
+        window.scrollTo({ top: savedPos, behavior: 'instant' });
+      }, 50); // slight delay to ensure DOM is rendered
+    } else {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
   }, [activeTab]);
   const [allocationData, setAllocationData] = useState<AllocationData | null>(null);
 
