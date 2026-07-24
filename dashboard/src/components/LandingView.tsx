@@ -145,30 +145,30 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
             </div>
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-white to-slate-500 mb-6 tracking-tight">
+          <h1 className="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-white to-slate-300 mb-6 tracking-tight">
             Welcome to QuantumShield
           </h1>
           
-          <p className="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed font-light mb-12">
-            Next-generation Public Health Intelligence. Empowering decision-makers with <strong className="text-white font-semibold">AI Forecasting</strong> and <strong className="text-white font-semibold">Quantum Knapsack Optimization</strong> to intercept outbreaks before they escalate.
+          <p className="text-lg md:text-xl text-slate-200 max-w-5xl mx-auto leading-relaxed font-light mb-12 drop-shadow-md">
+            The Next-Generation Public Health Intelligence Platform. We empower government agencies and healthcare decision-makers by fusing predictive <strong className="text-white font-semibold">AI Forecasting</strong> with ultra-fast <strong className="text-white font-semibold">Quantum Optimization</strong>. QuantumShield continuously monitors epidemiological data across 63 provinces, instantly intercepting and neutralizing Dengue outbreaks before they can escalate into national crises.
           </p>
 
           {/* KPI Mini-bar */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            <div className="bg-slate-900/40 backdrop-blur-xl border border-white/5 rounded-2xl p-6 text-center transform transition-all hover:scale-105 hover:bg-slate-800/60 shadow-2xl shadow-black/50">
-              <div className="text-4xl mb-2">🇻🇳</div>
-              <div className="text-2xl font-bold text-white mb-1">63</div>
-              <div className="text-xs text-slate-400 font-bold uppercase tracking-widest">Provinces Covered</div>
+            <div className="bg-slate-900/60 backdrop-blur-xl border border-slate-600/50 rounded-2xl p-6 text-center transform transition-all hover:scale-105 hover:bg-slate-800/80 shadow-2xl shadow-black/50">
+              <div className="text-4xl mb-2">📍</div>
+              <div className="text-3xl font-bold text-white mb-2">63</div>
+              <div className="text-xs text-slate-200 font-bold uppercase tracking-widest drop-shadow-md">Provinces Monitored</div>
             </div>
-            <div className="bg-slate-900/40 backdrop-blur-xl border border-white/5 rounded-2xl p-6 text-center transform transition-all hover:scale-105 hover:bg-slate-800/60 shadow-2xl shadow-black/50">
+            <div className="bg-slate-900/60 backdrop-blur-xl border border-slate-600/50 rounded-2xl p-6 text-center transform transition-all hover:scale-105 hover:bg-slate-800/80 shadow-2xl shadow-black/50">
               <div className="text-4xl mb-2">⚡</div>
-              <div className="text-2xl font-bold text-emerald-400 mb-1">{coveragePercent.toFixed(1)}%</div>
-              <div className="text-xs text-slate-400 font-bold uppercase tracking-widest">Quantum Efficiency</div>
+              <div className="text-3xl font-bold text-emerald-400 mb-2">{coveragePercent.toFixed(1)}%</div>
+              <div className="text-xs text-slate-200 font-bold uppercase tracking-widest drop-shadow-md">Quantum Efficiency</div>
             </div>
-            <div className="bg-slate-900/40 backdrop-blur-xl border border-white/5 rounded-2xl p-6 text-center transform transition-all hover:scale-105 hover:bg-slate-800/60 shadow-2xl shadow-black/50">
+            <div className="bg-slate-900/60 backdrop-blur-xl border border-slate-600/50 rounded-2xl p-6 text-center transform transition-all hover:scale-105 hover:bg-slate-800/80 shadow-2xl shadow-black/50">
               <div className="text-4xl mb-2">🤖</div>
-              <div className="text-2xl font-bold text-blue-400 mb-1">Active</div>
-              <div className="text-xs text-slate-400 font-bold uppercase tracking-widest">GenAI RAG Node</div>
+              <div className="text-3xl font-bold text-blue-400 mb-2">Active</div>
+              <div className="text-xs text-slate-200 font-bold uppercase tracking-widest drop-shadow-md">Generative AI Node</div>
             </div>
           </div>
         </motion.div>
