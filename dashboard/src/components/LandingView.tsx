@@ -387,7 +387,7 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
             This project represents our dedication to leveraging cutting-edge technology for social impact. We extend our deepest gratitude to our mentors, open-source communities, and everyone who supported our vision of a safer, healthier future in Vietnam.
           </p>
           <div className="text-sm text-slate-500 font-medium uppercase tracking-widest flex flex-col md:flex-row items-center justify-center gap-4">
-            <span>© 2026 QuantumShield Health Team</span>
+            <span>© 2026 Team HSV_HUST</span>
             <span className="hidden md:inline text-emerald-500">|</span>
             <span className="text-cyan-400 font-bold">QC4SG Vietnam 2026 – The 2nd SEA Quantathon</span>
           </div>
