@@ -54,6 +54,41 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
     }
   ];
 
+  const teamMembers = [
+    {
+      id: 1,
+      name: "Member 1",
+      role: "Team Leader: AI & GenAI Engineer",
+      desc: "Architected the advanced Random Forest and Large Language Model (RAG) capabilities, enabling autonomous data analysis and real-time intervention protocols.",
+      img: "/image/member1.jpg",
+      color: "from-blue-500 to-indigo-500"
+    },
+    {
+      id: 2,
+      name: "Member 2",
+      role: "Full-Stack Developer",
+      desc: "Built the robust React frontend and high-performance Go backend, ensuring seamless real-time WebSocket data flow and responsive UI/UX.",
+      img: "/image/member2.jpg",
+      color: "from-emerald-500 to-teal-500"
+    },
+    {
+      id: 3,
+      name: "Member 3",
+      role: "Product Manager & Business Analyst",
+      desc: "Defined the product vision and core requirements, ensuring the platform perfectly addresses real-world epidemiological challenges in Vietnam.",
+      img: "/image/member3.jpg",
+      color: "from-amber-500 to-orange-500"
+    },
+    {
+      id: 4,
+      name: "Member 4",
+      role: "Quantum Optimization Engineer",
+      desc: "Designed and implemented the QUBO-based quantum algorithms to optimally allocate medical resources and hospital beds under extreme constraints.",
+      img: "/image/member4.jpg",
+      color: "from-purple-500 to-pink-500"
+    }
+  ];
+
   return (
     <div className="landing-container" style={{ minHeight: '100vh', width: '100%', overflowX: 'hidden' }}>
       
@@ -252,25 +287,38 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-10">
-            {[1, 2, 3, 4].map((member) => (
+            {teamMembers.map((member, idx) => (
               <motion.div
-                key={member}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                key={member.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -10 }}
-                transition={{ duration: 0.3 }}
-                className="bg-slate-800/40 backdrop-blur-xl border border-slate-700/50 rounded-2xl overflow-hidden flex flex-col items-center p-6 text-center shadow-lg group hover:border-emerald-500/50 transition-colors"
+                transition={{ delay: idx * 0.15, duration: 0.5 }}
+                whileHover={{ y: -15, scale: 1.05 }}
+                className="relative bg-slate-800/40 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 text-center shadow-lg group transition-all duration-300"
               >
-                {/* Image Placeholder */}
-                <div className="w-32 h-32 rounded-full overflow-hidden mb-6 border-4 border-slate-700 bg-slate-900 flex items-center justify-center group-hover:border-emerald-500 transition-colors shadow-xl">
-                  <span className="text-slate-500 text-sm font-medium uppercase tracking-widest">Photo {member}</span>
+                {/* Glow behind card on hover */}
+                <div className={`absolute -inset-0.5 bg-gradient-to-br ${member.color} rounded-2xl opacity-0 group-hover:opacity-20 blur-xl transition duration-500`}></div>
+                
+                <div className="relative z-10 flex flex-col items-center h-full">
+                  {/* Image with animated border */}
+                  <div className="relative w-32 h-32 mb-6">
+                    <div className={`absolute -inset-2 bg-gradient-to-r ${member.color} rounded-full opacity-0 group-hover:opacity-60 blur-md transition-opacity duration-300 animate-pulse`}></div>
+                    <div className="w-full h-full rounded-full overflow-hidden border-4 border-slate-700 bg-slate-900 group-hover:border-transparent relative z-10 transition-colors duration-300 shadow-xl group-hover:shadow-2xl">
+                      <img src={member.img} alt={member.role} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" />
+                    </div>
+                  </div>
+                  
+                  <h3 className={`text-xl font-bold text-white mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r ${member.color} transition-all duration-300`}>
+                    {member.name}
+                  </h3>
+                  <p className="text-xs font-bold uppercase tracking-wider mb-4 text-emerald-400 min-h-[32px] flex items-center justify-center">
+                    {member.role}
+                  </p>
+                  <p className="text-sm text-slate-400 leading-relaxed group-hover:text-slate-300 transition-colors">
+                    {member.desc}
+                  </p>
                 </div>
-                <h3 className="text-lg font-bold text-white mb-1">Member {member}</h3>
-                <p className="text-sm text-emerald-400 mb-4 font-semibold uppercase tracking-wider">Role / Position</p>
-                <p className="text-xs text-slate-400 leading-relaxed">
-                  Brief introduction highlighting the specific role and contributions of this team member to the QuantumShield project.
-                </p>
               </motion.div>
             ))}
           </div>
