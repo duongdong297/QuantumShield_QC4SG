@@ -57,7 +57,7 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
   const teamMembers = [
     {
       id: 1,
-      name: "Member 1",
+      name: "Dong Minh Duong",
       role: "Team Leader: AI & GenAI Engineer",
       desc: "Architected the advanced Random Forest and Large Language Model (RAG) capabilities, enabling autonomous data analysis and real-time intervention protocols.",
       img: "/image/member1.jpg",
@@ -65,7 +65,7 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
     },
     {
       id: 2,
-      name: "Member 2",
+      name: "Nguyen Dao Nam Hai",
       role: "Full-Stack Developer",
       desc: "Built the robust React frontend and high-performance Go backend, ensuring seamless real-time WebSocket data flow and responsive UI/UX.",
       img: "/image/member2.jpg",
@@ -73,7 +73,7 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
     },
     {
       id: 3,
-      name: "Member 3",
+      name: "Phan Thi Hai Yen",
       role: "Product Manager & Business Analyst",
       desc: "Defined the product vision and core requirements, ensuring the platform perfectly addresses real-world epidemiological challenges in Vietnam.",
       img: "/image/member3.jpg",
@@ -81,7 +81,7 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
     },
     {
       id: 4,
-      name: "Member 4",
+      name: "Nivashini .G .Mahesh",
       role: "Quantum Optimization Engineer",
       desc: "Designed and implemented the QUBO-based quantum algorithms to optimally allocate medical resources and hospital beds under extreme constraints.",
       img: "/image/member4.jpg",
