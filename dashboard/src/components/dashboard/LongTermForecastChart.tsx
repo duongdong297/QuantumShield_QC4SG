@@ -51,7 +51,7 @@ export const LongTermForecastChart = ({ region }: { region: string }) => {
     return (
       <div className="h-full w-full flex items-center justify-center flex-col space-y-4 bg-slate-900/50 rounded-xl border border-slate-700/50 p-4 shadow-xl min-h-[500px]">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-400"></div>
-        <p className="text-slate-400">Đang chạy mô hình AI Dự báo dài hạn...</p>
+        <p className="text-slate-400">Running Long-term AI Forecasting model...</p>
       </div>
     );
   }
@@ -61,7 +61,7 @@ export const LongTermForecastChart = ({ region }: { region: string }) => {
       <div className="h-full w-full flex items-center justify-center flex-col space-y-4 bg-slate-900/50 rounded-xl border border-slate-700/50 p-4 shadow-xl text-center min-h-[500px]">
         <span className="text-4xl mb-2">⚠️</span>
         <h3 className="text-xl font-bold text-slate-200">{region}</h3>
-        <p className="text-slate-400 max-w-md">{errorMsg || "Không có dữ liệu dự báo cho khu vực này."}</p>
+        <p className="text-slate-400 max-w-md">{errorMsg || "No forecast data available for this region."}</p>
       </div>
     );
   }
@@ -77,8 +77,8 @@ export const LongTermForecastChart = ({ region }: { region: string }) => {
           📈
         </div>
         <div>
-          <h2 className="text-lg font-bold text-slate-100">Dự báo số ca mắc sốt xuất huyết dengue: {region}</h2>
-          <p className="text-sm text-slate-400">Mô hình Machine Learning (Random Forest) - Khung thời gian 12 tháng</p>
+          <h2 className="text-lg font-bold text-slate-100">Dengue Fever Case Forecast: {region}</h2>
+          <p className="text-sm text-slate-400">Machine Learning Model (Random Forest) - 12-Month Timeframe</p>
         </div>
       </div>
 
@@ -104,7 +104,7 @@ export const LongTermForecastChart = ({ region }: { region: string }) => {
             <Area 
               type="monotone" 
               dataKey="forecastUpper" 
-              name="Tổ hợp dự báo (Phân vị 75)" 
+              name="Forecast Upper Bound (75th Percentile)" 
               stroke="none" 
               fillOpacity={1} 
               fill="url(#colorUpper)" 
@@ -115,7 +115,7 @@ export const LongTermForecastChart = ({ region }: { region: string }) => {
             <Line 
               type="monotone" 
               dataKey="recordedCases" 
-              name="Số ca ghi nhận" 
+              name="Recorded Cases" 
               stroke="#3b82f6" 
               strokeWidth={2} 
               dot={{ r: 4, fill: '#3b82f6', strokeWidth: 2, stroke: '#1e293b' }} 
@@ -126,7 +126,7 @@ export const LongTermForecastChart = ({ region }: { region: string }) => {
             <Line 
               type="monotone" 
               dataKey="forecastMean" 
-              name="Trung bình dự báo" 
+              name="Forecast Mean" 
               stroke="#f59e0b" 
               strokeWidth={2} 
               strokeDasharray="5 5"
@@ -135,7 +135,7 @@ export const LongTermForecastChart = ({ region }: { region: string }) => {
             />
 
             {todayMonth && (
-              <ReferenceLine x={todayMonth} stroke="#ef4444" strokeDasharray="3 3" label={{ position: 'insideTopLeft', value: 'Dự báo từ đây', fill: '#ef4444', fontSize: 12 }} />
+              <ReferenceLine x={todayMonth} stroke="#ef4444" strokeDasharray="3 3" label={{ position: 'insideTopLeft', value: 'Forecast starts here', fill: '#ef4444', fontSize: 12 }} />
             )}
           </ComposedChart>
         </ResponsiveContainer>
@@ -144,13 +144,13 @@ export const LongTermForecastChart = ({ region }: { region: string }) => {
       <div className="mt-6 border border-slate-700/50 rounded-lg overflow-hidden bg-slate-900/80">
         <div className="bg-slate-800 p-2 text-sm font-semibold text-slate-300 flex items-center gap-2">
           <span className="text-amber-500 text-lg">⚠️</span>
-          Dự báo xác suất vượt quá ngưỡng Phân vị thứ 75 (Nguy cơ bùng dịch)
+          Probability of Exceeding 75th Percentile (Outbreak Risk)
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
             <thead className="text-xs text-slate-400 bg-slate-800/50">
               <tr>
-                <th className="px-4 py-2 font-medium">Tháng</th>
+                <th className="px-4 py-2 font-medium">Month</th>
                 {data.filter(d => d.probExceed75th !== null).map((d, i) => (
                   <th key={i} className="px-2 py-2 text-center border-l border-slate-700/50 whitespace-nowrap">{d.month}</th>
                 ))}
@@ -158,7 +158,7 @@ export const LongTermForecastChart = ({ region }: { region: string }) => {
             </thead>
             <tbody>
               <tr className="border-t border-slate-700/50">
-                <td className="px-4 py-2 font-medium text-amber-400">Xác suất (%)</td>
+                <td className="px-4 py-2 font-medium text-amber-400">Probability (%)</td>
                 {data.filter(d => d.probExceed75th !== null).map((d, i) => (
                   <td key={i} className={`px-2 py-2 text-center border-l border-slate-700/50 font-bold ${d.probExceed75th && d.probExceed75th > 25 ? 'text-red-400' : 'text-emerald-400'}`}>
                     {d.probExceed75th}%
