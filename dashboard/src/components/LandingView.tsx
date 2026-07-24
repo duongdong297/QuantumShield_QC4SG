@@ -26,8 +26,8 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
     },
     {
       id: 'dengue_forecasting',
-      title: 'AI Forecasting',
-      desc: 'Long-term Random Forest outbreak predictions (real HCDC data).',
+      title: 'Machine Learning',
+      desc: 'Long-term Machine Learning outbreak predictions (real HCDC data).',
       icon: '📈',
       gradient: 'from-[#2dce89] to-[#2dcecc]'
     },
@@ -59,7 +59,7 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
       id: 1,
       name: "Dong Minh Duong",
       role: "Team Leader: AI & GenAI Engineer",
-      desc: "Architected the advanced Random Forest and Large Language Model (RAG) capabilities, enabling autonomous data analysis and real-time intervention protocols.",
+      desc: "Architected the advanced Machine Learning and Large Language Model (RAG) capabilities, enabling autonomous data analysis and real-time intervention protocols.",
       img: "/image/member1.jpg",
       color: "from-blue-500 to-indigo-500"
     },
@@ -160,7 +160,7 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
             transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
             className="text-lg md:text-xl text-slate-200 max-w-5xl mx-auto leading-relaxed font-light mb-12 drop-shadow-md"
           >
-            The Next-Generation Public Health Intelligence Platform. We empower government agencies and healthcare decision-makers by fusing predictive <strong className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-cyan-300 font-bold shadow-sm">AI Forecasting</strong> with ultra-fast <strong className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-cyan-300 font-bold shadow-sm">Quantum Optimization</strong>. QuantumShield continuously monitors epidemiological data across 63 provinces, instantly intercepting and neutralizing Dengue outbreaks before they can escalate into national crises.
+            The Next-Generation Public Health Intelligence Platform. We empower government agencies and healthcare decision-makers by fusing predictive <strong className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-cyan-300 font-bold shadow-sm">Machine Learning</strong> with ultra-fast <strong className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-cyan-300 font-bold shadow-sm">Quantum Optimization</strong>. QuantumShield continuously monitors epidemiological data across 63 provinces, instantly intercepting and neutralizing Dengue outbreaks before they can escalate into national crises.
           </motion.p>
 
           {/* KPI Mini-bar */}
@@ -239,8 +239,8 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
               },
               { 
                 step: 2, 
-                title: 'AI Forecasting', 
-                desc: 'A highly tuned Random Forest algorithm processes decades of historical data to accurately predict outbreak probabilities, peak dates, and transmission velocity months in advance.', 
+                title: 'Machine Learning', 
+                desc: 'A highly tuned Machine Learning algorithm processes decades of historical data to accurately predict outbreak probabilities, peak dates, and transmission velocity months in advance.', 
                 icon: '🧠', 
                 color: 'text-purple-400', 
                 border: 'border-purple-500/30' 
