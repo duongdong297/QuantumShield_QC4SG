@@ -68,7 +68,7 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
       name: "Member 2",
       role: "Full-Stack Developer",
       desc: "Built the robust React frontend and high-performance Go backend, ensuring seamless real-time WebSocket data flow and responsive UI/UX.",
-      img: "/image/member2.JPG",
+      img: "/image/member2.jpg",
       color: "from-emerald-500 to-teal-500"
     },
     {
@@ -190,12 +190,15 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
           >
             🛡️
           </motion.div>
-          <h2 className="text-3xl font-extrabold text-white mb-6 tracking-tight">Project Overview</h2>
-          <p className="text-slate-300 leading-relaxed mb-6 text-justify md:text-center text-lg">
-            Dengue fever remains one of the most critical public health challenges in Vietnam. Seasonal outbreaks put immense pressure on hospitals, healthcare professionals, and local disease control agencies.
+          <h2 className="text-3xl font-extrabold text-white mb-8 tracking-tight">The Vision & Architecture</h2>
+          <p className="text-slate-300 leading-relaxed mb-6 text-justify text-lg font-light">
+            In Vietnam, Dengue fever is not merely a seasonal challenge—it is a critical public health crisis that places catastrophic strain on medical infrastructure, healthcare professionals, and local disease control centers. Traditional reactive measures often result in overcrowded hospitals, severe shortages of medical supplies, and delayed interventions during peak outbreak periods.
           </p>
-          <p className="text-slate-300 leading-relaxed text-justify md:text-center text-lg">
-            <strong>QuantumShield Health</strong> is an advanced public health platform that combines the power of <strong className="text-emerald-400">Artificial Intelligence (AI)</strong> and <strong className="text-cyan-400">Quantum Computing</strong>. The system is designed to predict outbreaks early, optimize medical resource allocation via quantum algorithms, and automate decision-making processes using Large Language Models (LLMs).
+          <p className="text-slate-300 leading-relaxed mb-6 text-justify text-lg font-light">
+            To combat this, we developed <strong>QuantumShield Health</strong>—a next-generation, proactive epidemic management platform. By synergizing the predictive capabilities of <strong className="text-emerald-400">Artificial Intelligence (AI)</strong> with the computational supremacy of <strong className="text-cyan-400">Quantum Computing</strong>, we have created a system that does not just monitor the present, but actively predicts and prepares for the future.
+          </p>
+          <p className="text-slate-300 leading-relaxed text-justify text-lg font-light">
+            Our platform ingests real-time meteorological data, historical epidemiological records, and regional demographic statistics to forecast outbreak trajectories with unprecedented accuracy. By leveraging Large Language Models (LLMs) as autonomous agents, QuantumShield translates complex data into instant, actionable medical dispatch orders, ensuring that life-saving resources are always precisely where they are needed most.
           </p>
         </motion.div>
 
@@ -206,15 +209,43 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
             <p className="text-slate-400">A seamless integration of data, AI, and Quantum optimization.</p>
           </div>
           
-          <div className="flex flex-col md:flex-row gap-8 md:gap-4 items-center justify-between relative pt-6">
+          <div className="flex flex-col md:flex-row gap-8 md:gap-6 items-stretch justify-between relative pt-6">
             {/* Connecting Line */}
             <div className="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-slate-700/50 -z-10 transform -translate-y-1/2 rounded-full"></div>
             
             {[
-              { step: 1, title: 'Data Ingestion', desc: 'Real-time epidemiological & climate data.', icon: '📡', color: 'text-blue-400', border: 'border-blue-500/30' },
-              { step: 2, title: 'AI Prediction', desc: 'Random Forest forecasts future outbreaks.', icon: '🧠', color: 'text-purple-400', border: 'border-purple-500/30' },
-              { step: 3, title: 'Quantum Allocator', desc: 'Optimizes resources via QUBO logic.', icon: '⚡', color: 'text-emerald-400', border: 'border-emerald-500/30' },
-              { step: 4, title: 'GenAI Dispatch', desc: 'Creates actionable medical protocols.', icon: '📋', color: 'text-amber-400', border: 'border-amber-500/30' },
+              { 
+                step: 1, 
+                title: 'Data Ingestion', 
+                desc: 'The system continuously streams and synthesizes real-world epidemiological statistics, high-resolution meteorological data, and dynamic demographic factors from 63 provinces in real-time.', 
+                icon: '📡', 
+                color: 'text-blue-400', 
+                border: 'border-blue-500/30' 
+              },
+              { 
+                step: 2, 
+                title: 'AI Forecasting', 
+                desc: 'A highly tuned Random Forest algorithm processes decades of historical data to accurately predict outbreak probabilities, peak dates, and transmission velocity months in advance.', 
+                icon: '🧠', 
+                color: 'text-purple-400', 
+                border: 'border-purple-500/30' 
+              },
+              { 
+                step: 3, 
+                title: 'Quantum Allocation', 
+                desc: 'When an outbreak is detected, Quantum algorithms (QUBO) instantaneously compute the mathematically optimal distribution of medical supplies and personnel across all affected regions.', 
+                icon: '⚡', 
+                color: 'text-emerald-400', 
+                border: 'border-emerald-500/30' 
+              },
+              { 
+                step: 4, 
+                title: 'GenAI Dispatch', 
+                desc: 'Large Language Models (RAG) autonomously translate complex predictions and quantum allocation matrices into clear, step-by-step operational directives for medical task forces.', 
+                icon: '📋', 
+                color: 'text-amber-400', 
+                border: 'border-amber-500/30' 
+              },
             ].map((item, i) => (
               <motion.div
                 key={item.step}
@@ -223,14 +254,14 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.2 }}
                 whileHover={{ y: -10 }}
-                className={`bg-slate-800/80 backdrop-blur-md rounded-2xl p-6 text-center border ${item.border} w-full md:w-1/4 shadow-xl relative group`}
+                className={`bg-slate-800/80 backdrop-blur-md rounded-2xl p-6 text-center border ${item.border} w-full md:w-1/4 shadow-xl relative group flex flex-col`}
               >
                 <div className="w-10 h-10 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center mx-auto mb-4 absolute -top-5 left-1/2 transform -translate-x-1/2 text-slate-300 font-bold shadow-lg group-hover:scale-110 group-hover:text-white transition-all group-hover:border-slate-500">
                   {item.step}
                 </div>
                 <div className={`text-4xl mb-4 mt-2 ${item.color}`}>{item.icon}</div>
-                <h3 className="text-lg font-bold text-white mb-2">{item.title}</h3>
-                <p className="text-sm text-slate-400">{item.desc}</p>
+                <h3 className="text-lg font-bold text-white mb-4">{item.title}</h3>
+                <p className="text-sm text-slate-400 leading-relaxed text-justify md:text-center flex-grow">{item.desc}</p>
               </motion.div>
             ))}
           </div>
