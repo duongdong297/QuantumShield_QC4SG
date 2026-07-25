@@ -39,7 +39,7 @@ const COLORS = {
   Safe: '#10b981'
 };
 
-const ResourceTablesView: React.FC = () => {
+const ResourceTablesView: React.FC<{ globalAllocation?: any }> = ({ globalAllocation }) => {
   const [data, setData] = useState<ApiResponse | null>(null);
   const [allocation, setAllocation] = useState<AllocationData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -59,16 +59,24 @@ const ResourceTablesView: React.FC = () => {
         setIsLoading(false);
       });
 
-    fetch('http://localhost:8080/api/allocation')
-      .then(res => {
-        if (res.ok) return res.json();
-        return null;
-      })
-      .then((data) => {
-        if (data) setAllocation(data);
-      })
-      .catch(err => console.error("Error fetching allocation:", err));
+    if (!globalAllocation) {
+      fetch('http://localhost:8080/api/allocation')
+        .then(res => {
+          if (res.ok) return res.json();
+          return null;
+        })
+        .then((data) => {
+          if (data) setAllocation(data);
+        })
+        .catch(err => console.error("Error fetching allocation:", err));
+    }
   }, []);
+
+  useEffect(() => {
+    if (globalAllocation) {
+      setAllocation(globalAllocation);
+    }
+  }, [globalAllocation]);
 
   if (isLoading) {
     return (

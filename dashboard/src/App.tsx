@@ -756,6 +756,31 @@ const App: React.FC = () => {
       }
 
       toast.success("Action executed successfully!", { id: toastId });
+      
+      // HACK for demo: automatically mark the selected province as deployed if it was pending
+      if (selectedProvince && allocationData) {
+        const nProv = selectedProvince.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/đ/g, "d").replace(/city/g, "").trim();
+        
+        const isWaiting = allocationData.allocation_result.waiting_regions.some((r: any) => {
+          const nRegion = r.region.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/đ/g, "d").replace(/city/g, "").trim();
+          return nRegion.includes(nProv) || nProv.includes(nRegion);
+        });
+
+        if (isWaiting) {
+           setAllocationData((prev: any) => {
+             if (!prev) return prev;
+             const newData = JSON.parse(JSON.stringify(prev)); // deep copy
+             // remove from waiting
+             newData.allocation_result.waiting_regions = newData.allocation_result.waiting_regions.filter((r: any) => {
+                const nRegion = r.region.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/đ/g, "d").replace(/city/g, "").trim();
+                return !(nRegion.includes(nProv) || nProv.includes(nRegion));
+             });
+             // add to covered
+             newData.allocation_result.covered_regions.push({ region: selectedProvince });
+             return newData;
+           });
+        }
+      }
     } catch (err) {
       toast.error("Failed to connect to Edge Node.", { id: toastId });
     }
@@ -846,7 +871,7 @@ const App: React.FC = () => {
               {activeTab === 'outbreak_maps' && <OutbreakMapsView hotspotsData={hotspotsData} setSelectedProvince={setSelectedProvince} allocationData={allocationData} />}
               {activeTab === 'dengue_forecasting' && <DengueForecastingView selectedProvince={selectedProvince} setSelectedProvince={setSelectedProvince} />}
               {activeTab === 'decision_protocol' && <DecisionProtocolView allocationData={allocationData} handleExecuteAction={handleExecuteAction} dispatchOrders={dispatchOrders} />}
-              {activeTab === 'resource_tables' && <ResourceTablesView />}
+              {activeTab === 'resource_tables' && <ResourceTablesView globalAllocation={allocationData} />}
               {activeTab === 'audit_logs' && <AuditLogsView />}
             </motion.div>
           </AnimatePresence>
