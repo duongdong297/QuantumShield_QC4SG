@@ -33,11 +33,14 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
     const provName = feature.properties?.Name || feature.properties?.name || '';
     const nProvName = normalizeString(provName);
     
-    // Kiểm tra xem tỉnh này có đang nằm trong danh sách điểm nóng (hotspots) không.
-    const isHotspot = (data || []).some(spot => {
+    // Tìm province trong danh sách hotspots
+    const hotspot = (data || []).find(spot => {
       const nSpotName = normalizeString(spot.name);
       return nSpotName.includes(nProvName) || nProvName.includes(nSpotName);
     });
+
+    const isHotspot = !!hotspot;
+    const hotspotColor = hotspot ? hotspot.color : '#cbd5e1';
 
     // Kiểm tra xem tỉnh này có được thuật toán lượng tử cấp phát tài nguyên không
     let isDeployed = false;
@@ -49,11 +52,11 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
     }
 
     return {
-      fillColor: isDeployed ? '#10b981' : (isHotspot ? '#ef4444' : '#cbd5e1'), // Emerald for deployed, Red for hotspots, Slate for others
+      fillColor: isDeployed ? '#10b981' : (isHotspot ? hotspotColor : '#cbd5e1'), // Emerald for deployed, actual risk color for hotspots, Slate for others
       weight: isDeployed ? 2.5 : 1.5,
       opacity: 1,
       color: isDeployed ? '#34d399' : '#ffffff', // Glowing green border if deployed
-      fillOpacity: isDeployed ? 0.85 : (isHotspot ? 0.7 : 0.4)
+      fillOpacity: isDeployed ? 0.85 : (isHotspot ? 0.8 : 0.4)
     };
   };
 
@@ -70,7 +73,7 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
 
     const riskScore = hotspotInfo ? hotspotInfo.risk : 0;
     const color = hotspotInfo ? hotspotInfo.color : '#64748b';
-    const status = riskScore > 80 ? 'CRITICAL' : riskScore > 60 ? 'WARNING' : 'SAFE';
+    const status = riskScore >= 80 ? 'CRITICAL' : riskScore >= 60 ? 'WARNING' : riskScore >= 40 ? 'ELEVATED' : 'SAFE';
 
     // Kiểm tra xem tỉnh này có được thuật toán lượng tử cấp phát tài nguyên không
     let allocationStatusHtml = '';

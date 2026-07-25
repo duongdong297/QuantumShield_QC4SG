@@ -651,9 +651,10 @@ const App: React.FC = () => {
         ]);
 
         const mappedHotspots = (data.hotspots || []).map((item, index) => {
-          let color = "#ffad46"; // Vàng
-          if (item?.riskScore > 80) color = "#f5365c"; // Đỏ
-          else if (item?.riskScore > 60) color = "#fb6340"; // Cam
+          let color = "#10b981"; // Mặc định là Xanh (SAFE) cho rủi ro thấp
+          if (item?.riskScore >= 80) color = "#ef4444"; // Đỏ (CRITICAL)
+          else if (item?.riskScore >= 60) color = "#fb6340"; // Cam (WARNING)
+          else if (item?.riskScore >= 40) color = "#eab308"; // Vàng (ELEVATED)
 
           return {
             id: index + 1,
