@@ -1,6 +1,71 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 
+const FormattedRAGOrder = ({ text }: { text: string }) => {
+  if (!text) return null;
+
+  const lines = text.split('\n');
+  
+  return (
+    <div style={{ background: '#090d16', padding: '1.5rem', borderRadius: '12px', border: '1px solid #1e293b', color: '#e2e8f0', fontFamily: 'sans-serif' }}>
+      <div style={{ borderBottom: '1px solid #1e293b', paddingBottom: '1rem', marginBottom: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#94a3b8' }}>
+        <div>
+          <strong style={{ color: '#34d399', display: 'block', fontSize: '0.85rem' }}>BỘ Y TẾ / HCDC VIỆT NAM</strong>
+          <span>Hệ thống Chỉ huy Phòng chống Dịch bệnh Quantum AI</span>
+        </div>
+        <div style={{ textAlign: 'right' }}>
+          <span style={{ background: 'rgba(239, 68, 68, 0.2)', color: '#ef4444', border: '1px solid rgba(239, 68, 68, 0.4)', padding: '2px 8px', borderRadius: '4px', fontWeight: 800 }}>CÔNG VĂN KHẨN (RAG GENERATED)</span>
+          <div style={{ marginTop: '4px', color: '#64748b' }}>Mã định danh: Q-AI-{Math.floor(Math.random()*8999 + 1000)}</div>
+        </div>
+      </div>
+
+      <div style={{ fontSize: '0.9rem', lineHeight: '1.7', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        {lines.map((line, idx) => {
+          const trimmed = line.trim();
+          if (!trimmed) return <div key={idx} style={{ height: '8px' }} />;
+          
+          if (trimmed.startsWith('# ')) {
+            return <h1 key={idx} style={{ fontSize: '1.25rem', fontWeight: 800, color: '#34d399', textTransform: 'uppercase', borderBottom: '1px solid rgba(52, 211, 153, 0.3)', paddingBottom: '8px', margin: '12px 0 8px 0' }}>{trimmed.replace(/^#\s+/, '')}</h1>;
+          }
+          if (trimmed.startsWith('## ')) {
+            return <h2 key={idx} style={{ fontSize: '1.1rem', fontWeight: 800, color: '#60a5fa', margin: '12px 0 4px 0' }}>{trimmed.replace(/^##\s+/, '')}</h2>;
+          }
+          if (trimmed.startsWith('### ')) {
+            return <h3 key={idx} style={{ fontSize: '1rem', fontWeight: 700, color: '#d8b4fe', margin: '8px 0 4px 0' }}>{trimmed.replace(/^###\s+/, '')}</h3>;
+          }
+          if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+            const content = trimmed.replace(/^[-*]\s+/, '');
+            const parts = content.split(/(\*\*.*?\*\*)/g);
+            return (
+              <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', paddingLeft: '16px' }}>
+                <span style={{ color: '#34d399', fontWeight: 800 }}>•</span>
+                <span style={{ flex: 1 }}>
+                  {parts.map((p, i) => p.startsWith('**') && p.endsWith('**') ? <strong key={i} style={{ color: '#fff', fontWeight: 700 }}>{p.slice(2, -2)}</strong> : p)}
+                </span>
+              </div>
+            );
+          }
+          if (trimmed.startsWith('---')) {
+            return <hr key={idx} style={{ border: 0, borderTop: '1px solid #1e293b', margin: '12px 0' }} />;
+          }
+          
+          const parts = trimmed.split(/(\*\*.*?\*\*)/g);
+          return (
+            <p key={idx} style={{ margin: 0, color: '#cbd5e1' }}>
+              {parts.map((p, i) => p.startsWith('**') && p.endsWith('**') ? <strong key={i} style={{ color: '#fff', fontWeight: 700 }}>{p.slice(2, -2)}</strong> : p)}
+            </p>
+          );
+        })}
+      </div>
+
+      <div style={{ borderTop: '1px solid #1e293b', paddingTop: '1rem', marginTop: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.75rem', color: '#64748b' }}>
+        <div>Nguồn trích dẫn RAG: <strong style={{ color: '#94a3b8' }}>Hướng dẫn Giám sát & Phòng chống Sốt xuất huyết Dengue (QĐ 3711/QĐ-BYT)</strong></div>
+        <div style={{ fontStyle: 'italic' }}>Chữ ký số tự động: QuantumShield AI NOC</div>
+      </div>
+    </div>
+  );
+};
+
 const DecisionProtocolView = ({ allocationData, handleExecuteAction, dispatchOrders }: any) => {
   const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
   const recommendations = allocationData?.recommendations || [];
@@ -215,9 +280,7 @@ const DecisionProtocolView = ({ allocationData, handleExecuteAction, dispatchOrd
                   style={{ background: 'transparent', border: 'none', color: '#94a3b8', fontSize: '1.5rem', cursor: 'pointer' }}
                 >&times;</button>
               </div>
-              <div style={{ whiteSpace: 'pre-wrap', lineHeight: 1.6, fontSize: '0.95rem' }}>
-                {selectedOrder}
-              </div>
+              <FormattedRAGOrder text={selectedOrder} />
             </motion.div>
           </motion.div>
         )}
