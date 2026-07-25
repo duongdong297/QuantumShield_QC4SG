@@ -9,7 +9,6 @@ import ResourceDemand from './components/dashboard/ResourceDemand';
 import ActionPanel from './components/dashboard/ActionPanel';
 import QuantumAnalyticsPanel from './components/dashboard/QuantumAnalyticsPanel';
 import { LongTermForecastChart } from './components/dashboard/LongTermForecastChart';
-import AuditLogsView from './components/AuditLogsView';
 import MethodologyView from './components/MethodologyView';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Toaster, toast } from 'react-hot-toast';
@@ -72,7 +71,8 @@ interface AllocationData {
   }
 }
 
-const OutbreakMapsView = ({ hotspotsData, selectedProvince, setSelectedProvince, allocationData }: any) => {
+
+const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayForecast, recommendations, handleExecuteAction, setSelectedProvince, allocationData, fetchAllocationData }: any) => {
   const [deployingDrone, setDeployingDrone] = React.useState(false);
 
   const handleDeployDrone = async () => {
@@ -92,7 +92,6 @@ const OutbreakMapsView = ({ hotspotsData, selectedProvince, setSelectedProvince,
           style: { borderRadius: '10px', background: '#f5365c', color: '#fff', fontWeight: 700 },
           duration: 4000,
         });
-        // Tự động bật bảng phân tích cho vùng nguy hiểm nhất vừa tìm được
         setSelectedProvince(data.target_province);
       }, 4000);
     } catch (err) {
@@ -105,130 +104,6 @@ const OutbreakMapsView = ({ hotspotsData, selectedProvince, setSelectedProvince,
     }
   };
 
-  // Tính toán cấp độ DEFCON
-  const activeNodes = hotspotsData?.length || 0;
-  let defcon = 5; let defconColor = "#2dce89"; let defconText = "NORMAL";
-  if (activeNodes > 15) { defcon = 1; defconColor = "#f5365c"; defconText = "CRITICAL SPREAD"; }
-  else if (activeNodes > 8) { defcon = 2; defconColor = "#fb6340"; defconText = "HIGH ALERT"; }
-  else if (activeNodes > 3) { defcon = 3; defconColor = "#ffad46"; defconText = "ELEVATED RISK"; }
-  else if (activeNodes > 0) { defcon = 4; defconColor = "#ffd600"; defconText = "GUARDED"; }
-
-  return (
-    <div style={{ padding: '0 2rem 2rem 2rem', marginTop: '-5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-      <div style={{
-        background: 'linear-gradient(145deg, rgba(11, 17, 32, 0.8), rgba(30, 41, 59, 0.8))',
-        backdropFilter: 'blur(16px)',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
-        borderRadius: '16px',
-        padding: '1.5rem',
-        boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.1)',
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'relative',
-        minHeight: '75vh'
-      }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-            <h2 style={{ fontSize: '1.25rem', margin: 0, color: '#ffffff', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              <span style={{ marginRight: '10px' }}>🌍</span>
-              Geospatial Spread Intelligence
-            </h2>
-            <button 
-              onClick={handleDeployDrone}
-              disabled={deployingDrone}
-              style={{
-                background: deployingDrone ? 'rgba(255,255,255,0.1)' : 'linear-gradient(45deg, #11cdef, #1171ef)',
-                color: '#fff', border: 'none', borderRadius: '12px', padding: '6px 14px', fontSize: '0.75rem', fontWeight: 700,
-                cursor: deployingDrone ? 'not-allowed' : 'pointer', boxShadow: '0 4px 10px rgba(17, 205, 239, 0.3)',
-                display: 'flex', alignItems: 'center', gap: '6px', transition: 'all 0.3s'
-              }}
-            >
-              {deployingDrone ? <><span style={{ animation: 'spin 1s linear infinite' }}>⚙️</span> Scanning...</> : <>🚁 Deploy UAV</>}
-            </button>
-          </div>
-          
-          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-            {/* DEFCON HUD */}
-            <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.3)', borderRadius: '12px', padding: '4px 12px', border: `1px solid ${defconColor}` }}>
-              <span style={{ color: '#fff', fontSize: '0.7rem', fontWeight: 800, marginRight: '8px', letterSpacing: '0.1em' }}>THREAT LEVEL</span>
-              <span style={{ color: defconColor, fontSize: '1.1rem', fontWeight: 900, textShadow: `0 0 10px ${defconColor}` }}>DEFCON {defcon}</span>
-              <span style={{ color: '#94a3b8', fontSize: '0.65rem', marginLeft: '8px', fontWeight: 700 }}>({defconText})</span>
-            </div>
-             <span style={{ backgroundColor: 'rgba(239, 68, 68, 0.2)', color: '#ef4444', padding: '6px 12px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 700, border: '1px solid rgba(239, 68, 68, 0.3)' }}>
-               Critical Nodes: {activeNodes}
-             </span>
-          </div>
-        </div>
-        
-        {/* Map Container */}
-        <div style={{ flex: 1, display: 'flex', minHeight: '500px' }}>
-          <div style={{ flex: 1, borderRadius: '12px', overflow: 'hidden', position: 'relative', boxShadow: '0 4px 20px rgba(0,0,0,0.2)' }}>
-            {deployingDrone && (
-              <div style={{ position: 'absolute', inset: 0, zIndex: 500, pointerEvents: 'none', overflow: 'hidden' }}>
-                <div style={{
-                  position: 'absolute', top: '50%', left: '50%', width: '150%', height: '10px',
-                  background: 'linear-gradient(90deg, transparent, rgba(17,205,239,0.8), transparent)',
-                  transform: 'translate(-50%, -50%)',
-                  animation: 'radarSweep 2s linear infinite',
-                  boxShadow: '0 0 20px rgba(17,205,239,0.5)'
-                }} />
-                <style dangerouslySetInnerHTML={{__html: `@keyframes radarSweep { 0% { top: -10%; } 100% { top: 110%; } }`}} />
-              </div>
-            )}
-            <RiskMap 
-              data={hotspotsData} 
-              onProvinceClick={setSelectedProvince} 
-              height="100%"
-              allocationData={allocationData}
-            />
-          </div>
-        </div>
-
-        {/* Embedded Long-term AI Forecasting Chart */}
-        <div style={{ marginTop: '2rem', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '1.5rem' }}>
-          <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-            <div>
-              <h3 style={{ fontSize: '1.15rem', color: '#ffffff', fontWeight: 800, textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '8px', margin: 0 }}>
-                📈 Dengue Long-Term AI Forecasting Model
-                <span style={{ fontSize: '0.65rem', padding: '3px 8px', borderRadius: '8px', background: 'rgba(52, 211, 153, 0.2)', color: '#34d399', fontWeight: 800 }}>
-                  VALIDATED ON HCDC RWD (2001-2026)
-                </span>
-              </h3>
-            </div>
-            <div style={{ display: 'flex', gap: '0.5rem' }}>
-              {['Ha Noi', 'Dak Lak', 'Khanh Hoa', 'Dong Nai'].map(prov => (
-                <button
-                  key={prov}
-                  onClick={() => setSelectedProvince(prov)}
-                  style={{
-                    padding: '0.35rem 0.75rem',
-                    borderRadius: '6px',
-                    border: '1px solid #334155',
-                    background: selectedProvince === prov ? '#1171ef' : '#1e293b',
-                    color: selectedProvince === prov ? '#fff' : '#94a3b8',
-                    cursor: 'pointer',
-                    fontWeight: 600,
-                    fontSize: '0.75rem',
-                    transition: 'all 0.2s'
-                  }}
-                >
-                  {prov}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div style={{ minHeight: '350px' }}>
-            <LongTermForecastChart region={selectedProvince || 'Ha Noi'} />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-
-const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayForecast, recommendations, handleExecuteAction, setSelectedProvince, allocationData, fetchAllocationData }: any) => {
   return (
     <>
       {/* FLOATING KPI CARDS ROW & MAIN GRID CONTAINER */}
@@ -382,9 +257,23 @@ const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayFo
                   padding: '1.25rem',
                 }}
               >
-                <h2 style={{ fontSize: '1rem', marginTop: 0, marginBottom: '1rem', color: '#f8fafc', fontWeight: 800 }}>
-                  Geospatial Risk Intelligence (Viet Nam)
-                </h2>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                  <h2 style={{ fontSize: '1rem', margin: 0, color: '#f8fafc', fontWeight: 800 }}>
+                    Geospatial Risk Intelligence (Viet Nam)
+                  </h2>
+                  <button 
+                    onClick={handleDeployDrone}
+                    disabled={deployingDrone}
+                    style={{
+                      background: deployingDrone ? 'rgba(255,255,255,0.1)' : 'linear-gradient(45deg, #11cdef, #1171ef)',
+                      color: '#fff', border: 'none', borderRadius: '10px', padding: '5px 12px', fontSize: '0.75rem', fontWeight: 700,
+                      cursor: deployingDrone ? 'not-allowed' : 'pointer', boxShadow: '0 4px 10px rgba(17, 205, 239, 0.3)',
+                      display: 'flex', alignItems: 'center', gap: '6px', transition: 'all 0.3s'
+                    }}
+                  >
+                    {deployingDrone ? <><span style={{ animation: 'spin 1s linear infinite' }}>⚙️</span> Scanning...</> : <>🚁 Deploy UAV</>}
+                  </button>
+                </div>
                 <RiskMap 
                   data={hotspotsData} 
                   onProvinceClick={(province) => setSelectedProvince(province)} 
@@ -415,6 +304,34 @@ const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayFo
                   </div>
                 </div>
                 <InfectionTrendChart data={chartData} />
+              </motion.div>
+
+              {/* Long-term AI SIR Epidemic Forecasting Card */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.35 }}
+                style={{
+                  backgroundColor: '#1e293b',
+                  borderRadius: '12px',
+                  boxShadow: '0 0 2rem 0 rgba(136, 152, 170, .15)',
+                  padding: '1.25rem',
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                  <div>
+                    <span style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase' }}>Machine Learning Model</span>
+                    <h2 style={{ fontSize: '1rem', margin: '2px 0 0 0', color: '#ffffff', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      25-Year AI SIR Epidemic Forecast
+                      <span style={{ fontSize: '0.65rem', padding: '2px 6px', borderRadius: '6px', background: 'rgba(52, 211, 153, 0.2)', color: '#34d399', fontWeight: 800 }}>
+                        HCDC RWD VALIDATED
+                      </span>
+                    </h2>
+                  </div>
+                </div>
+                <div style={{ minHeight: '300px' }}>
+                  <LongTermForecastChart region="Ha Noi" />
+                </div>
               </motion.div>
             </div>
 
@@ -1019,7 +936,7 @@ const App: React.FC = () => {
         
         {activeTab !== 'home' && (
           <TopNavbar 
-            title={activeTab === 'dashboard' ? 'Command NOC' : activeTab === 'outbreak_maps' ? 'Outbreak Maps' : activeTab === 'decision_protocol' ? 'Decision Protocol' : activeTab === 'resource_tables' ? 'Resource Tables' : 'Audit Logs'} 
+            title={activeTab === 'dashboard' || activeTab === 'outbreak_maps' ? 'Command NOC & Outbreak GIS' : activeTab === 'decision_protocol' ? 'GenAI Decision & RAG Orders' : 'AI Architecture & Audit Trail'} 
             setActiveTab={setActiveTab}
           />
         )}
@@ -1039,7 +956,7 @@ const App: React.FC = () => {
               {activeTab === 'home' && (
                 <LandingView setActiveTab={setActiveTab} allocationData={allocationData} />
               )}
-              {activeTab === 'dashboard' && (
+              {(activeTab === 'dashboard' || activeTab === 'outbreak_maps') && (
                 <DashboardView 
                   error={error} 
                   displayAlert={displayAlert} 
@@ -1053,10 +970,8 @@ const App: React.FC = () => {
                   fetchAllocationData={fetchAllocationData}
                 />
               )}
-              {activeTab === 'methodology' && <MethodologyView setActiveTab={setActiveTab} />}
-              {activeTab === 'outbreak_maps' && <OutbreakMapsView hotspotsData={hotspotsData} selectedProvince={selectedProvince} setSelectedProvince={setSelectedProvince} allocationData={allocationData} />}
+              {(activeTab === 'methodology' || activeTab === 'audit_logs') && <MethodologyView setActiveTab={setActiveTab} />}
               {activeTab === 'decision_protocol' && <DecisionProtocolView allocationData={allocationData} handleExecuteAction={handleExecuteAction} dispatchOrders={dispatchOrders} />}
-              {activeTab === 'audit_logs' && <AuditLogsView />}
             </motion.div>
           </AnimatePresence>
         </div>

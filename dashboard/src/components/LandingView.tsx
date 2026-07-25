@@ -12,38 +12,24 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
   const modules = [
     {
       id: 'dashboard',
-      title: 'Command NOC (Quantum)',
-      desc: 'Real-time 128 Qubit D-Wave annealing metrics, global ICU bed allocation & 7-day outbreak trend.',
+      title: 'Command NOC & Outbreak GIS',
+      desc: 'Real-time 2,048 Qubit D-Wave annealing metrics, interactive 63-province GIS outbreak map & global ICU allocation.',
       icon: '⚡',
       gradient: 'from-[#1171ef] to-[#11cdef]'
     },
     {
-      id: 'outbreak_maps',
-      title: 'Outbreak GIS & AI Forecast',
-      desc: 'Interactive 63-province GIS map, UAV drone radar & 25-year Machine Learning outbreak predictions.',
-      icon: '🗺️',
-      gradient: 'from-[#f5365c] to-[#fb6340]'
-    },
-    {
       id: 'decision_protocol',
       title: 'GenAI Decision & RAG Orders',
-      desc: 'Automated medical dispatch orders (Công Văn Khẩn) via RAG & Interactive SMS/Gmail broadcasting.',
+      desc: 'Automated formal medical dispatch directives (Công Văn Khẩn) via RAG & real-world SMS/Gmail broadcasting.',
       icon: '🧠',
       gradient: 'from-[#8965e0] to-[#bc65e0]'
     },
     {
       id: 'methodology',
-      title: 'System Methodology',
-      desc: 'Scientific breakdown of Hybrid Quantum Annealing (QUBO), LLM architecture & HCDC deployment plan.',
+      title: 'AI Architecture & Audit Trail',
+      desc: 'Scientific breakdown of Hybrid QUBO formulation, LLM architecture & real-time immutable cryptographic audit logs.',
       icon: '🧪',
       gradient: 'from-[#2dce89] to-[#2dcecc]'
-    },
-    {
-      id: 'audit_logs',
-      title: 'Audit Logs',
-      desc: 'Real-time immutable cryptographic audit trail of all automated AI decisions & edge interventions.',
-      icon: '📝',
-      gradient: 'from-[#ffd600] to-[#ffad46]'
     }
   ];
 

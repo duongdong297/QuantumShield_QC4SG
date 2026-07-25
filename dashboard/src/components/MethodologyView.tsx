@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import AuditLogsView from './AuditLogsView';
 
 interface MethodologyViewProps {
   setActiveTab: (tabId: string) => void;
@@ -163,6 +164,11 @@ const MethodologyView: React.FC<MethodologyViewProps> = ({ setActiveTab }) => {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Embedded Audit Logs Section */}
+      <div style={{ marginTop: '1rem' }}>
+        <AuditLogsView />
       </div>
     </motion.div>
   );
