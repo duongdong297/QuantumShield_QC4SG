@@ -148,7 +148,7 @@ const OutbreakMapsView = ({ hotspotsData, setSelectedProvince, allocationData }:
     });
     
     try {
-      const response = await fetch('http://localhost:8080/api/uav-recon', { method: 'POST' });
+      const response = await fetch('/api/uav-recon', { method: 'POST' });
       const data = await response.json();
       
       setTimeout(() => {
@@ -599,7 +599,7 @@ const App: React.FC = () => {
 
   const fetchAllocationData = async () => {
     try {
-      const res = await fetch('http://localhost:8080/api/allocation');
+      const res = await fetch('/api/allocation');
       if (res.ok) {
         const data = await res.json();
         setAllocationData(data);
@@ -629,7 +629,7 @@ const App: React.FC = () => {
     ws.onopen = () => {
       console.log('Connected to WebSocket server');
       // Fetch dispatch orders
-      fetch('http://localhost:8080/api/dispatch-orders')
+      fetch('/api/dispatch-orders')
         .then(r => r.json())
         .then(orders => setDispatchOrders(orders))
         .catch(e => console.error("Could not fetch dispatch orders:", e));
@@ -717,7 +717,7 @@ const App: React.FC = () => {
 
     const controller = new AbortController();
 
-    fetch(`http://localhost:8080/api/insight?province=${encodeURIComponent(selectedProvince)}`, {
+    fetch(`/api/insight?province=${encodeURIComponent(selectedProvince)}`, {
       signal: controller.signal
     })
       .then(res => {
@@ -757,7 +757,7 @@ const App: React.FC = () => {
     }, 3500);
 
     try {
-      const response = await fetch('http://localhost:8080/api/action', {
+      const response = await fetch('/api/action', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
