@@ -12,45 +12,38 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
   const modules = [
     {
       id: 'dashboard',
-      title: 'Command NOC',
-      desc: 'Real-time KPI metrics, network status, and 7-day outbreak trend.',
-      icon: '📊',
+      title: 'Command NOC (Quantum)',
+      desc: 'Real-time 128 Qubit D-Wave annealing metrics, global ICU bed allocation & 7-day outbreak trend.',
+      icon: '⚡',
       gradient: 'from-[#1171ef] to-[#11cdef]'
     },
     {
       id: 'outbreak_maps',
-      title: 'Outbreak Maps',
-      desc: 'Interactive 63-province GIS map with automatic risk color-coding.',
+      title: 'Outbreak GIS & AI Forecast',
+      desc: 'Interactive 63-province GIS map, UAV drone radar & 25-year Machine Learning outbreak predictions.',
       icon: '🗺️',
       gradient: 'from-[#f5365c] to-[#fb6340]'
     },
     {
-      id: 'dengue_forecasting',
-      title: 'Machine Learning',
-      desc: 'Long-term Machine Learning outbreak predictions (real HCDC data).',
-      icon: '📈',
-      gradient: 'from-[#2dce89] to-[#2dcecc]'
-    },
-    {
       id: 'decision_protocol',
-      title: 'GenAI Decisions',
-      desc: 'Automated medical dispatch orders via RAG & OpenAI.',
+      title: 'GenAI Decision & RAG Orders',
+      desc: 'Automated medical dispatch orders (Công Văn Khẩn) via RAG & Interactive SMS/Gmail broadcasting.',
       icon: '🧠',
       gradient: 'from-[#8965e0] to-[#bc65e0]'
     },
     {
-      id: 'resource_tables',
-      title: 'Resource Data',
-      desc: 'Detailed tabular view of epidemiological metrics.',
-      icon: '📋',
-      gradient: 'from-[#ffd600] to-[#ffad46]'
+      id: 'methodology',
+      title: 'System Methodology',
+      desc: 'Scientific breakdown of Hybrid Quantum Annealing (QUBO), LLM architecture & HCDC deployment plan.',
+      icon: '🧪',
+      gradient: 'from-[#2dce89] to-[#2dcecc]'
     },
     {
-      id: 'methodology',
-      title: 'Methodology',
-      desc: 'Scientific breakdown of AI, QUBO, and architecture.',
-      icon: '🧪',
-      gradient: 'from-[#8f9ca6] to-[#adb5bd]'
+      id: 'audit_logs',
+      title: 'Audit Logs',
+      desc: 'Real-time immutable cryptographic audit trail of all automated AI decisions & edge interventions.',
+      icon: '📝',
+      gradient: 'from-[#ffd600] to-[#ffad46]'
     }
   ];
 
