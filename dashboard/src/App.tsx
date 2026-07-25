@@ -742,7 +742,12 @@ const App: React.FC = () => {
   }, []);
 
   const handleExecuteAction = async (actionId: string, description: string) => {
-    const toastId = toast.loading("Transmitting command to Edge Node...");
+    const toastId = toast.loading("GenAI: Translating directives to SMS format...");
+    
+    setTimeout(() => {
+      toast.loading("Broadcasting Emergency SMS to citizens in target zone...", { id: toastId });
+    }, 1500);
+
     try {
       const response = await fetch('http://localhost:8080/api/action', {
         method: 'POST',
@@ -756,34 +761,36 @@ const App: React.FC = () => {
         throw new Error("Failed to execute action");
       }
 
-      toast.success("Action executed successfully!", { id: toastId });
-      
-      // HACK for demo: automatically mark the selected province as deployed if it was pending
-      if (selectedProvince && allocationData) {
-        const nProv = selectedProvince.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/đ/g, "d").replace(/city/g, "").trim();
+      setTimeout(() => {
+        toast.success("SMS Broadcast & Local Action executed successfully!", { id: toastId });
         
-        const isWaiting = allocationData.allocation_result.waiting_regions.some((r: any) => {
-          const nRegion = r.region.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/đ/g, "d").replace(/city/g, "").trim();
-          return nRegion.includes(nProv) || nProv.includes(nRegion);
-        });
+        // HACK for demo: automatically mark the selected province as deployed if it was pending
+        if (selectedProvince && allocationData) {
+          const nProv = selectedProvince.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/đ/g, "d").replace(/city/g, "").trim();
+          
+          const isWaiting = allocationData.allocation_result.waiting_regions.some((r: any) => {
+            const nRegion = r.region.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/đ/g, "d").replace(/city/g, "").trim();
+            return nRegion.includes(nProv) || nProv.includes(nRegion);
+          });
 
-        if (isWaiting) {
-           setAllocationData((prev: any) => {
-             if (!prev) return prev;
-             const newData = JSON.parse(JSON.stringify(prev)); // deep copy
-             // remove from waiting
-             newData.allocation_result.waiting_regions = newData.allocation_result.waiting_regions.filter((r: any) => {
-                const nRegion = r.region.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/đ/g, "d").replace(/city/g, "").trim();
-                return !(nRegion.includes(nProv) || nProv.includes(nRegion));
-             });
-             // add to covered
-             newData.allocation_result.covered_regions.push({ region: selectedProvince });
-             return newData;
-           });
+          if (isWaiting) {
+            const newAllocation = JSON.parse(JSON.stringify(allocationData)); // deep copy
+            const waitingIndex = newAllocation.allocation_result.waiting_regions.findIndex((r: any) => {
+              const nRegion = r.region.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/đ/g, "d").replace(/city/g, "").trim();
+              return nRegion.includes(nProv) || nProv.includes(nRegion);
+            });
+
+            if (waitingIndex > -1) {
+              const movingRegion = newAllocation.allocation_result.waiting_regions.splice(waitingIndex, 1)[0];
+              newAllocation.allocation_result.covered_regions.push(movingRegion);
+              setAllocationData(newAllocation);
+            }
+          }
         }
-      }
-    } catch (err) {
-      toast.error("Failed to connect to Edge Node.", { id: toastId });
+      }, 3500); // 3.5 seconds total fake delay for dramatic effect
+      
+    } catch (error) {
+      toast.error("Failed to execute action.", { id: toastId });
     }
   };
 
