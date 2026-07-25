@@ -280,8 +280,6 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 
 		time.Sleep(3 * time.Second)
 	}
-
-	log.Println("Client disconnected")
 }
 
 // --- Coordinates DB for Vietnam Provinces ---
