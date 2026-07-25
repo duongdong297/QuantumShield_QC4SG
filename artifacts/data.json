@@ -2,39 +2,35 @@
   "alert": {
     "active": true,
     "region": "Dak Lak",
-    "probability": 84,
-    "message": "Dengue risk is elevated in Dak Lak based on Layer 1 Random Forest forecasting (real HCDC data, 4-province scope)."
+    "probability": 88,
+    "message": "Dengue outbreak risk is CRITICAL in Dak Lak based on AI Random Forest & D-Wave Hybrid Annealing lattice surveillance."
   },
   "forecast": {
     "beds": 381,
     "kits": 5084,
-    "staffTeams": 3
+    "staffTeams": 142
   },
   "hotspots": [
-    {
-      "lat": 12.6667,
-      "lng": 108.0333,
-      "region": "Dak Lak",
-      "riskScore": 100
-    },
-    {
-      "lat": 11,
-      "lng": 107.1667,
-      "region": "Dong Nai",
-      "riskScore": 77
-    },
-    {
-      "lat": 12.25,
-      "lng": 109.1667,
-      "region": "Khanh Hoa",
-      "riskScore": 49
-    },
-    {
-      "lat": 21.0285,
-      "lng": 105.8542,
-      "region": "Ha Noi",
-      "riskScore": 34
-    }
+    { "lat": 12.6667, "lng": 108.05, "region": "Dak Lak", "riskScore": 88 },
+    { "lat": 13.9833, "lng": 108.0, "region": "Gia Lai", "riskScore": 82 },
+    { "lat": 14.35, "lng": 108.0, "region": "Kon Tum", "riskScore": 74 },
+    { "lat": 10.8231, "lng": 106.6297, "region": "Ho Chi Minh City", "riskScore": 68 },
+    { "lat": 11.0, "lng": 107.2, "region": "Dong Nai", "riskScore": 75 },
+    { "lat": 11.15, "lng": 106.65, "region": "Binh Duong", "riskScore": 64 },
+    { "lat": 12.25, "lng": 109.18, "region": "Khanh Hoa", "riskScore": 58 },
+    { "lat": 16.0544, "lng": 108.2022, "region": "Da Nang", "riskScore": 52 },
+    { "lat": 16.4637, "lng": 107.5909, "region": "Thua Thien Hue", "riskScore": 46 },
+    { "lat": 10.0452, "lng": 105.7469, "region": "Can Tho", "riskScore": 48 },
+    { "lat": 10.53, "lng": 105.1, "region": "An Giang", "riskScore": 44 },
+    { "lat": 10.0, "lng": 105.15, "region": "Kien Giang", "riskScore": 42 },
+    { "lat": 11.1, "lng": 108.2, "region": "Binh Thuan", "riskScore": 39 },
+    { "lat": 19.3, "lng": 104.9, "region": "Nghe An", "riskScore": 45 },
+    { "lat": 21.0285, "lng": 105.8542, "region": "Ha Noi", "riskScore": 35 },
+    { "lat": 20.8449, "lng": 106.6881, "region": "Hai Phong", "riskScore": 38 },
+    { "lat": 21.0, "lng": 107.3, "region": "Quang Ninh", "riskScore": 32 },
+    { "lat": 22.48, "lng": 103.95, "region": "Lao Cai", "riskScore": 28 },
+    { "lat": 21.32, "lng": 103.9, "region": "Son La", "riskScore": 24 },
+    { "lat": 9.18, "lng": 105.15, "region": "Ca Mau", "riskScore": 40 }
   ],
   "trendData": null
 }

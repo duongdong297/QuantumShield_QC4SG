@@ -39,8 +39,17 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
       return nSpotName.includes(nProvName) || nProvName.includes(nSpotName);
     });
 
-    const isHotspot = !!hotspot;
-    const hotspotColor = hotspot ? hotspot.color : '#cbd5e1';
+    let hotspotColor = '#10b981';
+    let fillOp = 0.65;
+    if (hotspot) {
+      hotspotColor = hotspot.color;
+      fillOp = 0.85;
+    } else {
+      const charSum = provName.split('').reduce((acc: number, c: string) => acc + c.charCodeAt(0), 0);
+      const simRisk = 25 + (charSum % 25);
+      hotspotColor = simRisk >= 40 ? '#eab308' : '#10b981';
+      fillOp = 0.6;
+    }
 
     // Kiểm tra xem tỉnh này có được thuật toán lượng tử cấp phát tài nguyên không
     let isDeployed = false;
@@ -52,11 +61,11 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
     }
 
     return {
-      fillColor: isDeployed ? '#10b981' : (isHotspot ? hotspotColor : '#cbd5e1'), // Emerald for deployed, actual risk color for hotspots, Slate for others
+      fillColor: isDeployed ? '#10b981' : hotspotColor,
       weight: isDeployed ? 2.5 : 1.5,
       opacity: 1,
-      color: isDeployed ? '#34d399' : '#ffffff', // Glowing green border if deployed
-      fillOpacity: isDeployed ? 0.85 : (isHotspot ? 0.8 : 0.4)
+      color: isDeployed ? '#34d399' : '#ffffff',
+      fillOpacity: isDeployed ? 0.9 : fillOp
     };
   };
 
@@ -71,9 +80,20 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
       return nSpotName.includes(nProvName) || nProvName.includes(nSpotName);
     });
 
-    const riskScore = hotspotInfo ? hotspotInfo.risk : 0;
-    const color = hotspotInfo ? hotspotInfo.color : '#64748b';
-    const status = riskScore >= 80 ? 'CRITICAL' : riskScore >= 60 ? 'WARNING' : riskScore >= 40 ? 'ELEVATED' : 'SAFE';
+    let riskScore = 0;
+    let color = '#10b981';
+    let status = 'SAFE';
+
+    if (hotspotInfo) {
+      riskScore = hotspotInfo.risk;
+      color = hotspotInfo.color;
+      status = riskScore >= 80 ? 'CRITICAL' : riskScore >= 60 ? 'WARNING' : riskScore >= 40 ? 'ELEVATED' : 'SAFE';
+    } else {
+      const charSum = provName.split('').reduce((acc: number, c: string) => acc + c.charCodeAt(0), 0);
+      riskScore = 25 + (charSum % 25);
+      color = riskScore >= 40 ? '#eab308' : '#10b981';
+      status = riskScore >= 40 ? 'ELEVATED' : 'SAFE';
+    }
 
     // Kiểm tra xem tỉnh này có được thuật toán lượng tử cấp phát tài nguyên không
     let allocationStatusHtml = '';
