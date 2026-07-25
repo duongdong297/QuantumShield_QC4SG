@@ -251,82 +251,7 @@ const OutbreakMapsView = ({ hotspotsData, setSelectedProvince, allocationData }:
         </div>
       </div>
       
-      {/* GEN-AI EXECUTION MODAL */}
-      <AnimatePresence>
-        {execState.isOpen && (
-          <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md"
-          >
-            <motion.div 
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              className="bg-slate-900 border border-slate-700 p-8 rounded-2xl w-full max-w-lg shadow-[0_0_50px_rgba(59,130,246,0.3)]"
-            >
-              <h2 className="text-2xl font-bold text-white flex items-center gap-3 mb-8">
-                <span className="text-3xl animate-pulse">🚀</span> Autonomous GenAI Execution
-              </h2>
-              
-              <div className="space-y-6">
-                {/* Step 1 */}
-                <div className={`flex items-center gap-4 transition-opacity duration-500 ${execState.step >= 1 ? 'opacity-100' : 'opacity-30'}`}>
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xl shadow-lg ${execState.step > 1 ? 'bg-emerald-500 text-white shadow-emerald-500/50' : execState.step === 1 ? 'bg-blue-500 animate-pulse text-white shadow-blue-500/50' : 'bg-slate-700'}`}>
-                    {execState.step > 1 ? '✓' : '1'}
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="text-white font-semibold text-lg">Parsing Quantum Directives</h4>
-                    <p className="text-slate-400 text-sm">Translating complex matrices to human-readable format</p>
-                  </div>
-                </div>
 
-                {/* Step 2 */}
-                <div className={`flex items-center gap-4 transition-opacity duration-500 ${execState.step >= 2 ? 'opacity-100' : 'opacity-30'}`}>
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xl shadow-lg ${execState.step > 2 ? 'bg-emerald-500 text-white shadow-emerald-500/50' : execState.step === 2 ? 'bg-orange-500 animate-pulse text-white shadow-orange-500/50' : 'bg-slate-700'}`}>
-                    {execState.step > 2 ? '✓' : '2'}
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="text-white font-semibold text-lg">Broadcasting Emergency SMS</h4>
-                    <p className="text-slate-400 text-sm">Target: ~1.2M Citizens in <span className="text-orange-400 font-bold">{execState.region}</span></p>
-                  </div>
-                </div>
-
-                {/* Step 3 */}
-                <div className={`flex items-center gap-4 transition-opacity duration-500 ${execState.step >= 3 ? 'opacity-100' : 'opacity-30'}`}>
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xl shadow-lg ${execState.step > 3 ? 'bg-emerald-500 text-white shadow-emerald-500/50' : execState.step === 3 ? 'bg-purple-500 animate-pulse text-white shadow-purple-500/50' : 'bg-slate-700'}`}>
-                    {execState.step > 3 ? '✓' : '3'}
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="text-white font-semibold text-lg">Updating Allocation Matrix</h4>
-                    <p className="text-slate-400 text-sm">Syncing live resources to Edge Nodes</p>
-                  </div>
-                </div>
-              </div>
-
-              {execState.step >= 4 ? (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-                  className="mt-10 p-5 bg-emerald-500/10 border border-emerald-500/50 rounded-xl text-center"
-                >
-                  <span className="text-emerald-400 font-bold text-xl block mb-2">✅ Operation Completed</span>
-                  <p className="text-slate-300 text-sm mb-5">All systems synchronized successfully.</p>
-                  <button 
-                    className="px-8 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg transition-colors shadow-[0_0_20px_rgba(16,185,129,0.4)] w-full text-lg"
-                    onClick={() => setExecState({ isOpen: false, step: 0, region: '' })}
-                  >
-                    Acknowledge & Close
-                  </button>
-                </motion.div>
-              ) : (
-                 <div className="mt-10 h-2 bg-slate-800 rounded-full overflow-hidden shadow-inner">
-                   <div className="h-full bg-blue-500 transition-all duration-500 ease-out shadow-[0_0_10px_rgba(59,130,246,0.8)]" style={{ width: `${Math.min((execState.step / 3.5) * 100, 100)}%` }}></div>
-                 </div>
-              )}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 };
@@ -1005,6 +930,82 @@ const App: React.FC = () => {
           }
         `}} />
       </div>
+      {/* GEN-AI EXECUTION MODAL */}
+      <AnimatePresence>
+        {execState.isOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md"
+          >
+            <motion.div 
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              className="bg-slate-900 border border-slate-700 p-8 rounded-2xl w-full max-w-lg shadow-[0_0_50px_rgba(59,130,246,0.3)]"
+            >
+              <h2 className="text-2xl font-bold text-white flex items-center gap-3 mb-8">
+                <span className="text-3xl animate-pulse">🚀</span> Autonomous GenAI Execution
+              </h2>
+              
+              <div className="space-y-6">
+                {/* Step 1 */}
+                <div className={`flex items-center gap-4 transition-opacity duration-500 ${execState.step >= 1 ? 'opacity-100' : 'opacity-30'}`}>
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xl shadow-lg ${execState.step > 1 ? 'bg-emerald-500 text-white shadow-emerald-500/50' : execState.step === 1 ? 'bg-blue-500 animate-pulse text-white shadow-blue-500/50' : 'bg-slate-700'}`}>
+                    {execState.step > 1 ? '✓' : '1'}
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-white font-semibold text-lg">Parsing Quantum Directives</h4>
+                    <p className="text-slate-400 text-sm">Translating complex matrices to human-readable format</p>
+                  </div>
+                </div>
+
+                {/* Step 2 */}
+                <div className={`flex items-center gap-4 transition-opacity duration-500 ${execState.step >= 2 ? 'opacity-100' : 'opacity-30'}`}>
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xl shadow-lg ${execState.step > 2 ? 'bg-emerald-500 text-white shadow-emerald-500/50' : execState.step === 2 ? 'bg-orange-500 animate-pulse text-white shadow-orange-500/50' : 'bg-slate-700'}`}>
+                    {execState.step > 2 ? '✓' : '2'}
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-white font-semibold text-lg">Broadcasting Emergency SMS</h4>
+                    <p className="text-slate-400 text-sm">Target: ~1.2M Citizens in <span className="text-orange-400 font-bold">{execState.region}</span></p>
+                  </div>
+                </div>
+
+                {/* Step 3 */}
+                <div className={`flex items-center gap-4 transition-opacity duration-500 ${execState.step >= 3 ? 'opacity-100' : 'opacity-30'}`}>
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xl shadow-lg ${execState.step > 3 ? 'bg-emerald-500 text-white shadow-emerald-500/50' : execState.step === 3 ? 'bg-purple-500 animate-pulse text-white shadow-purple-500/50' : 'bg-slate-700'}`}>
+                    {execState.step > 3 ? '✓' : '3'}
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-white font-semibold text-lg">Updating Allocation Matrix</h4>
+                    <p className="text-slate-400 text-sm">Syncing live resources to Edge Nodes</p>
+                  </div>
+                </div>
+              </div>
+
+              {execState.step >= 4 ? (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                  className="mt-10 p-5 bg-emerald-500/10 border border-emerald-500/50 rounded-xl text-center"
+                >
+                  <span className="text-emerald-400 font-bold text-xl block mb-2">✅ Operation Completed</span>
+                  <p className="text-slate-300 text-sm mb-5">All systems synchronized successfully.</p>
+                  <button 
+                    className="px-8 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg transition-colors shadow-[0_0_20px_rgba(16,185,129,0.4)] w-full text-lg"
+                    onClick={() => setExecState({ isOpen: false, step: 0, region: '' })}
+                  >
+                    Acknowledge & Close
+                  </button>
+                </motion.div>
+              ) : (
+                 <div className="mt-10 h-2 bg-slate-800 rounded-full overflow-hidden shadow-inner">
+                   <div className="h-full bg-blue-500 transition-all duration-500 ease-out shadow-[0_0_10px_rgba(59,130,246,0.8)]" style={{ width: `${Math.min((execState.step / 3.5) * 100, 100)}%` }}></div>
+                 </div>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
