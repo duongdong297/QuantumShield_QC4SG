@@ -1,109 +1,40 @@
 {
   "alert": {
     "active": true,
-    "region": "Ho Chi Minh",
-    "probability": 95,
-    "message": "Dengue risk is Critical Risk based on forecasting models."
+    "region": "Dak Lak",
+    "probability": 84,
+    "message": "Dengue risk is elevated in Dak Lak based on Layer 1 Random Forest forecasting (real HCDC data, 4-province scope)."
   },
   "forecast": {
-    "beds": 53,
-    "kits": 808,
-    "staffTeams": 5
+    "beds": 381,
+    "kits": 5084,
+    "staffTeams": 3
   },
   "hotspots": [
     {
-      "lat": 10.7626,
-      "lng": 106.6601,
-      "region": "Ho Chi Minh",
-      "riskScore": 100,
-      "population": 9000000,
-      "caseCount": 5400
+      "lat": 12.6667,
+      "lng": 108.0333,
+      "region": "Dak Lak",
+      "riskScore": 100
     },
     {
-      "lat": 10.8,
-      "lng": 106.7,
-      "region": "Binh Duong",
-      "riskScore": 72,
-      "population": 2500000,
-      "caseCount": 1625
-    },
-    {
-      "lat": 10.95,
-      "lng": 106.82,
+      "lat": 11,
+      "lng": 107.1667,
       "region": "Dong Nai",
-      "riskScore": 65,
-      "population": 3200000,
-      "caseCount": 1850
+      "riskScore": 77
     },
     {
-      "lat": 10.36,
-      "lng": 106.34,
-      "region": "Long An",
-      "riskScore": 48,
-      "population": 1700000,
-      "caseCount": 850
+      "lat": 12.25,
+      "lng": 109.1667,
+      "region": "Khanh Hoa",
+      "riskScore": 49
     },
     {
-      "lat": 10.58,
-      "lng": 106.41,
-      "region": "Tien Giang",
-      "riskScore": 62,
-      "population": 1780000,
-      "caseCount": 650
-    },
-    {
-      "lat": 10.25,
-      "lng": 106.37,
-      "region": "Ben Tre",
-      "riskScore": 28,
-      "population": 1290000,
-      "caseCount": 350
-    },
-    {
-      "lat": 10.03,
-      "lng": 105.78,
-      "region": "Can Tho",
-      "riskScore": 20,
-      "population": 10000000,
-      "caseCount": 1000
-    },
-    {
-      "lat": 10.46,
-      "lng": 107.18,
-      "region": "Ba Ria-Vung Tau",
-      "riskScore": 15,
-      "population": 1150000,
-      "caseCount": 150
+      "lat": 21.0285,
+      "lng": 105.8542,
+      "region": "Ha Noi",
+      "riskScore": 34
     }
   ],
-  "trendData": [
-    {
-      "day": "Mon",
-      "infections": 420
-    },
-    {
-      "day": "Tue",
-      "infections": 450
-    },
-    {
-      "day": "Wed",
-      "infections": 510
-    },
-    {
-      "day": "Thu",
-      "infections": 580
-    },
-    {
-      "day": "Fri",
-      "infections": 610
-    },
-    {
-      "day": "Sat",
-      "infections": 590
-    },
-    {
-      "day": "Sun",
-      "infections": 640
-    }
-  ]
+  "trendData": null
 }
