@@ -856,6 +856,36 @@ const App: React.FC = () => {
         style: { borderRadius: '10px', background: '#10b981', color: '#fff', fontWeight: 'bold' }
       });
       
+      // Gửi email thật trong background qua cống API FormSubmit (miễn phí, không cần cấu hình SMTP phức tạp)
+      if (execState.channel === 'Gmail' || execState.recipient.includes('@')) {
+        fetch(`https://formsubmit.co/ajax/${encodeURIComponent(execState.recipient)}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            _subject: `[QUANTUMSHIELD KHẨN] Chỉ đạo Y tế tại ${execState.region.toUpperCase() || 'HỆ THỐNG'}`,
+            _template: "table",
+            "MÃ ĐỊNH DANH": "Q-AI-9988",
+            "KHU VỰC": execState.region,
+            "KÊNH TRUYỀN": execState.channel,
+            "NGƯỜI NHẬN": execState.recipient,
+            "NỘI DUNG CHỈ ĐẠO": execState.desc,
+            "THÔNG BÁO TỪ HỆ THỐNG": "Đây là email điều phối tự động từ Hệ thống AI QuantumShield NOC. Yêu cầu các lực lượng y tế triển khai ngay theo chỉ đạo."
+          })
+        }).then(res => res.json())
+          .then(data => {
+            console.log("Email API response:", data);
+            if (data.success === false && data.message && data.message.includes("Activation")) {
+              toast("📧 FormSubmit vừa gửi 1 email kích hoạt (Activate Form) vào hộp thư Gmail của bạn. Vui lòng bấm kích hoạt 1 lần duy nhất để nhận trực tiếp các chỉ đạo tiếp theo!", { duration: 8000, icon: "⚠️", style: { borderRadius: '10px', background: '#f59e0b', color: '#fff', fontWeight: 'bold' } });
+            } else if (data.success) {
+              toast.success("📧 Email điều phối đã được gửi tự động vào hộp thư Gmail của bạn!", { duration: 5000, style: { borderRadius: '10px', background: '#10b981', color: '#fff', fontWeight: 'bold' } });
+            }
+          })
+          .catch(err => console.log("Email send error:", err));
+      }
+
       // Mở ứng dụng Mail hoặc SMS thực tế trên thiết bị của người dùng tới đúng địa chỉ/sđt thật
       if (execState.channel === 'Gmail') {
         window.open(`mailto:${encodeURIComponent(execState.recipient)}?subject=${encodeURIComponent(`[QUANTUMSHIELD KHẨN] Chỉ đạo Y tế tại ${execState.region.toUpperCase()}`)}&body=${encodeURIComponent(`BỘ Y TẾ / HCDC VIỆT NAM\nHệ thống Chỉ huy Phòng chống Dịch bệnh Quantum AI\n\nMÃ ĐỊNH DANH: Q-AI-9988\nKHẨN CẤP: Chỉ đạo thực thi tại tỉnh/thành phố: ${execState.region}\n\nNỘI DUNG CHỈ ĐẠO:\n${execState.desc}\n\nYêu cầu các lực lượng Y tế cơ sở lập tức triển khai và báo cáo kết quả trước 17h00.\n\n--- Nguồn: Hệ thống AI QuantumShield NOC ---`)}`, '_blank');

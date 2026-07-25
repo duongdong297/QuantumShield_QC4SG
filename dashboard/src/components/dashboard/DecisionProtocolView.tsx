@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 const FormattedRAGOrder = ({ text }: { text: string }) => {
   if (!text) return null;
@@ -286,6 +287,61 @@ const DecisionProtocolView = ({ allocationData, handleExecuteAction, dispatchOrd
                 >&times;</button>
               </div>
               <FormattedRAGOrder text={selectedOrder} />
+              
+              <div style={{ marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid #334155', display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+                <button
+                  onClick={() => {
+                    const email = prompt("Nhập địa chỉ Gmail nhận Công văn (VD: namhai23092005@gmail.com):", "namhai23092005@gmail.com");
+                    if (email) {
+                      toast.loading("Đang phát Công văn qua FormSubmit Gateway vào Gmail...", { duration: 3000 });
+                      fetch(`https://formsubmit.co/ajax/${encodeURIComponent(email)}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                        body: JSON.stringify({
+                          _subject: "[QUANTUMSHIELD RAG] CÔNG VĂN KHẨN CHỈ ĐẠO Y TẾ",
+                          _template: "table",
+                          "MÃ CÔNG VĂN": "Q-AI-RAG-9988",
+                          "NGƯỜI NHẬN": email,
+                          "NỘI DUNG CHỈ ĐẠO": selectedOrder
+                        })
+                      }).then(res => res.json())
+                        .then(data => {
+                          if (data.success === false && data.message && data.message.includes("Activation")) {
+                            toast("📧 FormSubmit đã gửi 1 email kích hoạt (Activate Form) vào hộp thư Gmail của bạn. Vui lòng bấm kích hoạt 1 lần duy nhất để nhận tin nhắn!", { duration: 8000, icon: "⚠️", style: { borderRadius: '10px', background: '#f59e0b', color: '#fff', fontWeight: 'bold' } });
+                          } else {
+                            toast.success("📧 Công văn khẩn đã được truyền thành công vào hộp thư Gmail của bạn!", { duration: 5000, style: { borderRadius: '10px', background: '#10b981', color: '#fff', fontWeight: 'bold' } });
+                          }
+                        })
+                        .catch(() => toast.error("Có lỗi kết nối mạng khi gửi email."));
+                      
+                      window.open(`mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent("[QUANTUMSHIELD RAG] CÔNG VĂN KHẨN CHỈ ĐẠO Y TẾ")}&body=${encodeURIComponent(selectedOrder)}`, '_blank');
+                    }
+                  }}
+                  style={{
+                    background: 'linear-gradient(135deg, #a855f7, #6366f1)',
+                    color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '10px', fontWeight: 700, cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 4px 15px rgba(168, 85, 247, 0.3)'
+                  }}
+                >
+                  📧 Truyền qua Gmail API
+                </button>
+                <button
+                  onClick={() => {
+                    const phone = prompt("Nhập số điện thoại HCDC/CDC địa phương:", "+84 987 654 321");
+                    if (phone) {
+                      toast.success(`📱 Đã điều phối lệnh qua mạng Viễn thông di động tới ${phone}!`, { style: { borderRadius: '10px', background: '#3b82f6', color: '#fff', fontWeight: 'bold' } });
+                      window.open(`sms:${encodeURIComponent(phone)}?body=${encodeURIComponent(`KHAN [QuantumShield]: Kich hoat phan ung theo Cong van RAG. Vui lòng kiểm tra cổng NOC.`)}`, '_self');
+                    }
+                  }}
+                  style={{
+                    background: 'linear-gradient(135deg, #3b82f6, #06b6d4)',
+                    color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '10px', fontWeight: 700, cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 4px 15px rgba(59, 130, 246, 0.3)'
+                  }}
+                >
+                  📱 Phát lệnh qua SMS
+                </button>
+              </div>
             </motion.div>
           </motion.div>
         )}
