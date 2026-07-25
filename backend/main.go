@@ -268,6 +268,12 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 
 		// Ban du lieu ve Frontend
 		if err := conn.WriteJSON(data); err != nil {
+			if websocket.IsCloseError(err, websocket.CloseNormalClosure, websocket.CloseGoingAway, websocket.CloseNoStatusReceived) ||
+				strings.Contains(err.Error(), "aborted") || strings.Contains(err.Error(), "closed") ||
+				strings.Contains(err.Error(), "broken pipe") || strings.Contains(err.Error(), "reset by peer") {
+				// Normal client disconnect (browser tab closed, refreshed, or React StrictMode unmount)
+				break
+			}
 			log.Printf("Error writing JSON to websocket: %v", err)
 			break
 		}

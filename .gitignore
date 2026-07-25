@@ -1,6 +1,6 @@
 # Node.js / Frontend
 dashboard/node_modules/
-dashboard/dist/
+# dashboard/dist/
 .env
 .env.local
 npm-debug.log*
