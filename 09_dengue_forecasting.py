@@ -76,7 +76,7 @@ def main():
     train_data = region_data.dropna(subset=features + [target])
     
     if len(train_data) < 10:
-         err = {"error": f"Không đủ dữ liệu cho {mapped_region} để huấn luyện mô hình."}
+         err = {"error": f"Insufficient historical data for {mapped_region} to train AI forecasting model."}
          os.makedirs("artifacts", exist_ok=True)
          with open("artifacts/long_term_forecast.json", "w") as f: json.dump(err, f)
          print(json.dumps(err))

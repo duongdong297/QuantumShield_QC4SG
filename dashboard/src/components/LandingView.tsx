@@ -20,7 +20,7 @@ const LandingView: React.FC<LandingViewProps> = ({ setActiveTab, allocationData 
     {
       id: 'decision_protocol',
       title: 'GenAI Decision & RAG Orders',
-      desc: 'Automated formal medical dispatch directives (Công Văn Khẩn) via RAG & real-world SMS/Gmail broadcasting.',
+      desc: 'Automated formal medical dispatch directives (Emergency Medical Dispatch) via RAG & real-world SMS/Gmail broadcasting.',
       icon: '🧠',
       gradient: 'from-[#8965e0] to-[#bc65e0]'
     },

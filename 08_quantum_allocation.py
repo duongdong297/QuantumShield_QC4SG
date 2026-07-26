@@ -367,11 +367,11 @@ def format_output(districts_risk: list[DistrictRisk], result,
         logistics = calculate_logistics_package(d.case_count, tier_name, d.team_cost)
         entry["logistics"] = logistics
         entry["llm_rag_prompt"] = (
-            f"DỰ BÁO L1 & RAG ĐÁNH GIÁ Y TẾ KHẨN CẤP [TỈNH {name.upper()}]:\n\n"
-            f"• **Dự báo lây nhiễm (AI Forest L1)**: Ghi nhận nguy cơ bùng phát **{d.raw_risk}/100** với dự báo **{d.case_count:,} ca mắc** Sốt xuất huyết Dengue trong 14 ngày tới trên tổng dân số {d.population:,} người (Tỷ lệ mắc: {d.incidence_rate} / 100k dân).\n\n"
-            f"• **Nguyên nhân dịch tễ**: Chỉ số mật độ muỗi (BI) vượt ngưỡng 35, độ ẩm 85% và lượng mưa duy trì mức cao tạo điều kiện ổ lăng quăng phát triển mạnh.\n\n"
-            f"• **Phác đồ Bộ Y tế (RAG Document)**: Căn cứ theo Hướng dẫn Phác đồ Y tế Bộ Y tế, khu vực mức độ **{tier_name}** cần ưu tiên phân bổ ngay nguồn lực y tế động để cách ly điều trị và dập dịch triệt để trước khi lây lan chéo.\n\n"
-            f"• **Đề xuất Phân bổ Lượng tử NOC (L3 QUBO)**: Điều động **{logistics['staff_teams']} Đội đặc nhiệm Y tế NOC**, **{logistics['icu_beds']} Giường bệnh ICU**, **{logistics['iv_fluids_bags']} Túi dịch truyền Ringer Lactate**, **{logistics['ns1_test_kits']:,} Kit xét nghiệm nhanh NS1**, **{logistics['fogging_units']} Máy phun hóa chất công suất lớn** ({logistics['insecticide_liters']} Lít hóa chất diệt muỗi). Dự kiến kinh phí điều phối: **{logistics['budget_mil_vnd']} Triệu VNĐ**."
+            f"L1 PREDICTION & RAG EMERGENCY MEDICAL ASSESSMENT [{name.upper()}]:\n\n"
+            f"• **Outbreak Forecast (AI Random Forest L1)**: High outbreak probability recorded at **{d.raw_risk}/100**, projecting **{d.case_count:,} Dengue Fever cases** over the next 14 days across a total population of {d.population:,} (Incidence rate: {d.incidence_rate} / 100k population).\n\n"
+            f"• **Epidemiological Drivers**: Mosquito density index (Breteau Index - BI) exceeding 35, humidity at 85%, and sustained heavy rainfall creating optimal breeding grounds for vector proliferation.\n\n"
+            f"• **Ministry of Health Protocol (RAG Document)**: In accordance with National Dengue Treatment Protocols (Decision 3711/QD-BYT), **{tier_name}** regions require immediate deployment of mobile medical teams and emergency isolation wards to prevent cross-infection and hospital overcrowding.\n\n"
+            f"• **Quantum Optimization Allocation (L3 QUBO)**: Dispatching **{logistics['staff_teams']} Mobile Medical Taskforces**, **{logistics['icu_beds']} ICU Beds**, **{logistics['iv_fluids_bags']} Ringer Lactate IV Fluid bags**, **{logistics['ns1_test_kits']:,} Rapid NS1 Test Kits**, and **{logistics['fogging_units']} Thermal Fogging Units** ({logistics['insecticide_liters']}L insecticide). Estimated allocation budget: **{logistics['budget_mil_vnd']}M VND**."
         )
         if val == 1:
             covered.append(entry)

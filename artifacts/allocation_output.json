@@ -2,7 +2,7 @@
   "quantum_allocation": {
     "solver": "dimod.ExactSolver (classical baseline)",
     "qubo_variables": 20,
-    "timestamp": "2026-07-25T18:46:51Z",
+    "timestamp": "2026-07-26T03:31:16Z",
     "alert_region": "Dak Lak",
     "alert_probability": 88
   },
@@ -13,28 +13,6 @@
   },
   "allocation_result": {
     "covered_regions": [
-      {
-        "region": "Dak Lak",
-        "lat": 12.6667,
-        "lng": 108.05,
-        "population": 1900000,
-        "caseCount": 2572,
-        "incidenceRate": 135.37,
-        "riskScore": 88,
-        "riskScoreNormalized": 0.88,
-        "tier": "CRITICAL",
-        "action": "Activate emergency response; deploy staff team now",
-        "logistics": {
-          "staff_teams": 2,
-          "icu_beds": 90,
-          "iv_fluids_bags": 1080,
-          "ns1_test_kits": 3858,
-          "fogging_units": 10,
-          "insecticide_liters": 250,
-          "budget_mil_vnd": 308
-        },
-        "llm_rag_prompt": "D\u1ef0 B\u00c1O L1 & RAG \u0110\u00c1NH GI\u00c1 Y T\u1ebe KH\u1ea8N C\u1ea4P [T\u1ec8NH DAK LAK]:\n\n\u2022 **D\u1ef1 b\u00e1o l\u00e2y nhi\u1ec5m (AI Forest L1)**: Ghi nh\u1eadn nguy c\u01a1 b\u00f9ng ph\u00e1t **88/100** v\u1edbi d\u1ef1 b\u00e1o **2,572 ca m\u1eafc** S\u1ed1t xu\u1ea5t huy\u1ebft Dengue trong 14 ng\u00e0y t\u1edbi tr\u00ean t\u1ed5ng d\u00e2n s\u1ed1 1,900,000 ng\u01b0\u1eddi (T\u1ef7 l\u1ec7 m\u1eafc: 135.37 / 100k d\u00e2n).\n\n\u2022 **Nguy\u00ean nh\u00e2n d\u1ecbch t\u1ec5**: Ch\u1ec9 s\u1ed1 m\u1eadt \u0111\u1ed9 mu\u1ed7i (BI) v\u01b0\u1ee3t ng\u01b0\u1ee1ng 35, \u0111\u1ed9 \u1ea9m 85% v\u00e0 l\u01b0\u1ee3ng m\u01b0a duy tr\u00ec m\u1ee9c cao t\u1ea1o \u0111i\u1ec1u ki\u1ec7n \u1ed5 l\u0103ng qu\u0103ng ph\u00e1t tri\u1ec3n m\u1ea1nh.\n\n\u2022 **Ph\u00e1c \u0111\u1ed3 B\u1ed9 Y t\u1ebf (RAG Document)**: C\u0103n c\u1ee9 theo H\u01b0\u1edbng d\u1eabn Ph\u00e1c \u0111\u1ed3 Y t\u1ebf B\u1ed9 Y t\u1ebf, khu v\u1ef1c m\u1ee9c \u0111\u1ed9 **CRITICAL** c\u1ea7n \u01b0u ti\u00ean ph\u00e2n b\u1ed5 ngay ngu\u1ed3n l\u1ef1c y t\u1ebf \u0111\u1ed9ng \u0111\u1ec3 c\u00e1ch ly \u0111i\u1ec1u tr\u1ecb v\u00e0 d\u1eadp d\u1ecbch tri\u1ec7t \u0111\u1ec3 tr\u01b0\u1edbc khi l\u00e2y lan ch\u00e9o.\n\n\u2022 **\u0110\u1ec1 xu\u1ea5t Ph\u00e2n b\u1ed5 L\u01b0\u1ee3ng t\u1eed NOC (L3 QUBO)**: \u0110i\u1ec1u \u0111\u1ed9ng **2 \u0110\u1ed9i \u0111\u1eb7c nhi\u1ec7m Y t\u1ebf NOC**, **90 Gi\u01b0\u1eddng b\u1ec7nh ICU**, **1080 T\u00fai d\u1ecbch truy\u1ec1n Ringer Lactate**, **3,858 Kit x\u00e9t nghi\u1ec7m nhanh NS1**, **10 M\u00e1y phun h\u00f3a ch\u1ea5t c\u00f4ng su\u1ea5t l\u1edbn** (250 L\u00edt h\u00f3a ch\u1ea5t di\u1ec7t mu\u1ed7i). D\u1ef1 ki\u1ebfn kinh ph\u00ed \u0111i\u1ec1u ph\u1ed1i: **308 Tri\u1ec7u VN\u0110**."
-      },
       {
         "region": "Gia Lai",
         "lat": 13.9833,
@@ -55,7 +33,7 @@
           "insecticide_liters": 175,
           "budget_mil_vnd": 227
         },
-        "llm_rag_prompt": "D\u1ef0 B\u00c1O L1 & RAG \u0110\u00c1NH GI\u00c1 Y T\u1ebe KH\u1ea8N C\u1ea4P [T\u1ec8NH GIA LAI]:\n\n\u2022 **D\u1ef1 b\u00e1o l\u00e2y nhi\u1ec5m (AI Forest L1)**: Ghi nh\u1eadn nguy c\u01a1 b\u00f9ng ph\u00e1t **82/100** v\u1edbi d\u1ef1 b\u00e1o **1,892 ca m\u1eafc** S\u1ed1t xu\u1ea5t huy\u1ebft Dengue trong 14 ng\u00e0y t\u1edbi tr\u00ean t\u1ed5ng d\u00e2n s\u1ed1 1,500,000 ng\u01b0\u1eddi (T\u1ef7 l\u1ec7 m\u1eafc: 126.13 / 100k d\u00e2n).\n\n\u2022 **Nguy\u00ean nh\u00e2n d\u1ecbch t\u1ec5**: Ch\u1ec9 s\u1ed1 m\u1eadt \u0111\u1ed9 mu\u1ed7i (BI) v\u01b0\u1ee3t ng\u01b0\u1ee1ng 35, \u0111\u1ed9 \u1ea9m 85% v\u00e0 l\u01b0\u1ee3ng m\u01b0a duy tr\u00ec m\u1ee9c cao t\u1ea1o \u0111i\u1ec1u ki\u1ec7n \u1ed5 l\u0103ng qu\u0103ng ph\u00e1t tri\u1ec3n m\u1ea1nh.\n\n\u2022 **Ph\u00e1c \u0111\u1ed3 B\u1ed9 Y t\u1ebf (RAG Document)**: C\u0103n c\u1ee9 theo H\u01b0\u1edbng d\u1eabn Ph\u00e1c \u0111\u1ed3 Y t\u1ebf B\u1ed9 Y t\u1ebf, khu v\u1ef1c m\u1ee9c \u0111\u1ed9 **CRITICAL** c\u1ea7n \u01b0u ti\u00ean ph\u00e2n b\u1ed5 ngay ngu\u1ed3n l\u1ef1c y t\u1ebf \u0111\u1ed9ng \u0111\u1ec3 c\u00e1ch ly \u0111i\u1ec1u tr\u1ecb v\u00e0 d\u1eadp d\u1ecbch tri\u1ec7t \u0111\u1ec3 tr\u01b0\u1edbc khi l\u00e2y lan ch\u00e9o.\n\n\u2022 **\u0110\u1ec1 xu\u1ea5t Ph\u00e2n b\u1ed5 L\u01b0\u1ee3ng t\u1eed NOC (L3 QUBO)**: \u0110i\u1ec1u \u0111\u1ed9ng **2 \u0110\u1ed9i \u0111\u1eb7c nhi\u1ec7m Y t\u1ebf NOC**, **66 Gi\u01b0\u1eddng b\u1ec7nh ICU**, **792 T\u00fai d\u1ecbch truy\u1ec1n Ringer Lactate**, **2,838 Kit x\u00e9t nghi\u1ec7m nhanh NS1**, **7 M\u00e1y phun h\u00f3a ch\u1ea5t c\u00f4ng su\u1ea5t l\u1edbn** (175 L\u00edt h\u00f3a ch\u1ea5t di\u1ec7t mu\u1ed7i). D\u1ef1 ki\u1ebfn kinh ph\u00ed \u0111i\u1ec1u ph\u1ed1i: **227 Tri\u1ec7u VN\u0110**."
+        "llm_rag_prompt": "L1 PREDICTION & RAG EMERGENCY MEDICAL ASSESSMENT [GIA LAI]:\n\n\u2022 **Outbreak Forecast (AI Random Forest L1)**: High outbreak probability recorded at **82/100**, projecting **1,892 Dengue Fever cases** over the next 14 days across a total population of 1,500,000 (Incidence rate: 126.13 / 100k population).\n\n\u2022 **Epidemiological Drivers**: Mosquito density index (Breteau Index - BI) exceeding 35, humidity at 85%, and sustained heavy rainfall creating optimal breeding grounds for vector proliferation.\n\n\u2022 **Ministry of Health Protocol (RAG Document)**: In accordance with National Dengue Treatment Protocols (Decision 3711/QD-BYT), **CRITICAL** regions require immediate deployment of mobile medical teams and emergency isolation wards to prevent cross-infection and hospital overcrowding.\n\n\u2022 **Quantum Optimization Allocation (L3 QUBO)**: Dispatching **2 Mobile Medical Taskforces**, **66 ICU Beds**, **792 Ringer Lactate IV Fluid bags**, **2,838 Rapid NS1 Test Kits**, and **7 Thermal Fogging Units** (175L insecticide). Estimated allocation budget: **227M VND**."
       },
       {
         "region": "Kon Tum",
@@ -77,7 +55,7 @@
           "insecticide_liters": 50,
           "budget_mil_vnd": 76
         },
-        "llm_rag_prompt": "D\u1ef0 B\u00c1O L1 & RAG \u0110\u00c1NH GI\u00c1 Y T\u1ebe KH\u1ea8N C\u1ea4P [T\u1ec8NH KON TUM]:\n\n\u2022 **D\u1ef1 b\u00e1o l\u00e2y nhi\u1ec5m (AI Forest L1)**: Ghi nh\u1eadn nguy c\u01a1 b\u00f9ng ph\u00e1t **74/100** v\u1edbi d\u1ef1 b\u00e1o **637 ca m\u1eafc** S\u1ed1t xu\u1ea5t huy\u1ebft Dengue trong 14 ng\u00e0y t\u1edbi tr\u00ean t\u1ed5ng d\u00e2n s\u1ed1 560,000 ng\u01b0\u1eddi (T\u1ef7 l\u1ec7 m\u1eafc: 113.75 / 100k d\u00e2n).\n\n\u2022 **Nguy\u00ean nh\u00e2n d\u1ecbch t\u1ec5**: Ch\u1ec9 s\u1ed1 m\u1eadt \u0111\u1ed9 mu\u1ed7i (BI) v\u01b0\u1ee3t ng\u01b0\u1ee1ng 35, \u0111\u1ed9 \u1ea9m 85% v\u00e0 l\u01b0\u1ee3ng m\u01b0a duy tr\u00ec m\u1ee9c cao t\u1ea1o \u0111i\u1ec1u ki\u1ec7n \u1ed5 l\u0103ng qu\u0103ng ph\u00e1t tri\u1ec3n m\u1ea1nh.\n\n\u2022 **Ph\u00e1c \u0111\u1ed3 B\u1ed9 Y t\u1ebf (RAG Document)**: C\u0103n c\u1ee9 theo H\u01b0\u1edbng d\u1eabn Ph\u00e1c \u0111\u1ed3 Y t\u1ebf B\u1ed9 Y t\u1ebf, khu v\u1ef1c m\u1ee9c \u0111\u1ed9 **HIGH RISK** c\u1ea7n \u01b0u ti\u00ean ph\u00e2n b\u1ed5 ngay ngu\u1ed3n l\u1ef1c y t\u1ebf \u0111\u1ed9ng \u0111\u1ec3 c\u00e1ch ly \u0111i\u1ec1u tr\u1ecb v\u00e0 d\u1eadp d\u1ecbch tri\u1ec7t \u0111\u1ec3 tr\u01b0\u1edbc khi l\u00e2y lan ch\u00e9o.\n\n\u2022 **\u0110\u1ec1 xu\u1ea5t Ph\u00e2n b\u1ed5 L\u01b0\u1ee3ng t\u1eed NOC (L3 QUBO)**: \u0110i\u1ec1u \u0111\u1ed9ng **1 \u0110\u1ed9i \u0111\u1eb7c nhi\u1ec7m Y t\u1ebf NOC**, **22 Gi\u01b0\u1eddng b\u1ec7nh ICU**, **264 T\u00fai d\u1ecbch truy\u1ec1n Ringer Lactate**, **955 Kit x\u00e9t nghi\u1ec7m nhanh NS1**, **2 M\u00e1y phun h\u00f3a ch\u1ea5t c\u00f4ng su\u1ea5t l\u1edbn** (50 L\u00edt h\u00f3a ch\u1ea5t di\u1ec7t mu\u1ed7i). D\u1ef1 ki\u1ebfn kinh ph\u00ed \u0111i\u1ec1u ph\u1ed1i: **76 Tri\u1ec7u VN\u0110**."
+        "llm_rag_prompt": "L1 PREDICTION & RAG EMERGENCY MEDICAL ASSESSMENT [KON TUM]:\n\n\u2022 **Outbreak Forecast (AI Random Forest L1)**: High outbreak probability recorded at **74/100**, projecting **637 Dengue Fever cases** over the next 14 days across a total population of 560,000 (Incidence rate: 113.75 / 100k population).\n\n\u2022 **Epidemiological Drivers**: Mosquito density index (Breteau Index - BI) exceeding 35, humidity at 85%, and sustained heavy rainfall creating optimal breeding grounds for vector proliferation.\n\n\u2022 **Ministry of Health Protocol (RAG Document)**: In accordance with National Dengue Treatment Protocols (Decision 3711/QD-BYT), **HIGH RISK** regions require immediate deployment of mobile medical teams and emergency isolation wards to prevent cross-infection and hospital overcrowding.\n\n\u2022 **Quantum Optimization Allocation (L3 QUBO)**: Dispatching **1 Mobile Medical Taskforces**, **22 ICU Beds**, **264 Ringer Lactate IV Fluid bags**, **955 Rapid NS1 Test Kits**, and **2 Thermal Fogging Units** (50L insecticide). Estimated allocation budget: **76M VND**."
       },
       {
         "region": "Binh Duong",
@@ -99,7 +77,7 @@
           "insecticide_liters": 250,
           "budget_mil_vnd": 318
         },
-        "llm_rag_prompt": "D\u1ef0 B\u00c1O L1 & RAG \u0110\u00c1NH GI\u00c1 Y T\u1ebe KH\u1ea8N C\u1ea4P [T\u1ec8NH BINH DUONG]:\n\n\u2022 **D\u1ef1 b\u00e1o l\u00e2y nhi\u1ec5m (AI Forest L1)**: Ghi nh\u1eadn nguy c\u01a1 b\u00f9ng ph\u00e1t **64/100** v\u1edbi d\u1ef1 b\u00e1o **2,658 ca m\u1eafc** S\u1ed1t xu\u1ea5t huy\u1ebft Dengue trong 14 ng\u00e0y t\u1edbi tr\u00ean t\u1ed5ng d\u00e2n s\u1ed1 2,700,000 ng\u01b0\u1eddi (T\u1ef7 l\u1ec7 m\u1eafc: 98.44 / 100k d\u00e2n).\n\n\u2022 **Nguy\u00ean nh\u00e2n d\u1ecbch t\u1ec5**: Ch\u1ec9 s\u1ed1 m\u1eadt \u0111\u1ed9 mu\u1ed7i (BI) v\u01b0\u1ee3t ng\u01b0\u1ee1ng 35, \u0111\u1ed9 \u1ea9m 85% v\u00e0 l\u01b0\u1ee3ng m\u01b0a duy tr\u00ec m\u1ee9c cao t\u1ea1o \u0111i\u1ec1u ki\u1ec7n \u1ed5 l\u0103ng qu\u0103ng ph\u00e1t tri\u1ec3n m\u1ea1nh.\n\n\u2022 **Ph\u00e1c \u0111\u1ed3 B\u1ed9 Y t\u1ebf (RAG Document)**: C\u0103n c\u1ee9 theo H\u01b0\u1edbng d\u1eabn Ph\u00e1c \u0111\u1ed3 Y t\u1ebf B\u1ed9 Y t\u1ebf, khu v\u1ef1c m\u1ee9c \u0111\u1ed9 **HIGH RISK** c\u1ea7n \u01b0u ti\u00ean ph\u00e2n b\u1ed5 ngay ngu\u1ed3n l\u1ef1c y t\u1ebf \u0111\u1ed9ng \u0111\u1ec3 c\u00e1ch ly \u0111i\u1ec1u tr\u1ecb v\u00e0 d\u1eadp d\u1ecbch tri\u1ec7t \u0111\u1ec3 tr\u01b0\u1edbc khi l\u00e2y lan ch\u00e9o.\n\n\u2022 **\u0110\u1ec1 xu\u1ea5t Ph\u00e2n b\u1ed5 L\u01b0\u1ee3ng t\u1eed NOC (L3 QUBO)**: \u0110i\u1ec1u \u0111\u1ed9ng **2 \u0110\u1ed9i \u0111\u1eb7c nhi\u1ec7m Y t\u1ebf NOC**, **93 Gi\u01b0\u1eddng b\u1ec7nh ICU**, **1116 T\u00fai d\u1ecbch truy\u1ec1n Ringer Lactate**, **3,987 Kit x\u00e9t nghi\u1ec7m nhanh NS1**, **10 M\u00e1y phun h\u00f3a ch\u1ea5t c\u00f4ng su\u1ea5t l\u1edbn** (250 L\u00edt h\u00f3a ch\u1ea5t di\u1ec7t mu\u1ed7i). D\u1ef1 ki\u1ebfn kinh ph\u00ed \u0111i\u1ec1u ph\u1ed1i: **318 Tri\u1ec7u VN\u0110**."
+        "llm_rag_prompt": "L1 PREDICTION & RAG EMERGENCY MEDICAL ASSESSMENT [BINH DUONG]:\n\n\u2022 **Outbreak Forecast (AI Random Forest L1)**: High outbreak probability recorded at **64/100**, projecting **2,658 Dengue Fever cases** over the next 14 days across a total population of 2,700,000 (Incidence rate: 98.44 / 100k population).\n\n\u2022 **Epidemiological Drivers**: Mosquito density index (Breteau Index - BI) exceeding 35, humidity at 85%, and sustained heavy rainfall creating optimal breeding grounds for vector proliferation.\n\n\u2022 **Ministry of Health Protocol (RAG Document)**: In accordance with National Dengue Treatment Protocols (Decision 3711/QD-BYT), **HIGH RISK** regions require immediate deployment of mobile medical teams and emergency isolation wards to prevent cross-infection and hospital overcrowding.\n\n\u2022 **Quantum Optimization Allocation (L3 QUBO)**: Dispatching **2 Mobile Medical Taskforces**, **93 ICU Beds**, **1116 Ringer Lactate IV Fluid bags**, **3,987 Rapid NS1 Test Kits**, and **10 Thermal Fogging Units** (250L insecticide). Estimated allocation budget: **318M VND**."
       },
       {
         "region": "Khanh Hoa",
@@ -121,7 +99,7 @@
           "insecticide_liters": 100,
           "budget_mil_vnd": 139
         },
-        "llm_rag_prompt": "D\u1ef0 B\u00c1O L1 & RAG \u0110\u00c1NH GI\u00c1 Y T\u1ebe KH\u1ea8N C\u1ea4P [T\u1ec8NH KHANH HOA]:\n\n\u2022 **D\u1ef1 b\u00e1o l\u00e2y nhi\u1ec5m (AI Forest L1)**: Ghi nh\u1eadn nguy c\u01a1 b\u00f9ng ph\u00e1t **58/100** v\u1edbi d\u1ef1 b\u00e1o **1,160 ca m\u1eafc** S\u1ed1t xu\u1ea5t huy\u1ebft Dengue trong 14 ng\u00e0y t\u1edbi tr\u00ean t\u1ed5ng d\u00e2n s\u1ed1 1,300,000 ng\u01b0\u1eddi (T\u1ef7 l\u1ec7 m\u1eafc: 89.23 / 100k d\u00e2n).\n\n\u2022 **Nguy\u00ean nh\u00e2n d\u1ecbch t\u1ec5**: Ch\u1ec9 s\u1ed1 m\u1eadt \u0111\u1ed9 mu\u1ed7i (BI) v\u01b0\u1ee3t ng\u01b0\u1ee1ng 35, \u0111\u1ed9 \u1ea9m 85% v\u00e0 l\u01b0\u1ee3ng m\u01b0a duy tr\u00ec m\u1ee9c cao t\u1ea1o \u0111i\u1ec1u ki\u1ec7n \u1ed5 l\u0103ng qu\u0103ng ph\u00e1t tri\u1ec3n m\u1ea1nh.\n\n\u2022 **Ph\u00e1c \u0111\u1ed3 B\u1ed9 Y t\u1ebf (RAG Document)**: C\u0103n c\u1ee9 theo H\u01b0\u1edbng d\u1eabn Ph\u00e1c \u0111\u1ed3 Y t\u1ebf B\u1ed9 Y t\u1ebf, khu v\u1ef1c m\u1ee9c \u0111\u1ed9 **HIGH RISK** c\u1ea7n \u01b0u ti\u00ean ph\u00e2n b\u1ed5 ngay ngu\u1ed3n l\u1ef1c y t\u1ebf \u0111\u1ed9ng \u0111\u1ec3 c\u00e1ch ly \u0111i\u1ec1u tr\u1ecb v\u00e0 d\u1eadp d\u1ecbch tri\u1ec7t \u0111\u1ec3 tr\u01b0\u1edbc khi l\u00e2y lan ch\u00e9o.\n\n\u2022 **\u0110\u1ec1 xu\u1ea5t Ph\u00e2n b\u1ed5 L\u01b0\u1ee3ng t\u1eed NOC (L3 QUBO)**: \u0110i\u1ec1u \u0111\u1ed9ng **1 \u0110\u1ed9i \u0111\u1eb7c nhi\u1ec7m Y t\u1ebf NOC**, **40 Gi\u01b0\u1eddng b\u1ec7nh ICU**, **480 T\u00fai d\u1ecbch truy\u1ec1n Ringer Lactate**, **1,740 Kit x\u00e9t nghi\u1ec7m nhanh NS1**, **4 M\u00e1y phun h\u00f3a ch\u1ea5t c\u00f4ng su\u1ea5t l\u1edbn** (100 L\u00edt h\u00f3a ch\u1ea5t di\u1ec7t mu\u1ed7i). D\u1ef1 ki\u1ebfn kinh ph\u00ed \u0111i\u1ec1u ph\u1ed1i: **139 Tri\u1ec7u VN\u0110**."
+        "llm_rag_prompt": "L1 PREDICTION & RAG EMERGENCY MEDICAL ASSESSMENT [KHANH HOA]:\n\n\u2022 **Outbreak Forecast (AI Random Forest L1)**: High outbreak probability recorded at **58/100**, projecting **1,160 Dengue Fever cases** over the next 14 days across a total population of 1,300,000 (Incidence rate: 89.23 / 100k population).\n\n\u2022 **Epidemiological Drivers**: Mosquito density index (Breteau Index - BI) exceeding 35, humidity at 85%, and sustained heavy rainfall creating optimal breeding grounds for vector proliferation.\n\n\u2022 **Ministry of Health Protocol (RAG Document)**: In accordance with National Dengue Treatment Protocols (Decision 3711/QD-BYT), **HIGH RISK** regions require immediate deployment of mobile medical teams and emergency isolation wards to prevent cross-infection and hospital overcrowding.\n\n\u2022 **Quantum Optimization Allocation (L3 QUBO)**: Dispatching **1 Mobile Medical Taskforces**, **40 ICU Beds**, **480 Ringer Lactate IV Fluid bags**, **1,740 Rapid NS1 Test Kits**, and **4 Thermal Fogging Units** (100L insecticide). Estimated allocation budget: **139M VND**."
       },
       {
         "region": "Da Nang",
@@ -143,7 +121,7 @@
           "insecticide_liters": 75,
           "budget_mil_vnd": 115
         },
-        "llm_rag_prompt": "D\u1ef0 B\u00c1O L1 & RAG \u0110\u00c1NH GI\u00c1 Y T\u1ebe KH\u1ea8N C\u1ea4P [T\u1ec8NH DA NANG]:\n\n\u2022 **D\u1ef1 b\u00e1o l\u00e2y nhi\u1ec5m (AI Forest L1)**: Ghi nh\u1eadn nguy c\u01a1 b\u00f9ng ph\u00e1t **52/100** v\u1edbi d\u1ef1 b\u00e1o **960 ca m\u1eafc** S\u1ed1t xu\u1ea5t huy\u1ebft Dengue trong 14 ng\u00e0y t\u1edbi tr\u00ean t\u1ed5ng d\u00e2n s\u1ed1 1,200,000 ng\u01b0\u1eddi (T\u1ef7 l\u1ec7 m\u1eafc: 80.0 / 100k d\u00e2n).\n\n\u2022 **Nguy\u00ean nh\u00e2n d\u1ecbch t\u1ec5**: Ch\u1ec9 s\u1ed1 m\u1eadt \u0111\u1ed9 mu\u1ed7i (BI) v\u01b0\u1ee3t ng\u01b0\u1ee1ng 35, \u0111\u1ed9 \u1ea9m 85% v\u00e0 l\u01b0\u1ee3ng m\u01b0a duy tr\u00ec m\u1ee9c cao t\u1ea1o \u0111i\u1ec1u ki\u1ec7n \u1ed5 l\u0103ng qu\u0103ng ph\u00e1t tri\u1ec3n m\u1ea1nh.\n\n\u2022 **Ph\u00e1c \u0111\u1ed3 B\u1ed9 Y t\u1ebf (RAG Document)**: C\u0103n c\u1ee9 theo H\u01b0\u1edbng d\u1eabn Ph\u00e1c \u0111\u1ed3 Y t\u1ebf B\u1ed9 Y t\u1ebf, khu v\u1ef1c m\u1ee9c \u0111\u1ed9 **HIGH RISK** c\u1ea7n \u01b0u ti\u00ean ph\u00e2n b\u1ed5 ngay ngu\u1ed3n l\u1ef1c y t\u1ebf \u0111\u1ed9ng \u0111\u1ec3 c\u00e1ch ly \u0111i\u1ec1u tr\u1ecb v\u00e0 d\u1eadp d\u1ecbch tri\u1ec7t \u0111\u1ec3 tr\u01b0\u1edbc khi l\u00e2y lan ch\u00e9o.\n\n\u2022 **\u0110\u1ec1 xu\u1ea5t Ph\u00e2n b\u1ed5 L\u01b0\u1ee3ng t\u1eed NOC (L3 QUBO)**: \u0110i\u1ec1u \u0111\u1ed9ng **1 \u0110\u1ed9i \u0111\u1eb7c nhi\u1ec7m Y t\u1ebf NOC**, **33 Gi\u01b0\u1eddng b\u1ec7nh ICU**, **396 T\u00fai d\u1ecbch truy\u1ec1n Ringer Lactate**, **1,440 Kit x\u00e9t nghi\u1ec7m nhanh NS1**, **3 M\u00e1y phun h\u00f3a ch\u1ea5t c\u00f4ng su\u1ea5t l\u1edbn** (75 L\u00edt h\u00f3a ch\u1ea5t di\u1ec7t mu\u1ed7i). D\u1ef1 ki\u1ebfn kinh ph\u00ed \u0111i\u1ec1u ph\u1ed1i: **115 Tri\u1ec7u VN\u0110**."
+        "llm_rag_prompt": "L1 PREDICTION & RAG EMERGENCY MEDICAL ASSESSMENT [DA NANG]:\n\n\u2022 **Outbreak Forecast (AI Random Forest L1)**: High outbreak probability recorded at **52/100**, projecting **960 Dengue Fever cases** over the next 14 days across a total population of 1,200,000 (Incidence rate: 80.0 / 100k population).\n\n\u2022 **Epidemiological Drivers**: Mosquito density index (Breteau Index - BI) exceeding 35, humidity at 85%, and sustained heavy rainfall creating optimal breeding grounds for vector proliferation.\n\n\u2022 **Ministry of Health Protocol (RAG Document)**: In accordance with National Dengue Treatment Protocols (Decision 3711/QD-BYT), **HIGH RISK** regions require immediate deployment of mobile medical teams and emergency isolation wards to prevent cross-infection and hospital overcrowding.\n\n\u2022 **Quantum Optimization Allocation (L3 QUBO)**: Dispatching **1 Mobile Medical Taskforces**, **33 ICU Beds**, **396 Ringer Lactate IV Fluid bags**, **1,440 Rapid NS1 Test Kits**, and **3 Thermal Fogging Units** (75L insecticide). Estimated allocation budget: **115M VND**."
       },
       {
         "region": "Can Tho",
@@ -165,7 +143,7 @@
           "insecticide_liters": 25,
           "budget_mil_vnd": 110
         },
-        "llm_rag_prompt": "D\u1ef0 B\u00c1O L1 & RAG \u0110\u00c1NH GI\u00c1 Y T\u1ebe KH\u1ea8N C\u1ea4P [T\u1ec8NH CAN THO]:\n\n\u2022 **D\u1ef1 b\u00e1o l\u00e2y nhi\u1ec5m (AI Forest L1)**: Ghi nh\u1eadn nguy c\u01a1 b\u00f9ng ph\u00e1t **48/100** v\u1edbi d\u1ef1 b\u00e1o **923 ca m\u1eafc** S\u1ed1t xu\u1ea5t huy\u1ebft Dengue trong 14 ng\u00e0y t\u1edbi tr\u00ean t\u1ed5ng d\u00e2n s\u1ed1 1,250,000 ng\u01b0\u1eddi (T\u1ef7 l\u1ec7 m\u1eafc: 73.84 / 100k d\u00e2n).\n\n\u2022 **Nguy\u00ean nh\u00e2n d\u1ecbch t\u1ec5**: Ch\u1ec9 s\u1ed1 m\u1eadt \u0111\u1ed9 mu\u1ed7i (BI) v\u01b0\u1ee3t ng\u01b0\u1ee1ng 35, \u0111\u1ed9 \u1ea9m 85% v\u00e0 l\u01b0\u1ee3ng m\u01b0a duy tr\u00ec m\u1ee9c cao t\u1ea1o \u0111i\u1ec1u ki\u1ec7n \u1ed5 l\u0103ng qu\u0103ng ph\u00e1t tri\u1ec3n m\u1ea1nh.\n\n\u2022 **Ph\u00e1c \u0111\u1ed3 B\u1ed9 Y t\u1ebf (RAG Document)**: C\u0103n c\u1ee9 theo H\u01b0\u1edbng d\u1eabn Ph\u00e1c \u0111\u1ed3 Y t\u1ebf B\u1ed9 Y t\u1ebf, khu v\u1ef1c m\u1ee9c \u0111\u1ed9 **MEDIUM RISK** c\u1ea7n \u01b0u ti\u00ean ph\u00e2n b\u1ed5 ngay ngu\u1ed3n l\u1ef1c y t\u1ebf \u0111\u1ed9ng \u0111\u1ec3 c\u00e1ch ly \u0111i\u1ec1u tr\u1ecb v\u00e0 d\u1eadp d\u1ecbch tri\u1ec7t \u0111\u1ec3 tr\u01b0\u1edbc khi l\u00e2y lan ch\u00e9o.\n\n\u2022 **\u0110\u1ec1 xu\u1ea5t Ph\u00e2n b\u1ed5 L\u01b0\u1ee3ng t\u1eed NOC (L3 QUBO)**: \u0110i\u1ec1u \u0111\u1ed9ng **1 \u0110\u1ed9i \u0111\u1eb7c nhi\u1ec7m Y t\u1ebf NOC**, **32 Gi\u01b0\u1eddng b\u1ec7nh ICU**, **384 T\u00fai d\u1ecbch truy\u1ec1n Ringer Lactate**, **1,384 Kit x\u00e9t nghi\u1ec7m nhanh NS1**, **1 M\u00e1y phun h\u00f3a ch\u1ea5t c\u00f4ng su\u1ea5t l\u1edbn** (25 L\u00edt h\u00f3a ch\u1ea5t di\u1ec7t mu\u1ed7i). D\u1ef1 ki\u1ebfn kinh ph\u00ed \u0111i\u1ec1u ph\u1ed1i: **110 Tri\u1ec7u VN\u0110**."
+        "llm_rag_prompt": "L1 PREDICTION & RAG EMERGENCY MEDICAL ASSESSMENT [CAN THO]:\n\n\u2022 **Outbreak Forecast (AI Random Forest L1)**: High outbreak probability recorded at **48/100**, projecting **923 Dengue Fever cases** over the next 14 days across a total population of 1,250,000 (Incidence rate: 73.84 / 100k population).\n\n\u2022 **Epidemiological Drivers**: Mosquito density index (Breteau Index - BI) exceeding 35, humidity at 85%, and sustained heavy rainfall creating optimal breeding grounds for vector proliferation.\n\n\u2022 **Ministry of Health Protocol (RAG Document)**: In accordance with National Dengue Treatment Protocols (Decision 3711/QD-BYT), **MEDIUM RISK** regions require immediate deployment of mobile medical teams and emergency isolation wards to prevent cross-infection and hospital overcrowding.\n\n\u2022 **Quantum Optimization Allocation (L3 QUBO)**: Dispatching **1 Mobile Medical Taskforces**, **32 ICU Beds**, **384 Ringer Lactate IV Fluid bags**, **1,384 Rapid NS1 Test Kits**, and **1 Thermal Fogging Units** (25L insecticide). Estimated allocation budget: **110M VND**."
       },
       {
         "region": "An Giang",
@@ -187,119 +165,7 @@
           "insecticide_liters": 50,
           "budget_mil_vnd": 154
         },
-        "llm_rag_prompt": "D\u1ef0 B\u00c1O L1 & RAG \u0110\u00c1NH GI\u00c1 Y T\u1ebe KH\u1ea8N C\u1ea4P [T\u1ec8NH AN GIANG]:\n\n\u2022 **D\u1ef1 b\u00e1o l\u00e2y nhi\u1ec5m (AI Forest L1)**: Ghi nh\u1eadn nguy c\u01a1 b\u00f9ng ph\u00e1t **44/100** v\u1edbi d\u1ef1 b\u00e1o **1,286 ca m\u1eafc** S\u1ed1t xu\u1ea5t huy\u1ebft Dengue trong 14 ng\u00e0y t\u1edbi tr\u00ean t\u1ed5ng d\u00e2n s\u1ed1 1,900,000 ng\u01b0\u1eddi (T\u1ef7 l\u1ec7 m\u1eafc: 67.68 / 100k d\u00e2n).\n\n\u2022 **Nguy\u00ean nh\u00e2n d\u1ecbch t\u1ec5**: Ch\u1ec9 s\u1ed1 m\u1eadt \u0111\u1ed9 mu\u1ed7i (BI) v\u01b0\u1ee3t ng\u01b0\u1ee1ng 35, \u0111\u1ed9 \u1ea9m 85% v\u00e0 l\u01b0\u1ee3ng m\u01b0a duy tr\u00ec m\u1ee9c cao t\u1ea1o \u0111i\u1ec1u ki\u1ec7n \u1ed5 l\u0103ng qu\u0103ng ph\u00e1t tri\u1ec3n m\u1ea1nh.\n\n\u2022 **Ph\u00e1c \u0111\u1ed3 B\u1ed9 Y t\u1ebf (RAG Document)**: C\u0103n c\u1ee9 theo H\u01b0\u1edbng d\u1eabn Ph\u00e1c \u0111\u1ed3 Y t\u1ebf B\u1ed9 Y t\u1ebf, khu v\u1ef1c m\u1ee9c \u0111\u1ed9 **MEDIUM RISK** c\u1ea7n \u01b0u ti\u00ean ph\u00e2n b\u1ed5 ngay ngu\u1ed3n l\u1ef1c y t\u1ebf \u0111\u1ed9ng \u0111\u1ec3 c\u00e1ch ly \u0111i\u1ec1u tr\u1ecb v\u00e0 d\u1eadp d\u1ecbch tri\u1ec7t \u0111\u1ec3 tr\u01b0\u1edbc khi l\u00e2y lan ch\u00e9o.\n\n\u2022 **\u0110\u1ec1 xu\u1ea5t Ph\u00e2n b\u1ed5 L\u01b0\u1ee3ng t\u1eed NOC (L3 QUBO)**: \u0110i\u1ec1u \u0111\u1ed9ng **1 \u0110\u1ed9i \u0111\u1eb7c nhi\u1ec7m Y t\u1ebf NOC**, **45 Gi\u01b0\u1eddng b\u1ec7nh ICU**, **540 T\u00fai d\u1ecbch truy\u1ec1n Ringer Lactate**, **1,929 Kit x\u00e9t nghi\u1ec7m nhanh NS1**, **2 M\u00e1y phun h\u00f3a ch\u1ea5t c\u00f4ng su\u1ea5t l\u1edbn** (50 L\u00edt h\u00f3a ch\u1ea5t di\u1ec7t mu\u1ed7i). D\u1ef1 ki\u1ebfn kinh ph\u00ed \u0111i\u1ec1u ph\u1ed1i: **154 Tri\u1ec7u VN\u0110**."
-      },
-      {
-        "region": "Hai Phong",
-        "lat": 20.8449,
-        "lng": 106.6881,
-        "population": 2000000,
-        "caseCount": 1169,
-        "incidenceRate": 58.45,
-        "riskScore": 38,
-        "riskScoreNormalized": 0.38,
-        "tier": "MEDIUM RISK",
-        "action": "Increase surveillance; early testing",
-        "logistics": {
-          "staff_teams": 1,
-          "icu_beds": 40,
-          "iv_fluids_bags": 480,
-          "ns1_test_kits": 1753,
-          "fogging_units": 2,
-          "insecticide_liters": 50,
-          "budget_mil_vnd": 140
-        },
-        "llm_rag_prompt": "D\u1ef0 B\u00c1O L1 & RAG \u0110\u00c1NH GI\u00c1 Y T\u1ebe KH\u1ea8N C\u1ea4P [T\u1ec8NH HAI PHONG]:\n\n\u2022 **D\u1ef1 b\u00e1o l\u00e2y nhi\u1ec5m (AI Forest L1)**: Ghi nh\u1eadn nguy c\u01a1 b\u00f9ng ph\u00e1t **38/100** v\u1edbi d\u1ef1 b\u00e1o **1,169 ca m\u1eafc** S\u1ed1t xu\u1ea5t huy\u1ebft Dengue trong 14 ng\u00e0y t\u1edbi tr\u00ean t\u1ed5ng d\u00e2n s\u1ed1 2,000,000 ng\u01b0\u1eddi (T\u1ef7 l\u1ec7 m\u1eafc: 58.45 / 100k d\u00e2n).\n\n\u2022 **Nguy\u00ean nh\u00e2n d\u1ecbch t\u1ec5**: Ch\u1ec9 s\u1ed1 m\u1eadt \u0111\u1ed9 mu\u1ed7i (BI) v\u01b0\u1ee3t ng\u01b0\u1ee1ng 35, \u0111\u1ed9 \u1ea9m 85% v\u00e0 l\u01b0\u1ee3ng m\u01b0a duy tr\u00ec m\u1ee9c cao t\u1ea1o \u0111i\u1ec1u ki\u1ec7n \u1ed5 l\u0103ng qu\u0103ng ph\u00e1t tri\u1ec3n m\u1ea1nh.\n\n\u2022 **Ph\u00e1c \u0111\u1ed3 B\u1ed9 Y t\u1ebf (RAG Document)**: C\u0103n c\u1ee9 theo H\u01b0\u1edbng d\u1eabn Ph\u00e1c \u0111\u1ed3 Y t\u1ebf B\u1ed9 Y t\u1ebf, khu v\u1ef1c m\u1ee9c \u0111\u1ed9 **MEDIUM RISK** c\u1ea7n \u01b0u ti\u00ean ph\u00e2n b\u1ed5 ngay ngu\u1ed3n l\u1ef1c y t\u1ebf \u0111\u1ed9ng \u0111\u1ec3 c\u00e1ch ly \u0111i\u1ec1u tr\u1ecb v\u00e0 d\u1eadp d\u1ecbch tri\u1ec7t \u0111\u1ec3 tr\u01b0\u1edbc khi l\u00e2y lan ch\u00e9o.\n\n\u2022 **\u0110\u1ec1 xu\u1ea5t Ph\u00e2n b\u1ed5 L\u01b0\u1ee3ng t\u1eed NOC (L3 QUBO)**: \u0110i\u1ec1u \u0111\u1ed9ng **1 \u0110\u1ed9i \u0111\u1eb7c nhi\u1ec7m Y t\u1ebf NOC**, **40 Gi\u01b0\u1eddng b\u1ec7nh ICU**, **480 T\u00fai d\u1ecbch truy\u1ec1n Ringer Lactate**, **1,753 Kit x\u00e9t nghi\u1ec7m nhanh NS1**, **2 M\u00e1y phun h\u00f3a ch\u1ea5t c\u00f4ng su\u1ea5t l\u1edbn** (50 L\u00edt h\u00f3a ch\u1ea5t di\u1ec7t mu\u1ed7i). D\u1ef1 ki\u1ebfn kinh ph\u00ed \u0111i\u1ec1u ph\u1ed1i: **140 Tri\u1ec7u VN\u0110**."
-      }
-    ],
-    "waiting_regions": [
-      {
-        "region": "Dong Nai",
-        "lat": 11.0,
-        "lng": 107.2,
-        "population": 3200000,
-        "caseCount": 3692,
-        "incidenceRate": 115.38,
-        "riskScore": 75,
-        "riskScoreNormalized": 0.75,
-        "tier": "CRITICAL",
-        "action": "Activate emergency response; deploy staff team now",
-        "logistics": {
-          "staff_teams": 3,
-          "icu_beds": 129,
-          "iv_fluids_bags": 1548,
-          "ns1_test_kits": 5538,
-          "fogging_units": 14,
-          "insecticide_liters": 350,
-          "budget_mil_vnd": 443
-        },
-        "llm_rag_prompt": "D\u1ef0 B\u00c1O L1 & RAG \u0110\u00c1NH GI\u00c1 Y T\u1ebe KH\u1ea8N C\u1ea4P [T\u1ec8NH DONG NAI]:\n\n\u2022 **D\u1ef1 b\u00e1o l\u00e2y nhi\u1ec5m (AI Forest L1)**: Ghi nh\u1eadn nguy c\u01a1 b\u00f9ng ph\u00e1t **75/100** v\u1edbi d\u1ef1 b\u00e1o **3,692 ca m\u1eafc** S\u1ed1t xu\u1ea5t huy\u1ebft Dengue trong 14 ng\u00e0y t\u1edbi tr\u00ean t\u1ed5ng d\u00e2n s\u1ed1 3,200,000 ng\u01b0\u1eddi (T\u1ef7 l\u1ec7 m\u1eafc: 115.38 / 100k d\u00e2n).\n\n\u2022 **Nguy\u00ean nh\u00e2n d\u1ecbch t\u1ec5**: Ch\u1ec9 s\u1ed1 m\u1eadt \u0111\u1ed9 mu\u1ed7i (BI) v\u01b0\u1ee3t ng\u01b0\u1ee1ng 35, \u0111\u1ed9 \u1ea9m 85% v\u00e0 l\u01b0\u1ee3ng m\u01b0a duy tr\u00ec m\u1ee9c cao t\u1ea1o \u0111i\u1ec1u ki\u1ec7n \u1ed5 l\u0103ng qu\u0103ng ph\u00e1t tri\u1ec3n m\u1ea1nh.\n\n\u2022 **Ph\u00e1c \u0111\u1ed3 B\u1ed9 Y t\u1ebf (RAG Document)**: C\u0103n c\u1ee9 theo H\u01b0\u1edbng d\u1eabn Ph\u00e1c \u0111\u1ed3 Y t\u1ebf B\u1ed9 Y t\u1ebf, khu v\u1ef1c m\u1ee9c \u0111\u1ed9 **CRITICAL** c\u1ea7n \u01b0u ti\u00ean ph\u00e2n b\u1ed5 ngay ngu\u1ed3n l\u1ef1c y t\u1ebf \u0111\u1ed9ng \u0111\u1ec3 c\u00e1ch ly \u0111i\u1ec1u tr\u1ecb v\u00e0 d\u1eadp d\u1ecbch tri\u1ec7t \u0111\u1ec3 tr\u01b0\u1edbc khi l\u00e2y lan ch\u00e9o.\n\n\u2022 **\u0110\u1ec1 xu\u1ea5t Ph\u00e2n b\u1ed5 L\u01b0\u1ee3ng t\u1eed NOC (L3 QUBO)**: \u0110i\u1ec1u \u0111\u1ed9ng **3 \u0110\u1ed9i \u0111\u1eb7c nhi\u1ec7m Y t\u1ebf NOC**, **129 Gi\u01b0\u1eddng b\u1ec7nh ICU**, **1548 T\u00fai d\u1ecbch truy\u1ec1n Ringer Lactate**, **5,538 Kit x\u00e9t nghi\u1ec7m nhanh NS1**, **14 M\u00e1y phun h\u00f3a ch\u1ea5t c\u00f4ng su\u1ea5t l\u1edbn** (350 L\u00edt h\u00f3a ch\u1ea5t di\u1ec7t mu\u1ed7i). D\u1ef1 ki\u1ebfn kinh ph\u00ed \u0111i\u1ec1u ph\u1ed1i: **443 Tri\u1ec7u VN\u0110**."
-      },
-      {
-        "region": "Ho Chi Minh City",
-        "lat": 10.8231,
-        "lng": 106.6297,
-        "population": 9000000,
-        "caseCount": 9415,
-        "incidenceRate": 104.61,
-        "riskScore": 68,
-        "riskScoreNormalized": 0.68,
-        "tier": "HIGH RISK",
-        "action": "Prepare medical resources; pre-position supplies",
-        "logistics": {
-          "staff_teams": 3,
-          "icu_beds": 329,
-          "iv_fluids_bags": 3948,
-          "ns1_test_kits": 14122,
-          "fogging_units": 37,
-          "insecticide_liters": 925,
-          "budget_mil_vnd": 1129
-        },
-        "llm_rag_prompt": "D\u1ef0 B\u00c1O L1 & RAG \u0110\u00c1NH GI\u00c1 Y T\u1ebe KH\u1ea8N C\u1ea4P [T\u1ec8NH HO CHI MINH CITY]:\n\n\u2022 **D\u1ef1 b\u00e1o l\u00e2y nhi\u1ec5m (AI Forest L1)**: Ghi nh\u1eadn nguy c\u01a1 b\u00f9ng ph\u00e1t **68/100** v\u1edbi d\u1ef1 b\u00e1o **9,415 ca m\u1eafc** S\u1ed1t xu\u1ea5t huy\u1ebft Dengue trong 14 ng\u00e0y t\u1edbi tr\u00ean t\u1ed5ng d\u00e2n s\u1ed1 9,000,000 ng\u01b0\u1eddi (T\u1ef7 l\u1ec7 m\u1eafc: 104.61 / 100k d\u00e2n).\n\n\u2022 **Nguy\u00ean nh\u00e2n d\u1ecbch t\u1ec5**: Ch\u1ec9 s\u1ed1 m\u1eadt \u0111\u1ed9 mu\u1ed7i (BI) v\u01b0\u1ee3t ng\u01b0\u1ee1ng 35, \u0111\u1ed9 \u1ea9m 85% v\u00e0 l\u01b0\u1ee3ng m\u01b0a duy tr\u00ec m\u1ee9c cao t\u1ea1o \u0111i\u1ec1u ki\u1ec7n \u1ed5 l\u0103ng qu\u0103ng ph\u00e1t tri\u1ec3n m\u1ea1nh.\n\n\u2022 **Ph\u00e1c \u0111\u1ed3 B\u1ed9 Y t\u1ebf (RAG Document)**: C\u0103n c\u1ee9 theo H\u01b0\u1edbng d\u1eabn Ph\u00e1c \u0111\u1ed3 Y t\u1ebf B\u1ed9 Y t\u1ebf, khu v\u1ef1c m\u1ee9c \u0111\u1ed9 **HIGH RISK** c\u1ea7n \u01b0u ti\u00ean ph\u00e2n b\u1ed5 ngay ngu\u1ed3n l\u1ef1c y t\u1ebf \u0111\u1ed9ng \u0111\u1ec3 c\u00e1ch ly \u0111i\u1ec1u tr\u1ecb v\u00e0 d\u1eadp d\u1ecbch tri\u1ec7t \u0111\u1ec3 tr\u01b0\u1edbc khi l\u00e2y lan ch\u00e9o.\n\n\u2022 **\u0110\u1ec1 xu\u1ea5t Ph\u00e2n b\u1ed5 L\u01b0\u1ee3ng t\u1eed NOC (L3 QUBO)**: \u0110i\u1ec1u \u0111\u1ed9ng **3 \u0110\u1ed9i \u0111\u1eb7c nhi\u1ec7m Y t\u1ebf NOC**, **329 Gi\u01b0\u1eddng b\u1ec7nh ICU**, **3948 T\u00fai d\u1ecbch truy\u1ec1n Ringer Lactate**, **14,122 Kit x\u00e9t nghi\u1ec7m nhanh NS1**, **37 M\u00e1y phun h\u00f3a ch\u1ea5t c\u00f4ng su\u1ea5t l\u1edbn** (925 L\u00edt h\u00f3a ch\u1ea5t di\u1ec7t mu\u1ed7i). D\u1ef1 ki\u1ebfn kinh ph\u00ed \u0111i\u1ec1u ph\u1ed1i: **1129 Tri\u1ec7u VN\u0110**."
-      },
-      {
-        "region": "Thua Thien Hue",
-        "lat": 16.4637,
-        "lng": 107.5909,
-        "population": 1160000,
-        "caseCount": 820,
-        "incidenceRate": 70.69,
-        "riskScore": 46,
-        "riskScoreNormalized": 0.46,
-        "tier": "MEDIUM RISK",
-        "action": "Increase surveillance; early testing",
-        "logistics": {
-          "staff_teams": 1,
-          "icu_beds": 28,
-          "iv_fluids_bags": 336,
-          "ns1_test_kits": 1230,
-          "fogging_units": 1,
-          "insecticide_liters": 25,
-          "budget_mil_vnd": 98
-        },
-        "llm_rag_prompt": "D\u1ef0 B\u00c1O L1 & RAG \u0110\u00c1NH GI\u00c1 Y T\u1ebe KH\u1ea8N C\u1ea4P [T\u1ec8NH THUA THIEN HUE]:\n\n\u2022 **D\u1ef1 b\u00e1o l\u00e2y nhi\u1ec5m (AI Forest L1)**: Ghi nh\u1eadn nguy c\u01a1 b\u00f9ng ph\u00e1t **46/100** v\u1edbi d\u1ef1 b\u00e1o **820 ca m\u1eafc** S\u1ed1t xu\u1ea5t huy\u1ebft Dengue trong 14 ng\u00e0y t\u1edbi tr\u00ean t\u1ed5ng d\u00e2n s\u1ed1 1,160,000 ng\u01b0\u1eddi (T\u1ef7 l\u1ec7 m\u1eafc: 70.69 / 100k d\u00e2n).\n\n\u2022 **Nguy\u00ean nh\u00e2n d\u1ecbch t\u1ec5**: Ch\u1ec9 s\u1ed1 m\u1eadt \u0111\u1ed9 mu\u1ed7i (BI) v\u01b0\u1ee3t ng\u01b0\u1ee1ng 35, \u0111\u1ed9 \u1ea9m 85% v\u00e0 l\u01b0\u1ee3ng m\u01b0a duy tr\u00ec m\u1ee9c cao t\u1ea1o \u0111i\u1ec1u ki\u1ec7n \u1ed5 l\u0103ng qu\u0103ng ph\u00e1t tri\u1ec3n m\u1ea1nh.\n\n\u2022 **Ph\u00e1c \u0111\u1ed3 B\u1ed9 Y t\u1ebf (RAG Document)**: C\u0103n c\u1ee9 theo H\u01b0\u1edbng d\u1eabn Ph\u00e1c \u0111\u1ed3 Y t\u1ebf B\u1ed9 Y t\u1ebf, khu v\u1ef1c m\u1ee9c \u0111\u1ed9 **MEDIUM RISK** c\u1ea7n \u01b0u ti\u00ean ph\u00e2n b\u1ed5 ngay ngu\u1ed3n l\u1ef1c y t\u1ebf \u0111\u1ed9ng \u0111\u1ec3 c\u00e1ch ly \u0111i\u1ec1u tr\u1ecb v\u00e0 d\u1eadp d\u1ecbch tri\u1ec7t \u0111\u1ec3 tr\u01b0\u1edbc khi l\u00e2y lan ch\u00e9o.\n\n\u2022 **\u0110\u1ec1 xu\u1ea5t Ph\u00e2n b\u1ed5 L\u01b0\u1ee3ng t\u1eed NOC (L3 QUBO)**: \u0110i\u1ec1u \u0111\u1ed9ng **1 \u0110\u1ed9i \u0111\u1eb7c nhi\u1ec7m Y t\u1ebf NOC**, **28 Gi\u01b0\u1eddng b\u1ec7nh ICU**, **336 T\u00fai d\u1ecbch truy\u1ec1n Ringer Lactate**, **1,230 Kit x\u00e9t nghi\u1ec7m nhanh NS1**, **1 M\u00e1y phun h\u00f3a ch\u1ea5t c\u00f4ng su\u1ea5t l\u1edbn** (25 L\u00edt h\u00f3a ch\u1ea5t di\u1ec7t mu\u1ed7i). D\u1ef1 ki\u1ebfn kinh ph\u00ed \u0111i\u1ec1u ph\u1ed1i: **98 Tri\u1ec7u VN\u0110**."
-      },
-      {
-        "region": "Nghe An",
-        "lat": 19.3,
-        "lng": 104.9,
-        "population": 3400000,
-        "caseCount": 2353,
-        "incidenceRate": 69.21,
-        "riskScore": 45,
-        "riskScoreNormalized": 0.45,
-        "tier": "MEDIUM RISK",
-        "action": "Increase surveillance; early testing",
-        "logistics": {
-          "staff_teams": 2,
-          "icu_beds": 82,
-          "iv_fluids_bags": 984,
-          "ns1_test_kits": 3529,
-          "fogging_units": 4,
-          "insecticide_liters": 100,
-          "budget_mil_vnd": 282
-        },
-        "llm_rag_prompt": "D\u1ef0 B\u00c1O L1 & RAG \u0110\u00c1NH GI\u00c1 Y T\u1ebe KH\u1ea8N C\u1ea4P [T\u1ec8NH NGHE AN]:\n\n\u2022 **D\u1ef1 b\u00e1o l\u00e2y nhi\u1ec5m (AI Forest L1)**: Ghi nh\u1eadn nguy c\u01a1 b\u00f9ng ph\u00e1t **45/100** v\u1edbi d\u1ef1 b\u00e1o **2,353 ca m\u1eafc** S\u1ed1t xu\u1ea5t huy\u1ebft Dengue trong 14 ng\u00e0y t\u1edbi tr\u00ean t\u1ed5ng d\u00e2n s\u1ed1 3,400,000 ng\u01b0\u1eddi (T\u1ef7 l\u1ec7 m\u1eafc: 69.21 / 100k d\u00e2n).\n\n\u2022 **Nguy\u00ean nh\u00e2n d\u1ecbch t\u1ec5**: Ch\u1ec9 s\u1ed1 m\u1eadt \u0111\u1ed9 mu\u1ed7i (BI) v\u01b0\u1ee3t ng\u01b0\u1ee1ng 35, \u0111\u1ed9 \u1ea9m 85% v\u00e0 l\u01b0\u1ee3ng m\u01b0a duy tr\u00ec m\u1ee9c cao t\u1ea1o \u0111i\u1ec1u ki\u1ec7n \u1ed5 l\u0103ng qu\u0103ng ph\u00e1t tri\u1ec3n m\u1ea1nh.\n\n\u2022 **Ph\u00e1c \u0111\u1ed3 B\u1ed9 Y t\u1ebf (RAG Document)**: C\u0103n c\u1ee9 theo H\u01b0\u1edbng d\u1eabn Ph\u00e1c \u0111\u1ed3 Y t\u1ebf B\u1ed9 Y t\u1ebf, khu v\u1ef1c m\u1ee9c \u0111\u1ed9 **MEDIUM RISK** c\u1ea7n \u01b0u ti\u00ean ph\u00e2n b\u1ed5 ngay ngu\u1ed3n l\u1ef1c y t\u1ebf \u0111\u1ed9ng \u0111\u1ec3 c\u00e1ch ly \u0111i\u1ec1u tr\u1ecb v\u00e0 d\u1eadp d\u1ecbch tri\u1ec7t \u0111\u1ec3 tr\u01b0\u1edbc khi l\u00e2y lan ch\u00e9o.\n\n\u2022 **\u0110\u1ec1 xu\u1ea5t Ph\u00e2n b\u1ed5 L\u01b0\u1ee3ng t\u1eed NOC (L3 QUBO)**: \u0110i\u1ec1u \u0111\u1ed9ng **2 \u0110\u1ed9i \u0111\u1eb7c nhi\u1ec7m Y t\u1ebf NOC**, **82 Gi\u01b0\u1eddng b\u1ec7nh ICU**, **984 T\u00fai d\u1ecbch truy\u1ec1n Ringer Lactate**, **3,529 Kit x\u00e9t nghi\u1ec7m nhanh NS1**, **4 M\u00e1y phun h\u00f3a ch\u1ea5t c\u00f4ng su\u1ea5t l\u1edbn** (100 L\u00edt h\u00f3a ch\u1ea5t di\u1ec7t mu\u1ed7i). D\u1ef1 ki\u1ebfn kinh ph\u00ed \u0111i\u1ec1u ph\u1ed1i: **282 Tri\u1ec7u VN\u0110**."
+        "llm_rag_prompt": "L1 PREDICTION & RAG EMERGENCY MEDICAL ASSESSMENT [AN GIANG]:\n\n\u2022 **Outbreak Forecast (AI Random Forest L1)**: High outbreak probability recorded at **44/100**, projecting **1,286 Dengue Fever cases** over the next 14 days across a total population of 1,900,000 (Incidence rate: 67.68 / 100k population).\n\n\u2022 **Epidemiological Drivers**: Mosquito density index (Breteau Index - BI) exceeding 35, humidity at 85%, and sustained heavy rainfall creating optimal breeding grounds for vector proliferation.\n\n\u2022 **Ministry of Health Protocol (RAG Document)**: In accordance with National Dengue Treatment Protocols (Decision 3711/QD-BYT), **MEDIUM RISK** regions require immediate deployment of mobile medical teams and emergency isolation wards to prevent cross-infection and hospital overcrowding.\n\n\u2022 **Quantum Optimization Allocation (L3 QUBO)**: Dispatching **1 Mobile Medical Taskforces**, **45 ICU Beds**, **540 Ringer Lactate IV Fluid bags**, **1,929 Rapid NS1 Test Kits**, and **2 Thermal Fogging Units** (50L insecticide). Estimated allocation budget: **154M VND**."
       },
       {
         "region": "Kien Giang",
@@ -321,7 +187,7 @@
           "insecticide_liters": 50,
           "budget_mil_vnd": 139
         },
-        "llm_rag_prompt": "D\u1ef0 B\u00c1O L1 & RAG \u0110\u00c1NH GI\u00c1 Y T\u1ebe KH\u1ea8N C\u1ea4P [T\u1ec8NH KIEN GIANG]:\n\n\u2022 **D\u1ef1 b\u00e1o l\u00e2y nhi\u1ec5m (AI Forest L1)**: Ghi nh\u1eadn nguy c\u01a1 b\u00f9ng ph\u00e1t **42/100** v\u1edbi d\u1ef1 b\u00e1o **1,163 ca m\u1eafc** S\u1ed1t xu\u1ea5t huy\u1ebft Dengue trong 14 ng\u00e0y t\u1edbi tr\u00ean t\u1ed5ng d\u00e2n s\u1ed1 1,800,000 ng\u01b0\u1eddi (T\u1ef7 l\u1ec7 m\u1eafc: 64.61 / 100k d\u00e2n).\n\n\u2022 **Nguy\u00ean nh\u00e2n d\u1ecbch t\u1ec5**: Ch\u1ec9 s\u1ed1 m\u1eadt \u0111\u1ed9 mu\u1ed7i (BI) v\u01b0\u1ee3t ng\u01b0\u1ee1ng 35, \u0111\u1ed9 \u1ea9m 85% v\u00e0 l\u01b0\u1ee3ng m\u01b0a duy tr\u00ec m\u1ee9c cao t\u1ea1o \u0111i\u1ec1u ki\u1ec7n \u1ed5 l\u0103ng qu\u0103ng ph\u00e1t tri\u1ec3n m\u1ea1nh.\n\n\u2022 **Ph\u00e1c \u0111\u1ed3 B\u1ed9 Y t\u1ebf (RAG Document)**: C\u0103n c\u1ee9 theo H\u01b0\u1edbng d\u1eabn Ph\u00e1c \u0111\u1ed3 Y t\u1ebf B\u1ed9 Y t\u1ebf, khu v\u1ef1c m\u1ee9c \u0111\u1ed9 **MEDIUM RISK** c\u1ea7n \u01b0u ti\u00ean ph\u00e2n b\u1ed5 ngay ngu\u1ed3n l\u1ef1c y t\u1ebf \u0111\u1ed9ng \u0111\u1ec3 c\u00e1ch ly \u0111i\u1ec1u tr\u1ecb v\u00e0 d\u1eadp d\u1ecbch tri\u1ec7t \u0111\u1ec3 tr\u01b0\u1edbc khi l\u00e2y lan ch\u00e9o.\n\n\u2022 **\u0110\u1ec1 xu\u1ea5t Ph\u00e2n b\u1ed5 L\u01b0\u1ee3ng t\u1eed NOC (L3 QUBO)**: \u0110i\u1ec1u \u0111\u1ed9ng **1 \u0110\u1ed9i \u0111\u1eb7c nhi\u1ec7m Y t\u1ebf NOC**, **40 Gi\u01b0\u1eddng b\u1ec7nh ICU**, **480 T\u00fai d\u1ecbch truy\u1ec1n Ringer Lactate**, **1,744 Kit x\u00e9t nghi\u1ec7m nhanh NS1**, **2 M\u00e1y phun h\u00f3a ch\u1ea5t c\u00f4ng su\u1ea5t l\u1edbn** (50 L\u00edt h\u00f3a ch\u1ea5t di\u1ec7t mu\u1ed7i). D\u1ef1 ki\u1ebfn kinh ph\u00ed \u0111i\u1ec1u ph\u1ed1i: **139 Tri\u1ec7u VN\u0110**."
+        "llm_rag_prompt": "L1 PREDICTION & RAG EMERGENCY MEDICAL ASSESSMENT [KIEN GIANG]:\n\n\u2022 **Outbreak Forecast (AI Random Forest L1)**: High outbreak probability recorded at **42/100**, projecting **1,163 Dengue Fever cases** over the next 14 days across a total population of 1,800,000 (Incidence rate: 64.61 / 100k population).\n\n\u2022 **Epidemiological Drivers**: Mosquito density index (Breteau Index - BI) exceeding 35, humidity at 85%, and sustained heavy rainfall creating optimal breeding grounds for vector proliferation.\n\n\u2022 **Ministry of Health Protocol (RAG Document)**: In accordance with National Dengue Treatment Protocols (Decision 3711/QD-BYT), **MEDIUM RISK** regions require immediate deployment of mobile medical teams and emergency isolation wards to prevent cross-infection and hospital overcrowding.\n\n\u2022 **Quantum Optimization Allocation (L3 QUBO)**: Dispatching **1 Mobile Medical Taskforces**, **40 ICU Beds**, **480 Ringer Lactate IV Fluid bags**, **1,744 Rapid NS1 Test Kits**, and **2 Thermal Fogging Units** (50L insecticide). Estimated allocation budget: **139M VND**."
       },
       {
         "region": "Ca Mau",
@@ -343,95 +209,7 @@
           "insecticide_liters": 25,
           "budget_mil_vnd": 88
         },
-        "llm_rag_prompt": "D\u1ef0 B\u00c1O L1 & RAG \u0110\u00c1NH GI\u00c1 Y T\u1ebe KH\u1ea8N C\u1ea4P [T\u1ec8NH CA MAU]:\n\n\u2022 **D\u1ef1 b\u00e1o l\u00e2y nhi\u1ec5m (AI Forest L1)**: Ghi nh\u1eadn nguy c\u01a1 b\u00f9ng ph\u00e1t **40/100** v\u1edbi d\u1ef1 b\u00e1o **738 ca m\u1eafc** S\u1ed1t xu\u1ea5t huy\u1ebft Dengue trong 14 ng\u00e0y t\u1edbi tr\u00ean t\u1ed5ng d\u00e2n s\u1ed1 1,200,000 ng\u01b0\u1eddi (T\u1ef7 l\u1ec7 m\u1eafc: 61.5 / 100k d\u00e2n).\n\n\u2022 **Nguy\u00ean nh\u00e2n d\u1ecbch t\u1ec5**: Ch\u1ec9 s\u1ed1 m\u1eadt \u0111\u1ed9 mu\u1ed7i (BI) v\u01b0\u1ee3t ng\u01b0\u1ee1ng 35, \u0111\u1ed9 \u1ea9m 85% v\u00e0 l\u01b0\u1ee3ng m\u01b0a duy tr\u00ec m\u1ee9c cao t\u1ea1o \u0111i\u1ec1u ki\u1ec7n \u1ed5 l\u0103ng qu\u0103ng ph\u00e1t tri\u1ec3n m\u1ea1nh.\n\n\u2022 **Ph\u00e1c \u0111\u1ed3 B\u1ed9 Y t\u1ebf (RAG Document)**: C\u0103n c\u1ee9 theo H\u01b0\u1edbng d\u1eabn Ph\u00e1c \u0111\u1ed3 Y t\u1ebf B\u1ed9 Y t\u1ebf, khu v\u1ef1c m\u1ee9c \u0111\u1ed9 **MEDIUM RISK** c\u1ea7n \u01b0u ti\u00ean ph\u00e2n b\u1ed5 ngay ngu\u1ed3n l\u1ef1c y t\u1ebf \u0111\u1ed9ng \u0111\u1ec3 c\u00e1ch ly \u0111i\u1ec1u tr\u1ecb v\u00e0 d\u1eadp d\u1ecbch tri\u1ec7t \u0111\u1ec3 tr\u01b0\u1edbc khi l\u00e2y lan ch\u00e9o.\n\n\u2022 **\u0110\u1ec1 xu\u1ea5t Ph\u00e2n b\u1ed5 L\u01b0\u1ee3ng t\u1eed NOC (L3 QUBO)**: \u0110i\u1ec1u \u0111\u1ed9ng **1 \u0110\u1ed9i \u0111\u1eb7c nhi\u1ec7m Y t\u1ebf NOC**, **25 Gi\u01b0\u1eddng b\u1ec7nh ICU**, **300 T\u00fai d\u1ecbch truy\u1ec1n Ringer Lactate**, **1,107 Kit x\u00e9t nghi\u1ec7m nhanh NS1**, **1 M\u00e1y phun h\u00f3a ch\u1ea5t c\u00f4ng su\u1ea5t l\u1edbn** (25 L\u00edt h\u00f3a ch\u1ea5t di\u1ec7t mu\u1ed7i). D\u1ef1 ki\u1ebfn kinh ph\u00ed \u0111i\u1ec1u ph\u1ed1i: **88 Tri\u1ec7u VN\u0110**."
-      },
-      {
-        "region": "Binh Thuan",
-        "lat": 11.1,
-        "lng": 108.2,
-        "population": 1250000,
-        "caseCount": 750,
-        "incidenceRate": 60.0,
-        "riskScore": 39,
-        "riskScoreNormalized": 0.39,
-        "tier": "MEDIUM RISK",
-        "action": "Increase surveillance; early testing",
-        "logistics": {
-          "staff_teams": 1,
-          "icu_beds": 26,
-          "iv_fluids_bags": 312,
-          "ns1_test_kits": 1125,
-          "fogging_units": 1,
-          "insecticide_liters": 25,
-          "budget_mil_vnd": 90
-        },
-        "llm_rag_prompt": "D\u1ef0 B\u00c1O L1 & RAG \u0110\u00c1NH GI\u00c1 Y T\u1ebe KH\u1ea8N C\u1ea4P [T\u1ec8NH BINH THUAN]:\n\n\u2022 **D\u1ef1 b\u00e1o l\u00e2y nhi\u1ec5m (AI Forest L1)**: Ghi nh\u1eadn nguy c\u01a1 b\u00f9ng ph\u00e1t **39/100** v\u1edbi d\u1ef1 b\u00e1o **750 ca m\u1eafc** S\u1ed1t xu\u1ea5t huy\u1ebft Dengue trong 14 ng\u00e0y t\u1edbi tr\u00ean t\u1ed5ng d\u00e2n s\u1ed1 1,250,000 ng\u01b0\u1eddi (T\u1ef7 l\u1ec7 m\u1eafc: 60.0 / 100k d\u00e2n).\n\n\u2022 **Nguy\u00ean nh\u00e2n d\u1ecbch t\u1ec5**: Ch\u1ec9 s\u1ed1 m\u1eadt \u0111\u1ed9 mu\u1ed7i (BI) v\u01b0\u1ee3t ng\u01b0\u1ee1ng 35, \u0111\u1ed9 \u1ea9m 85% v\u00e0 l\u01b0\u1ee3ng m\u01b0a duy tr\u00ec m\u1ee9c cao t\u1ea1o \u0111i\u1ec1u ki\u1ec7n \u1ed5 l\u0103ng qu\u0103ng ph\u00e1t tri\u1ec3n m\u1ea1nh.\n\n\u2022 **Ph\u00e1c \u0111\u1ed3 B\u1ed9 Y t\u1ebf (RAG Document)**: C\u0103n c\u1ee9 theo H\u01b0\u1edbng d\u1eabn Ph\u00e1c \u0111\u1ed3 Y t\u1ebf B\u1ed9 Y t\u1ebf, khu v\u1ef1c m\u1ee9c \u0111\u1ed9 **MEDIUM RISK** c\u1ea7n \u01b0u ti\u00ean ph\u00e2n b\u1ed5 ngay ngu\u1ed3n l\u1ef1c y t\u1ebf \u0111\u1ed9ng \u0111\u1ec3 c\u00e1ch ly \u0111i\u1ec1u tr\u1ecb v\u00e0 d\u1eadp d\u1ecbch tri\u1ec7t \u0111\u1ec3 tr\u01b0\u1edbc khi l\u00e2y lan ch\u00e9o.\n\n\u2022 **\u0110\u1ec1 xu\u1ea5t Ph\u00e2n b\u1ed5 L\u01b0\u1ee3ng t\u1eed NOC (L3 QUBO)**: \u0110i\u1ec1u \u0111\u1ed9ng **1 \u0110\u1ed9i \u0111\u1eb7c nhi\u1ec7m Y t\u1ebf NOC**, **26 Gi\u01b0\u1eddng b\u1ec7nh ICU**, **312 T\u00fai d\u1ecbch truy\u1ec1n Ringer Lactate**, **1,125 Kit x\u00e9t nghi\u1ec7m nhanh NS1**, **1 M\u00e1y phun h\u00f3a ch\u1ea5t c\u00f4ng su\u1ea5t l\u1edbn** (25 L\u00edt h\u00f3a ch\u1ea5t di\u1ec7t mu\u1ed7i). D\u1ef1 ki\u1ebfn kinh ph\u00ed \u0111i\u1ec1u ph\u1ed1i: **90 Tri\u1ec7u VN\u0110**."
-      },
-      {
-        "region": "Ha Noi",
-        "lat": 21.0285,
-        "lng": 105.8542,
-        "population": 8500000,
-        "caseCount": 4576,
-        "incidenceRate": 53.84,
-        "riskScore": 35,
-        "riskScoreNormalized": 0.35,
-        "tier": "MEDIUM RISK",
-        "action": "Increase surveillance; early testing",
-        "logistics": {
-          "staff_teams": 3,
-          "icu_beds": 160,
-          "iv_fluids_bags": 1920,
-          "ns1_test_kits": 6864,
-          "fogging_units": 9,
-          "insecticide_liters": 225,
-          "budget_mil_vnd": 549
-        },
-        "llm_rag_prompt": "D\u1ef0 B\u00c1O L1 & RAG \u0110\u00c1NH GI\u00c1 Y T\u1ebe KH\u1ea8N C\u1ea4P [T\u1ec8NH HA NOI]:\n\n\u2022 **D\u1ef1 b\u00e1o l\u00e2y nhi\u1ec5m (AI Forest L1)**: Ghi nh\u1eadn nguy c\u01a1 b\u00f9ng ph\u00e1t **35/100** v\u1edbi d\u1ef1 b\u00e1o **4,576 ca m\u1eafc** S\u1ed1t xu\u1ea5t huy\u1ebft Dengue trong 14 ng\u00e0y t\u1edbi tr\u00ean t\u1ed5ng d\u00e2n s\u1ed1 8,500,000 ng\u01b0\u1eddi (T\u1ef7 l\u1ec7 m\u1eafc: 53.84 / 100k d\u00e2n).\n\n\u2022 **Nguy\u00ean nh\u00e2n d\u1ecbch t\u1ec5**: Ch\u1ec9 s\u1ed1 m\u1eadt \u0111\u1ed9 mu\u1ed7i (BI) v\u01b0\u1ee3t ng\u01b0\u1ee1ng 35, \u0111\u1ed9 \u1ea9m 85% v\u00e0 l\u01b0\u1ee3ng m\u01b0a duy tr\u00ec m\u1ee9c cao t\u1ea1o \u0111i\u1ec1u ki\u1ec7n \u1ed5 l\u0103ng qu\u0103ng ph\u00e1t tri\u1ec3n m\u1ea1nh.\n\n\u2022 **Ph\u00e1c \u0111\u1ed3 B\u1ed9 Y t\u1ebf (RAG Document)**: C\u0103n c\u1ee9 theo H\u01b0\u1edbng d\u1eabn Ph\u00e1c \u0111\u1ed3 Y t\u1ebf B\u1ed9 Y t\u1ebf, khu v\u1ef1c m\u1ee9c \u0111\u1ed9 **MEDIUM RISK** c\u1ea7n \u01b0u ti\u00ean ph\u00e2n b\u1ed5 ngay ngu\u1ed3n l\u1ef1c y t\u1ebf \u0111\u1ed9ng \u0111\u1ec3 c\u00e1ch ly \u0111i\u1ec1u tr\u1ecb v\u00e0 d\u1eadp d\u1ecbch tri\u1ec7t \u0111\u1ec3 tr\u01b0\u1edbc khi l\u00e2y lan ch\u00e9o.\n\n\u2022 **\u0110\u1ec1 xu\u1ea5t Ph\u00e2n b\u1ed5 L\u01b0\u1ee3ng t\u1eed NOC (L3 QUBO)**: \u0110i\u1ec1u \u0111\u1ed9ng **3 \u0110\u1ed9i \u0111\u1eb7c nhi\u1ec7m Y t\u1ebf NOC**, **160 Gi\u01b0\u1eddng b\u1ec7nh ICU**, **1920 T\u00fai d\u1ecbch truy\u1ec1n Ringer Lactate**, **6,864 Kit x\u00e9t nghi\u1ec7m nhanh NS1**, **9 M\u00e1y phun h\u00f3a ch\u1ea5t c\u00f4ng su\u1ea5t l\u1edbn** (225 L\u00edt h\u00f3a ch\u1ea5t di\u1ec7t mu\u1ed7i). D\u1ef1 ki\u1ebfn kinh ph\u00ed \u0111i\u1ec1u ph\u1ed1i: **549 Tri\u1ec7u VN\u0110**."
-      },
-      {
-        "region": "Quang Ninh",
-        "lat": 21.0,
-        "lng": 107.3,
-        "population": 1350000,
-        "caseCount": 664,
-        "incidenceRate": 49.19,
-        "riskScore": 32,
-        "riskScoreNormalized": 0.32,
-        "tier": "MEDIUM RISK",
-        "action": "Increase surveillance; early testing",
-        "logistics": {
-          "staff_teams": 1,
-          "icu_beds": 23,
-          "iv_fluids_bags": 276,
-          "ns1_test_kits": 996,
-          "fogging_units": 1,
-          "insecticide_liters": 25,
-          "budget_mil_vnd": 79
-        },
-        "llm_rag_prompt": "D\u1ef0 B\u00c1O L1 & RAG \u0110\u00c1NH GI\u00c1 Y T\u1ebe KH\u1ea8N C\u1ea4P [T\u1ec8NH QUANG NINH]:\n\n\u2022 **D\u1ef1 b\u00e1o l\u00e2y nhi\u1ec5m (AI Forest L1)**: Ghi nh\u1eadn nguy c\u01a1 b\u00f9ng ph\u00e1t **32/100** v\u1edbi d\u1ef1 b\u00e1o **664 ca m\u1eafc** S\u1ed1t xu\u1ea5t huy\u1ebft Dengue trong 14 ng\u00e0y t\u1edbi tr\u00ean t\u1ed5ng d\u00e2n s\u1ed1 1,350,000 ng\u01b0\u1eddi (T\u1ef7 l\u1ec7 m\u1eafc: 49.19 / 100k d\u00e2n).\n\n\u2022 **Nguy\u00ean nh\u00e2n d\u1ecbch t\u1ec5**: Ch\u1ec9 s\u1ed1 m\u1eadt \u0111\u1ed9 mu\u1ed7i (BI) v\u01b0\u1ee3t ng\u01b0\u1ee1ng 35, \u0111\u1ed9 \u1ea9m 85% v\u00e0 l\u01b0\u1ee3ng m\u01b0a duy tr\u00ec m\u1ee9c cao t\u1ea1o \u0111i\u1ec1u ki\u1ec7n \u1ed5 l\u0103ng qu\u0103ng ph\u00e1t tri\u1ec3n m\u1ea1nh.\n\n\u2022 **Ph\u00e1c \u0111\u1ed3 B\u1ed9 Y t\u1ebf (RAG Document)**: C\u0103n c\u1ee9 theo H\u01b0\u1edbng d\u1eabn Ph\u00e1c \u0111\u1ed3 Y t\u1ebf B\u1ed9 Y t\u1ebf, khu v\u1ef1c m\u1ee9c \u0111\u1ed9 **MEDIUM RISK** c\u1ea7n \u01b0u ti\u00ean ph\u00e2n b\u1ed5 ngay ngu\u1ed3n l\u1ef1c y t\u1ebf \u0111\u1ed9ng \u0111\u1ec3 c\u00e1ch ly \u0111i\u1ec1u tr\u1ecb v\u00e0 d\u1eadp d\u1ecbch tri\u1ec7t \u0111\u1ec3 tr\u01b0\u1edbc khi l\u00e2y lan ch\u00e9o.\n\n\u2022 **\u0110\u1ec1 xu\u1ea5t Ph\u00e2n b\u1ed5 L\u01b0\u1ee3ng t\u1eed NOC (L3 QUBO)**: \u0110i\u1ec1u \u0111\u1ed9ng **1 \u0110\u1ed9i \u0111\u1eb7c nhi\u1ec7m Y t\u1ebf NOC**, **23 Gi\u01b0\u1eddng b\u1ec7nh ICU**, **276 T\u00fai d\u1ecbch truy\u1ec1n Ringer Lactate**, **996 Kit x\u00e9t nghi\u1ec7m nhanh NS1**, **1 M\u00e1y phun h\u00f3a ch\u1ea5t c\u00f4ng su\u1ea5t l\u1edbn** (25 L\u00edt h\u00f3a ch\u1ea5t di\u1ec7t mu\u1ed7i). D\u1ef1 ki\u1ebfn kinh ph\u00ed \u0111i\u1ec1u ph\u1ed1i: **79 Tri\u1ec7u VN\u0110**."
-      },
-      {
-        "region": "Lao Cai",
-        "lat": 22.48,
-        "lng": 103.95,
-        "population": 750000,
-        "caseCount": 323,
-        "incidenceRate": 43.07,
-        "riskScore": 28,
-        "riskScoreNormalized": 0.28,
-        "tier": "MEDIUM RISK",
-        "action": "Increase surveillance; early testing",
-        "logistics": {
-          "staff_teams": 1,
-          "icu_beds": 11,
-          "iv_fluids_bags": 132,
-          "ns1_test_kits": 484,
-          "fogging_units": 1,
-          "insecticide_liters": 25,
-          "budget_mil_vnd": 50
-        },
-        "llm_rag_prompt": "D\u1ef0 B\u00c1O L1 & RAG \u0110\u00c1NH GI\u00c1 Y T\u1ebe KH\u1ea8N C\u1ea4P [T\u1ec8NH LAO CAI]:\n\n\u2022 **D\u1ef1 b\u00e1o l\u00e2y nhi\u1ec5m (AI Forest L1)**: Ghi nh\u1eadn nguy c\u01a1 b\u00f9ng ph\u00e1t **28/100** v\u1edbi d\u1ef1 b\u00e1o **323 ca m\u1eafc** S\u1ed1t xu\u1ea5t huy\u1ebft Dengue trong 14 ng\u00e0y t\u1edbi tr\u00ean t\u1ed5ng d\u00e2n s\u1ed1 750,000 ng\u01b0\u1eddi (T\u1ef7 l\u1ec7 m\u1eafc: 43.07 / 100k d\u00e2n).\n\n\u2022 **Nguy\u00ean nh\u00e2n d\u1ecbch t\u1ec5**: Ch\u1ec9 s\u1ed1 m\u1eadt \u0111\u1ed9 mu\u1ed7i (BI) v\u01b0\u1ee3t ng\u01b0\u1ee1ng 35, \u0111\u1ed9 \u1ea9m 85% v\u00e0 l\u01b0\u1ee3ng m\u01b0a duy tr\u00ec m\u1ee9c cao t\u1ea1o \u0111i\u1ec1u ki\u1ec7n \u1ed5 l\u0103ng qu\u0103ng ph\u00e1t tri\u1ec3n m\u1ea1nh.\n\n\u2022 **Ph\u00e1c \u0111\u1ed3 B\u1ed9 Y t\u1ebf (RAG Document)**: C\u0103n c\u1ee9 theo H\u01b0\u1edbng d\u1eabn Ph\u00e1c \u0111\u1ed3 Y t\u1ebf B\u1ed9 Y t\u1ebf, khu v\u1ef1c m\u1ee9c \u0111\u1ed9 **MEDIUM RISK** c\u1ea7n \u01b0u ti\u00ean ph\u00e2n b\u1ed5 ngay ngu\u1ed3n l\u1ef1c y t\u1ebf \u0111\u1ed9ng \u0111\u1ec3 c\u00e1ch ly \u0111i\u1ec1u tr\u1ecb v\u00e0 d\u1eadp d\u1ecbch tri\u1ec7t \u0111\u1ec3 tr\u01b0\u1edbc khi l\u00e2y lan ch\u00e9o.\n\n\u2022 **\u0110\u1ec1 xu\u1ea5t Ph\u00e2n b\u1ed5 L\u01b0\u1ee3ng t\u1eed NOC (L3 QUBO)**: \u0110i\u1ec1u \u0111\u1ed9ng **1 \u0110\u1ed9i \u0111\u1eb7c nhi\u1ec7m Y t\u1ebf NOC**, **11 Gi\u01b0\u1eddng b\u1ec7nh ICU**, **132 T\u00fai d\u1ecbch truy\u1ec1n Ringer Lactate**, **484 Kit x\u00e9t nghi\u1ec7m nhanh NS1**, **1 M\u00e1y phun h\u00f3a ch\u1ea5t c\u00f4ng su\u1ea5t l\u1edbn** (25 L\u00edt h\u00f3a ch\u1ea5t di\u1ec7t mu\u1ed7i). D\u1ef1 ki\u1ebfn kinh ph\u00ed \u0111i\u1ec1u ph\u1ed1i: **50 Tri\u1ec7u VN\u0110**."
+        "llm_rag_prompt": "L1 PREDICTION & RAG EMERGENCY MEDICAL ASSESSMENT [CA MAU]:\n\n\u2022 **Outbreak Forecast (AI Random Forest L1)**: High outbreak probability recorded at **40/100**, projecting **738 Dengue Fever cases** over the next 14 days across a total population of 1,200,000 (Incidence rate: 61.5 / 100k population).\n\n\u2022 **Epidemiological Drivers**: Mosquito density index (Breteau Index - BI) exceeding 35, humidity at 85%, and sustained heavy rainfall creating optimal breeding grounds for vector proliferation.\n\n\u2022 **Ministry of Health Protocol (RAG Document)**: In accordance with National Dengue Treatment Protocols (Decision 3711/QD-BYT), **MEDIUM RISK** regions require immediate deployment of mobile medical teams and emergency isolation wards to prevent cross-infection and hospital overcrowding.\n\n\u2022 **Quantum Optimization Allocation (L3 QUBO)**: Dispatching **1 Mobile Medical Taskforces**, **25 ICU Beds**, **300 Ringer Lactate IV Fluid bags**, **1,107 Rapid NS1 Test Kits**, and **1 Thermal Fogging Units** (25L insecticide). Estimated allocation budget: **88M VND**."
       },
       {
         "region": "Son La",
@@ -453,13 +231,235 @@
           "insecticide_liters": 25,
           "budget_mil_vnd": 57
         },
-        "llm_rag_prompt": "D\u1ef0 B\u00c1O L1 & RAG \u0110\u00c1NH GI\u00c1 Y T\u1ebe KH\u1ea8N C\u1ea4P [T\u1ec8NH SON LA]:\n\n\u2022 **D\u1ef1 b\u00e1o l\u00e2y nhi\u1ec5m (AI Forest L1)**: Ghi nh\u1eadn nguy c\u01a1 b\u00f9ng ph\u00e1t **24/100** v\u1edbi d\u1ef1 b\u00e1o **480 ca m\u1eafc** S\u1ed1t xu\u1ea5t huy\u1ebft Dengue trong 14 ng\u00e0y t\u1edbi tr\u00ean t\u1ed5ng d\u00e2n s\u1ed1 1,300,000 ng\u01b0\u1eddi (T\u1ef7 l\u1ec7 m\u1eafc: 36.92 / 100k d\u00e2n).\n\n\u2022 **Nguy\u00ean nh\u00e2n d\u1ecbch t\u1ec5**: Ch\u1ec9 s\u1ed1 m\u1eadt \u0111\u1ed9 mu\u1ed7i (BI) v\u01b0\u1ee3t ng\u01b0\u1ee1ng 35, \u0111\u1ed9 \u1ea9m 85% v\u00e0 l\u01b0\u1ee3ng m\u01b0a duy tr\u00ec m\u1ee9c cao t\u1ea1o \u0111i\u1ec1u ki\u1ec7n \u1ed5 l\u0103ng qu\u0103ng ph\u00e1t tri\u1ec3n m\u1ea1nh.\n\n\u2022 **Ph\u00e1c \u0111\u1ed3 B\u1ed9 Y t\u1ebf (RAG Document)**: C\u0103n c\u1ee9 theo H\u01b0\u1edbng d\u1eabn Ph\u00e1c \u0111\u1ed3 Y t\u1ebf B\u1ed9 Y t\u1ebf, khu v\u1ef1c m\u1ee9c \u0111\u1ed9 **LOW RISK** c\u1ea7n \u01b0u ti\u00ean ph\u00e2n b\u1ed5 ngay ngu\u1ed3n l\u1ef1c y t\u1ebf \u0111\u1ed9ng \u0111\u1ec3 c\u00e1ch ly \u0111i\u1ec1u tr\u1ecb v\u00e0 d\u1eadp d\u1ecbch tri\u1ec7t \u0111\u1ec3 tr\u01b0\u1edbc khi l\u00e2y lan ch\u00e9o.\n\n\u2022 **\u0110\u1ec1 xu\u1ea5t Ph\u00e2n b\u1ed5 L\u01b0\u1ee3ng t\u1eed NOC (L3 QUBO)**: \u0110i\u1ec1u \u0111\u1ed9ng **1 \u0110\u1ed9i \u0111\u1eb7c nhi\u1ec7m Y t\u1ebf NOC**, **16 Gi\u01b0\u1eddng b\u1ec7nh ICU**, **192 T\u00fai d\u1ecbch truy\u1ec1n Ringer Lactate**, **720 Kit x\u00e9t nghi\u1ec7m nhanh NS1**, **1 M\u00e1y phun h\u00f3a ch\u1ea5t c\u00f4ng su\u1ea5t l\u1edbn** (25 L\u00edt h\u00f3a ch\u1ea5t di\u1ec7t mu\u1ed7i). D\u1ef1 ki\u1ebfn kinh ph\u00ed \u0111i\u1ec1u ph\u1ed1i: **57 Tri\u1ec7u VN\u0110**."
+        "llm_rag_prompt": "L1 PREDICTION & RAG EMERGENCY MEDICAL ASSESSMENT [SON LA]:\n\n\u2022 **Outbreak Forecast (AI Random Forest L1)**: High outbreak probability recorded at **24/100**, projecting **480 Dengue Fever cases** over the next 14 days across a total population of 1,300,000 (Incidence rate: 36.92 / 100k population).\n\n\u2022 **Epidemiological Drivers**: Mosquito density index (Breteau Index - BI) exceeding 35, humidity at 85%, and sustained heavy rainfall creating optimal breeding grounds for vector proliferation.\n\n\u2022 **Ministry of Health Protocol (RAG Document)**: In accordance with National Dengue Treatment Protocols (Decision 3711/QD-BYT), **LOW RISK** regions require immediate deployment of mobile medical teams and emergency isolation wards to prevent cross-infection and hospital overcrowding.\n\n\u2022 **Quantum Optimization Allocation (L3 QUBO)**: Dispatching **1 Mobile Medical Taskforces**, **16 ICU Beds**, **192 Ringer Lactate IV Fluid bags**, **720 Rapid NS1 Test Kits**, and **1 Thermal Fogging Units** (25L insecticide). Estimated allocation budget: **57M VND**."
       }
     ],
-    "staff_teams_deployed": 9,
+    "waiting_regions": [
+      {
+        "region": "Dak Lak",
+        "lat": 12.6667,
+        "lng": 108.05,
+        "population": 1900000,
+        "caseCount": 2572,
+        "incidenceRate": 135.37,
+        "riskScore": 88,
+        "riskScoreNormalized": 0.88,
+        "tier": "CRITICAL",
+        "action": "Activate emergency response; deploy staff team now",
+        "logistics": {
+          "staff_teams": 2,
+          "icu_beds": 90,
+          "iv_fluids_bags": 1080,
+          "ns1_test_kits": 3858,
+          "fogging_units": 10,
+          "insecticide_liters": 250,
+          "budget_mil_vnd": 308
+        },
+        "llm_rag_prompt": "L1 PREDICTION & RAG EMERGENCY MEDICAL ASSESSMENT [DAK LAK]:\n\n\u2022 **Outbreak Forecast (AI Random Forest L1)**: High outbreak probability recorded at **88/100**, projecting **2,572 Dengue Fever cases** over the next 14 days across a total population of 1,900,000 (Incidence rate: 135.37 / 100k population).\n\n\u2022 **Epidemiological Drivers**: Mosquito density index (Breteau Index - BI) exceeding 35, humidity at 85%, and sustained heavy rainfall creating optimal breeding grounds for vector proliferation.\n\n\u2022 **Ministry of Health Protocol (RAG Document)**: In accordance with National Dengue Treatment Protocols (Decision 3711/QD-BYT), **CRITICAL** regions require immediate deployment of mobile medical teams and emergency isolation wards to prevent cross-infection and hospital overcrowding.\n\n\u2022 **Quantum Optimization Allocation (L3 QUBO)**: Dispatching **2 Mobile Medical Taskforces**, **90 ICU Beds**, **1080 Ringer Lactate IV Fluid bags**, **3,858 Rapid NS1 Test Kits**, and **10 Thermal Fogging Units** (250L insecticide). Estimated allocation budget: **308M VND**."
+      },
+      {
+        "region": "Dong Nai",
+        "lat": 11.0,
+        "lng": 107.2,
+        "population": 3200000,
+        "caseCount": 3692,
+        "incidenceRate": 115.38,
+        "riskScore": 75,
+        "riskScoreNormalized": 0.75,
+        "tier": "CRITICAL",
+        "action": "Activate emergency response; deploy staff team now",
+        "logistics": {
+          "staff_teams": 3,
+          "icu_beds": 129,
+          "iv_fluids_bags": 1548,
+          "ns1_test_kits": 5538,
+          "fogging_units": 14,
+          "insecticide_liters": 350,
+          "budget_mil_vnd": 443
+        },
+        "llm_rag_prompt": "L1 PREDICTION & RAG EMERGENCY MEDICAL ASSESSMENT [DONG NAI]:\n\n\u2022 **Outbreak Forecast (AI Random Forest L1)**: High outbreak probability recorded at **75/100**, projecting **3,692 Dengue Fever cases** over the next 14 days across a total population of 3,200,000 (Incidence rate: 115.38 / 100k population).\n\n\u2022 **Epidemiological Drivers**: Mosquito density index (Breteau Index - BI) exceeding 35, humidity at 85%, and sustained heavy rainfall creating optimal breeding grounds for vector proliferation.\n\n\u2022 **Ministry of Health Protocol (RAG Document)**: In accordance with National Dengue Treatment Protocols (Decision 3711/QD-BYT), **CRITICAL** regions require immediate deployment of mobile medical teams and emergency isolation wards to prevent cross-infection and hospital overcrowding.\n\n\u2022 **Quantum Optimization Allocation (L3 QUBO)**: Dispatching **3 Mobile Medical Taskforces**, **129 ICU Beds**, **1548 Ringer Lactate IV Fluid bags**, **5,538 Rapid NS1 Test Kits**, and **14 Thermal Fogging Units** (350L insecticide). Estimated allocation budget: **443M VND**."
+      },
+      {
+        "region": "Ho Chi Minh City",
+        "lat": 10.8231,
+        "lng": 106.6297,
+        "population": 9000000,
+        "caseCount": 9415,
+        "incidenceRate": 104.61,
+        "riskScore": 68,
+        "riskScoreNormalized": 0.68,
+        "tier": "HIGH RISK",
+        "action": "Prepare medical resources; pre-position supplies",
+        "logistics": {
+          "staff_teams": 3,
+          "icu_beds": 329,
+          "iv_fluids_bags": 3948,
+          "ns1_test_kits": 14122,
+          "fogging_units": 37,
+          "insecticide_liters": 925,
+          "budget_mil_vnd": 1129
+        },
+        "llm_rag_prompt": "L1 PREDICTION & RAG EMERGENCY MEDICAL ASSESSMENT [HO CHI MINH CITY]:\n\n\u2022 **Outbreak Forecast (AI Random Forest L1)**: High outbreak probability recorded at **68/100**, projecting **9,415 Dengue Fever cases** over the next 14 days across a total population of 9,000,000 (Incidence rate: 104.61 / 100k population).\n\n\u2022 **Epidemiological Drivers**: Mosquito density index (Breteau Index - BI) exceeding 35, humidity at 85%, and sustained heavy rainfall creating optimal breeding grounds for vector proliferation.\n\n\u2022 **Ministry of Health Protocol (RAG Document)**: In accordance with National Dengue Treatment Protocols (Decision 3711/QD-BYT), **HIGH RISK** regions require immediate deployment of mobile medical teams and emergency isolation wards to prevent cross-infection and hospital overcrowding.\n\n\u2022 **Quantum Optimization Allocation (L3 QUBO)**: Dispatching **3 Mobile Medical Taskforces**, **329 ICU Beds**, **3948 Ringer Lactate IV Fluid bags**, **14,122 Rapid NS1 Test Kits**, and **37 Thermal Fogging Units** (925L insecticide). Estimated allocation budget: **1129M VND**."
+      },
+      {
+        "region": "Thua Thien Hue",
+        "lat": 16.4637,
+        "lng": 107.5909,
+        "population": 1160000,
+        "caseCount": 820,
+        "incidenceRate": 70.69,
+        "riskScore": 46,
+        "riskScoreNormalized": 0.46,
+        "tier": "MEDIUM RISK",
+        "action": "Increase surveillance; early testing",
+        "logistics": {
+          "staff_teams": 1,
+          "icu_beds": 28,
+          "iv_fluids_bags": 336,
+          "ns1_test_kits": 1230,
+          "fogging_units": 1,
+          "insecticide_liters": 25,
+          "budget_mil_vnd": 98
+        },
+        "llm_rag_prompt": "L1 PREDICTION & RAG EMERGENCY MEDICAL ASSESSMENT [THUA THIEN HUE]:\n\n\u2022 **Outbreak Forecast (AI Random Forest L1)**: High outbreak probability recorded at **46/100**, projecting **820 Dengue Fever cases** over the next 14 days across a total population of 1,160,000 (Incidence rate: 70.69 / 100k population).\n\n\u2022 **Epidemiological Drivers**: Mosquito density index (Breteau Index - BI) exceeding 35, humidity at 85%, and sustained heavy rainfall creating optimal breeding grounds for vector proliferation.\n\n\u2022 **Ministry of Health Protocol (RAG Document)**: In accordance with National Dengue Treatment Protocols (Decision 3711/QD-BYT), **MEDIUM RISK** regions require immediate deployment of mobile medical teams and emergency isolation wards to prevent cross-infection and hospital overcrowding.\n\n\u2022 **Quantum Optimization Allocation (L3 QUBO)**: Dispatching **1 Mobile Medical Taskforces**, **28 ICU Beds**, **336 Ringer Lactate IV Fluid bags**, **1,230 Rapid NS1 Test Kits**, and **1 Thermal Fogging Units** (25L insecticide). Estimated allocation budget: **98M VND**."
+      },
+      {
+        "region": "Nghe An",
+        "lat": 19.3,
+        "lng": 104.9,
+        "population": 3400000,
+        "caseCount": 2353,
+        "incidenceRate": 69.21,
+        "riskScore": 45,
+        "riskScoreNormalized": 0.45,
+        "tier": "MEDIUM RISK",
+        "action": "Increase surveillance; early testing",
+        "logistics": {
+          "staff_teams": 2,
+          "icu_beds": 82,
+          "iv_fluids_bags": 984,
+          "ns1_test_kits": 3529,
+          "fogging_units": 4,
+          "insecticide_liters": 100,
+          "budget_mil_vnd": 282
+        },
+        "llm_rag_prompt": "L1 PREDICTION & RAG EMERGENCY MEDICAL ASSESSMENT [NGHE AN]:\n\n\u2022 **Outbreak Forecast (AI Random Forest L1)**: High outbreak probability recorded at **45/100**, projecting **2,353 Dengue Fever cases** over the next 14 days across a total population of 3,400,000 (Incidence rate: 69.21 / 100k population).\n\n\u2022 **Epidemiological Drivers**: Mosquito density index (Breteau Index - BI) exceeding 35, humidity at 85%, and sustained heavy rainfall creating optimal breeding grounds for vector proliferation.\n\n\u2022 **Ministry of Health Protocol (RAG Document)**: In accordance with National Dengue Treatment Protocols (Decision 3711/QD-BYT), **MEDIUM RISK** regions require immediate deployment of mobile medical teams and emergency isolation wards to prevent cross-infection and hospital overcrowding.\n\n\u2022 **Quantum Optimization Allocation (L3 QUBO)**: Dispatching **2 Mobile Medical Taskforces**, **82 ICU Beds**, **984 Ringer Lactate IV Fluid bags**, **3,529 Rapid NS1 Test Kits**, and **4 Thermal Fogging Units** (100L insecticide). Estimated allocation budget: **282M VND**."
+      },
+      {
+        "region": "Binh Thuan",
+        "lat": 11.1,
+        "lng": 108.2,
+        "population": 1250000,
+        "caseCount": 750,
+        "incidenceRate": 60.0,
+        "riskScore": 39,
+        "riskScoreNormalized": 0.39,
+        "tier": "MEDIUM RISK",
+        "action": "Increase surveillance; early testing",
+        "logistics": {
+          "staff_teams": 1,
+          "icu_beds": 26,
+          "iv_fluids_bags": 312,
+          "ns1_test_kits": 1125,
+          "fogging_units": 1,
+          "insecticide_liters": 25,
+          "budget_mil_vnd": 90
+        },
+        "llm_rag_prompt": "L1 PREDICTION & RAG EMERGENCY MEDICAL ASSESSMENT [BINH THUAN]:\n\n\u2022 **Outbreak Forecast (AI Random Forest L1)**: High outbreak probability recorded at **39/100**, projecting **750 Dengue Fever cases** over the next 14 days across a total population of 1,250,000 (Incidence rate: 60.0 / 100k population).\n\n\u2022 **Epidemiological Drivers**: Mosquito density index (Breteau Index - BI) exceeding 35, humidity at 85%, and sustained heavy rainfall creating optimal breeding grounds for vector proliferation.\n\n\u2022 **Ministry of Health Protocol (RAG Document)**: In accordance with National Dengue Treatment Protocols (Decision 3711/QD-BYT), **MEDIUM RISK** regions require immediate deployment of mobile medical teams and emergency isolation wards to prevent cross-infection and hospital overcrowding.\n\n\u2022 **Quantum Optimization Allocation (L3 QUBO)**: Dispatching **1 Mobile Medical Taskforces**, **26 ICU Beds**, **312 Ringer Lactate IV Fluid bags**, **1,125 Rapid NS1 Test Kits**, and **1 Thermal Fogging Units** (25L insecticide). Estimated allocation budget: **90M VND**."
+      },
+      {
+        "region": "Hai Phong",
+        "lat": 20.8449,
+        "lng": 106.6881,
+        "population": 2000000,
+        "caseCount": 1169,
+        "incidenceRate": 58.45,
+        "riskScore": 38,
+        "riskScoreNormalized": 0.38,
+        "tier": "MEDIUM RISK",
+        "action": "Increase surveillance; early testing",
+        "logistics": {
+          "staff_teams": 1,
+          "icu_beds": 40,
+          "iv_fluids_bags": 480,
+          "ns1_test_kits": 1753,
+          "fogging_units": 2,
+          "insecticide_liters": 50,
+          "budget_mil_vnd": 140
+        },
+        "llm_rag_prompt": "L1 PREDICTION & RAG EMERGENCY MEDICAL ASSESSMENT [HAI PHONG]:\n\n\u2022 **Outbreak Forecast (AI Random Forest L1)**: High outbreak probability recorded at **38/100**, projecting **1,169 Dengue Fever cases** over the next 14 days across a total population of 2,000,000 (Incidence rate: 58.45 / 100k population).\n\n\u2022 **Epidemiological Drivers**: Mosquito density index (Breteau Index - BI) exceeding 35, humidity at 85%, and sustained heavy rainfall creating optimal breeding grounds for vector proliferation.\n\n\u2022 **Ministry of Health Protocol (RAG Document)**: In accordance with National Dengue Treatment Protocols (Decision 3711/QD-BYT), **MEDIUM RISK** regions require immediate deployment of mobile medical teams and emergency isolation wards to prevent cross-infection and hospital overcrowding.\n\n\u2022 **Quantum Optimization Allocation (L3 QUBO)**: Dispatching **1 Mobile Medical Taskforces**, **40 ICU Beds**, **480 Ringer Lactate IV Fluid bags**, **1,753 Rapid NS1 Test Kits**, and **2 Thermal Fogging Units** (50L insecticide). Estimated allocation budget: **140M VND**."
+      },
+      {
+        "region": "Ha Noi",
+        "lat": 21.0285,
+        "lng": 105.8542,
+        "population": 8500000,
+        "caseCount": 4576,
+        "incidenceRate": 53.84,
+        "riskScore": 35,
+        "riskScoreNormalized": 0.35,
+        "tier": "MEDIUM RISK",
+        "action": "Increase surveillance; early testing",
+        "logistics": {
+          "staff_teams": 3,
+          "icu_beds": 160,
+          "iv_fluids_bags": 1920,
+          "ns1_test_kits": 6864,
+          "fogging_units": 9,
+          "insecticide_liters": 225,
+          "budget_mil_vnd": 549
+        },
+        "llm_rag_prompt": "L1 PREDICTION & RAG EMERGENCY MEDICAL ASSESSMENT [HA NOI]:\n\n\u2022 **Outbreak Forecast (AI Random Forest L1)**: High outbreak probability recorded at **35/100**, projecting **4,576 Dengue Fever cases** over the next 14 days across a total population of 8,500,000 (Incidence rate: 53.84 / 100k population).\n\n\u2022 **Epidemiological Drivers**: Mosquito density index (Breteau Index - BI) exceeding 35, humidity at 85%, and sustained heavy rainfall creating optimal breeding grounds for vector proliferation.\n\n\u2022 **Ministry of Health Protocol (RAG Document)**: In accordance with National Dengue Treatment Protocols (Decision 3711/QD-BYT), **MEDIUM RISK** regions require immediate deployment of mobile medical teams and emergency isolation wards to prevent cross-infection and hospital overcrowding.\n\n\u2022 **Quantum Optimization Allocation (L3 QUBO)**: Dispatching **3 Mobile Medical Taskforces**, **160 ICU Beds**, **1920 Ringer Lactate IV Fluid bags**, **6,864 Rapid NS1 Test Kits**, and **9 Thermal Fogging Units** (225L insecticide). Estimated allocation budget: **549M VND**."
+      },
+      {
+        "region": "Quang Ninh",
+        "lat": 21.0,
+        "lng": 107.3,
+        "population": 1350000,
+        "caseCount": 664,
+        "incidenceRate": 49.19,
+        "riskScore": 32,
+        "riskScoreNormalized": 0.32,
+        "tier": "MEDIUM RISK",
+        "action": "Increase surveillance; early testing",
+        "logistics": {
+          "staff_teams": 1,
+          "icu_beds": 23,
+          "iv_fluids_bags": 276,
+          "ns1_test_kits": 996,
+          "fogging_units": 1,
+          "insecticide_liters": 25,
+          "budget_mil_vnd": 79
+        },
+        "llm_rag_prompt": "L1 PREDICTION & RAG EMERGENCY MEDICAL ASSESSMENT [QUANG NINH]:\n\n\u2022 **Outbreak Forecast (AI Random Forest L1)**: High outbreak probability recorded at **32/100**, projecting **664 Dengue Fever cases** over the next 14 days across a total population of 1,350,000 (Incidence rate: 49.19 / 100k population).\n\n\u2022 **Epidemiological Drivers**: Mosquito density index (Breteau Index - BI) exceeding 35, humidity at 85%, and sustained heavy rainfall creating optimal breeding grounds for vector proliferation.\n\n\u2022 **Ministry of Health Protocol (RAG Document)**: In accordance with National Dengue Treatment Protocols (Decision 3711/QD-BYT), **MEDIUM RISK** regions require immediate deployment of mobile medical teams and emergency isolation wards to prevent cross-infection and hospital overcrowding.\n\n\u2022 **Quantum Optimization Allocation (L3 QUBO)**: Dispatching **1 Mobile Medical Taskforces**, **23 ICU Beds**, **276 Ringer Lactate IV Fluid bags**, **996 Rapid NS1 Test Kits**, and **1 Thermal Fogging Units** (25L insecticide). Estimated allocation budget: **79M VND**."
+      },
+      {
+        "region": "Lao Cai",
+        "lat": 22.48,
+        "lng": 103.95,
+        "population": 750000,
+        "caseCount": 323,
+        "incidenceRate": 43.07,
+        "riskScore": 28,
+        "riskScoreNormalized": 0.28,
+        "tier": "MEDIUM RISK",
+        "action": "Increase surveillance; early testing",
+        "logistics": {
+          "staff_teams": 1,
+          "icu_beds": 11,
+          "iv_fluids_bags": 132,
+          "ns1_test_kits": 484,
+          "fogging_units": 1,
+          "insecticide_liters": 25,
+          "budget_mil_vnd": 50
+        },
+        "llm_rag_prompt": "L1 PREDICTION & RAG EMERGENCY MEDICAL ASSESSMENT [LAO CAI]:\n\n\u2022 **Outbreak Forecast (AI Random Forest L1)**: High outbreak probability recorded at **28/100**, projecting **323 Dengue Fever cases** over the next 14 days across a total population of 750,000 (Incidence rate: 43.07 / 100k population).\n\n\u2022 **Epidemiological Drivers**: Mosquito density index (Breteau Index - BI) exceeding 35, humidity at 85%, and sustained heavy rainfall creating optimal breeding grounds for vector proliferation.\n\n\u2022 **Ministry of Health Protocol (RAG Document)**: In accordance with National Dengue Treatment Protocols (Decision 3711/QD-BYT), **MEDIUM RISK** regions require immediate deployment of mobile medical teams and emergency isolation wards to prevent cross-infection and hospital overcrowding.\n\n\u2022 **Quantum Optimization Allocation (L3 QUBO)**: Dispatching **1 Mobile Medical Taskforces**, **11 ICU Beds**, **132 Ringer Lactate IV Fluid bags**, **484 Rapid NS1 Test Kits**, and **1 Thermal Fogging Units** (25L insecticide). Estimated allocation budget: **50M VND**."
+      }
+    ],
+    "staff_teams_deployed": 10,
     "staff_teams_budget": 12,
-    "total_risk_score_covered": 5.48,
-    "coverage_percent": 45.0
+    "total_risk_score_covered": 5.28,
+    "coverage_percent": 50.0
   },
   "recommendations": [
     {
@@ -598,16 +598,17 @@
     "qubo_regions": [
       "An Giang",
       "Binh Duong",
+      "Ca Mau",
       "Can Tho",
       "Da Nang",
-      "Dak Lak",
       "Gia Lai",
-      "Hai Phong",
       "Khanh Hoa",
-      "Kon Tum"
+      "Kien Giang",
+      "Kon Tum",
+      "Son La"
     ],
-    "qubo_risk_covered": 5.48,
-    "improvement_percent": 21.8
+    "qubo_risk_covered": 5.28,
+    "improvement_percent": 17.3
   },
   "sensitivity_analysis": {
     "base": {
@@ -616,14 +617,14 @@
       "covered_regions": [
         "An Giang",
         "Ca Mau",
+        "Can Tho",
         "Dak Lak",
         "Gia Lai",
         "Hai Phong",
-        "Khanh Hoa",
-        "Kien Giang",
         "Kon Tum",
         "Lao Cai",
-        "Quang Ninh"
+        "Quang Ninh",
+        "Thua Thien Hue"
       ],
       "num_covered": 10
     },
@@ -631,70 +632,64 @@
       "budget_teams": 10,
       "penalty_strength": 2.0,
       "covered_regions": [
-        "An Giang",
-        "Ca Mau",
-        "Da Nang",
+        "Binh Thuan",
         "Dak Lak",
         "Gia Lai",
-        "Hai Phong",
+        "Khanh Hoa",
         "Kon Tum",
-        "Quang Ninh"
+        "Nghe An",
+        "Son La"
       ],
-      "num_covered": 8
+      "num_covered": 7
     },
     "budget_plus20": {
       "budget_teams": 14,
       "penalty_strength": 2.0,
       "covered_regions": [
         "An Giang",
-        "Binh Thuan",
         "Ca Mau",
         "Can Tho",
-        "Da Nang",
         "Dak Lak",
+        "Dong Nai",
         "Gia Lai",
         "Khanh Hoa",
-        "Kien Giang",
         "Kon Tum",
         "Quang Ninh",
-        "Son La"
+        "Thua Thien Hue"
       ],
-      "num_covered": 12
+      "num_covered": 10
     },
     "penalty_minus20": {
       "budget_teams": 12,
       "penalty_strength": 1.6,
       "covered_regions": [
-        "Binh Duong",
         "Ca Mau",
-        "Can Tho",
         "Da Nang",
+        "Dak Lak",
         "Gia Lai",
-        "Hai Phong",
         "Khanh Hoa",
-        "Kien Giang",
         "Kon Tum",
+        "Nghe An",
+        "Quang Ninh",
         "Thua Thien Hue"
       ],
-      "num_covered": 10
+      "num_covered": 9
     },
     "penalty_plus20": {
       "budget_teams": 12,
       "penalty_strength": 2.4,
       "covered_regions": [
-        "An Giang",
         "Binh Duong",
-        "Binh Thuan",
-        "Ca Mau",
-        "Can Tho",
+        "Da Nang",
         "Dak Lak",
-        "Hai Phong",
-        "Khanh Hoa",
+        "Gia Lai",
         "Kon Tum",
-        "Lao Cai"
+        "Nghe An",
+        "Quang Ninh",
+        "Thua Thien Hue"
       ],
-      "num_covered": 10
+      "num_covered": 8
     }
   },
-  "summary": "Deploying 9 of 12 available staff teams to highest-risk regions. Top priority: Dak Lak (risk score: 88/100)."
+  "summary": "Deploying 10 of 12 available staff teams to highest-risk regions. Top priority: Gia Lai (risk score: 82/100)."
 }
