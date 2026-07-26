@@ -201,7 +201,7 @@ const DecisionProtocolView = ({ allocationData, handleExecuteAction, dispatchOrd
                   }}
                   onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#5e72e4'}
                   onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'rgba(94, 114, 228, 0.15)'}
-                  onClick={() => handleExecuteAction && handleExecuteAction(String(rec.id), rec.text)}
+                  onClick={() => handleExecuteAction && handleExecuteAction(String(rec.id), rec.text, rec.region)}
                   >
                     🚀 Execute Auto
                   </button>
@@ -305,14 +305,18 @@ const DecisionProtocolView = ({ allocationData, handleExecuteAction, dispatchOrd
                     const email = prompt("Enter target Gmail address for formal dispatch directive (e.g. namhai23092005@gmail.com):", "namhai23092005@gmail.com");
                     if (email) {
                       const cleanText = stripMarkdownToPlainText(selectedOrder);
-                      toast.loading("Transmitting directive via FormSubmit Gateway to Gmail...", { duration: 3000 });
+                      const regionMatch = selectedOrder?.match(/TO:\s*Director.*-\s*([^\n\r]+)/i) || selectedOrder?.match(/RESPONSE IN\s+([^\n\r]+)/i);
+                      const targetRegionName = regionMatch ? regionMatch[1].trim().toUpperCase() : "VIETNAM";
+                      const subjectText = `[QUANTUMSHIELD RAG] EMERGENCY MEDICAL DISPATCH DIRECTIVE - ${targetRegionName}`;
+                      toast.loading(`Transmitting directive for ${targetRegionName} via FormSubmit Gateway to Gmail...`, { duration: 3000 });
                       fetch(`https://formsubmit.co/ajax/${encodeURIComponent(email)}`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                         body: JSON.stringify({
-                          _subject: "[QUANTUMSHIELD RAG] EMERGENCY MEDICAL DISPATCH DIRECTIVE",
+                          _subject: subjectText,
                           _template: "table",
                           "DISPATCH ID": "Q-AI-RAG-9988",
+                          "TARGET REGION": targetRegionName,
                           "RECIPIENT": email,
                           "DIRECTIVE CONTENT": cleanText
                         })
@@ -321,12 +325,12 @@ const DecisionProtocolView = ({ allocationData, handleExecuteAction, dispatchOrd
                           if (data.success === false && data.message && data.message.includes("Activation")) {
                             toast("📧 FormSubmit sent a 1-time activation email to your Gmail. Please click Activate in your inbox to receive live email directives directly!", { duration: 8000, icon: "⚠️", style: { borderRadius: '10px', background: '#f59e0b', color: '#fff', fontWeight: 'bold' } });
                           } else {
-                            toast.success("📧 Emergency directive email has been successfully transmitted to your inbox!", { duration: 5000, style: { borderRadius: '10px', background: '#10b981', color: '#fff', fontWeight: 'bold' } });
+                            toast.success(`📧 Emergency directive email for ${targetRegionName} has been successfully transmitted to your inbox!`, { duration: 5000, style: { borderRadius: '10px', background: '#10b981', color: '#fff', fontWeight: 'bold' } });
                           }
                         })
                         .catch(() => toast.error("Network error while sending directive email."));
                       
-                      window.open(`mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent("[QUANTUMSHIELD RAG] EMERGENCY MEDICAL DISPATCH DIRECTIVE")}&body=${encodeURIComponent(cleanText)}`, '_blank');
+                      window.open(`mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(cleanText)}`, '_blank');
                     }
                   }}
                   style={{

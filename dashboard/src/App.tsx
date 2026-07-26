@@ -855,11 +855,22 @@ const App: React.FC = () => {
     fetchAllocationData();
   }, []);
 
-  const handleExecuteAction = async (actionId: string, description: string) => {
+  const handleExecuteAction = async (actionId: string, description: string, targetRegion?: string) => {
+    let finalRegion = targetRegion;
+    if (!finalRegion && description) {
+      const match = description.match(/^\[([^-\]]+)(?:\s+-\s+[^\]]+)?\]/);
+      if (match && match[1]) {
+        finalRegion = match[1].trim();
+      }
+    }
+    if (!finalRegion) {
+      finalRegion = selectedProvince || 'Ho Chi Minh City';
+    }
+
     setExecState({ 
       isOpen: true, 
       step: 0, 
-      region: selectedProvince || 'Ho Chi Minh City',
+      region: finalRegion,
       channel: 'Gmail',
       recipient: 'namhai23092005@gmail.com',
       desc: description,

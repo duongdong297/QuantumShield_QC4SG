@@ -5,11 +5,13 @@ import { toast } from 'react-hot-toast';
 interface Recommendation {
   id: number;
   text: string;
+  region?: string;
+  tier?: string;
 }
 
 interface ActionPanelProps {
   recommendations: Recommendation[];
-  onExecuteAction: (actionId: string, description: string) => void;
+  onExecuteAction: (actionId: string, description: string, targetRegion?: string) => void;
   onOptimizationComplete?: () => void;
 }
 
@@ -141,7 +143,7 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ recommendations, onExecuteAct
                 e.currentTarget.style.color = '#829ab1';
                 e.currentTarget.style.borderColor = 'rgba(94, 114, 228, 0.3)';
               }}
-              onClick={() => onExecuteAction(`ACT_${rec.id}`, rec.text)}
+              onClick={() => onExecuteAction(`ACT_${rec.id}`, rec.text, rec.region)}
               >
                 Execute Action
               </button>
