@@ -2,6 +2,17 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
+const stripMarkdownToPlainText = (text: string | null): string => {
+  if (!text) return "";
+  return text
+    .replace(/^#+\s+/gm, "")
+    .replace(/\*\*(.*?)\*\*/g, "$1")
+    .replace(/\*(.*?)\*/g, "$1")
+    .replace(/^[-*]\s+/gm, "• ")
+    .replace(/^={3,}\s*$/gm, "==================================================")
+    .replace(/^-{3,}\s*$/gm, "--------------------------------------------------");
+};
+
 const FormattedRAGOrder = ({ text }: { text: string }) => {
   if (!text) return null;
 
@@ -25,17 +36,17 @@ const FormattedRAGOrder = ({ text }: { text: string }) => {
           const trimmed = line.trim();
           if (!trimmed) return <div key={idx} style={{ height: '8px' }} />;
           
-          if (trimmed.startsWith('# ')) {
+          if (trimmed.startsWith('# ') || trimmed.match(/^[I|V|X]+\.\s+/)) {
             return <h1 key={idx} style={{ fontSize: '1.25rem', fontWeight: 800, color: '#34d399', textTransform: 'uppercase', borderBottom: '1px solid rgba(52, 211, 153, 0.3)', paddingBottom: '8px', margin: '12px 0 8px 0' }}>{trimmed.replace(/^#\s+/, '')}</h1>;
           }
-          if (trimmed.startsWith('## ')) {
+          if (trimmed.startsWith('## ') || trimmed.match(/^[0-9]+\.\s+/)) {
             return <h2 key={idx} style={{ fontSize: '1.1rem', fontWeight: 800, color: '#60a5fa', margin: '12px 0 4px 0' }}>{trimmed.replace(/^##\s+/, '')}</h2>;
           }
           if (trimmed.startsWith('### ')) {
             return <h3 key={idx} style={{ fontSize: '1rem', fontWeight: 700, color: '#d8b4fe', margin: '8px 0 4px 0' }}>{trimmed.replace(/^###\s+/, '')}</h3>;
           }
-          if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
-            const content = trimmed.replace(/^[-*]\s+/, '');
+          if (trimmed.startsWith('- ') || trimmed.startsWith('* ') || trimmed.startsWith('• ')) {
+            const content = trimmed.replace(/^[-*•]\s+/, '');
             const parts = content.split(/(\*\*.*?\*\*)/g);
             return (
               <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', paddingLeft: '16px' }}>
@@ -46,7 +57,7 @@ const FormattedRAGOrder = ({ text }: { text: string }) => {
               </div>
             );
           }
-          if (trimmed.startsWith('---')) {
+          if (trimmed.startsWith('---') || trimmed.startsWith('===')) {
             return <hr key={idx} style={{ border: 0, borderTop: '1px solid #1e293b', margin: '12px 0' }} />;
           }
           
@@ -60,8 +71,8 @@ const FormattedRAGOrder = ({ text }: { text: string }) => {
       </div>
 
       <div style={{ borderTop: '1px solid #1e293b', paddingTop: '1rem', marginTop: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.75rem', color: '#64748b' }}>
-        <div>Nguồn trích dẫn RAG: <strong style={{ color: '#94a3b8' }}>Hướng dẫn Giám sát & Phòng chống Sốt xuất huyết Dengue (QĐ 3711/QĐ-BYT)</strong></div>
-        <div style={{ fontStyle: 'italic' }}>Chữ ký số tự động: QuantumShield AI NOC</div>
+        <div>RAG Knowledge Citation: <strong style={{ color: '#94a3b8' }}>National Dengue Surveillance & Containment Manual (Decision 3711/QD-BYT)</strong></div>
+        <div style={{ fontStyle: 'italic' }}>Automated Digital Signature: QuantumShield AI NOC</div>
       </div>
     </div>
   );
@@ -212,7 +223,7 @@ const DecisionProtocolView = ({ allocationData, handleExecuteAction, dispatchOrd
                     if (order && order.dispatch_order_text) {
                       setSelectedOrder(order.dispatch_order_text);
                     } else {
-                      const fallbackText = `# EMERGENCY DENGUE EPIDEMIC DIRECTIVE FOR PROVINCE/CITY: ${rec.region.toUpperCase()}\n\n**LEGAL & SCIENTIFIC BASIS:**\n- Ministry of Health Decision No. 3711/QD-BYT on National Dengue Surveillance and Containment.\n- 25-Year ML Random Forest prediction coupled with D-Wave Hybrid Quantum Annealing delay optimization.\n\n## 1. EPIDEMIOLOGICAL ASSESSMENT: ${rec.region.toUpperCase()}\n- **Alert Tier:** ${rec.tier} (QuantumShield AI continuous vector surveillance of Aedes aegypti).\n- **Emergency Resource Allocation:** Requested immediate deployment of ICU beds, high-molecular-weight IV fluids, and NS1 rapid test kits to local CDC.\n\n## 2. DETAILED EXECUTION ORDERS\n* **Mobile Medical Taskforce:** Immediately deploy 03 rapid response teams to sanitize and isolate outbreak clusters within 24 hours.\n* **Treatment & Triage Capacity:** Expand isolation wards; strictly prevent ICU bed overcrowding.\n* **Vector Eradication Campaign:** Coordinate wide-scale thermal fogging chemical spraying across residential and industrial hotspots.\n\n---\n**NOC EXECUTIVE COMMAND:** Automated RAG dispatch via QuantumShield AI. Local units must report execution metrics daily before 17:00.`;
+                      const fallbackText = `MINISTRY OF HEALTH / HCDC VIETNAM\nQUANTUM AI EPIDEMIC COMMAND SYSTEM\nDIRECTIVE ID: Q-AI-NOC-2026-8899\n\nTO: Director of Department of Health & CDC Director - ${rec.region}\nFROM: AI Medical Coordinator, QuantumShield NOC\nDATE: July 2026\nSUBJECT: EMERGENCY DISPATCH DIRECTIVE & RESOURCE ALLOCATION FOR DENGUE OUTBREAK RESPONSE IN ${rec.region.toUpperCase()}\n\n==================================================\nI. SCIENTIFIC & LEGAL BASIS\n==================================================\n• Ministry of Health Decision No. 3711/QD-BYT on National Dengue Surveillance and Containment.\n• QuantumShield 25-Year ML Random Forest & D-Wave Hybrid Quantum Annealing Optimization.\n\n==================================================\nII. EPIDEMIOLOGICAL ASSESSMENT & OUTBREAK TIMEFRAME\n==================================================\n• Alert Tier: ${rec.tier} (Continuous real-time vector surveillance of Aedes aegypti).\n• Epidemic Peak Forecast: Based on AI ML & hybrid quantum predictive models, the dengue outbreak wave in ${rec.region} is projected to PEAK WITHIN THE NEXT 14 DAYS. Immediate containment is mandatory before this critical 2-week prevention window closes.\n\n==================================================\nIII. MANDATORY RESOURCE ALLOCATION FOR LOCAL CDC\n==================================================\n• Ringer Lactate IV Fluids: 1,500 bags (For immediate resuscitation of severe plasma leakage & shock).\n• ICU Bed Expansion: 100 beds (Standby isolation wards to strictly prevent overcrowding).\n• NS1 Rapid Test Kits: 4,000 units (For early triage and community screening).\n• Thermal Fogging Units: 20 units (For wide-scale adult mosquito eradication).\n\n==================================================\nIV. DETAILED EXECUTION ORDERS FOR LOCAL MEDICAL TASKFORCES\n==================================================\n• Mobile Medical Taskforce: Immediately deploy rapid response teams to sanitize and isolate outbreak clusters within 24 hours.\n• Treatment Capacity: Standardize supportive care protocols; prioritize hemodynamic monitoring for patients exhibiting warning signs (severe abdominal pain, persistent vomiting, mucosal bleeding).\n• Vector Eradication Campaign: Coordinate chemical spraying across residential hotspots, industrial parks, and construction sites.\n\n==================================================\nV. URGENT CITIZEN & COMMUNITY WARNING (PUBLIC PREVENTION)\n==================================================\n• Eliminate Breeding Sites: All households and local businesses MUST immediately empty standing water containers, scrub water tanks, and clear debris to destroy mosquito breeding grounds.\n• Mosquito Bite Protection: Citizens MUST utilize mosquito nets day and night, install window screens, and continuously apply EPA-approved insect repellent.\n• Medical Evaluation Advisory: Any resident experiencing high fever exceeding 38.5°C MUST seek immediate evaluation at the nearest hospital or medical clinic. DO NOT self-medicate with Aspirin or Ibuprofen under any circumstances due to the elevated risk of severe gastric hemorrhage and bleeding complications.\n\n==================================================\nVI. REPORTING & COMPLIANCE\n==================================================\nAll local units and taskforces are required to execute this order immediately and submit standardized execution metrics to the QuantumShield NOC dashboard daily before 17:00.\n\n--------------------------------------------------\nAUTOMATED RAG DISPATCH SIGNATURE: QUANTUMSHIELD AI NOC\n--------------------------------------------------`;
                       setSelectedOrder(fallbackText);
                     }
                   }}
@@ -293,6 +304,7 @@ const DecisionProtocolView = ({ allocationData, handleExecuteAction, dispatchOrd
                   onClick={() => {
                     const email = prompt("Enter target Gmail address for formal dispatch directive (e.g. namhai23092005@gmail.com):", "namhai23092005@gmail.com");
                     if (email) {
+                      const cleanText = stripMarkdownToPlainText(selectedOrder);
                       toast.loading("Transmitting directive via FormSubmit Gateway to Gmail...", { duration: 3000 });
                       fetch(`https://formsubmit.co/ajax/${encodeURIComponent(email)}`, {
                         method: 'POST',
@@ -302,7 +314,7 @@ const DecisionProtocolView = ({ allocationData, handleExecuteAction, dispatchOrd
                           _template: "table",
                           "DISPATCH ID": "Q-AI-RAG-9988",
                           "RECIPIENT": email,
-                          "DIRECTIVE CONTENT": selectedOrder
+                          "DIRECTIVE CONTENT": cleanText
                         })
                       }).then(res => res.json())
                         .then(data => {
@@ -314,7 +326,7 @@ const DecisionProtocolView = ({ allocationData, handleExecuteAction, dispatchOrd
                         })
                         .catch(() => toast.error("Network error while sending directive email."));
                       
-                      window.open(`mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent("[QUANTUMSHIELD RAG] EMERGENCY MEDICAL DISPATCH DIRECTIVE")}&body=${encodeURIComponent(selectedOrder)}`, '_blank');
+                      window.open(`mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent("[QUANTUMSHIELD RAG] EMERGENCY MEDICAL DISPATCH DIRECTIVE")}&body=${encodeURIComponent(cleanText)}`, '_blank');
                     }
                   }}
                   style={{

@@ -912,6 +912,8 @@ const App: React.FC = () => {
             "BROADCAST CHANNEL": execState.channel,
             "RECIPIENT": execState.recipient,
             "DIRECTIVE CONTENT": execState.desc,
+            "EPIDEMIC PEAK TIMEFRAME": "Projected to PEAK WITHIN THE NEXT 14 DAYS by Quantum & AI models. Urgent vector eradication required immediately.",
+            "PUBLIC & CITIZEN PREVENTIVE ADVISORY": "1. Eliminate standing water/breeding sites immediately.\n2. Use mosquito nets and EPA-approved repellent.\n3. Seek immediate hospital evaluation if fever exceeds 38.5°C (DO NOT self-medicate with Aspirin or Ibuprofen).",
             "SYSTEM MESSAGE": "Automated medical response directive from QuantumShield NOC AI System. All local units must execute immediately."
           })
         }).then(res => res.json())
@@ -928,7 +930,7 @@ const App: React.FC = () => {
 
       // Open Mail or SMS application / web compose tab directly
       if (execState.channel === 'Gmail') {
-        window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(execState.recipient)}&su=${encodeURIComponent(`[QUANTUMSHIELD URGENT] Medical Directive for ${execState.region.toUpperCase()}`)}&body=${encodeURIComponent(`MINISTRY OF HEALTH / HCDC VIETNAM\nQuantum AI Epidemic Command System\n\nID: Q-AI-9988\nURGENT: Execution Directive for Province/City: ${execState.region}\n\nDIRECTIVE CONTENT:\n${execState.desc}\n\nAll local medical taskforces are required to execute immediately and report results before 17:00.\n\n--- Source: QuantumShield NOC AI System ---`)}`, '_blank');
+        window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(execState.recipient)}&su=${encodeURIComponent(`[QUANTUMSHIELD URGENT] Medical Directive for ${execState.region.toUpperCase()}`)}&body=${encodeURIComponent(`MINISTRY OF HEALTH / HCDC VIETNAM\nQuantum AI Epidemic Command System\n\nDIRECTIVE ID: Q-AI-9988\nURGENT: Execution Directive for Province/City: ${execState.region}\n\n==================================================\nDIRECTIVE CONTENT & EXECUTE ACTION:\n==================================================\n• ${execState.desc}\n\n==================================================\nEPIDEMIC PEAK TIMEFRAME & FORECAST:\n==================================================\n• Based on AI ML & hybrid quantum predictive models, the dengue outbreak wave in ${execState.region} is projected to PEAK WITHIN THE NEXT 14 DAYS. Immediate containment is mandatory before this critical 2-week prevention window closes.\n\n==================================================\nURGENT CITIZEN & COMMUNITY WARNING (PUBLIC PREVENTION):\n==================================================\n• Eliminate Breeding Sites: All households and local businesses MUST immediately empty standing water containers, scrub water tanks, and clear debris to destroy mosquito breeding grounds.\n• Mosquito Bite Protection: Citizens MUST utilize mosquito nets day and night, install window screens, and continuously apply EPA-approved insect repellent.\n• Medical Evaluation Advisory: Any resident experiencing high fever exceeding 38.5°C MUST seek immediate evaluation at the nearest hospital or medical clinic. DO NOT self-medicate with Aspirin or Ibuprofen under any circumstances due to the elevated risk of severe gastric hemorrhage and bleeding complications.\n\n==================================================\nREPORTING & COMPLIANCE:\n==================================================\nAll local medical taskforces are required to execute immediately and report results before 17:00.\n\n--------------------------------------------------\nAutomated RAG Dispatch Signature: QuantumShield AI NOC\n--------------------------------------------------`)}`, '_blank');
       } else if (execState.channel === 'SMS') {
         window.open(`sms:${encodeURIComponent(execState.recipient)}?body=${encodeURIComponent(`URGENT [QuantumShield NOC]: Medical response activated in ${execState.region}. Directive: ${execState.desc}`)}`, '_self');
         toast.success(`📱 Emergency SMS triggered for ${execState.recipient} via Telecom Grid!`, { duration: 5000, icon: "📱", style: { borderRadius: '10px', background: '#3b82f6', color: '#fff', fontWeight: 'bold' } });
@@ -1276,7 +1278,7 @@ const App: React.FC = () => {
                   <p className="text-slate-400 text-xs mb-5">All field taskforces and edge nodes have acknowledged receipt.</p>
                   <button 
                     className="px-8 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg transition-colors shadow-[0_0_20px_rgba(16,185,129,0.4)] w-full text-lg"
-                    onClick={() => setExecState({ isOpen: false, step: 0, region: '', channel: 'SMS', recipient: '+84 987 654 321', desc: '', actionId: '' })}
+                    onClick={() => setExecState({ isOpen: false, step: 0, region: '', channel: 'Gmail', recipient: 'namhai23092005@gmail.com', desc: '', actionId: '' })}
                   >
                     Acknowledge & Close
                   </button>
