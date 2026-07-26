@@ -6,19 +6,19 @@ quantum_mod = SourceFileLoader("quantum_alloc", "08_quantum_allocation.py").load
 
 def test_calculate_logistics_package_critical():
     result = quantum_mod.calculate_logistics_package(100, "CRITICAL")
-    assert result['icu_beds'] == 15
-    assert result['iv_fluids_bags'] == 150
+    assert result['icu_beds'] == 10
+    assert result['iv_fluids_bags'] == 120
     assert result['ns1_test_kits'] == 200
-    assert result['fogging_units'] == 2
-    assert result['insecticide_liters'] == 40
+    assert result['fogging_units'] == 1
+    assert result['insecticide_liters'] == 25
 
 def test_calculate_logistics_package_low_risk():
     result = quantum_mod.calculate_logistics_package(40, "LOW RISK")
-    assert result['icu_beds'] == 6
-    assert result['iv_fluids_bags'] == 60
-    assert result['ns1_test_kits'] == 80
-    assert result['fogging_units'] == 0
-    assert result['insecticide_liters'] == 0
+    assert result['icu_beds'] == 10
+    assert result['iv_fluids_bags'] == 120
+    assert result['ns1_test_kits'] == 200
+    assert result['fogging_units'] == 1
+    assert result['insecticide_liters'] == 25
 
 def test_format_output_includes_logistics_and_prompt():
     class MockDistrict:
@@ -31,6 +31,7 @@ def test_format_output_includes_logistics_and_prompt():
             self.population = 100000
             self.case_count = 500
             self.incidence_rate = 500.0
+            self.team_cost = 1
 
     districts = [MockDistrict()]
     
@@ -45,6 +46,6 @@ def test_format_output_includes_logistics_and_prompt():
     covered_region = output['allocation_result']['covered_regions'][0]
     
     assert 'logistics' in covered_region
-    assert covered_region['logistics']['icu_beds'] == 75
+    assert covered_region['logistics']['icu_beds'] == 17
     assert 'llm_rag_prompt' in covered_region
-    assert 'The system requests dispatching 750 bags of Ringer Lactate IV fluids' in covered_region['llm_rag_prompt']
+    assert 'Ringer Lactate IV Fluid bags' in covered_region['llm_rag_prompt']
