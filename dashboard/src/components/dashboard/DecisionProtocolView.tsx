@@ -11,12 +11,12 @@ const FormattedRAGOrder = ({ text }: { text: string }) => {
     <div style={{ background: '#090d16', padding: '1.5rem', borderRadius: '12px', border: '1px solid #1e293b', color: '#e2e8f0', fontFamily: 'sans-serif' }}>
       <div style={{ borderBottom: '1px solid #1e293b', paddingBottom: '1rem', marginBottom: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#94a3b8' }}>
         <div>
-          <strong style={{ color: '#34d399', display: 'block', fontSize: '0.85rem' }}>BỘ Y TẾ / HCDC VIỆT NAM</strong>
-          <span>Hệ thống Chỉ huy Phòng chống Dịch bệnh Quantum AI</span>
+          <strong style={{ color: '#34d399', display: 'block', fontSize: '0.85rem' }}>MINISTRY OF HEALTH / HCDC VIETNAM</strong>
+          <span>Quantum AI Epidemic Command System</span>
         </div>
         <div style={{ textAlign: 'right' }}>
-          <span style={{ background: 'rgba(239, 68, 68, 0.2)', color: '#ef4444', border: '1px solid rgba(239, 68, 68, 0.4)', padding: '2px 8px', borderRadius: '4px', fontWeight: 800 }}>CÔNG VĂN KHẨN (RAG GENERATED)</span>
-          <div style={{ marginTop: '4px', color: '#64748b' }}>Mã định danh: Q-AI-{Math.floor(Math.random()*8999 + 1000)}</div>
+          <span style={{ background: 'rgba(239, 68, 68, 0.2)', color: '#ef4444', border: '1px solid rgba(239, 68, 68, 0.4)', padding: '2px 8px', borderRadius: '4px', fontWeight: 800 }}>URGENT DIRECTIVE (RAG GENERATED)</span>
+          <div style={{ marginTop: '4px', color: '#64748b' }}>System ID: Q-AI-{Math.floor(Math.random()*8999 + 1000)}</div>
         </div>
       </div>
 
@@ -71,22 +71,22 @@ const DecisionProtocolView = ({ allocationData, handleExecuteAction, dispatchOrd
   const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
   const rawRecs = allocationData?.recommendations || [];
   const defaultRecs = [
-    { id: 101, region: "Dak Lak", tier: "CRITICAL", text: "[Dak Lak - CRITICAL] Khẩn cấp điều phối 120 ICU giường bệnh và 15 Đội Y tế đặc nhiệm xử lý vùng dịch Sốt xuất huyết." },
-    { id: 102, region: "Gia Lai", tier: "HIGH RISK", text: "[Gia Lai - HIGH RISK] Phân bổ 3,000 kit xét nghiệm NS1 và tăng cường hóa chất diệt muỗi trên địa bàn tỉnh." },
-    { id: 103, region: "Ho Chi Minh City", tier: "MEDIUM RISK", text: "[Ho Chi Minh City - MEDIUM RISK] Tăng cường kiểm soát các điểm nóng ổ lăng quăng tại 22 quận huyện." },
-    { id: 104, region: "Ha Noi", tier: "MEDIUM RISK", text: "[Ha Noi - MEDIUM RISK] Duy trì mức giám sát dịch tễ, bố trí sẵn sàng giường bệnh dự phòng cho khu vực ven đô." },
-    { id: 105, region: "Da Nang", tier: "MEDIUM RISK", text: "[Da Nang - MEDIUM RISK] Tổ chức chiến dịch phun hóa chất diệt muỗi diện rộng tại các khu du lịch và khu dân cư." },
-    { id: 106, region: "Dong Nai", tier: "HIGH RISK", text: "[Dong Nai - HIGH RISK] Khẩn trương kiểm tra khu công nghiệp, điều động 6,000 kit xét nghiệm nhanh về Trung tâm y tế." },
-    { id: 107, region: "Binh Duong", tier: "HIGH RISK", text: "[Binh Duong - HIGH RISK] Đẩy mạnh công tác truyền thông vệ sinh môi trường, chuẩn bị 140 giường ICU sẵn sàng ứng phó." }
+    { id: 101, region: "Dak Lak", tier: "CRITICAL", text: "[Dak Lak - CRITICAL] Urgent allocation of 120 ICU beds and 15 taskforce medical teams to contain dengue outbreak." },
+    { id: 102, region: "Gia Lai", tier: "HIGH RISK", text: "[Gia Lai - HIGH RISK] Allocate 3,000 NS1 rapid test kits and increase thermal fogging across the province." },
+    { id: 103, region: "Ho Chi Minh City", tier: "MEDIUM RISK", text: "[Ho Chi Minh City - MEDIUM RISK] Intensify surveillance of mosquito breeding hotspots across 22 districts." },
+    { id: 104, region: "Ha Noi", tier: "MEDIUM RISK", text: "[Ha Noi - MEDIUM RISK] Maintain routine epidemiological monitoring; prepare backup beds for suburban clusters." },
+    { id: 105, region: "Da Nang", tier: "MEDIUM RISK", text: "[Da Nang - MEDIUM RISK] Organize wide-scale mosquito eradication schedules across tourist centers and residential zones." },
+    { id: 106, region: "Dong Nai", tier: "HIGH RISK", text: "[Dong Nai - HIGH RISK] Perform urgent vector surveillance in industrial zones; dispatch 6,000 test kits to regional CDC." },
+    { id: 107, region: "Binh Duong", tier: "HIGH RISK", text: "[Binh Duong - HIGH RISK] Expand environmental sanitation campaigns; standby 140 ICU beds for emergency admissions." }
   ];
   const recommendations = (rawRecs.length > 0 && !(rawRecs.length === 1 && rawRecs[0].id === 1)) ? rawRecs : defaultRecs;
   const coveredRegions = allocationData?.allocation_result?.covered_regions || [];
   
   const rules = [
-    { tier: "CRITICAL", threshold: "> 50", action: "Kích hoạt phản ứng khẩn cấp. Điều động Đội Y Tế và thiết lập vùng cách ly ngay lập tức.", color: "#f5365c", bg: "rgba(245, 54, 92, 0.1)" },
-    { tier: "HIGH RISK", threshold: "> 25", action: "Chuẩn bị nguồn lực. Tăng cường phun hóa chất diệt muỗi toàn khu vực.", color: "#fb6340", bg: "rgba(251, 99, 64, 0.1)" },
-    { tier: "MEDIUM RISK", threshold: "> 10", action: "Tăng cường giám sát dịch tễ. Mở rộng khoanh vùng xét nghiệm PCR.", color: "#11cdef", bg: "rgba(17, 205, 239, 0.1)" },
-    { tier: "LOW RISK", threshold: "< 10", action: "Theo dõi tình hình. Khuyến cáo người dân giữ gìn vệ sinh.", color: "#2dce89", bg: "rgba(45, 206, 137, 0.1)" }
+    { tier: "CRITICAL", threshold: "> 50", action: "Activate emergency response. Deploy medical teams and establish containment zones immediately.", color: "#f5365c", bg: "rgba(245, 54, 92, 0.1)" },
+    { tier: "HIGH RISK", threshold: "> 25", action: "Mobilize logistics. Intensify wide-scale chemical fogging across all affected districts.", color: "#fb6340", bg: "rgba(251, 99, 64, 0.1)" },
+    { tier: "MEDIUM RISK", threshold: "> 10", action: "Enhance epidemiological surveillance. Expand targeted PCR testing protocols.", color: "#11cdef", bg: "rgba(17, 205, 239, 0.1)" },
+    { tier: "LOW RISK", threshold: "< 10", action: "Monitor outbreak indicators. Recommend public community hygiene campaigns.", color: "#2dce89", bg: "rgba(45, 206, 137, 0.1)" }
   ];
 
   return (
@@ -105,7 +105,7 @@ const DecisionProtocolView = ({ allocationData, handleExecuteAction, dispatchOrd
       >
         <h2 style={{ color: '#fff', marginTop: 0, marginBottom: '1.5rem', fontSize: '1.5rem', fontWeight: 800 }}>
           <span style={{ marginRight: '10px' }}>⚡</span>
-          Quantum Decision Protocol (Hệ thống Quy tắc Phản ứng)
+          Quantum Decision Protocol (Automated Response Matrix)
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem' }}>
           {rules.map((rule, idx) => (
@@ -144,7 +144,7 @@ const DecisionProtocolView = ({ allocationData, handleExecuteAction, dispatchOrd
       >
         <h2 style={{ color: '#fff', marginTop: 0, marginBottom: '1.5rem', fontSize: '1.5rem', fontWeight: 800 }}>
           <span style={{ marginRight: '10px' }}>🎯</span>
-          Actionable Recommendations (Dựa trên dự báo)
+          Actionable Recommendations (Based on AI Forecast)
         </h2>
         
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -212,7 +212,7 @@ const DecisionProtocolView = ({ allocationData, handleExecuteAction, dispatchOrd
                     if (order && order.dispatch_order_text) {
                       setSelectedOrder(order.dispatch_order_text);
                     } else {
-                      const fallbackText = `# CHỈ ĐẠO CÔNG TÁC PHÒNG CHỐNG DỊCH BỆNH SỐT XUẤT HUYẾT TẠI TỈNH/TP: ${rec.region.toUpperCase()}\n\n**CĂN CỨ PHÁP LÝ:**\n- Quyết định số 3711/QĐ-BYT của Bộ trưởng Bộ Y tế về việc ban hành Hướng dẫn giám sát và phòng, chống bệnh Sốt xuất huyết Dengue.\n- Phân tích dự báo độ trễ dịch tễ từ Mô hình AI Random Forest và thuật toán lượng tử D-Wave Hybrid Annealer.\n\n## 1. ĐÁNH GIÁ TÌNH HÌNH DỊCH TỄ TẠI ${rec.region.toUpperCase()}\n- **Mức độ cảnh báo:** ${rec.tier} (Hệ thống AI QuantumShield giám sát nguy cơ lây nhiễm muỗi Aedes aegypti).\n- **Phân bổ tài nguyên khẩn cấp:** Đã yêu cầu điều phối giường ICU, dịch truyền cao phân tử và kit xét nghiệm nhanh NS1 về CDC địa phương.\n\n## 2. CHỈ ĐẠO THỰC THI CHI TIẾT\n* **Đội cơ động Y tế:** Lập tức triển khai 03 đội cơ động phòng chống dịch xử lý triệt để các ổ dịch trong vòng 24 giờ.\n* **Tổ chức thu dung điều trị:** Chuẩn bị sẵn sàng khu vực cách ly, tuyệt đối không để xảy ra tình trạng quá tải giường bệnh ICU.\n* **Chiến dịch diệt lăng quăng:** Ủy ban nhân dân và TTYT phối hợp phun hóa chất diệt muỗi diện rộng bằng máy phun mù nhiệt.\n\n---\n**CHỈ HUY ĐIỀU HÀNH NOC:** Hệ thống tự động phát lệnh qua kênh RAG - QuantumShield AI. Yêu cầu báo cáo kết quả trước 17h00 hàng ngày.`;
+                      const fallbackText = `# EMERGENCY DENGUE EPIDEMIC DIRECTIVE FOR PROVINCE/CITY: ${rec.region.toUpperCase()}\n\n**LEGAL & SCIENTIFIC BASIS:**\n- Ministry of Health Decision No. 3711/QD-BYT on National Dengue Surveillance and Containment.\n- 25-Year ML Random Forest prediction coupled with D-Wave Hybrid Quantum Annealing delay optimization.\n\n## 1. EPIDEMIOLOGICAL ASSESSMENT: ${rec.region.toUpperCase()}\n- **Alert Tier:** ${rec.tier} (QuantumShield AI continuous vector surveillance of Aedes aegypti).\n- **Emergency Resource Allocation:** Requested immediate deployment of ICU beds, high-molecular-weight IV fluids, and NS1 rapid test kits to local CDC.\n\n## 2. DETAILED EXECUTION ORDERS\n* **Mobile Medical Taskforce:** Immediately deploy 03 rapid response teams to sanitize and isolate outbreak clusters within 24 hours.\n* **Treatment & Triage Capacity:** Expand isolation wards; strictly prevent ICU bed overcrowding.\n* **Vector Eradication Campaign:** Coordinate wide-scale thermal fogging chemical spraying across residential and industrial hotspots.\n\n---\n**NOC EXECUTIVE COMMAND:** Automated RAG dispatch via QuantumShield AI. Local units must report execution metrics daily before 17:00.`;
                       setSelectedOrder(fallbackText);
                     }
                   }}
@@ -291,30 +291,30 @@ const DecisionProtocolView = ({ allocationData, handleExecuteAction, dispatchOrd
               <div style={{ marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid #334155', display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
                 <button
                   onClick={() => {
-                    const email = prompt("Nhập địa chỉ Gmail nhận Công văn (VD: namhai23092005@gmail.com):", "namhai23092005@gmail.com");
+                    const email = prompt("Enter target Gmail address for formal dispatch directive (e.g. namhai23092005@gmail.com):", "namhai23092005@gmail.com");
                     if (email) {
-                      toast.loading("Đang phát Công văn qua FormSubmit Gateway vào Gmail...", { duration: 3000 });
+                      toast.loading("Transmitting directive via FormSubmit Gateway to Gmail...", { duration: 3000 });
                       fetch(`https://formsubmit.co/ajax/${encodeURIComponent(email)}`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                         body: JSON.stringify({
-                          _subject: "[QUANTUMSHIELD RAG] CÔNG VĂN KHẨN CHỈ ĐẠO Y TẾ",
+                          _subject: "[QUANTUMSHIELD RAG] EMERGENCY MEDICAL DISPATCH DIRECTIVE",
                           _template: "table",
-                          "MÃ CÔNG VĂN": "Q-AI-RAG-9988",
-                          "NGƯỜI NHẬN": email,
-                          "NỘI DUNG CHỈ ĐẠO": selectedOrder
+                          "DISPATCH ID": "Q-AI-RAG-9988",
+                          "RECIPIENT": email,
+                          "DIRECTIVE CONTENT": selectedOrder
                         })
                       }).then(res => res.json())
                         .then(data => {
                           if (data.success === false && data.message && data.message.includes("Activation")) {
-                            toast("📧 FormSubmit đã gửi 1 email kích hoạt (Activate Form) vào hộp thư Gmail của bạn. Vui lòng bấm kích hoạt 1 lần duy nhất để nhận tin nhắn!", { duration: 8000, icon: "⚠️", style: { borderRadius: '10px', background: '#f59e0b', color: '#fff', fontWeight: 'bold' } });
+                            toast("📧 FormSubmit sent a 1-time activation email to your Gmail. Please click Activate in your inbox to receive live email directives directly!", { duration: 8000, icon: "⚠️", style: { borderRadius: '10px', background: '#f59e0b', color: '#fff', fontWeight: 'bold' } });
                           } else {
-                            toast.success("📧 Công văn khẩn đã được truyền thành công vào hộp thư Gmail của bạn!", { duration: 5000, style: { borderRadius: '10px', background: '#10b981', color: '#fff', fontWeight: 'bold' } });
+                            toast.success("📧 Emergency directive email has been successfully transmitted to your inbox!", { duration: 5000, style: { borderRadius: '10px', background: '#10b981', color: '#fff', fontWeight: 'bold' } });
                           }
                         })
-                        .catch(() => toast.error("Có lỗi kết nối mạng khi gửi email."));
+                        .catch(() => toast.error("Network error while sending directive email."));
                       
-                      window.open(`mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent("[QUANTUMSHIELD RAG] CÔNG VĂN KHẨN CHỈ ĐẠO Y TẾ")}&body=${encodeURIComponent(selectedOrder)}`, '_blank');
+                      window.open(`mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent("[QUANTUMSHIELD RAG] EMERGENCY MEDICAL DISPATCH DIRECTIVE")}&body=${encodeURIComponent(selectedOrder)}`, '_blank');
                     }
                   }}
                   style={{
@@ -323,23 +323,7 @@ const DecisionProtocolView = ({ allocationData, handleExecuteAction, dispatchOrd
                     display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 4px 15px rgba(168, 85, 247, 0.3)'
                   }}
                 >
-                  📧 Truyền qua Gmail API
-                </button>
-                <button
-                  onClick={() => {
-                    const phone = prompt("Nhập số điện thoại HCDC/CDC địa phương:", "+84 987 654 321");
-                    if (phone) {
-                      toast.success(`📱 Đã điều phối lệnh qua mạng Viễn thông di động tới ${phone}!`, { style: { borderRadius: '10px', background: '#3b82f6', color: '#fff', fontWeight: 'bold' } });
-                      window.open(`sms:${encodeURIComponent(phone)}?body=${encodeURIComponent(`KHAN [QuantumShield]: Kich hoat phan ung theo Cong van RAG. Vui lòng kiểm tra cổng NOC.`)}`, '_self');
-                    }
-                  }}
-                  style={{
-                    background: 'linear-gradient(135deg, #3b82f6, #06b6d4)',
-                    color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '10px', fontWeight: 700, cursor: 'pointer',
-                    display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 4px 15px rgba(59, 130, 246, 0.3)'
-                  }}
-                >
-                  📱 Phát lệnh qua SMS
+                  📧 Transmit via Gmail API & Mailto
                 </button>
               </div>
             </motion.div>

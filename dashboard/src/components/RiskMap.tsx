@@ -19,21 +19,45 @@ interface RiskMapProps {
   allocationData?: any;
 }
 
+const toEnglishProvinceName = (str: string): string => {
+  if (!str) return '';
+  let cleaned = str.normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D")
+    .replace(/^TP\.\s*/i, "")
+    .replace(/^Thành phố\s*/i, "")
+    .trim();
+  if (cleaned.toLowerCase() === "ho chi minh" || cleaned.toLowerCase() === "tp ho chi minh" || cleaned.toLowerCase() === "sai gon") {
+    return "Ho Chi Minh City";
+  }
+  if (cleaned.toLowerCase() === "ha noi" || cleaned.toLowerCase() === "hanoi") {
+    return "Ha Noi";
+  }
+  if (cleaned.toLowerCase() === "ba ria - vung tau" || cleaned.toLowerCase() === "ba ria vung tau") {
+    return "Ba Ria - Vung Tau";
+  }
+  if (cleaned.toLowerCase() === "thua thien hue" || cleaned.toLowerCase() === "hue") {
+    return "Thua Thien Hue";
+  }
+  return cleaned;
+};
+
 const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400px', allocationData }) => {
   const [geoData] = useState<any>(vietnamGeoData);
 
-  // Hàm chuẩn hóa chuỗi tiếng Việt
+  // String normalization for comparison
   const normalizeString = (str: string) => {
     if (!str) return '';
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/đ/g, "d").replace(/city/g, "").trim();
   };
 
-  // Hàm tô màu tùy chỉnh cho từng tỉnh
+  // Custom styling for each province polygon
   const styleProvince = (feature: any) => {
-    const provName = feature.properties?.Name || feature.properties?.name || '';
-    const nProvName = normalizeString(provName);
+    const rawName = feature.properties?.Name || feature.properties?.name || '';
+    const nProvName = normalizeString(rawName);
     
-    // Tìm province trong danh sách hotspots
+    // Find province in hotspots list
     const hotspot = (data || []).find(spot => {
       const nSpotName = normalizeString(spot.name);
       return nSpotName.includes(nProvName) || nProvName.includes(nSpotName);
@@ -45,13 +69,13 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
       hotspotColor = hotspot.color;
       fillOp = 0.85;
     } else {
-      const charSum = provName.split('').reduce((acc: number, c: string) => acc + c.charCodeAt(0), 0);
+      const charSum = rawName.split('').reduce((acc: number, c: string) => acc + c.charCodeAt(0), 0);
       const simRisk = 25 + (charSum % 25);
       hotspotColor = simRisk >= 40 ? '#eab308' : '#10b981';
       fillOp = 0.6;
     }
 
-    // Kiểm tra xem tỉnh này có được thuật toán lượng tử cấp phát tài nguyên không
+    // Check if region is covered by quantum allocation
     let isDeployed = false;
     if (allocationData && allocationData.allocation_result) {
       isDeployed = allocationData.allocation_result.covered_regions.some((r: any) => {
@@ -69,12 +93,13 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
     };
   };
 
-  // Hàm gắn sự kiện và Tooltip cho từng tỉnh
+  // Bind events and dynamic tooltips to each province
   const onEachProvince = (feature: any, layer: any) => {
-    const provName = feature.properties?.Name || feature.properties?.name || 'Unknown Province';
+    const rawProvName = feature.properties?.Name || feature.properties?.name || 'Unknown Province';
+    const provName = toEnglishProvinceName(rawProvName);
     const nProvName = normalizeString(provName);
     
-    // Tìm kiếm thông tin risk score từ dữ liệu
+    // Search risk score in data
     const hotspotInfo = (data || []).find(spot => {
       const nSpotName = normalizeString(spot.name);
       return nSpotName.includes(nProvName) || nProvName.includes(nSpotName);
@@ -95,25 +120,39 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
       status = riskScore >= 40 ? 'ELEVATED' : 'SAFE';
     }
 
-    // Kiểm tra xem tỉnh này có được thuật toán lượng tử cấp phát tài nguyên không
     let allocationStatusHtml = '';
-    if (allocationData && allocationData.allocation_result) {
-      const isDeployed = allocationData.allocation_result.covered_regions.some((r: any) => {
-        const nRegionName = normalizeString(r.region);
-        return nRegionName.includes(nProvName) || nProvName.includes(nRegionName);
-      });
-      const isPending = allocationData.allocation_result.waiting_regions.some((r: any) => {
-        const nRegionName = normalizeString(r.region);
-        return nRegionName.includes(nProvName) || nProvName.includes(nRegionName);
-      });
+    let predictedCases = Math.max(120, Math.floor(riskScore * 28));
+    let teams = Math.max(1, Math.min(3, Math.floor(predictedCases / 1200)));
+    let beds = Math.max(10, Math.floor(predictedCases * 0.035));
+    let budget = Math.max(50, Math.floor(predictedCases * 0.12));
 
-      if (isDeployed) {
+    if (allocationData && allocationData.allocation_result) {
+      const coveredRegion = allocationData.allocation_result.covered_regions.find((r: any) => {
+        const nRegionName = normalizeString(r.region);
+        return nRegionName.includes(nProvName) || nProvName.includes(nRegionName);
+      });
+      const waitingRegion = allocationData.allocation_result.waiting_regions.find((r: any) => {
+        const nRegionName = normalizeString(r.region);
+        return nRegionName.includes(nProvName) || nProvName.includes(nRegionName);
+      });
+      const allocRegion = coveredRegion || waitingRegion;
+
+      if (allocRegion) {
+        if (allocRegion.caseCount) predictedCases = allocRegion.caseCount;
+        if (allocRegion.logistics) {
+          teams = allocRegion.logistics.staff_teams || teams;
+          beds = allocRegion.logistics.icu_beds || beds;
+          budget = allocRegion.logistics.budget_mil_vnd || budget;
+        }
+      }
+
+      if (coveredRegion) {
         allocationStatusHtml = `
           <div style="display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-top: 4px; padding-top: 4px; border-top: 1px dashed rgba(0,0,0,0.1);">
              <span style="font-size: 0.8rem; color: #64748b; font-weight: 600;">Quantum Status:</span>
              <span style="font-size: 0.75rem; color: #fff; background: #10b981; padding: 2px 6px; border-radius: 4px; font-weight: 700; box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);">DEPLOYED</span>
           </div>`;
-      } else if (isPending) {
+      } else if (waitingRegion) {
         allocationStatusHtml = `
           <div style="display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-top: 4px; padding-top: 4px; border-top: 1px dashed rgba(0,0,0,0.1);">
              <span style="font-size: 0.8rem; color: #64748b; font-weight: 600;">Quantum Status:</span>
@@ -122,9 +161,8 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
       }
     }
 
-    // Thêm Tooltip dính theo con trỏ chuột với dữ liệu động
     layer.bindTooltip(`
-      <div style="font-family: Inter, sans-serif; text-align: left; padding: 4px;">
+      <div style="font-family: Inter, sans-serif; text-align: left; padding: 4px; min-width: 200px;">
         <strong style="font-size: 1.1rem; color: #1e293b; display: block; margin-bottom: 4px;">${provName}</strong>
         <div style="display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 2px;">
            <span style="font-size: 0.8rem; color: #64748b; font-weight: 600;">Risk Score:</span>
@@ -134,14 +172,22 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
            <span style="font-size: 0.8rem; color: #64748b; font-weight: 600;">Risk Level:</span>
            <span style="font-size: 0.75rem; color: #fff; background: ${color}; padding: 2px 6px; border-radius: 4px; font-weight: 700;">${status}</span>
         </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-top: 4px; padding-top: 4px; border-top: 1px solid #f1f5f9;">
+           <span style="font-size: 0.8rem; color: #64748b; font-weight: 600;">AI Predicted Cases:</span>
+           <span style="font-size: 0.85rem; color: #0f172a; font-weight: 800;">${predictedCases.toLocaleString()} cases</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 2px;">
+           <span style="font-size: 0.8rem; color: #64748b; font-weight: 600;">Q-NOC Allocation:</span>
+           <span style="font-size: 0.75rem; color: #0284c7; font-weight: 700;">${teams} Teams | ${beds} Beds | $${budget}M</span>
+        </div>
         ${allocationStatusHtml}
         <div style="margin-top: 8px; font-size: 0.75rem; color: #5e72e4; font-weight: 700; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 6px;">
-          (Click for AI Analysis)
+          (Click for AI Analysis & Execution)
         </div>
       </div>
     `, { sticky: true, opacity: 0.95 });
 
-    // Bắt sự kiện Click để mở AI Analytics Drawer
+    // Open AI Analytics Drawer on click
     layer.on('click', () => {
       onProvinceClick(provName);
     });
@@ -158,8 +204,8 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
       boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)'
     }}>
       <MapContainer 
-        center={[16.0, 106.0]} // Tâm giữa Việt Nam
-        zoom={5.5} // Zoom Level nhìn được toàn quốc
+        center={[16.0, 106.0]}
+        zoom={5.5}
         style={{ height: '100%', width: '100%', zIndex: 0 }}
       >
         <TileLayer
@@ -167,7 +213,6 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
           url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png"
         />
         
-        {/* Render Lớp GeoJSON khi dữ liệu đã tải xong */}
         {geoData && (
           <>
             <GeoJSON 
@@ -206,8 +251,9 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
               })();
 
               if (!center) return null;
-              const provName = feature.properties?.Name || feature.properties?.name || '';
-              if (!provName) return null;
+              const rawProv = feature.properties?.Name || feature.properties?.name || '';
+              if (!rawProv) return null;
+              const provName = toEnglishProvinceName(rawProv);
               
               const icon = L.divIcon({
                 className: 'custom-province-label',
@@ -220,9 +266,7 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
           </>
         )}
 
-        {/* Render Lớp CircleMarker hiển thị chính xác tâm dịch đè lên GeoJSON */}
         {(data || []).map(spot => {
-          // Bỏ qua nếu tọa độ không hợp lệ
           if (!spot.coords || spot.coords.length < 2 || spot.coords[0] === 0) return null;
           
           return (

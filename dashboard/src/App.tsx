@@ -60,6 +60,16 @@ const recommendations = [
 
 interface AllocationRegion {
   region: string;
+  logistics?: {
+    staff_teams: number;
+    icu_beds: number;
+    ns1_test_kits: number;
+    fogging_units: number;
+    budget_mil_vnd: number;
+  };
+  llm_rag_prompt?: string;
+  tier?: string;
+  [key: string]: any;
 }
 
 interface AllocationData {
@@ -68,11 +78,13 @@ interface AllocationData {
     waiting_regions: AllocationRegion[];
     staff_teams_deployed: number;
     coverage_percent: number;
-  }
+    [key: string]: any;
+  };
+  [key: string]: any;
 }
 
 
-const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayForecast, recommendations, handleExecuteAction, setSelectedProvince, allocationData, fetchAllocationData }: any) => {
+const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayForecast, recommendations, handleExecuteAction, setSelectedProvince, selectedProvince, allocationData, fetchAllocationData, nationalInventory, setIsDrawerOpen }: any) => {
   const [deployingDrone, setDeployingDrone] = React.useState(false);
 
   const handleDeployDrone = async () => {
@@ -93,6 +105,7 @@ const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayFo
           duration: 4000,
         });
         setSelectedProvince(data.target_province);
+        setIsDrawerOpen && setIsDrawerOpen(true);
       }, 4000);
     } catch (err) {
       setTimeout(() => {
@@ -237,7 +250,7 @@ const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayFo
             </div>
           </motion.div>
 
-          <SummaryCards hotspotsCount={hotspotsData.length} allocationData={allocationData} />
+          <SummaryCards hotspotsCount={hotspotsData.length} allocationData={allocationData} nationalInventory={nationalInventory} />
 
           {/* Main Grid: 2 Columns */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '1.5rem' }}>
@@ -276,7 +289,7 @@ const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayFo
                 </div>
                 <RiskMap 
                   data={hotspotsData} 
-                  onProvinceClick={(province) => setSelectedProvince(province)} 
+                  onProvinceClick={(province) => { setSelectedProvince(province); setIsDrawerOpen && setIsDrawerOpen(true); }} 
                   allocationData={allocationData}
                 />
               </motion.div>
@@ -330,7 +343,7 @@ const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayFo
                   </div>
                 </div>
                 <div style={{ minHeight: '300px' }}>
-                  <LongTermForecastChart region="Ha Noi" />
+                  <LongTermForecastChart region={selectedProvince || "Ho Chi Minh City"} onSelectRegion={(r: string) => { setSelectedProvince && setSelectedProvince(r); setIsDrawerOpen && setIsDrawerOpen(true); }} />
                 </div>
               </motion.div>
             </div>
@@ -351,7 +364,7 @@ const DashboardView = ({ error, displayAlert, hotspotsData, chartData, displayFo
   );
 };
 
-const AIAnalyticsDrawer = ({ selectedProvince, setSelectedProvince, isAnalyzing, insightData, recommendations, handleExecuteAction }: any) => {
+const AIAnalyticsDrawer = ({ selectedProvince, setSelectedProvince, isAnalyzing, insightData, recommendations, handleExecuteAction, onClose }: any) => {
   return (
     <AnimatePresence>
       {selectedProvince && (
@@ -391,7 +404,7 @@ const AIAnalyticsDrawer = ({ selectedProvince, setSelectedProvince, isAnalyzing,
                 </h2>
               </div>
               <button 
-                onClick={() => setSelectedProvince(null)} 
+                onClick={() => onClose ? onClose() : setSelectedProvince(null)} 
                 style={{ 
                   background: '#334155', 
                   border: 'none', 
@@ -594,29 +607,46 @@ const App: React.FC = () => {
       coverage_percent: 99.8
     },
     recommendations: [
-      { id: 101, region: "Dak Lak", tier: "CRITICAL", text: "[Dak Lak - CRITICAL] Khẩn cấp điều phối 120 ICU giường bệnh và 15 Đội Y tế đặc nhiệm xử lý vùng dịch Sốt xuất huyết." },
-      { id: 102, region: "Gia Lai", tier: "HIGH RISK", text: "[Gia Lai - HIGH RISK] Phân bổ 3,000 kit xét nghiệm NS1 và tăng cường hóa chất diệt muỗi trên địa bàn tỉnh." },
-      { id: 103, region: "Ho Chi Minh City", tier: "MEDIUM RISK", text: "[Ho Chi Minh City - MEDIUM RISK] Tăng cường kiểm soát các điểm nóng ổ lăng quăng tại 22 quận huyện." },
-      { id: 104, region: "Ha Noi", tier: "MEDIUM RISK", text: "[Ha Noi - MEDIUM RISK] Duy trì mức giám sát dịch tễ, bố trí sẵn sàng giường bệnh dự phòng cho khu vực ven đô." },
-      { id: 105, region: "Da Nang", tier: "MEDIUM RISK", text: "[Da Nang - MEDIUM RISK] Tổ chức chiến dịch phun hóa chất diệt muỗi diện rộng tại các khu du lịch và khu dân cư." },
-      { id: 106, region: "Dong Nai", tier: "HIGH RISK", text: "[Dong Nai - HIGH RISK] Khẩn trương kiểm tra khu công nghiệp, điều động 6,000 kit xét nghiệm nhanh về Trung tâm y tế." },
-      { id: 107, region: "Binh Duong", tier: "HIGH RISK", text: "[Binh Duong - HIGH RISK] Đẩy mạnh công tác truyền thông vệ sinh môi trường, chuẩn bị 140 giường ICU sẵn sàng ứng phó." }
+      { id: 101, region: "Ho Chi Minh City", tier: "CRITICAL", text: "[Ho Chi Minh City - CRITICAL] Urgent allocation of 250 ICU beds, 8 Medical Teams, and 10,000 NS1 test kits for severe outbreak containment." },
+      { id: 102, region: "Dak Lak", tier: "CRITICAL", text: "[Dak Lak - CRITICAL] Deploy 120 ICU beds and 5 mobile medical taskforces to neutralize rising vector transmission." },
+      { id: 103, region: "Gia Lai", tier: "HIGH RISK", text: "[Gia Lai - HIGH RISK] Allocate 3,000 NS1 rapid test kits and increase thermal fogging units across high-density districts." },
+      { id: 104, region: "Dong Nai", tier: "HIGH RISK", text: "[Dong Nai - HIGH RISK] Perform urgent vector surveillance in industrial zones; dispatch 6,000 test kits to regional CDC." },
+      { id: 105, region: "Binh Duong", tier: "HIGH RISK", text: "[Binh Duong - HIGH RISK] Expand environmental sanitation campaigns; standby 140 ICU beds for emergency admissions." },
+      { id: 106, region: "Ha Noi", tier: "MEDIUM RISK", text: "[Ha Noi - MEDIUM RISK] Maintain routine epidemiological monitoring; prepare backup beds for suburban clusters." },
+      { id: 107, region: "Da Nang", tier: "MEDIUM RISK", text: "[Da Nang - MEDIUM RISK] Conduct wide-scale mosquito eradication schedules across tourist centers and residential zones." }
     ],
     kpi_comparison: {
+      baseline_regions: ["Binh Thuan", "Ca Mau", "Da Nang", "Dak Lak", "Dong Nai", "Gia Lai", "Ha Noi", "Ho Chi Minh City", "Khanh Hoa", "Kien Giang", "Kon Tum"],
+      baseline_risk_covered: 5.89,
+      qubo_regions: ["An Giang", "Binh Duong", "Binh Thuan", "Ca Mau", "Can Tho", "Dak Lak", "Dong Nai", "Gia Lai", "Ho Chi Minh City", "Khanh Hoa", "Kon Tum", "Thua Thien Hue"],
+      qubo_risk_covered: 7.17,
+      improvement_percent: 21.7,
       original_cost: 1540000,
       optimized_cost: 980000,
       response_time_hours: 2.4,
       lives_saved_estimate: 845
     },
     sensitivity_analysis: {
+      base: { budget_teams: 12, penalty_strength: 2.0, num_covered: 12 },
+      budget_minus20: { budget_teams: 10, penalty_strength: 2.0, num_covered: 10 },
+      budget_plus20: { budget_teams: 14, penalty_strength: 2.0, num_covered: 14 },
+      penalty_minus20: { budget_teams: 12, penalty_strength: 1.6, num_covered: 12 },
+      penalty_plus20: { budget_teams: 12, penalty_strength: 2.4, num_covered: 12 },
       demand_surge_tolerance: "35%",
-      bottleneck_region: "Dak Lak",
-      next_critical_hotspot: "Gia Lai"
+      bottleneck_region: "Ho Chi Minh City",
+      next_critical_hotspot: "Dak Lak"
     }
   });
 
   const [allocationData, setAllocationData] = useState<AllocationData | null>(getSimulatedAllocationData());
-  const [execState, setExecState] = useState({ isOpen: false, step: 0, region: '', channel: 'SMS', recipient: '+84 987 654 321 (Chỉ huy HCDC)', desc: '', actionId: '' });
+  const [execState, setExecState] = useState({ isOpen: false, step: 0, region: '', channel: 'Gmail', recipient: 'namhai23092005@gmail.com', desc: '', actionId: '' });
+  const [nationalInventory, setNationalInventory] = useState({
+    staff_teams: 12,
+    icu_beds: 381,
+    ns1_test_kits: 5084,
+    fogging_units: 100,
+    budget_mil_vnd: 2500
+  });
 
   const fetchAllocationData = async () => {
     try {
@@ -624,6 +654,15 @@ const App: React.FC = () => {
       if (res.ok) {
         const data = await res.json();
         setAllocationData(data);
+        if (data.resources_available) {
+          setNationalInventory({
+            staff_teams: data.resources_available.staff_teams || 12,
+            icu_beds: data.resources_available.beds || data.resources_available.icu_beds || 381,
+            ns1_test_kits: data.resources_available.kits || data.resources_available.ns1_test_kits || 5084,
+            fogging_units: data.resources_available.fogging_units || 100,
+            budget_mil_vnd: data.resources_available.budget_mil_vnd || 2500
+          });
+        }
       } else {
         setAllocationData(getSimulatedAllocationData());
       }
@@ -662,8 +701,9 @@ const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // State quản lý Drawer
-  const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
+  // Drawer state management
+  const [selectedProvince, setSelectedProvince] = useState<string | null>("Ho Chi Minh City");
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   // State quản lý dữ liệu insight động
   const [insightData, setInsightData] = useState<InsightData | null>(null);
@@ -819,9 +859,9 @@ const App: React.FC = () => {
     setExecState({ 
       isOpen: true, 
       step: 0, 
-      region: selectedProvince || 'Dak Lak',
-      channel: 'SMS',
-      recipient: '+84 987 654 321 (Chỉ huy HCDC)',
+      region: selectedProvince || 'Ho Chi Minh City',
+      channel: 'Gmail',
+      recipient: 'namhai23092005@gmail.com',
       desc: description,
       actionId: actionId
     });
@@ -852,7 +892,7 @@ const App: React.FC = () => {
 
     setTimeout(() => {
       setExecState(prev => ({ ...prev, step: 4 }));
-      toast.success(`⚡ Đã phát lệnh qua ${execState.channel} và mở ứng dụng thực tế tới ${execState.recipient}!`, {
+      toast.success(`⚡ Directive transmitted via ${execState.channel} to ${execState.recipient}!`, {
         style: { borderRadius: '10px', background: '#10b981', color: '#fff', fontWeight: 'bold' }
       });
       
@@ -865,32 +905,63 @@ const App: React.FC = () => {
             'Accept': 'application/json'
           },
           body: JSON.stringify({
-            _subject: `[QUANTUMSHIELD KHẨN] Chỉ đạo Y tế tại ${execState.region.toUpperCase() || 'HỆ THỐNG'}`,
+            _subject: `[QUANTUMSHIELD URGENT] Medical Directive for ${execState.region.toUpperCase() || 'SYSTEM'}`,
             _template: "table",
-            "MÃ ĐỊNH DANH": "Q-AI-9988",
-            "KHU VỰC": execState.region,
-            "KÊNH TRUYỀN": execState.channel,
-            "NGƯỜI NHẬN": execState.recipient,
-            "NỘI DUNG CHỈ ĐẠO": execState.desc,
-            "THÔNG BÁO TỪ HỆ THỐNG": "Đây là email điều phối tự động từ Hệ thống AI QuantumShield NOC. Yêu cầu các lực lượng y tế triển khai ngay theo chỉ đạo."
+            "COMMAND ID": "Q-AI-9988",
+            "TARGET REGION": execState.region,
+            "BROADCAST CHANNEL": execState.channel,
+            "RECIPIENT": execState.recipient,
+            "DIRECTIVE CONTENT": execState.desc,
+            "SYSTEM MESSAGE": "Automated medical response directive from QuantumShield NOC AI System. All local units must execute immediately."
           })
         }).then(res => res.json())
           .then(data => {
             console.log("Email API response:", data);
             if (data.success === false && data.message && data.message.includes("Activation")) {
-              toast("📧 FormSubmit vừa gửi 1 email kích hoạt (Activate Form) vào hộp thư Gmail của bạn. Vui lòng bấm kích hoạt 1 lần duy nhất để nhận trực tiếp các chỉ đạo tiếp theo!", { duration: 8000, icon: "⚠️", style: { borderRadius: '10px', background: '#f59e0b', color: '#fff', fontWeight: 'bold' } });
+              toast("📧 FormSubmit sent a 1-time activation email to your Gmail. Please click Activate in your inbox to receive live email directives directly!", { duration: 8000, icon: "⚠️", style: { borderRadius: '10px', background: '#f59e0b', color: '#fff', fontWeight: 'bold' } });
             } else if (data.success) {
-              toast.success("📧 Email điều phối đã được gửi tự động vào hộp thư Gmail của bạn!", { duration: 5000, style: { borderRadius: '10px', background: '#10b981', color: '#fff', fontWeight: 'bold' } });
+              toast.success("📧 Emergency directive email has been dispatched automatically to your inbox!", { duration: 5000, style: { borderRadius: '10px', background: '#10b981', color: '#fff', fontWeight: 'bold' } });
             }
           })
           .catch(err => console.log("Email send error:", err));
       }
 
-      // Mở ứng dụng Mail hoặc SMS thực tế trên thiết bị của người dùng tới đúng địa chỉ/sđt thật
+      // Open Mail or SMS application / web compose tab directly
       if (execState.channel === 'Gmail') {
-        window.open(`mailto:${encodeURIComponent(execState.recipient)}?subject=${encodeURIComponent(`[QUANTUMSHIELD KHẨN] Chỉ đạo Y tế tại ${execState.region.toUpperCase()}`)}&body=${encodeURIComponent(`BỘ Y TẾ / HCDC VIỆT NAM\nHệ thống Chỉ huy Phòng chống Dịch bệnh Quantum AI\n\nMÃ ĐỊNH DANH: Q-AI-9988\nKHẨN CẤP: Chỉ đạo thực thi tại tỉnh/thành phố: ${execState.region}\n\nNỘI DUNG CHỈ ĐẠO:\n${execState.desc}\n\nYêu cầu các lực lượng Y tế cơ sở lập tức triển khai và báo cáo kết quả trước 17h00.\n\n--- Nguồn: Hệ thống AI QuantumShield NOC ---`)}`, '_blank');
+        window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(execState.recipient)}&su=${encodeURIComponent(`[QUANTUMSHIELD URGENT] Medical Directive for ${execState.region.toUpperCase()}`)}&body=${encodeURIComponent(`MINISTRY OF HEALTH / HCDC VIETNAM\nQuantum AI Epidemic Command System\n\nID: Q-AI-9988\nURGENT: Execution Directive for Province/City: ${execState.region}\n\nDIRECTIVE CONTENT:\n${execState.desc}\n\nAll local medical taskforces are required to execute immediately and report results before 17:00.\n\n--- Source: QuantumShield NOC AI System ---`)}`, '_blank');
+      } else if (execState.channel === 'SMS') {
+        window.open(`sms:${encodeURIComponent(execState.recipient)}?body=${encodeURIComponent(`URGENT [QuantumShield NOC]: Medical response activated in ${execState.region}. Directive: ${execState.desc}`)}`, '_self');
+        toast.success(`📱 Emergency SMS triggered for ${execState.recipient} via Telecom Grid!`, { duration: 5000, icon: "📱", style: { borderRadius: '10px', background: '#3b82f6', color: '#fff', fontWeight: 'bold' } });
       } else {
-        window.open(`sms:${encodeURIComponent(execState.recipient)}?body=${encodeURIComponent(`KHAN [QuantumShield NOC]: Kich hoat phan ung y te tai ${execState.region}. Noi dung: ${execState.desc}`)}`, '_self');
+        toast("🇻🇳 Emergency directive synced to National Healthcare Portal VNeID & Gov Demo System!", { duration: 6000, icon: "🇻🇳", style: { borderRadius: '12px', background: '#ef4444', color: '#fff', fontWeight: 'bold' } });
+      }
+
+      // Deduct resources from NOC National Pool
+      if (allocationData) {
+        const nTarget = execState.region.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/đ/g, "d").replace(/city/g, "").trim();
+        const foundReg = allocationData.allocation_result?.covered_regions?.find((r: any) => {
+          const nR = r.region.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/đ/g, "d").replace(/city/g, "").trim();
+          return nR.includes(nTarget) || nTarget.includes(nR);
+        }) || allocationData.allocation_result?.waiting_regions?.find((r: any) => {
+          const nR = r.region.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/đ/g, "d").replace(/city/g, "").trim();
+          return nR.includes(nTarget) || nTarget.includes(nR);
+        });
+
+        const deductTeams = foundReg?.logistics?.staff_teams || 1;
+        const deductBeds = foundReg?.logistics?.icu_beds || 20;
+        const deductKits = foundReg?.logistics?.ns1_test_kits || 500;
+        const deductFog = foundReg?.logistics?.fogging_units || 2;
+        const deductBudget = foundReg?.logistics?.budget_mil_vnd || 80;
+
+        setNationalInventory(prev => ({
+          staff_teams: Math.max(0, prev.staff_teams - deductTeams),
+          icu_beds: Math.max(0, prev.icu_beds - deductBeds),
+          ns1_test_kits: Math.max(0, prev.ns1_test_kits - deductKits),
+          fogging_units: Math.max(0, prev.fogging_units - deductFog),
+          budget_mil_vnd: Math.max(0, prev.budget_mil_vnd - deductBudget)
+        }));
+
+        toast.success(`📉 RESOURCE POOL DEDUCTED FOR ${execState.region.toUpperCase()}: -${deductTeams} Teams, -${deductBeds} ICU Beds, -${deductKits.toLocaleString()} Kits, -${deductBudget}M VND!`, { duration: 6000, style: { borderRadius: '12px', background: '#3b82f6', color: '#fff', fontWeight: 'bold' } });
       }
       
       // HACK for demo: automatically mark the selected province as deployed if it was pending
@@ -956,7 +1027,7 @@ const App: React.FC = () => {
       {/* 2. MAIN CONTENT WRAPPER */}
       <div style={{
         marginLeft: '0',
-        marginRight: selectedProvince ? '400px' : '0',
+        marginRight: (isDrawerOpen && selectedProvince) ? '400px' : '0',
         transition: 'margin-right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
         flex: 1,
         minWidth: 0,
@@ -996,8 +1067,11 @@ const App: React.FC = () => {
                   recommendations={recommendations} 
                   handleExecuteAction={handleExecuteAction} 
                   setSelectedProvince={setSelectedProvince} 
+                  selectedProvince={selectedProvince}
                   allocationData={allocationData}
                   fetchAllocationData={fetchAllocationData}
+                  nationalInventory={nationalInventory}
+                  setIsDrawerOpen={setIsDrawerOpen}
                 />
               )}
               {(activeTab === 'methodology' || activeTab === 'audit_logs') && <MethodologyView setActiveTab={setActiveTab} />}
@@ -1007,14 +1081,17 @@ const App: React.FC = () => {
         </div>
         
         {/* Global Drawer shared across views */}
-        <AIAnalyticsDrawer
-          selectedProvince={selectedProvince}
-          setSelectedProvince={setSelectedProvince}
-          isAnalyzing={isAnalyzing}
-          insightData={insightData}
-          recommendations={recommendations}
-          handleExecuteAction={handleExecuteAction}
-        />
+        {(isDrawerOpen && selectedProvince) && (
+          <AIAnalyticsDrawer
+            selectedProvince={selectedProvince}
+            setSelectedProvince={setSelectedProvince}
+            isAnalyzing={isAnalyzing}
+            insightData={insightData}
+            recommendations={recommendations}
+            handleExecuteAction={handleExecuteAction}
+            onClose={() => setIsDrawerOpen(false)}
+          />
+        )}
         
         {/* Global style injections for animations and grids */}
         <style dangerouslySetInnerHTML={{__html: `
@@ -1059,70 +1136,100 @@ const App: React.FC = () => {
                 <span className="text-3xl animate-pulse">🚀</span> Autonomous GenAI Dispatch
               </h2>
               
-              {execState.step === 0 ? (
-                <div className="space-y-6">
-                  <div className="p-4 bg-slate-950/80 rounded-xl border border-slate-800">
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Target Action Directive</span>
-                    <p className="text-sm font-semibold text-emerald-400 leading-relaxed">{execState.desc || "Deploy emergency medical taskforce & aerial drone reconnaissance."}</p>
-                  </div>
+              {execState.step === 0 ? (() => {
+                const nTarget = execState.region.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/đ/g, "d").replace(/city/g, "").trim();
+                const foundReg = allocationData?.allocation_result?.covered_regions?.find((r: any) => {
+                  const nR = r.region.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/đ/g, "d").replace(/city/g, "").trim();
+                  return nR.includes(nTarget) || nTarget.includes(nR);
+                }) || allocationData?.allocation_result?.waiting_regions?.find((r: any) => {
+                  const nR = r.region.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/đ/g, "d").replace(/city/g, "").trim();
+                  return nR.includes(nTarget) || nTarget.includes(nR);
+                });
 
-                  <div>
-                    <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block mb-3">Select Broadcast Channel:</label>
-                    <div className="grid grid-cols-2 gap-3">
+                const aiPrompt = foundReg?.llm_rag_prompt || `[L1 PREDICTION & RAG EMERGENCY ASSESSMENT - ${execState.region.toUpperCase()}]:\n• High outbreak probability for Dengue Fever detected via 25-Year ML model.\n• Immediate dispatch of mobile medical taskforces, ICU beds, and thermal fogging chemical units is recommended.`;
+                const logi = foundReg?.logistics || { staff_teams: 1, icu_beds: 25, ns1_test_kits: 500, fogging_units: 2, budget_mil_vnd: 80 };
+
+                return (
+                  <div className="space-y-5">
+                    {/* AI LLM PREDICTION & RAG MEDICAL ASSESSMENT */}
+                    <div className="p-4 bg-slate-950/90 rounded-xl border border-blue-500/40 shadow-[0_0_15px_rgba(59,130,246,0.15)]">
+                      <div className="flex items-center justify-between mb-2 pb-2 border-b border-slate-800">
+                        <span className="text-xs font-bold text-blue-400 uppercase tracking-wider flex items-center gap-1.5">
+                          <span>🤖</span> AI LLM & RAG Outbreak Assessment
+                        </span>
+                        <span className="text-[10px] bg-red-500/20 text-red-400 border border-red-500/30 px-2 py-0.5 rounded font-bold uppercase">
+                          {foundReg?.tier || 'HIGH RISK'}
+                        </span>
+                      </div>
+                      <div className="text-xs text-slate-300 font-mono whitespace-pre-wrap leading-relaxed max-h-36 overflow-y-auto pr-1">
+                        {aiPrompt}
+                      </div>
+                    </div>
+
+                    {/* RESOURCE ALLOCATION PACKAGE TO BE DEDUCTED */}
+                    <div className="p-3 bg-emerald-950/30 rounded-xl border border-emerald-500/30">
+                      <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider block mb-2">⚡ Proposed Allocation & Emergency Pool Deduction:</span>
+                      <div className="grid grid-cols-3 gap-2 text-center">
+                        <div className="bg-slate-900/80 p-2 rounded-lg border border-slate-800">
+                          <div className="text-[10px] text-slate-400">MEDICAL TEAMS</div>
+                          <div className="text-sm font-extrabold text-white">-{logi.staff_teams} Teams</div>
+                        </div>
+                        <div className="bg-slate-900/80 p-2 rounded-lg border border-slate-800">
+                          <div className="text-[10px] text-slate-400">ICU BEDS</div>
+                          <div className="text-sm font-extrabold text-white">-{logi.icu_beds} Beds</div>
+                        </div>
+                        <div className="bg-slate-900/80 p-2 rounded-lg border border-slate-800">
+                          <div className="text-[10px] text-slate-400">TEST KITS</div>
+                          <div className="text-sm font-extrabold text-white">-{logi.ns1_test_kits.toLocaleString()} Kits</div>
+                        </div>
+                      </div>
+                      <div className="mt-2 text-center text-xs font-bold text-amber-400 bg-amber-500/10 py-1.5 rounded-lg border border-amber-500/20">
+                        💰 Expected Budget Deduction: -${logi.budget_mil_vnd}M VND from NOC Pool
+                      </div>
+                    </div>
+
+                    {/* BROADCAST CHANNEL SELECTOR (GMAIL ONLY AS REQUESTED) */}
+                    <div>
+                      <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block mb-2.5">Command & Broadcast Channel:</label>
+                      <div className="p-3 rounded-xl bg-purple-600/20 border border-purple-500 text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.2)] flex items-center gap-3 font-bold">
+                        <span className="text-2xl">📧</span>
+                        <div className="text-left">
+                          <div className="text-sm text-white">Google Mail (HCDC Gov SMTP Relay API)</div>
+                          <div className="text-xs text-purple-300/80 font-normal">Automated FormSubmit Gateway & Direct Web Compose</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block mb-1.5">Recipient Address/Phone (Real Dispatch):</label>
+                      <input
+                        type="text"
+                        value={execState.recipient}
+                        onChange={(e) => setExecState(prev => ({ ...prev, recipient: e.target.value }))}
+                        placeholder="Enter Phone (e.g. 0855689823) or Email..."
+                        className="w-full bg-slate-950 border border-slate-700 focus:border-blue-500 rounded-xl p-2.5 text-white font-mono text-sm outline-none transition-colors"
+                      />
+                    </div>
+
+                    <div className="flex gap-3 pt-2">
                       <button
                         type="button"
-                        onClick={() => setExecState(prev => ({ ...prev, channel: 'SMS', recipient: '+84 987 654 321 (Chỉ huy HCDC)' }))}
-                        className={`p-3 rounded-xl border text-left font-bold flex items-center gap-3 transition-all ${execState.channel === 'SMS' ? 'bg-blue-600/20 border-blue-500 text-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.2)]' : 'bg-slate-800/50 border-slate-700 text-slate-400 hover:bg-slate-800'}`}
+                        onClick={() => setExecState(prev => ({ ...prev, isOpen: false }))}
+                        className="flex-1 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl transition-colors text-sm"
                       >
-                        <span className="text-2xl">📱</span>
-                        <div>
-                          <div className="text-sm">SMS Emergency</div>
-                          <div className="text-[10px] opacity-75 font-normal">Citizen Telecom Grid</div>
-                        </div>
+                        Cancel
                       </button>
                       <button
                         type="button"
-                        onClick={() => setExecState(prev => ({ ...prev, channel: 'Gmail', recipient: 'director.hcdc.vn@gmail.com' }))}
-                        className={`p-3 rounded-xl border text-left font-bold flex items-center gap-3 transition-all ${execState.channel === 'Gmail' ? 'bg-purple-600/20 border-purple-500 text-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.2)]' : 'bg-slate-800/50 border-slate-700 text-slate-400 hover:bg-slate-800'}`}
+                        onClick={startExecutionFlow}
+                        className="flex-[2] py-3 bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-500 hover:to-emerald-500 text-white font-extrabold rounded-xl transition-all shadow-[0_0_25px_rgba(16,185,129,0.3)] flex items-center justify-center gap-2 text-sm"
                       >
-                        <span className="text-2xl">📧</span>
-                        <div>
-                          <div className="text-sm">Official Gmail</div>
-                          <div className="text-[10px] opacity-75 font-normal">Gov SMTP Relay</div>
-                        </div>
+                        <span>⚡</span> APPROVE & TRANSMIT DIRECTIVE
                       </button>
                     </div>
                   </div>
-
-                  <div>
-                    <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block mb-2">Target Recipient Address / Phone:</label>
-                    <input
-                      type="text"
-                      value={execState.recipient}
-                      onChange={(e) => setExecState(prev => ({ ...prev, recipient: e.target.value }))}
-                      placeholder="Enter phone number or email address..."
-                      className="w-full bg-slate-950 border border-slate-700 focus:border-blue-500 rounded-xl p-3 text-white font-mono text-sm outline-none transition-colors"
-                    />
-                  </div>
-
-                  <div className="flex gap-3 pt-2">
-                    <button
-                      type="button"
-                      onClick={() => setExecState(prev => ({ ...prev, isOpen: false }))}
-                      className="flex-1 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl transition-colors"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="button"
-                      onClick={startExecutionFlow}
-                      className="flex-[2] py-3 bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-500 hover:to-emerald-500 text-white font-extrabold rounded-xl transition-all shadow-[0_0_25px_rgba(16,185,129,0.3)] flex items-center justify-center gap-2"
-                    >
-                      <span>🚀</span> TRANSMIT DIRECTIVE
-                    </button>
-                  </div>
-                </div>
-              ) : (
+                );
+              })() : (
                 <div className="space-y-6">
                   {/* Step 1 */}
                   <div className={`flex items-center gap-4 transition-opacity duration-500 ${execState.step >= 1 ? 'opacity-100' : 'opacity-30'}`}>
@@ -1141,7 +1248,7 @@ const App: React.FC = () => {
                       {execState.step > 2 ? '✓' : '2'}
                     </div>
                     <div className="flex-1">
-                      <h4 className="text-white font-semibold text-lg">Broadcasting via {execState.channel === 'SMS' ? 'Telecom Grid (SMS)' : 'Gov SMTP Relay (Gmail)'}</h4>
+                      <h4 className="text-white font-semibold text-lg">Broadcasting via Gov SMTP Relay (Gmail)</h4>
                       <p className="text-slate-400 text-sm">Target: <span className="text-orange-400 font-bold">{execState.recipient}</span> in <span className="text-blue-400 font-bold">{execState.region}</span></p>
                     </div>
                   </div>
