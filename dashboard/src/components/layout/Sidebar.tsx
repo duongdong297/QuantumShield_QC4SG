@@ -7,13 +7,9 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ activeTab = 'dashboard', setActiveTab }) => {
   const navItems = [
-    { id: 'dashboard', name: 'Dashboard', icon: '📊' },
-    { id: 'methodology', name: 'Methodology & Pilot', icon: '🧪' },
-    { id: 'outbreak_maps', name: 'Outbreak Maps', icon: '🗺️' },
-    { id: 'dengue_forecasting', name: 'Dengue Forecasting (AI)', icon: '📈' },
-    { id: 'decision_protocol', name: 'Decision Protocol', icon: '🧠' },
-    { id: 'resource_tables', name: 'Resource Tables', icon: '📋' },
-    { id: 'audit_logs', name: 'Audit Logs', icon: '📝' }
+    { id: 'dashboard', name: 'Command NOC & Outbreak GIS', icon: '⚡' },
+    { id: 'decision_protocol', name: 'GenAI Decision & RAG Orders', icon: '🧠' },
+    { id: 'methodology', name: 'AI Architecture & Audit Trail', icon: '🧪' }
   ];
 
   return (

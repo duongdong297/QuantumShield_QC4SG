@@ -15,26 +15,27 @@ derives a risk score and a resource budget from each forecast, and
 writes the combined result to artifacts/data.json in the exact shape
 08_quantum_allocation.py already reads.
 
-SCOPE (please confirm with the team):
+SCOPE (reviewed with the team -- see status below):
 - 09_dengue_forecasting.py currently only supports 4 provinces
   (Ha Noi, Dak Lak, Khanh Hoa, Dong Nai), because that's what's in
   data/final/real_vietnam_dataset.csv. This bridge only covers those
   4 -- it does NOT extend to all 63 provinces. That would require
   either more real data or continuing to use the synthetic generator
   for the other 59.
-- Coordinates: real_vietnam_dataset.csv has no lat/lng column, so
-  this script uses a small hardcoded lookup for the 4 supported
-  provincial capitals. Replace with real polygon centroids if the
-  team has them (centroid.py in the repo root may already do this --
-  worth checking before using these placeholder values).
-- Risk score formula: there's no existing definition anywhere in the
-  repo for how to turn a case forecast into a 0-100 riskScore, so
-  this script defines one (see risk_score_from_forecast() below) and
-  documents its reasoning. This is a judgment call, not a team
-  decision -- please review before treating its output as final.
-- Resource budget formula: same situation for beds/kits/staffTeams --
-  no existing formula found, so this script proposes one based on
-  forecasted case volume. Also a judgment call to review.
+- Coordinates: CONFIRMED. Using the official coordinates from
+  backend/main.go (provided by the team). centroid.py in the repo
+  root is a leftover from an earlier Thailand-dataset test and is
+  NOT the coordinate source -- do not use it.
+- Risk score formula: CONFIRMED as matching Layer 1's intended design.
+  risk_score_from_forecast() blends peak forecasted case volume with
+  probExceed75th (the Random Forest model's probability of exceeding
+  the region's 75th percentile for the upcoming month) -- the team
+  confirmed a formula built on probExceed75th matches what Layer 1
+  is meant to feed into risk scoring.
+- Resource budget formula: CONFIRMED as matching Layer 3's design.
+  beds/kits/staffTeams here represent the global knapsack capacity
+  (total available resources to distribute), which is exactly how
+  budget_from_forecast() treats them.
 
 Run:
     python3 10_bridge_layer1_to_layer3.py
@@ -51,14 +52,14 @@ import sys
 
 SUPPORTED_REGIONS = ["Ha Noi", "Dak Lak", "Khanh Hoa", "Dong Nai"]
 
-# Placeholder coordinates for provincial capitals / centroids.
-# TODO team: replace with real centroids (check centroid.py in repo root)
-# if it already computes these from GeoJSON boundary data.
+# Official coordinates from backend/main.go, confirmed by the team.
+# (Note: centroid.py in the repo root is a leftover from an earlier
+# Thailand-dataset test and should NOT be used as a coordinate source.)
 REGION_COORDS = {
     "Ha Noi": (21.0285, 105.8542),
-    "Dak Lak": (12.7100, 108.2378),
-    "Khanh Hoa": (12.2585, 109.0526),
-    "Dong Nai": (10.9500, 106.8200),
+    "Dak Lak": (12.6667, 108.0333),
+    "Khanh Hoa": (12.2500, 109.1667),
+    "Dong Nai": (11.0000, 107.1667),
 }
 
 

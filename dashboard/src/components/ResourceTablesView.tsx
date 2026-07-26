@@ -39,7 +39,7 @@ const COLORS = {
   Safe: '#10b981'
 };
 
-const ResourceTablesView: React.FC = () => {
+const ResourceTablesView: React.FC<{ globalAllocation?: any }> = ({ globalAllocation }) => {
   const [data, setData] = useState<ApiResponse | null>(null);
   const [allocation, setAllocation] = useState<AllocationData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -59,16 +59,24 @@ const ResourceTablesView: React.FC = () => {
         setIsLoading(false);
       });
 
-    fetch('http://localhost:8080/api/allocation')
-      .then(res => {
-        if (res.ok) return res.json();
-        return null;
-      })
-      .then((data) => {
-        if (data) setAllocation(data);
-      })
-      .catch(err => console.error("Error fetching allocation:", err));
+    if (!globalAllocation) {
+      fetch('http://localhost:8080/api/allocation')
+        .then(res => {
+          if (res.ok) return res.json();
+          return null;
+        })
+        .then((data) => {
+          if (data) setAllocation(data);
+        })
+        .catch(err => console.error("Error fetching allocation:", err));
+    }
   }, []);
+
+  useEffect(() => {
+    if (globalAllocation) {
+      setAllocation(globalAllocation);
+    }
+  }, [globalAllocation]);
 
   if (isLoading) {
     return (
@@ -309,13 +317,18 @@ const ResourceTablesView: React.FC = () => {
                             const nProv = normalizeString(prov.province_name);
                             return nRegion.includes(nProv) || nProv.includes(nRegion);
                           }) ? (
-                            <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border bg-emerald-500/20 text-emerald-400 border-emerald-500/50">Deployed</span>
+                            <span className="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider border bg-emerald-500/20 text-emerald-400 border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.5)] animate-pulse inline-flex items-center gap-2">
+                              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                              Deployed
+                            </span>
                           ) : allocation.allocation_result.waiting_regions.some(r => {
                             const nRegion = normalizeString(r.region);
                             const nProv = normalizeString(prov.province_name);
                             return nRegion.includes(nProv) || nProv.includes(nRegion);
                           }) ? (
-                            <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border bg-slate-500/20 text-slate-400 border-slate-500/50">Pending</span>
+                            <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border bg-slate-800/80 text-slate-400 border-slate-600 shadow-[0_0_10px_rgba(148,163,184,0.1)]">
+                              Pending
+                            </span>
                           ) : (
                             <span className="text-slate-500">-</span>
                           )

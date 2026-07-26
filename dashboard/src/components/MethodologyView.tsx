@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import AuditLogsView from './AuditLogsView';
 
 interface MethodologyViewProps {
   setActiveTab: (tabId: string) => void;
@@ -63,7 +64,7 @@ const MethodologyView: React.FC<MethodologyViewProps> = ({ setActiveTab }) => {
 
           <div style={{ flex: 1, textAlign: 'center' }}>
             <div 
-              onClick={() => setActiveTab('dengue_forecasting')}
+              onClick={() => setActiveTab('outbreak_maps')}
               style={{ cursor: 'pointer', backgroundColor: '#2dce89', padding: '1rem', borderRadius: '12px', color: '#fff', fontWeight: 700, boxShadow: '0 4px 15px rgba(45, 206, 137, 0.4)', transition: 'transform 0.2s' }}
               onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-3px)'}
               onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
@@ -76,7 +77,7 @@ const MethodologyView: React.FC<MethodologyViewProps> = ({ setActiveTab }) => {
 
           <div style={{ flex: 1, textAlign: 'center' }}>
             <div 
-              onClick={() => setActiveTab('resource_tables')}
+              onClick={() => setActiveTab('dashboard')}
               style={{ cursor: 'pointer', backgroundColor: '#8965e0', padding: '1rem', borderRadius: '12px', color: '#fff', fontWeight: 700, boxShadow: '0 4px 15px rgba(137, 101, 224, 0.4)', transition: 'transform 0.2s' }}
               onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-3px)'}
               onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
@@ -163,6 +164,11 @@ const MethodologyView: React.FC<MethodologyViewProps> = ({ setActiveTab }) => {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Embedded Audit Logs Section */}
+      <div style={{ marginTop: '1rem' }}>
+        <AuditLogsView />
       </div>
     </motion.div>
   );
