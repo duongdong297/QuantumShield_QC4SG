@@ -17,13 +17,10 @@ interface ForecastResponse {
 }
 
 const allProvinces = [
-  "An Giang", "Ba Ria - Vung Tau", "Bac Giang", "Bac Kan", "Bac Lieu", "Bac Ninh", "Ben Tre", "Binh Dinh", "Binh Duong", "Binh Phuoc",
-  "Binh Thuan", "Ca Mau", "Can Tho", "Cao Bang", "Da Nang", "Dak Lak", "Dak Nong", "Dien Bien", "Dong Nai", "Dong Thap",
-  "Gia Lai", "Ha Giang", "Ha Nam", "Ha Noi", "Ha Tinh", "Hai Duong", "Hai Phong", "Hau Giang", "Ho Chi Minh City", "Hoa Binh",
-  "Hung Yen", "Khanh Hoa", "Kien Giang", "Kon Tum", "Lai Chau", "Lam Dong", "Lang Son", "Lao Cai", "Long An", "Nam Dinh",
-  "Nghe An", "Ninh Binh", "Ninh Thuan", "Phu Tho", "Phu Yen", "Quang Binh", "Quang Nam", "Quang Ngai", "Quang Ninh", "Quang Tri",
-  "Soc Trang", "Son La", "Tay Ninh", "Thai Binh", "Thai Nguyen", "Thanh Hoa", "Thua Thien Hue", "Tien Giang", "Tra Vinh", "Tuyen Quang",
-  "Vinh Long", "Vinh Phuc", "Yen Bai"
+  "An Giang", "Binh Duong", "Binh Thuan", "Ca Mau", "Can Tho",
+  "Da Nang", "Dak Lak", "Dong Nai", "Gia Lai", "Ha Noi",
+  "Hai Phong", "Ho Chi Minh City", "Khanh Hoa", "Kien Giang", "Kon Tum",
+  "Lao Cai", "Nghe An", "Quang Ninh", "Son La", "Thua Thien Hue"
 ];
 
 const getSimulatedForecast = (reg: string): ForecastDataPoint[] => {
@@ -35,25 +32,25 @@ const getSimulatedForecast = (reg: string): ForecastDataPoint[] => {
   if (nReg.includes("ho chi minh") || nReg.includes("hcm") || nReg.includes("sai gon")) {
     multiplier = 3.5;
     baseCases = 80;
-  } else if (nReg.includes("dak lak") || nReg.includes("gia lai")) {
+  } else if (nReg.includes("dak lak") || nReg.includes("gia lai") || nReg.includes("kon tum")) {
     multiplier = 2.4;
     baseCases = 45;
-  } else if (nReg.includes("dong nai") || nReg.includes("binh duong") || nReg.includes("can tho")) {
+  } else if (nReg.includes("dong nai") || nReg.includes("binh duong") || nReg.includes("can tho") || nReg.includes("binh thuan")) {
     multiplier = 1.8;
     baseCases = 30;
-  } else if (nReg.includes("ha noi")) {
-    multiplier = 1.2;
-    baseCases = 20;
-  } else if (nReg.includes("khanh hoa") || nReg.includes("da nang")) {
+  } else if (nReg.includes("khanh hoa") || nReg.includes("da nang") || nReg.includes("hue") || nReg.includes("nghe an")) {
     multiplier = 1.5;
     baseCases = 25;
+  } else if (nReg.includes("an giang") || nReg.includes("kien giang") || nReg.includes("ca mau")) {
+    multiplier = 1.6;
+    baseCases = 28;
+  } else if (nReg.includes("ha noi") || nReg.includes("hai phong") || nReg.includes("quang ninh")) {
+    multiplier = 1.2;
+    baseCases = 20;
   } else {
-    let hash = 0;
-    for (let i = 0; i < nReg.length; i++) {
-      hash = nReg.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    multiplier = 0.7 + (Math.abs(hash % 18) / 10);
-    baseCases = 10 + Math.abs(hash % 25);
+    // Standard baseline for mountainous/northern surveillance regions (Lao Cai, Son La, etc.)
+    multiplier = 0.9;
+    baseCases = 15;
   }
 
   const baseData = [

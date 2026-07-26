@@ -64,15 +64,13 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
     });
 
     let hotspotColor = '#10b981';
-    let fillOp = 0.65;
+    let fillOp = 0.45;
     if (hotspot) {
       hotspotColor = hotspot.color;
       fillOp = 0.85;
     } else {
-      const charSum = rawName.split('').reduce((acc: number, c: string) => acc + c.charCodeAt(0), 0);
-      const simRisk = 25 + (charSum % 25);
-      hotspotColor = simRisk >= 40 ? '#eab308' : '#10b981';
-      fillOp = 0.6;
+      hotspotColor = '#10b981'; // Standard routine epidemiological surveillance (low risk)
+      fillOp = 0.45;
     }
 
     // Check if region is covered by quantum allocation
@@ -107,24 +105,29 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
 
     let riskScore = 0;
     let color = '#10b981';
-    let status = 'SAFE';
+    let status = 'ROUTINE SURVEILLANCE';
+    let isOfficial = false;
+    let predictedCases = 0;
+    let teams = 0;
+    let beds = 0;
+    let budget = 0;
 
     if (hotspotInfo) {
       riskScore = hotspotInfo.risk;
       color = hotspotInfo.color;
-      status = riskScore >= 80 ? 'CRITICAL' : riskScore >= 60 ? 'WARNING' : riskScore >= 40 ? 'ELEVATED' : 'SAFE';
+      status = riskScore >= 80 ? 'CRITICAL' : riskScore >= 60 ? 'HIGH RISK' : riskScore >= 40 ? 'MEDIUM RISK' : 'LOW RISK';
+      predictedCases = Math.max(120, Math.floor(riskScore * 28));
+      teams = Math.max(1, Math.min(3, Math.floor(predictedCases / 1200)));
+      beds = Math.max(10, Math.floor(predictedCases * 0.035));
+      budget = Math.max(50, Math.floor(predictedCases * 0.12));
+      isOfficial = true;
     } else {
-      const charSum = provName.split('').reduce((acc: number, c: string) => acc + c.charCodeAt(0), 0);
-      riskScore = 25 + (charSum % 25);
-      color = riskScore >= 40 ? '#eab308' : '#10b981';
-      status = riskScore >= 40 ? 'ELEVATED' : 'SAFE';
+      riskScore = 15.0; // Baseline standard surveillance
+      color = '#10b981';
+      status = 'ROUTINE SURVEILLANCE';
     }
 
     let allocationStatusHtml = '';
-    let predictedCases = Math.max(120, Math.floor(riskScore * 28));
-    let teams = Math.max(1, Math.min(3, Math.floor(predictedCases / 1200)));
-    let beds = Math.max(10, Math.floor(predictedCases * 0.035));
-    let budget = Math.max(50, Math.floor(predictedCases * 0.12));
 
     if (allocationData && allocationData.allocation_result) {
       const coveredRegion = allocationData.allocation_result.covered_regions.find((r: any) => {
@@ -138,7 +141,13 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
       const allocRegion = coveredRegion || waitingRegion;
 
       if (allocRegion) {
+        isOfficial = true;
         if (allocRegion.caseCount) predictedCases = allocRegion.caseCount;
+        if (allocRegion.riskScore) {
+          riskScore = allocRegion.riskScore;
+          status = allocRegion.tier || (riskScore >= 80 ? 'CRITICAL' : riskScore >= 60 ? 'HIGH RISK' : 'MEDIUM RISK');
+          color = riskScore >= 80 ? '#f5365c' : riskScore >= 60 ? '#fb6340' : '#11cdef';
+        }
         if (allocRegion.logistics) {
           teams = allocRegion.logistics.staff_teams || teams;
           beds = allocRegion.logistics.icu_beds || beds;
@@ -161,17 +170,7 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
       }
     }
 
-    layer.bindTooltip(`
-      <div style="font-family: Inter, sans-serif; text-align: left; padding: 4px; min-width: 200px;">
-        <strong style="font-size: 1.1rem; color: #1e293b; display: block; margin-bottom: 4px;">${provName}</strong>
-        <div style="display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 2px;">
-           <span style="font-size: 0.8rem; color: #64748b; font-weight: 600;">Risk Score:</span>
-           <span style="font-size: 0.9rem; color: ${color}; font-weight: 800;">${riskScore.toFixed(1)}/100</span>
-        </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; gap: 15px;">
-           <span style="font-size: 0.8rem; color: #64748b; font-weight: 600;">Risk Level:</span>
-           <span style="font-size: 0.75rem; color: #fff; background: ${color}; padding: 2px 6px; border-radius: 4px; font-weight: 700;">${status}</span>
-        </div>
+    const detailsHtml = isOfficial ? `
         <div style="display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-top: 4px; padding-top: 4px; border-top: 1px solid #f1f5f9;">
            <span style="font-size: 0.8rem; color: #64748b; font-weight: 600;">AI Predicted Cases:</span>
            <span style="font-size: 0.85rem; color: #0f172a; font-weight: 800;">${predictedCases.toLocaleString()} cases</span>
@@ -184,6 +183,24 @@ const RiskMap: React.FC<RiskMapProps> = ({ data, onProvinceClick, height = '400p
         <div style="margin-top: 8px; font-size: 0.75rem; color: #5e72e4; font-weight: 700; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 6px;">
           (Click for AI Analysis & Execution)
         </div>
+    ` : `
+        <div style="margin-top: 6px; padding-top: 6px; border-top: 1px solid #f1f5f9; font-size: 0.75rem; color: #64748b; line-height: 1.3;">
+          Standard routine epidemiological surveillance. No active outbreak alert or emergency QUBO allocation required.
+        </div>
+    `;
+
+    layer.bindTooltip(`
+      <div style="font-family: Inter, sans-serif; text-align: left; padding: 4px; min-width: 200px;">
+        <strong style="font-size: 1.1rem; color: #1e293b; display: block; margin-bottom: 4px;">${provName}</strong>
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 2px;">
+           <span style="font-size: 0.8rem; color: #64748b; font-weight: 600;">Risk Score:</span>
+           <span style="font-size: 0.9rem; color: ${color}; font-weight: 800;">${riskScore.toFixed(1)}/100</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 15px;">
+           <span style="font-size: 0.8rem; color: #64748b; font-weight: 600;">Risk Level:</span>
+           <span style="font-size: 0.75rem; color: #fff; background: ${color}; padding: 2px 6px; border-radius: 4px; font-weight: 700;">${status}</span>
+        </div>
+        ${detailsHtml}
       </div>
     `, { sticky: true, opacity: 0.95 });
 
