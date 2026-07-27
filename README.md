@@ -63,14 +63,16 @@ Ensure **Docker Desktop** is installed and running on your machine. Open a Termi
 # Build the Docker image
 docker build -t quantumshield .
 
-# Run the container on port 8080
-docker run -p 8080:8080 -d quantumshield
+# Run the container on port 5173 (mapped to internal container port 8080)
+docker run -p 5173:8080 -d quantumshield
 ```
 *(The system will automatically download the required environments, compile Go, build the static React package, install Python ML/Quantum dependencies, and spin up the server in the background).*
 
 ### Step 2: Access the Dashboard
 Open your web browser and navigate to:
-**[http://localhost:8080](http://localhost:8080)**
+**[http://localhost:5173](http://localhost:5173)**
+
+*(Alternatively, for local frontend development without Docker, open a terminal in the `dashboard` folder and run `npm i && npm run dev` to access the Vite development server directly at **http://localhost:5173**).*
 
 ### Step 3: Test Scenarios
 1. **Trigger Quantum Optimization:** Navigate to the Dashboard or wait for the system to run. Observe how the Quantum Engine allocates resources to high-risk areas.
